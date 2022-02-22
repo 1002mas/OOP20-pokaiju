@@ -8,7 +8,7 @@ import java.util.Optional;
 public interface GameMapData {
     MapBlockType getBlockType(Pair<Integer, Integer> block);
 
-    Optional<NPC> getNPC(Pair<Integer, Integer> block);
+    Optional<Npc> getNPC(Pair<Integer, Integer> block);
     
     Optional<GameMapData> getNextMap(Pair<Integer, Integer> playerPosition);
 }

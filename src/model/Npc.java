@@ -1,6 +1,6 @@
 package model;
 
 
-public interface NPC {
+public interface Npc {
 
 }
