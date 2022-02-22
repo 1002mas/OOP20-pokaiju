@@ -57,4 +57,20 @@ public interface Monster {
 	
 	public String toString();
 	
+	//******DA RIMUOVERE - ONLY DEBUG *********************
+	
+	public void setFirstEvolution(String secondName);
+	
+	public void setSecondEvolution(String thirdName);
+	
+	public void setSecondInfo(String secondInfo);
+	
+	public void setThirdInfo(String thirdInfo);
+	
+	public String getSecondInfo();
+	
+	public String getThirdInfo();
+
+	//*****************************************************
+	
 }
