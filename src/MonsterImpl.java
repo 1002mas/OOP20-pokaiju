@@ -128,7 +128,7 @@ public class MonsterImpl implements Monster {
 			// System.out.println("Il tuo mostro ora è livello " + this.level + "\n");
 		}
 		if (this.level == MAX_LVL) {
-			if (this.exp > EXP_CAP) {
+			if (this.exp >= EXP_CAP) {
 				this.exp = EXP_CAP;
 			}
 		}
