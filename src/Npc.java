@@ -1,10 +1,11 @@
+import java.util.ArrayList;
 
 public interface Npc {
-	int interaction();
-	int Battle();
-	void setTypeOfNpc();
-	int  getTypeOfNpc();
-	void setMonstersOwned();
-	int getMonstersOwned();
+	String interaction(String playerAnswer);
+	int battle();
+	//void setTypeOfNpc();
+	String  getTypeOfNpc();
+	String  getName(); 
+	ArrayList<Monster> getMonstersOwned();
 	
 }
