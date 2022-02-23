@@ -7,16 +7,14 @@ import java.util.Random;
 public class SimpleNpc implements Npc {
 
 	private String name;
-	private String gender;
 	private String typeOfNpc;
 	private ArrayList<Monster> monstersOwned;
 	private ArrayList<String> speechPhrases;
 	
 	
-	public SimpleNpc(String name, String gender, ArrayList<Monster> monsterOwned, String speechFileName) {
+	public SimpleNpc(String name, ArrayList<Monster> monsterOwned, String speechFileName) {
 	
 		this.name =  name;
-		this.gender = gender;
 		this.typeOfNpc = "Simple Npc";
 		this.monstersOwned = monsterOwned;
 		this.speechPhrases = setPhrases(speechFileName);
@@ -48,12 +46,10 @@ public class SimpleNpc implements Npc {
 	}
 
 	
-	private ArrayList<String> setPhrases(String speechFileName){
-		
+	public ArrayList<String> setPhrases(String speechFileName){		
 		ArrayList<String> fileLines = new ArrayList<String>();
 		try (final BufferedReader r = new BufferedReader(new FileReader(speechFileName))) {
-			 		String line;
-			 		
+			 		String line;			 		
 			 		while((line=r.readLine()) != null) {
 			 			fileLines.add(line);
 	   					}
@@ -61,29 +57,17 @@ public class SimpleNpc implements Npc {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					} 
-	
-		
-		return fileLines;
-		
+		return fileLines;		
 	}
 
 
 
 	@Override
 	public String interaction(String playerAnswer) {
-		
-		String npcAnswer;
-		if(playerAnswer.equals("Combattiamo")) {
-			battle();
-			npcAnswer = "Ci rivedremo";
-		}
-		else {
-			 Random rand = new Random(); 
-		      int max = speechPhrases.size() -1;
-		      int index = rand.nextInt(max);
-			npcAnswer = speechPhrases.get(index);
-		}
-		return npcAnswer;
+			Random rand = new Random(); 
+		    int max = speechPhrases.size() -1;
+		    int index = rand.nextInt(max);
+			return speechPhrases.get(index);
 	}
 	
 /*	
