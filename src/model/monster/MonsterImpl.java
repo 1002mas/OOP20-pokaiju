@@ -1,3 +1,4 @@
+package model.monster;
 
 public class MonsterImpl implements Monster {
 

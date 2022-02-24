@@ -1,8 +1,11 @@
+package model;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
+
+import model.monster.Monster;
 
 public class NpcImpl implements Npc {
 
