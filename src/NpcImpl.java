@@ -6,11 +6,11 @@ import java.util.Random;
 
 public class NpcImpl implements Npc {
 
-	private String name;
+	private final String name;
 	private boolean trainer;
 	private boolean defeated;
-	private ArrayList<Monster> monstersOwned;
-	private ArrayList<String> speechPhrases;
+	private final ArrayList<Monster> monstersOwned;
+	private final ArrayList<String> speechPhrases;
 	
 	
 	public NpcImpl(String name, ArrayList<Monster> monsterOwned, String speechFileName, boolean trainer) {
@@ -19,6 +19,11 @@ public class NpcImpl implements Npc {
 		this.trainer = trainer;
 		this.monstersOwned = monsterOwned;
 		this.speechPhrases = setPhrases(speechFileName);
+	}
+	
+	public NpcImpl(String name, String speechFileName, boolean trainer) {
+		
+		this(name, null, speechFileName, trainer);
 	}
 	
 	private int battle() {
@@ -31,11 +36,6 @@ public class NpcImpl implements Npc {
 		return this.name;
 	}
 
-	private ArrayList<Monster> getMonstersOwned() {
-	
-		return monstersOwned;
-	}
-
 	public ArrayList<String> setPhrases(String speechFileName){		
 		ArrayList<String> fileLines = new ArrayList<String>();
 		return fileLines;		
@@ -44,15 +44,13 @@ public class NpcImpl implements Npc {
 	@Override
 	public void interactWith() {
 		
-		if(!isTrainer()) {
-			makeSpeech();
+		if(!isTrainer() || isDefeated()) {
+			talk();
 		}
 		else {
-			if(!isDefeated()) {
 				int isTheWinner = battle();
 				if(isTheWinner == 0) {
 					setDefeated();
-				}
 			}
 		}
 	}
@@ -60,7 +58,7 @@ public class NpcImpl implements Npc {
 	@Override
 	public boolean isTrainer() {
 		
-		return this.isTrainer();
+		return this.trainer;
 	}
 	
 	private boolean isDefeated() {
@@ -71,7 +69,7 @@ public class NpcImpl implements Npc {
 		this.defeated = true;
 	}
 	
-	private String makeSpeech() {
+	private String talk() {
 		String result = "";
 		return result;
 	}
