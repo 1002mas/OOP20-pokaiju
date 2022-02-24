@@ -7,6 +7,8 @@ public class MonsterImpl implements Monster {
 	private static final int LEVEL_STEP = 1;
 	private static final int FIRST_EVOLUTION_LEVEL = 14;
 	private static final int SECOND_EVOLUTION_LEVEL = 30;
+	private static final int START_LEVEL = 1;
+	private static final int START_EXP = 0;
 	
 
 	private int health;
@@ -28,8 +30,8 @@ public class MonsterImpl implements Monster {
 	public MonsterImpl(String name, int hp, String type, String info) {
 		this.name = name;
 		this.health = hp;
-		this.exp = 0;
-		this.level = 1;
+		this.exp = START_EXP;
+		this.level = START_LEVEL;
 		this.info = info;
 		this.type = type;
 	}
@@ -142,6 +144,7 @@ public class MonsterImpl implements Monster {
 		return EXP_CAP;
 	}
 
+	@Override
 	public String toString() {
 		return "Nome: " + name.toUpperCase() + "\nTipo: " + type.toUpperCase() + "\nLevel: " + level + "\nExp: " + exp + "\nHealth: " + health
 				+ "\nInfo: " + info + "\n";
