@@ -1,3 +1,6 @@
+enum MonsterType {
+	FIRE, WATER, GRASS;
+}
 
 public class MonsterImpl implements Monster {
 
@@ -9,25 +12,24 @@ public class MonsterImpl implements Monster {
 	private static final int SECOND_EVOLUTION_LEVEL = 30;
 	private static final int START_LEVEL = 1;
 	private static final int START_EXP = 0;
-	
 
 	private int health;
 	private String name;
 	private int exp;
 	private int level;
 	private String info;
-	private String type;
-	
-	//************************************
-	
+	private MonsterType type;
+
+	// ************************************
+
 	private String first_evolution_name;
 	private String second_evolution_name;
 	private String secondInfo;
 	private String thirdInfo;
-	
-	//************************************
 
-	public MonsterImpl(String name, int hp, String type, String info) {
+	// ************************************
+
+	public MonsterImpl(String name, int hp, MonsterType type, String info) {
 		this.name = name;
 		this.health = hp;
 		this.exp = START_EXP;
@@ -35,34 +37,57 @@ public class MonsterImpl implements Monster {
 		this.info = info;
 		this.type = type;
 	}
-	
-	//******DA RIMUOVERE - ONLY DEBUG *********************
-	
+
+	public MonsterImpl(String name, MonsterType type, int level, int health, int exp, String info,
+			String firstEvolution, String secondInfo, String secondEvolution, String thirdInfo) {
+		super();
+		this.name = name;
+		this.health = health;
+		this.exp = exp;
+		this.level = level;
+		this.info = info;
+		this.type = type;
+		this.first_evolution_name = firstEvolution;
+		this.second_evolution_name = secondEvolution;
+		this.secondInfo = secondInfo;
+		this.thirdInfo = thirdInfo;
+	}
+
+	// ******DA RIMUOVERE - ONLY DEBUG *********************
+
 	public void setFirstEvolution(String secondName) {
 		this.first_evolution_name = secondName;
 	}
-	
+
 	public void setSecondEvolution(String thirdName) {
 		this.second_evolution_name = thirdName;
 	}
-	
+
 	public void setSecondInfo(String secondInfo) {
 		this.secondInfo = secondInfo;
 	}
-	
+
 	public void setThirdInfo(String thirdInfo) {
 		this.thirdInfo = thirdInfo;
 	}
-	
+
 	public String getSecondInfo() {
 		return this.secondInfo;
 	}
-	
+
 	public String getThirdInfo() {
 		return this.thirdInfo;
 	}
+	
+	public String getSecondName() {
+		return this.first_evolution_name;
+	}
+	
+	public String getThirdName() {
+		return this.second_evolution_name;
+	}
 
-	//*****************************************************
+	// *****************************************************
 
 	public int getHealth() {
 		return this.health;
@@ -104,15 +129,15 @@ public class MonsterImpl implements Monster {
 		String currentName = this.name;
 		this.exp += experience;
 		if (this.exp >= EXP_CAP && this.level != MAX_LVL) {
-			System.out.println("Il tuo mostro è salito di livello");
+			//System.out.println("Il tuo mostro è salito di livello");
 			while (this.exp >= EXP_CAP && this.level != MAX_LVL) {
 				temp = exp;
 				this.exp = temp - EXP_CAP;
 				this.setLevel(this.level + LEVEL_STEP);
 				this.setHealth(this.health + HEALTH_STEP);
-				
-				if(this.level == FIRST_EVOLUTION_LEVEL || this.level == SECOND_EVOLUTION_LEVEL) {
-					System.out.println("IL TUO MOSTRO SI STA EVOLVENDO");
+
+				if (this.level == FIRST_EVOLUTION_LEVEL || this.level == SECOND_EVOLUTION_LEVEL) {
+					//System.out.println("IL TUO MOSTRO SI STA EVOLVENDO");
 					if (this.level == FIRST_EVOLUTION_LEVEL) {
 						this.setName(first_evolution_name);
 						this.setInfo(this.getSecondInfo());
@@ -120,12 +145,13 @@ public class MonsterImpl implements Monster {
 					if (this.level == SECOND_EVOLUTION_LEVEL) {
 						this.setName(second_evolution_name);
 					}
-					System.out.println("Il tuo " + currentName.toUpperCase() + " si è evoluto in " + this.name.toUpperCase()+"\n");
+					/*System.out.println("Il tuo " + currentName.toUpperCase() + " si è evoluto in "
+							+ this.name.toUpperCase() + "\n");*/
 					currentName = this.getName();
 					this.setInfo(this.getThirdInfo());
 				}
-				
-				System.out.println("Il tuo mostro ora è livello " + this.level + "\n");
+
+				//System.out.println("Il tuo mostro ora è livello " + this.level + "\n");
 			}
 			// System.out.println("Il tuo mostro ora è livello " + this.level + "\n");
 		}
@@ -139,6 +165,10 @@ public class MonsterImpl implements Monster {
 	public int getExp() {
 		return this.exp;
 	}
+	
+	public void setExp(int exp) {
+		this.exp = exp;
+	}
 
 	public int getExpCap() {
 		return EXP_CAP;
@@ -146,8 +176,8 @@ public class MonsterImpl implements Monster {
 
 	@Override
 	public String toString() {
-		return "Nome: " + name.toUpperCase() + "\nTipo: " + type.toUpperCase() + "\nLevel: " + level + "\nExp: " + exp + "\nHealth: " + health
-				+ "\nInfo: " + info + "\n";
+		return "Nome: " + name.toUpperCase() + "\nTipo: " + type + "\nLevel: " + level + "\nExp: " + exp + "\nHealth: "
+				+ health + "\nInfo: " + info + "\n";
 	}
 
 }
