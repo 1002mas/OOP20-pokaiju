@@ -7,11 +7,7 @@ public interface MonsterBuilder {
 	
 	public MonsterBuilder thirdName(String name);
 	
-	public MonsterBuilder fireType();
-	
-	public MonsterBuilder waterType();
-	
-	public MonsterBuilder grassType();
+	public MonsterBuilder monsterType(MonsterType type);
 
 	public MonsterBuilder level(int lvl);
 	
