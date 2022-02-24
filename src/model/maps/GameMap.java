@@ -1,9 +1,9 @@
-package model.map;
+package model.maps;
 
 import java.util.Optional;
+
 import model.GameEvent;
 import model.Pair;
-
 /*
  * proxy to GameMapData
  * */
