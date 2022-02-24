@@ -1,22 +1,10 @@
 package model.player;
 
-import java.awt.List;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedList;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.*;
-import model.monster.*;
+import model.Pair;
+import model.monster.Monster;
 
 public class PlayerImpl implements Player {
     private String name;

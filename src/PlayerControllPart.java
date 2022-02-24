@@ -1,4 +1,4 @@
-package model.player;
+
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;

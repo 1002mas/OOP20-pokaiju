@@ -2,6 +2,7 @@ package model.player;
 
 import java.util.ArrayList;
 
+import model.Pair;
 import model.monster.Monster;
 
 public interface Player {
