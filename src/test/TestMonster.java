@@ -1,7 +1,11 @@
-package model.monster;
+package test;
 import static org.junit.Assert.*;
 
-public class TestMonsterImpl {
+import model.monster.Monster;
+import model.monster.MonsterBuilderImpl;
+import model.monster.MonsterType;
+
+public class TestMonster {
 
 	private static final int FIRST_EVOLUTION_LEVEL = 14;
 	private static final int SECOND_EVOLUTION_LEVEL = 30;

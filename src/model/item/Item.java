@@ -1,4 +1,4 @@
-package model.player;
+package model.item;
 import java.util.Objects;
 
 public class Item {

@@ -1,8 +1,10 @@
-package model.npc;
+package test;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import model.monster.Monster;
+import model.npc.Npc;
+import model.npc.NpcImpl;
 
 import java.util.ArrayList;
 

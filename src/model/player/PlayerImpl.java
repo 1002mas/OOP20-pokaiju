@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import model.Pair;
+import model.item.Item;
 import model.monster.Monster;
 
 public class PlayerImpl implements Player {

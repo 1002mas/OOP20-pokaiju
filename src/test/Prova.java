@@ -1,4 +1,4 @@
-package model.player;
+package test;
 
 import java.io.IOException;
 
