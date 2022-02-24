@@ -17,8 +17,23 @@ public interface Player {
     ArrayList<Item> allItems();
 
     /**
-     * load Player data from json file
+     * get a list of Items of the Player
      */
-    Player getData(String filename);
+    String getName();
+
+    /**
+     * add Item
+     */
+    void addItem(Item i);
+
+    /**
+     * remove Item
+     */
+    void removeItem(Item i);
+
+    /**
+     * catch Monster
+     */
+    void addMonster();
 
 }
