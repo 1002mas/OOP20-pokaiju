@@ -4,16 +4,15 @@ public class MonsterImpl implements Monster{
 	private String name;
 	private int level;
 	private int exp;
-	 static private int expCap;
+	private final static int EXP_CAP=100;
 	private Attack[] attacks= new Attack[4]; 
 	private String type;
 	private boolean wild;
-	public MonsterImpl(String name, int health, int level, int expCap, Attack[] attacks, String type,boolean wild) {
+	public MonsterImpl(String name, int health, int level,  Attack[] attacks, String type,boolean wild) {
 		this.name=name;
 		this.health = health;
 		this.level = level;
 		this.exp = 0;
-		this.expCap = exp;
 		this.attacks = attacks;
 		this.type = type;
 		this.wild=wild;
@@ -59,7 +58,7 @@ public class MonsterImpl implements Monster{
 	@Override
 	public int getExpCap() {
 		// TODO Auto-generated method stub
-		return this.expCap;
+		return this.EXP_CAP;
 	}
 	@Override
 	public String getType() {
@@ -77,7 +76,7 @@ public class MonsterImpl implements Monster{
 		return this.attacks[index];
 	}
 	@Override
-	public boolean checkHealth() {
+	public boolean isAlive() {
 		// TODO Auto-generated method stub
 		if(this.health<=0) {
 			return false;

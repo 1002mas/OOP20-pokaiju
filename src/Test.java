@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.List;
 
 public class Test {
 
@@ -12,11 +14,15 @@ public class Test {
 			moveset[1] = mossa2;
 			moveset[2] = mossa3;
 			moveset[3] = mossa4;
-			Monster uno = new MonsterImpl("Pippo", 100, 10, 500, moveset, "Fire",false);
-			Monster due = new MonsterImpl("Paperino", 100, 10, 500, moveset, "Water",true);
+			Monster uno = new MonsterImpl("Pippo", 100, 10, moveset, "Fire",false);
+			Monster due = new MonsterImpl("Paperino", 100, 10, moveset, "Water",true);
 			
-			MonsterBattleImpl battle = new MonsterBattleImpl(uno,due);
-			battle.start();
+			MonsterBattleImpl battle = new MonsterBattleImpl(new ArrayList<Monster>(List.of(uno)),new ArrayList<Monster>(List.of(due)));
+			battle.click(4);
+			battle.click(0);
+			battle.click(0);
+			battle.click(2);
+			battle.click(0);
 	}
 
 }

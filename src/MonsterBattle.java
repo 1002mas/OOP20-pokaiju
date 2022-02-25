@@ -1,8 +1,19 @@
 
 public interface MonsterBattle {
+	
 	Attack enemyAttack();
 	
-	void start();
+	void click(int choose);
 	
-	boolean capture(Monster enemy);
+	void turn();
+	
+	void debug_print();
+	
+	boolean escape();
+	
+	boolean capture();
+	
+	void end();
+	
+	
 }

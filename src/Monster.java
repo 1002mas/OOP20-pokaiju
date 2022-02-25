@@ -23,7 +23,7 @@ public interface Monster {
 	
 	Attack getAttack(int index); 
 	
-	public boolean checkHealth();
+	public boolean isAlive();
 	
 	public boolean getWild();
 }
