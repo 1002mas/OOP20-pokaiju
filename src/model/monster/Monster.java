@@ -1,5 +1,7 @@
 package model.monster;
 
+import model.battle.Attack;
+
 public interface Monster {
 	
 	/**
@@ -57,6 +59,14 @@ public interface Monster {
 	int getExpCap();
 	
 	public String toString();
+	
+	boolean getWild();
+	
+	boolean isAlive();
+	
+	Attack getAttack(int index);
+	
+	String getType();
 	
 	//******DA RIMUOVERE - ONLY DEBUG *********************
 	

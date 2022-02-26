@@ -1,4 +1,4 @@
-
+package model.battle;
 public interface MonsterBattle {
 	
 	Attack enemyAttack();

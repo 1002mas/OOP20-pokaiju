@@ -1,3 +1,4 @@
+package model.battle;
 import java.util.*;
 
 public class AttackImpl implements Attack{

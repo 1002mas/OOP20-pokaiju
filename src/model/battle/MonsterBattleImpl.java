@@ -1,5 +1,8 @@
+package model.battle;
 import java.util.ArrayList;
 import java.util.List;
+
+import model.monster.Monster;
 
 public class MonsterBattleImpl implements MonsterBattle{
 	private final static int EXP_MULTIPLER=5;

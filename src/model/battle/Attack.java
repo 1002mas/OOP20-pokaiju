@@ -1,3 +1,4 @@
+package model.battle;
 
 public interface Attack {
 	public void decPP();
