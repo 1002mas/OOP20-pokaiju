@@ -13,20 +13,18 @@ public class NpcImpl implements Npc {
 	private boolean trainer;
 	private boolean defeated;
 	private final ArrayList<Monster> monstersOwned;
-	private final ArrayList<String> speechPhrases;
 	
 	
-	public NpcImpl(String name, ArrayList<Monster> monsterOwned, String speechFileName, boolean trainer) {
+	public NpcImpl(String name, ArrayList<Monster> monsterOwned, boolean trainer) {
 	
 		this.name =  name;
 		this.trainer = trainer;
 		this.monstersOwned = monsterOwned;
-		this.speechPhrases = setPhrases(speechFileName);
 	}
 	
-	public NpcImpl(String name, String speechFileName, boolean trainer) {
+	public NpcImpl(String name, boolean trainer) {
 		
-		this(name, null, speechFileName, trainer);
+		this(name, null, trainer);
 	}
 	
 	private int battle() {
@@ -41,6 +39,7 @@ public class NpcImpl implements Npc {
 
 	public ArrayList<String> setPhrases(String speechFileName){		
 		ArrayList<String> fileLines = new ArrayList<String>();
+		//da completare
 		return fileLines;		
 	}
 
@@ -64,15 +63,16 @@ public class NpcImpl implements Npc {
 		return this.trainer;
 	}
 	
-	private boolean isDefeated() {
+	public boolean isDefeated() {
 		return this.defeated;
 	}
 	
-	private void setDefeated() {
+	public void setDefeated() {
 		this.defeated = true;
 	}
 	
 	private String talk() {
+		//da completare
 		String result = "";
 		return result;
 	}
