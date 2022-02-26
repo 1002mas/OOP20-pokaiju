@@ -2,8 +2,8 @@ package model.map;
 
 import java.util.Optional;
 
-import model.Npc;
 import model.Pair;
+import model.npc.Npc;
 /*
  * GameMapData contains all map logicals info as walkable blocks, npcs in the maps.
  * 
