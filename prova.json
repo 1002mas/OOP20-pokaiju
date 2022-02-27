@@ -1,1 +1,13 @@
-{"Luca":Luca, 6969669, Unisex, [], {Masterball=Masterball, number=10, description=cattura 100%, type= MONSTERBALL, Pokeball=Pokeball, number=1, description=cattura, type= MONSTERBALL}}
+{"Trainernumber":6969669,"PositionY":0,"gender":"Unisex","Monsters":[{"pikachu":Nome: PIKACHU
+Tipo: ELECTRO
+Level: 1
+Exp: 0
+Health: 100
+Info: Topo giallo
+},{"pikachu":Nome: PIKACHU
+Tipo: ELECTRO
+Level: 1
+Exp: 0
+Health: 150
+Info: Topo giallo
+}],"name":"Luca","Items":[{"Pokeball":Pokeball, number=1, description=cattura, type= MONSTERBALL},{"Masterball":Masterball, number=10, description=cattura 100%, type= MONSTERBALL}],"PositionX":0}

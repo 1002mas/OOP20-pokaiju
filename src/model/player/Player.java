@@ -1,4 +1,8 @@
+package model.player;
+
 import java.util.ArrayList;
+
+import model.monster.Monster;
 
 public interface Player {
     /**
@@ -9,7 +13,7 @@ public interface Player {
     /**
      * get a list of Monsters of the Player
      */
-    ArrayList<String> allMonster();
+    ArrayList<Monster> allMonster();
 
     /**
      * get a list of Items of the Player
@@ -17,7 +21,17 @@ public interface Player {
     ArrayList<Item> allItems();
 
     /**
-     * get a list of Items of the Player
+     * get Gender
+     */
+    String getGender();
+
+    /**
+     * get trainerNumber
+     */
+    int getTrainerNumber();
+
+    /**
+     * get Name
      */
     String getName();
 
@@ -34,6 +48,6 @@ public interface Player {
     /**
      * catch Monster
      */
-    void addMonster();
+    void addMonster(Monster m);
 
 }

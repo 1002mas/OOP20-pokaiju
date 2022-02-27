@@ -1,3 +1,4 @@
+package model.player;
 import java.util.Objects;
 
 public class Item {
