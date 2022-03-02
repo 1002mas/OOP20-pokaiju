@@ -1,3 +1,4 @@
+package model.player;
 
 public class PositionPlayer {
     private int posx;

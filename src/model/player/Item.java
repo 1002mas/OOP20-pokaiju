@@ -1,15 +1,18 @@
+package model.player;
 import java.util.Objects;
 
 public class Item {
-    private String nameObject;
+    private String nameItem;
     private int number;
+    private int effect;
     private String description;
     private ItemTypes type;
 
-    public Item(String name, int number, String description, ItemTypes type) {
+    public Item(String name, int number, int effect, String description, ItemTypes type) {
 	super();
-	this.nameObject = name;
+	this.nameItem = name;
 	this.number = number;
+	this.effect = effect;
 	this.description = description;
 	this.type = type;
     }
@@ -23,11 +26,11 @@ public class Item {
     }
 
     public String getName() {
-	return nameObject;
+	return nameItem;
     }
 
     public void setName(String name) {
-	this.nameObject = name;
+	this.nameItem = name;
     }
 
     public int getNumber() {
@@ -46,9 +49,17 @@ public class Item {
 	this.description = description;
     }
 
+    public int getEffect() {
+        return effect;
+    }
+
+    public void setEffect(int effect) {
+        this.effect = effect;
+    }
+
     @Override
     public int hashCode() {
-	return Objects.hash(description, nameObject, number);
+	return Objects.hash(description, nameItem, number);
     }
 
     @Override
@@ -60,13 +71,13 @@ public class Item {
 	if (getClass() != obj.getClass())
 	    return false;
 	Item other = (Item) obj;
-	return Objects.equals(description, other.description) && Objects.equals(nameObject, other.nameObject)
+	return Objects.equals(description, other.description) && Objects.equals(nameItem, other.nameItem)
 		&& number == other.number;
     }
 
     @Override
     public String toString() {
-	return nameObject + ", number=" + number + ", description=" + description + ", type= "+ type ;
+	return nameItem + ", number=" + number + ", description=" + description + ", type= "+ type ;
     }
 
 }
