@@ -8,7 +8,7 @@ public interface Player {
     /**
      * Position of the Player
      */
-    PositionPlayer getPosition();
+    Pair<Integer, Integer> getPosition();
 
     /**
      * get a list of Monsters of the Player
@@ -21,21 +21,6 @@ public interface Player {
     ArrayList<Item> allItems();
 
     /**
-     * get Gender
-     */
-    String getGender();
-
-    /**
-     * get trainerNumber
-     */
-    int getTrainerNumber();
-
-    /**
-     * get Name
-     */
-    String getName();
-
-    /**
      * add Item
      */
     void addItem(Item i);
@@ -46,8 +31,40 @@ public interface Player {
     void removeItem(Item i);
 
     /**
+     * use Item
+     */
+    void useItem(Item i, Monster m);
+    
+    /**
+     * buy Item
+     */
+    boolean buyItem(Item i, int price);
+
+    /**
      * catch Monster
      */
     void addMonster(Monster m);
+    
+    /**
+     * get Player's name
+     */
+    String getName();
+
+    /**
+     * get TrainerNumber
+     */
+    int getTrainerNumber();
+    
+    /**
+     * get Player's gender
+     */
+    Gender getGender();
+    
+    /**
+     * get Player's Money
+     */
+    int getMoney();
+
+   
 
 }
