@@ -53,8 +53,14 @@ public interface Monster {
 	int getExp();
 	
 	/**
+	 * This function set the monster's experience points
+	 * @param experience
+	 */
+	void setExp(int exp);
+	
+	/**
 	 * This function returns the experience point cap
-	 * @return exp cap
+	 * @return experience cap
 	 */
 	int getExpCap();
 	
@@ -81,6 +87,11 @@ public interface Monster {
 	public String getSecondInfo();
 	
 	public String getThirdInfo();
+	
+	public String getSecondName();
+	
+	public String getThirdName();
+	
 
 	//*****************************************************
 	
