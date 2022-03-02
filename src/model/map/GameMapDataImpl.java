@@ -1,7 +1,10 @@
-package model;
+package model.map;
 
 import java.util.Map;
 import java.util.Optional;
+
+import model.Pair;
+import model.npc.Npc;
 
 public class GameMapDataImpl implements GameMapData {
     private final Map<Pair<Integer, Integer>, MapBlockType> blocks;

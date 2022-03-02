@@ -1,6 +1,9 @@
-package model;
+package model.map;
 
 import java.util.Optional;
+
+import model.GameEvent;
+import model.Pair;
 
 public class GameMapImpl implements GameMap {
     private GameMapData map;

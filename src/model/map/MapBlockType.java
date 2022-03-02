@@ -1,4 +1,4 @@
-package model;
+package model.map;
 /*
  * MapBlockType represents the value of the map blocks.
  * SOLID	it's an obstacle you can't walk through

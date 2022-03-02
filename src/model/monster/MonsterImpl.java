@@ -1,3 +1,6 @@
+package model.monster;
+
+import model.battle.Attack;
 
 public class MonsterImpl implements Monster {
 
@@ -7,8 +10,6 @@ public class MonsterImpl implements Monster {
 	private static final int LEVEL_STEP = 1;
 	private static final int FIRST_EVOLUTION_LEVEL = 14;
 	private static final int SECOND_EVOLUTION_LEVEL = 30;
-	private static final int START_LEVEL = 1;
-	private static final int START_EXP = 0;
 	
 
 	private int health;
@@ -30,8 +31,8 @@ public class MonsterImpl implements Monster {
 	public MonsterImpl(String name, int hp, String type, String info) {
 		this.name = name;
 		this.health = hp;
-		this.exp = START_EXP;
-		this.level = START_LEVEL;
+		this.exp = 0;
+		this.level = 1;
 		this.info = info;
 		this.type = type;
 	}
@@ -104,7 +105,7 @@ public class MonsterImpl implements Monster {
 		String currentName = this.name;
 		this.exp += experience;
 		if (this.exp >= EXP_CAP && this.level != MAX_LVL) {
-			System.out.println("Il tuo mostro è salito di livello");
+			System.out.println("Il tuo mostro ï¿½ salito di livello");
 			while (this.exp >= EXP_CAP && this.level != MAX_LVL) {
 				temp = exp;
 				this.exp = temp - EXP_CAP;
@@ -120,14 +121,14 @@ public class MonsterImpl implements Monster {
 					if (this.level == SECOND_EVOLUTION_LEVEL) {
 						this.setName(second_evolution_name);
 					}
-					System.out.println("Il tuo " + currentName.toUpperCase() + " si è evoluto in " + this.name.toUpperCase()+"\n");
+					System.out.println("Il tuo " + currentName.toUpperCase() + " si ï¿½ evoluto in " + this.name.toUpperCase()+"\n");
 					currentName = this.getName();
 					this.setInfo(this.getThirdInfo());
 				}
 				
-				System.out.println("Il tuo mostro ora è livello " + this.level + "\n");
+				System.out.println("Il tuo mostro ora ï¿½ livello " + this.level + "\n");
 			}
-			// System.out.println("Il tuo mostro ora è livello " + this.level + "\n");
+			// System.out.println("Il tuo mostro ora ï¿½ livello " + this.level + "\n");
 		}
 		if (this.level == MAX_LVL) {
 			if (this.exp >= EXP_CAP) {
@@ -144,10 +145,33 @@ public class MonsterImpl implements Monster {
 		return EXP_CAP;
 	}
 
-	@Override
 	public String toString() {
 		return "Nome: " + name.toUpperCase() + "\nTipo: " + type.toUpperCase() + "\nLevel: " + level + "\nExp: " + exp + "\nHealth: " + health
 				+ "\nInfo: " + info + "\n";
+	}
+
+	@Override
+	public boolean getWild() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isAlive() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public Attack getAttack(int index) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getType() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
