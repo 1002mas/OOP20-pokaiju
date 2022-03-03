@@ -15,7 +15,7 @@ public class GameMapImpl implements GameMap {
 
     @Override
     public boolean canPassThrough(Pair<Integer, Integer> block) {
-	return map.getBlockType(block) != MapBlockType.SOLID;
+	return map.getBlockType(block).canPassThrough();
     }
 
     /* TODO add events */

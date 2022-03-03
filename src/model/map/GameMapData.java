@@ -14,4 +14,6 @@ public interface GameMapData {
     Optional<Npc> getNPC(Pair<Integer, Integer> block);
     
     Optional<GameMapData> getNextMap(Pair<Integer, Integer> playerPosition);
+    
+    String getName();
 }

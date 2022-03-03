@@ -1,4 +1,5 @@
 package model.map;
+
 /*
  * MapBlockType represents the value of the map blocks.
  * SOLID	it's an obstacle you can't walk through
@@ -7,5 +8,19 @@ package model.map;
  * WILD_ZONE	area where you can find random monster
  * */
 public enum MapBlockType {
-    SOLID, WALK, MAP_CHANGE, WILD_ZONE
+    BORDER(true),
+    MAP_CHANGE(false),
+    OBSTACLE(true),
+    WALK(false),
+    WILD_ZONE(false);
+
+    private final boolean canPassThrough;
+
+    private MapBlockType(boolean canPassThrough) {
+	this.canPassThrough = canPassThrough;
+    }
+
+    public boolean canPassThrough() {
+	return !this.canPassThrough;
+    }
 }
