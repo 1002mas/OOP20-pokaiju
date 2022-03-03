@@ -7,10 +7,11 @@ import model.Pair;
 
 public class GameMapImpl implements GameMap {
     private GameMapData map;
+    private Optional<Pair<Integer, Integer>> enteringStartPosition;
 
     public GameMapImpl(GameMapData map) {
-	super();
 	this.map = map;
+	enteringStartPosition = Optional.empty();
     }
 
     @Override
@@ -30,14 +31,26 @@ public class GameMapImpl implements GameMap {
 
     @Override
     public void changeMap(Pair<Integer, Integer> playerPosition) {
-	if(canChangeMap(playerPosition) && map.getNextMap(playerPosition).isPresent()) {
-	    setMap(map.getNextMap(playerPosition).get());
+	if (canChangeMap(playerPosition) && map.getNextMap(playerPosition).isPresent()) {
+	    Pair<GameMapData, Pair<Integer, Integer>> p = map.getNextMap(playerPosition).get();
+	    enteringStartPosition = Optional.of(p.getSecond());
+	    setMap(p.getFirst());
+	} else {
+	    throw new IllegalStateException();
 	}
+
     }
 
     @Override
     public boolean canChangeMap(Pair<Integer, Integer> playerPosition) {
 	return map.getBlockType(playerPosition) == MapBlockType.MAP_CHANGE;
+    }
+
+    @Override
+    public Optional<Pair<Integer, Integer>> getPlayerMapPosition() {
+	Optional<Pair<Integer, Integer>> temp = enteringStartPosition;
+	enteringStartPosition = Optional.empty();
+	return temp;
     }
 
 }

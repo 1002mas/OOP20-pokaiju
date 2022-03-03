@@ -11,13 +11,16 @@ public class GameMapDataImpl implements GameMapData {
     private final Map<Pair<Integer, Integer>, MapBlockType> blocks;
     private final Map<Pair<Integer, Integer>, Npc> npcs;
     private final Map<Pair<Integer, Integer>, GameMapData> linkedMaps;
+    private final Map<GameMapData, Pair<Integer, Integer>> linkedMapsStartingPosition;
 
     public GameMapDataImpl(String name, Map<Pair<Integer, Integer>, MapBlockType> blocks,
-	    Map<Pair<Integer, Integer>, Npc> npcs, Map<Pair<Integer, Integer>, GameMapData> linkedMaps) {
+	    Map<Pair<Integer, Integer>, Npc> npcs, Map<Pair<Integer, Integer>, GameMapData> linkedMaps,
+	    Map<GameMapData, Pair<Integer, Integer>> linkedMapsStartingPosition) {
 	this.name = name;
 	this.blocks = blocks;
 	this.npcs = npcs;
 	this.linkedMaps = linkedMaps;
+	this.linkedMapsStartingPosition = linkedMapsStartingPosition;
     }
 
     @Override
@@ -31,8 +34,9 @@ public class GameMapDataImpl implements GameMapData {
     }
 
     @Override
-    public Optional<GameMapData> getNextMap(Pair<Integer, Integer> playerPosition) {
-	return linkedMaps.containsKey(playerPosition) ? Optional.of(linkedMaps.get(playerPosition)) : Optional.empty();
+    public Optional<Pair<GameMapData, Pair<Integer, Integer>>> getNextMap(Pair<Integer, Integer> playerPosition) {
+	return linkedMaps.containsKey(playerPosition) ? Optional.of(new Pair<>(linkedMaps.get(playerPosition),
+		linkedMapsStartingPosition.get(linkedMaps.get(playerPosition)))) : Optional.empty();
     }
 
     @Override
