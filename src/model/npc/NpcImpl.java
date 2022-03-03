@@ -3,6 +3,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.Random;
 
 import model.monster.Monster;
@@ -13,18 +14,20 @@ public class NpcImpl implements Npc {
 	private boolean trainer;
 	private boolean defeated;
 	private final ArrayList<Monster> monstersOwned;
+	private final ArrayList<String> phrases;
 	
 	
-	public NpcImpl(String name, ArrayList<Monster> monsterOwned, boolean trainer) {
+	public NpcImpl(String name, ArrayList<Monster> monsterOwned, ArrayList<String> phrases, boolean trainer) {
 	
 		this.name =  name;
 		this.trainer = trainer;
 		this.monstersOwned = monsterOwned;
+		this.phrases = phrases;
 	}
 	
-	public NpcImpl(String name, boolean trainer) {
+	public NpcImpl(String name, ArrayList<String> phrases,boolean trainer) {
 		
-		this(name, null, trainer);
+		this(name, null, phrases, trainer);
 	}
 	
 	private int battle() {
@@ -37,17 +40,11 @@ public class NpcImpl implements Npc {
 		return this.name;
 	}
 
-	public ArrayList<String> setPhrases(String speechFileName){		
-		ArrayList<String> fileLines = new ArrayList<String>();
-		//da completare
-		return fileLines;		
-	}
-
 	@Override
-	public void interactWith() {
-		
+	public Optional<String> interactWith() {
 		if(!isTrainer() || isDefeated()) {
-			talk();
+			
+			return  getPhrase();
 		}
 		else {
 				int isTheWinner = battle();
@@ -55,6 +52,7 @@ public class NpcImpl implements Npc {
 					setDefeated();
 			}
 		}
+		return Optional.empty();  
 	}
 
 	@Override
@@ -71,9 +69,14 @@ public class NpcImpl implements Npc {
 		this.defeated = true;
 	}
 	
-	private String talk() {
-		//da completare
-		String result = "";
+	private Optional<String> getPhrase() {
+		//sceglie la frase dall'array
+		Optional<String> result = Optional.of("---");
 		return result;
+	}
+
+	@Override
+	public ArrayList<Monster> getMonstersOwned() {
+		return this.monstersOwned;
 	}
 }

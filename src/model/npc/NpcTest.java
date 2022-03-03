@@ -13,7 +13,8 @@ public class NpcTest {
 	@Test
 	public void test1() {
 		ArrayList<Monster> k = new ArrayList<Monster>();
-		Npc n1 = new NpcImpl("mario",k ,false);
+		ArrayList<String> s = new ArrayList<String>();
+		Npc n1 = new NpcImpl("mario",k,s,false);
 		assertTrue("Should be 'false' ",!n1.isTrainer());
 		System.out.println(n1.getName());
 		assertTrue("Should be 'mario' ",n1.getName().equals("mario"));
@@ -22,9 +23,9 @@ public class NpcTest {
 		
 		System.out.println("--------------------------");
 		
-		Npc n2 = new NpcImpl("saro", null, true);
-		assertTrue("Should be 'false' ",n2.isTrainer());
-		assertTrue("Should be 'mario' ",n1.getName()!="saro");
+		Npc n2 = new NpcImpl("saro", s, true);
+		assertTrue("Should be 'true' ",n2.isTrainer());
+		assertTrue("Should be 'saro' ",n2.getName().equals("saro"));
 		assertTrue("Shoul be 'false'",!n1.isDefeated());
 		n1.setDefeated();
 		assertTrue("Should be 'true' ",n1.isDefeated());
