@@ -4,14 +4,14 @@ import java.util.Map;
 import java.util.Optional;
 
 import model.Pair;
-import model.npc.Npc;
+import model.npc.NpcSimple;
 
 public class GameMapDataImpl implements GameMapData {
     private final Map<Pair<Integer, Integer>, MapBlockType> blocks;
-    private final Map<Pair<Integer, Integer>, Npc> npcs;
+    private final Map<Pair<Integer, Integer>, NpcSimple> npcs;
     private final Map<Pair<Integer, Integer>, GameMapData> linkedMaps;
 
-    public GameMapDataImpl(Map<Pair<Integer, Integer>, MapBlockType> blocks, Map<Pair<Integer, Integer>, Npc> npcs,
+    public GameMapDataImpl(Map<Pair<Integer, Integer>, MapBlockType> blocks, Map<Pair<Integer, Integer>, NpcSimple> npcs,
 	    Map<Pair<Integer, Integer>, GameMapData> linkedMaps) {
 	this.blocks = blocks;
 	this.npcs = npcs;
@@ -24,7 +24,7 @@ public class GameMapDataImpl implements GameMapData {
     }
 
     @Override
-    public Optional<Npc> getNPC(Pair<Integer, Integer> block) {
+    public Optional<NpcSimple> getNPC(Pair<Integer, Integer> block) {
 	return npcs.containsKey(block) ? Optional.of(npcs.get(block)) : Optional.empty();
     }
 
