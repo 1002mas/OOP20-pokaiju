@@ -1,40 +1,29 @@
 package model.monster;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import model.battle.Attack;
+
+//TODO: MODIFY BUILDER
+
 public class MonsterBuilderImpl implements MonsterBuilder {
 
 	private static final int EXP_CAP = 1000;
-	private String name;
-	private MonsterType type;
 	private int health;
 	private int exp;
-	private String info;
-	private String secondInfo;
-	private String thirdInfo;
-	private String firstEvolution;
-	private String secondEvolution;
+	private List<Attack> attackList;
+	private boolean isWild;
 	private int level;
-
-	public MonsterBuilder name(String name) {
-		this.name = name;
-		return this;
-	}
-
-	public MonsterBuilder secondName(String name) {
-		this.firstEvolution = name;
-		return this;
-	}
-
-	public MonsterBuilder thirdName(String name) {
-		this.secondEvolution = name;
-		return this;
-	}
-
-	public MonsterBuilder monsterType(MonsterType type) {
-		this.type = type;
+	private MonsterSpecies species;
+	
+	public MonsterBuilder species(MonsterSpecies species) {
+		this.species = species;
 		return this;
 	}
 
 	public MonsterBuilder level(int lvl) {
-		if (lvl <= 0 || lvl > 100 ) {
+		if (lvl <= 0 || lvl > 100) {
 			this.level = 1;
 			return this;
 		}
@@ -43,7 +32,7 @@ public class MonsterBuilderImpl implements MonsterBuilder {
 	}
 
 	public MonsterBuilder health(int hp) {
-		if ( hp < 0) {
+		if (hp < 0) {
 			this.health = 1;
 			return this;
 		}
@@ -60,28 +49,18 @@ public class MonsterBuilderImpl implements MonsterBuilder {
 		return this;
 	}
 
-	public MonsterBuilder info(String info) {
-		this.info = info;
+	public MonsterBuilder isWild(boolean isWild) {
+		this.isWild = isWild;
+		return this;
+	}
+	
+	public MonsterBuilder attackList(List<Attack> attackList) {
+		this.attackList = new ArrayList<>(attackList);
 		return this;
 	}
 
-	public MonsterBuilder secondInfo(String info) {
-		this.secondInfo = info;
-		return this;
-	}
-
-	public MonsterBuilder thirdInfo(String info) {
-		this.thirdInfo = info;
-		return this;
-	}
-
-	public Monster build(){
-		if (this.name == null || this.type == null || this.info == null || this.secondInfo == null
-				|| this.thirdInfo == null || this.firstEvolution == null || this.secondEvolution == null) {
-			throw new IllegalStateException("");
-		}
-		return new MonsterImpl(this.name, this.type, this.level, this.health, this.exp, this.info, this.firstEvolution, this.secondInfo, this.secondEvolution,
-				this.thirdInfo);
+	public Monster build() {
+		return new MonsterImpl(this.health, this.exp, this.level, this.isWild, this.species, this.attackList);
 	}
 
 }

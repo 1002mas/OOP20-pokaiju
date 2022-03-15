@@ -1,6 +1,7 @@
 package model.monster;
 
 import model.battle.Attack;
+import model.item.Item;
 
 public interface Monster {
 	
@@ -53,18 +54,12 @@ public interface Monster {
 	int getExp();
 	
 	/**
-	 * This function set the monster's experience points
-	 * @param experience
-	 */
-	void setExp(int exp);
-	
-	/**
 	 * This function returns the experience point cap
 	 * @return experience cap
 	 */
 	int getExpCap();
 	
-	public String toString();
+	String toString();
 	
 	boolean getWild();
 	
@@ -72,27 +67,11 @@ public interface Monster {
 	
 	Attack getAttack(int index);
 	
-	String getType();
-	
-	//******DA RIMUOVERE - ONLY DEBUG *********************
-	
-	public void setFirstEvolution(String secondName);
-	
-	public void setSecondEvolution(String thirdName);
-	
-	public void setSecondInfo(String secondInfo);
-	
-	public void setThirdInfo(String thirdInfo);
-	
-	public String getSecondInfo();
-	
-	public String getThirdInfo();
-	
-	public String getSecondName();
-	
-	public String getThirdName();
-	
+	MonsterType getType();
 
-	//*****************************************************
+	int getNumberOfAttacks();
 	
+	boolean evolveByLevel();
+	
+	boolean evolveByItem(Item item);
 }
