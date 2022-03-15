@@ -1,26 +1,23 @@
 package model.monster;
+
+import java.util.List;
+
+import model.battle.Attack;
+
 public interface MonsterBuilder {
 
-	public MonsterBuilder name(String name); 
+	MonsterBuilder level(int lvl);
 	
-	public MonsterBuilder secondName(String name);
+	MonsterBuilder health(int hp);
 	
-	public MonsterBuilder thirdName(String name);
+	MonsterBuilder exp(int exp);
 	
-	public MonsterBuilder monsterType(MonsterType type);
-
-	public MonsterBuilder level(int lvl);
+	MonsterBuilder isWild(boolean isWild);
 	
-	public MonsterBuilder health(int hp);
+	MonsterBuilder attackList(List<Attack> attackList);
 	
-	public MonsterBuilder exp(int exp);
+	MonsterBuilder species(MonsterSpecies species);
 	
-	public MonsterBuilder info(String info);
-	
-	public MonsterBuilder secondInfo(String info);
-	
-	public MonsterBuilder thirdInfo(String info);
-	
-	public Monster build();
+	Monster build();
 	
 }

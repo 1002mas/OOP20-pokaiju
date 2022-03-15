@@ -1,5 +1,12 @@
 package model.monster;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import model.battle.Attack;
+import model.item.Item;
+
+//STATISTICHE MOSTRI IN BATTAGLIA ATK, DFS, VEL
 
 public class MonsterImpl implements Monster {
 
@@ -8,108 +15,43 @@ public class MonsterImpl implements Monster {
 	private static final int HEALTH_STEP = 10;
 	private static final int LEVEL_STEP = 1;
 	private static final int FIRST_EVOLUTION_LEVEL = 14;
-	private static final int SECOND_EVOLUTION_LEVEL = 30;
-	private static final int START_LEVEL = 1;
-	private static final int START_EXP = 0;
 
 	private int health;
-	private String name;
 	private int exp;
 	private int level;
-	private String info;
-	private MonsterType type;
+	private boolean isWild;
+	private int maxHealth;
+	private MonsterSpecies species;
+	private List<Attack> attackList;
 
-	// ************************************
-
-	private String first_evolution_name;
-	private String second_evolution_name;
-	private String secondInfo;
-	private String thirdInfo;
-
-	// ************************************
-
-	public MonsterImpl(String name, int hp, MonsterType type, String info) {
-		this.name = name;
-		this.health = hp;
-		this.exp = 0;
-		this.level = 1;
-		this.info = info;
-		this.type = type;
-	}
-
-	public MonsterImpl(String name, MonsterType type, int level, int health, int exp, String info,
-			String firstEvolution, String secondInfo, String secondEvolution, String thirdInfo) {
-		super();
-		this.name = name;
+	public MonsterImpl(int health, int exp, int level, boolean isWild, MonsterSpecies species,
+			List<Attack> attackList) {
 		this.health = health;
 		this.exp = exp;
 		this.level = level;
-		this.info = info;
-		this.type = type;
-		this.first_evolution_name = firstEvolution;
-		this.second_evolution_name = secondEvolution;
-		this.secondInfo = secondInfo;
-		this.thirdInfo = thirdInfo;
+		this.isWild = isWild;
+		this.species = species;
+		this.attackList = new ArrayList<>(attackList);
 	}
-
-	// ******DA RIMUOVERE - ONLY DEBUG *********************
-
-	public void setFirstEvolution(String secondName) {
-		this.first_evolution_name = secondName;
-	}
-
-	public void setSecondEvolution(String thirdName) {
-		this.second_evolution_name = thirdName;
-	}
-
-	public void setSecondInfo(String secondInfo) {
-		this.secondInfo = secondInfo;
-	}
-
-	public void setThirdInfo(String thirdInfo) {
-		this.thirdInfo = thirdInfo;
-	}
-
-	public String getSecondInfo() {
-		return this.secondInfo;
-	}
-
-	public String getThirdInfo() {
-		return this.thirdInfo;
-	}
-	
-	public String getSecondName() {
-		return this.first_evolution_name;
-	}
-	
-	public String getThirdName() {
-		return this.second_evolution_name;
-	}
-
-	// *****************************************************
 
 	public int getHealth() {
 		return this.health;
 	}
 
 	public void setHealth(int health) {
-		this.health = health;
+		this.health = health <= this.getMaxHealth() ? health : this.getMaxHealth();
+	}
+
+	public int getMaxHealth() {
+		return this.maxHealth;
 	}
 
 	public String getInfo() {
-		return this.info;
-	}
-
-	public void setInfo(String info) {
-		this.info = info;
+		return this.species.getInfo();
 	}
 
 	public String getName() {
-		return this.name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
+		return this.species.getName();
 	}
 
 	public int getLevel() {
@@ -117,61 +59,67 @@ public class MonsterImpl implements Monster {
 	}
 
 	public void setLevel(int level) {
-		this.level = level;
-		if (this.level == MAX_LVL) {
-			this.level = MAX_LVL;
-		}
+		this.level = level <= MAX_LVL ? level : MAX_LVL;
 	}
 
 	public void incExp(int experience) {
-		this.exp += experience;
-		//TODO use module and division
-		if (this.level == MAX_LVL) {
-			if (this.exp >= EXP_CAP) {
-				this.exp = EXP_CAP;
-			}
-		}
+		int newLevel = level + (this.exp + experience) / EXP_CAP;
+		setLevel(newLevel);
+		this.exp = (this.exp + experience) % EXP_CAP;
 	}
 
 	public int getExp() {
 		return this.exp;
-	}
-	
-	public void setExp(int exp) {
-		this.exp = exp;
 	}
 
 	public int getExpCap() {
 		return EXP_CAP;
 	}
 
-	public String toString() {
-		return "Nome: " + name.toUpperCase() + "\nTipo: " + type + "\nLevel: " + level + "\nExp: " + exp + "\nHealth: "
-				+ health + "\nInfo: " + info + "\n";
-	}
-
-	@Override
 	public boolean getWild() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
-	@Override
 	public boolean isAlive() {
-		// TODO Auto-generated method stub
+		return this.health <= 0;
+	}
+
+	public Attack getAttack(int index) {
+		if (index <= 0 || index > getNumberOfAttacks()) {
+			throw new IllegalArgumentException();
+		}
+		return this.attackList.get(index);
+	}
+
+	public int getNumberOfAttacks() {
+		return this.attackList.size();
+	}
+
+	public MonsterType getType() {
+		return this.species.getType();
+	}
+
+	public boolean evolveByLevel() {
+		if(species.getEvolution().isPresent() && this.species.getEvolutionType() == EvolutionType.LEVEL
+				&& this.level >= species.getEvolutionLevel()) {
+			species = species.getEvolution().get();
+			return true;
+		}
 		return false;
 	}
-
-	@Override
-	public Attack getAttack(int index) {
-		// TODO Auto-generated method stub
-		return null;
+	
+	public boolean evolveByItem(Item item) {
+		if(species.getEvolution().isPresent() && this.species.getEvolutionType() == EvolutionType.ITEM
+				&& item == species.getItem()) {
+			species = species.getEvolution().get();
+			return true;
+		}
+		return false;
 	}
-
-	@Override
-	public String getType() {
-		// TODO Auto-generated method stub
-		return null;
+	
+	public String toString() { 
+		return this.species.toString() + "\nHealth: " + health + "\nLevel: " + level + "\nExp: " + exp + "\nIsWild: " + isWild + "\n"; 
 	}
-
+	
+	
 }
