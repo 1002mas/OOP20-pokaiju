@@ -1,11 +1,9 @@
 package model.battle;
 public interface MonsterBattle {
 	
-	Attack enemyAttack();
+	Moves enemyAttack();
 	
-	void click(int choose);
 	
-	void turn();
 	
 	void debug_print();
 	
@@ -15,5 +13,16 @@ public interface MonsterBattle {
 	
 	void end();
 	
+	void lostMoney();
+	
+	void winMoney();
+	
+	boolean playerChangeMonster(int index);
+	
+	boolean enemyChangeMonster(int index);
+	
+	boolean movesSelection(int moveIndex);
+	
+	boolean isCurrentMonsterAlive();
 	
 }

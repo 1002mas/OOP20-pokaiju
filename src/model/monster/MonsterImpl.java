@@ -1,5 +1,5 @@
 package model.monster;
-import model.battle.Attack;
+import model.battle.Moves;
 
 public class MonsterImpl implements Monster {
 
@@ -163,15 +163,15 @@ public class MonsterImpl implements Monster {
 	}
 
 	@Override
-	public Attack getAttack(int index) {
+	public Moves getAttack(int index) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public String getType() {
+	public MonsterType getType() {
 		// TODO Auto-generated method stub
-		return null;
+		return this.type;
 	}
 
 }

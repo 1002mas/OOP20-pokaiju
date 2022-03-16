@@ -1,6 +1,6 @@
 package model.monster;
 
-import model.battle.Attack;
+import model.battle.Moves;
 
 public interface Monster {
 	
@@ -70,9 +70,9 @@ public interface Monster {
 	
 	boolean isAlive();
 	
-	Attack getAttack(int index);
+	Moves getAttack(int index);
 	
-	String getType();
+	MonsterType getType();
 	
 	//******DA RIMUOVERE - ONLY DEBUG *********************
 	
