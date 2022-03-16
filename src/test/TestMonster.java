@@ -1,8 +1,12 @@
 package test;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import java.util.List;
 
+import model.battle.Attack;
+import model.battle.AttackImpl;
 import model.monster.Monster;
 import model.monster.MonsterBuilderImpl;
+import model.monster.MonsterSpeciesImpl;
 import model.monster.MonsterType;
 
 public class TestMonster {
@@ -13,45 +17,50 @@ public class TestMonster {
 	private static final int MAX_LVL = 100;
 	private static final int HEALTH = 50;
 	
-	
-	private Monster p = null;
+	private Monster monster;
+	private MonsterSpeciesImpl species;
+	private MonsterSpeciesImpl firstEvolution;
+	private MonsterSpeciesImpl secondEvolution;
+	private List<Attack> attackList;
 
 	@org.junit.Before
 	public void initFactory() {
-		this.p = new MonsterBuilderImpl().name("Mario").monsterType(MonsterType.FIRE).level(1).health(50).exp(0)
-				.info("supermario").secondName("SuperMario").secondInfo("Info2").thirdName("SuperMegaMario")
-				.thirdInfo("Info3").build();
+		Attack a1 = new AttackImpl("Braciere", 50, "fuoco", 10);
+		Attack a2 = new AttackImpl("Attacco", 10, "normale", 10);
+		Attack a3 = new AttackImpl("Volo", 50, "volante", 10);
+		Attack a4 = new AttackImpl("Fossa", 50, "roccia", 10);
+		this.attackList = List.of(a1, a2, a3, a4);
+		this.secondEvolution = new MonsterSpeciesImpl("Pippo3", "Info3", MonsterType.FIRE);
+		this.firstEvolution = new MonsterSpeciesImpl("Pippo2", "Info2", MonsterType.FIRE, secondEvolution, SECOND_EVOLUTION_LEVEL);
+		this.species = new MonsterSpeciesImpl("Pippo", "Info", MonsterType.FIRE, firstEvolution, FIRST_EVOLUTION_LEVEL);
+		this.monster = new MonsterBuilderImpl().health(50).exp(0).level(1).isWild(false).species(species).attackList(attackList).build();
 	}
 
 	@org.junit.Test
 	public void firstStats() {
-		//System.out.println(p.toString());
-		assertEquals(1, p.getLevel());
-		assertEquals(0, p.getExp());
-		assertEquals(HEALTH, p.getHealth());
+		assertEquals(1, monster.getLevel());
+		assertEquals(0, monster.getExp());
+		assertEquals(HEALTH, monster.getHealth());
 	}
 
 	@org.junit.Test
 	public void leveling() {
 		
-		p.setLevel(FIRST_EVOLUTION_LEVEL-1);
-		System.out.println(p.toString());
-		p.incExp(EXP_CAP);
-		assertEquals(p.getSecondName(), p.getName());
-		System.out.println(p.toString());
+		monster.setLevel(FIRST_EVOLUTION_LEVEL-1);
+		System.out.println("BEFORE FIRST EVOLUTION:\n" + monster.toString());
+		monster.incExp(EXP_CAP);
+		System.out.println("AFTER FIRST EVOLUTION:\n" + monster.toString());
 		
-		p.setLevel(SECOND_EVOLUTION_LEVEL-1); 
-		//System.out.println(p.toString());
-		p.incExp(EXP_CAP);
-		assertEquals(p.getThirdName(), p.getName());
-		assertEquals(30, p.getLevel());
-		assertEquals(0, p.getExp());
+		monster.setLevel(SECOND_EVOLUTION_LEVEL-1); 
+		System.out.println("BEFORE SECOND EVOLUTION:\n" + monster.toString());
+		monster.incExp(EXP_CAP);
+		assertEquals(30, monster.getLevel());
+		assertEquals(0, monster.getExp());
+		System.out.println("AFTER SECOND EVOLUTION:\n" + monster.toString());
 		
-		System.out.println(p.toString());
-		
-		/*assertEquals(p.getExpCap(), p.getExp());
-		assertEquals(100, p.getLevel());
-		System.out.println(p.toString());*/
+		monster.incExp(5863655);
+		assertEquals(MAX_LVL, monster.getLevel());
+		System.out.println("MONSTER AT MAX LEVEL:\n" + monster.toString());
 	}
 
 }

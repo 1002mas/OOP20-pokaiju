@@ -24,13 +24,19 @@ public interface Monster {
 	void setHealth(int health);
 	
 	/**
+	 * This function returns monster's max health
+	 * @return monster's max health
+	 */
+	int getMaxHealth();
+	
+	/**
 	 * This function returns all the info of the monster
 	 * @return monster's info
 	 */
 	String getInfo();
 	
 	/**
-	 * This function returns all the info of the monster
+	 * This function returns the level of the monster
 	 * @return monster's level
 	 */
 	int getLevel();
@@ -59,19 +65,66 @@ public interface Monster {
 	 */
 	int getExpCap();
 	
-	String toString();
+	/**
+	 * This function returns the attack of the monster
+	 * @return attack stat
+	 */
+	public int getAttack();
 	
+	/**
+	 * This function returns the defense of the monster
+	 * @return defense stat
+	 */
+	public int getDefense();
+	
+	/**
+	 * This function returns the speed of the monster
+	 * @return speed stat
+	 */
+	public int getSpeed();
+	
+	/**
+	 * This function returns if the monster is wild
+	 * @return if the monster is wild
+	 */
 	boolean getWild();
 	
+	/**
+	 * This function returns if the monster is alive
+	 * @return if the monster is alive
+	 */
 	boolean isAlive();
 	
+	/**
+	 * This function returns a move from a list of moves
+	 * @param index of the moves
+	 * @return a move
+	 */
 	Attack getAttack(int index);
 	
-	MonsterType getType();
-
+	/**
+	 * This function returns the numbers of moves owned by the monster
+	 * @return
+	 */
 	int getNumberOfAttacks();
 	
+	/**
+	 * This function returns the type of the monster
+	 * @return
+	 */
+	MonsterType getType();
+	
+	/**
+	 * This function returns if the monster is evolving by level
+	 * @return if monster evolves by level
+	 */
 	boolean evolveByLevel();
 	
+	/**
+	 * This function returns if the monster is evolving by item
+	 * @param item 
+	 * @return if monster evolves by item
+	 */
 	boolean evolveByItem(Item item);
+	
 }

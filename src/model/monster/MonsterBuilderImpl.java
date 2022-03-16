@@ -1,11 +1,7 @@
 package model.monster;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import model.battle.Attack;
-
-//TODO: MODIFY BUILDER
 
 public class MonsterBuilderImpl implements MonsterBuilder {
 
@@ -15,9 +11,12 @@ public class MonsterBuilderImpl implements MonsterBuilder {
 	private List<Attack> attackList;
 	private boolean isWild;
 	private int level;
-	private MonsterSpecies species;
+	private MonsterSpeciesImpl species;
+	private int attack;
+	private int defense;
+	private int speed;
 	
-	public MonsterBuilder species(MonsterSpecies species) {
+	public MonsterBuilder species(MonsterSpeciesImpl species) {
 		this.species = species;
 		return this;
 	}
@@ -58,9 +57,24 @@ public class MonsterBuilderImpl implements MonsterBuilder {
 		this.attackList = new ArrayList<>(attackList);
 		return this;
 	}
+	
+	public MonsterBuilder attack(int atk) {
+		this.attack = atk;
+		return this;
+	}
+	
+	public MonsterBuilder defense(int dfs) {
+		this.defense = dfs;
+		return this;
+	}
+	
+	public MonsterBuilder speed(int spd) {
+		this.speed = spd;
+		return this;
+	}
 
 	public Monster build() {
-		return new MonsterImpl(this.health, this.exp, this.level, this.isWild, this.species, this.attackList);
+		return new MonsterImpl(this.health, this.exp, this.level, this.isWild, this.species, this.attackList, this.attack, this.defense, this.speed);
 	}
 
 }
