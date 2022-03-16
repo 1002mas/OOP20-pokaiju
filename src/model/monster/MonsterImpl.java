@@ -1,9 +1,13 @@
 package model.monster;
 
+
 import java.util.ArrayList;
 import java.util.List;
-import model.battle.Attack;
+
 import model.item.Item;
+
+import model.battle.Moves;
+
 
 public class MonsterImpl implements Monster {
 
@@ -19,10 +23,10 @@ public class MonsterImpl implements Monster {
 	private boolean isWild;
 	private int maxHealth;
 	private MonsterSpeciesImpl species;
-	private List<Attack> attackList;
+	private List<Moves> attackList;
 
 	public MonsterImpl(int health, int exp, int level, boolean isWild, MonsterSpeciesImpl species,
-			List<Attack> attackList, int attack, int defense, int speed) {
+			List<Moves> attackList, int attack, int defense, int speed) {
 		this.health = health;
 		this.exp = exp;
 		this.level = level;
@@ -108,7 +112,8 @@ public class MonsterImpl implements Monster {
 		return this.health <= 0;
 	}
 
-	public Attack getAttack(int index) {
+
+	public Moves getAttack(int index) {
 		if (index <= 0 || index > getNumberOfAttacks()) {
 			throw new IllegalArgumentException();
 		}
@@ -144,6 +149,7 @@ public class MonsterImpl implements Monster {
 	public String toString() {
 		return this.species.toString() + "\nHealth: " + this.health + "\nLevel: " + this.level + "\nExp: " + this.exp + "\nAtk: "
 				+ this.attack + "\nDfs: " + this.defense + "\nSpd: " + this.speed + "\nMoves:" + this.attackList.toString() +"\nIsWild: " + this.isWild + "\n";
+
 	}
 
 }

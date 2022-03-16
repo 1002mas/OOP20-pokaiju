@@ -1,7 +1,11 @@
 package model.monster;
 
-import model.battle.Attack;
+
+
 import model.item.Item;
+
+import model.battle.Moves;
+
 
 public interface Monster {
 	
@@ -95,18 +99,21 @@ public interface Monster {
 	 */
 	boolean isAlive();
 	
+
 	/**
 	 * This function returns a move from a list of moves
 	 * @param index of the moves
 	 * @return a move
 	 */
-	Attack getAttack(int index);
+	Moves getAttack(int index);
 	
 	/**
 	 * This function returns the numbers of moves owned by the monster
 	 * @return
 	 */
 	int getNumberOfAttacks();
+
+	
 	
 	/**
 	 * This function returns the type of the monster

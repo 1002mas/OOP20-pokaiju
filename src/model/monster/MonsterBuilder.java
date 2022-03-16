@@ -2,7 +2,9 @@ package model.monster;
 
 import java.util.List;
 
-import model.battle.Attack;
+import model.battle.Moves;
+
+
 
 public interface MonsterBuilder {
 
@@ -39,7 +41,7 @@ public interface MonsterBuilder {
 	 * @param a list of moves
 	 * @return a MonsterBuilder
 	 */
-	MonsterBuilder attackList(List<Attack> attackList);
+	MonsterBuilder attackList(List<Moves> attackList);
 	
 	/**
 	 * Build monster's attack stat

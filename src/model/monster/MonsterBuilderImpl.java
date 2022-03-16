@@ -1,14 +1,16 @@
 package model.monster;
 import java.util.ArrayList;
 import java.util.List;
-import model.battle.Attack;
+
+import model.battle.Moves;
+
 
 public class MonsterBuilderImpl implements MonsterBuilder {
 
 	private static final int EXP_CAP = 1000;
 	private int health;
 	private int exp;
-	private List<Attack> attackList;
+	private List<Moves> attackList;
 	private boolean isWild;
 	private int level;
 	private MonsterSpeciesImpl species;
@@ -53,7 +55,7 @@ public class MonsterBuilderImpl implements MonsterBuilder {
 		return this;
 	}
 	
-	public MonsterBuilder attackList(List<Attack> attackList) {
+	public MonsterBuilder attackList(List<Moves> attackList) {
 		this.attackList = new ArrayList<>(attackList);
 		return this;
 	}
