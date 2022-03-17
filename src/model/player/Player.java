@@ -2,6 +2,7 @@ package model.player;
 
 import java.util.ArrayList;
 
+import model.GameItem.GameItems;
 import model.monster.Monster;
 
 public interface Player {
@@ -18,27 +19,27 @@ public interface Player {
     /**
      * get a list of Items of the Player
      */
-    ArrayList<Item> allItems();
+    ArrayList<GameItems> allItems();
 
     /**
      * add Item
      */
-    void addItem(Item i);
+    void addItem(GameItems i);
 
     /**
      * remove Item
      */
-    void removeItem(Item i);
+    void removeItem(GameItems i);
 
     /**
      * use Item
      */
-    void useItem(Item i, Monster m);
+    void useItem(GameItems i, Monster m);
     
     /**
      * buy Item
      */
-    boolean buyItem(Item i, int price);
+    boolean buyItem(GameItems i, int price);
 
     /**
      * catch Monster

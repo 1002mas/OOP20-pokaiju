@@ -1,36 +1,29 @@
-package model.player;
+package model.GameItem;
+
 import java.util.Objects;
 
-public class Item {
+import model.monster.Monster;
+
+public abstract class AbstractGameItem implements GameItems {
     private String nameItem;
     private int number;
-    private int effect;
     private String description;
-    private ItemTypes type;
+    private GameItemTypes type;
 
-    public Item(String name, int number, int effect, String description, ItemTypes type) {
+    public AbstractGameItem(String nameItem, int number, String description, GameItemTypes type) {
 	super();
-	this.nameItem = name;
+	this.nameItem = nameItem;
 	this.number = number;
-	this.effect = effect;
 	this.description = description;
 	this.type = type;
     }
 
-    public ItemTypes getType() {
-        return type;
-    }
-
-    public void setType(ItemTypes type) {
-        this.type = type;
-    }
-
-    public String getName() {
+    public String getNameItem() {
 	return nameItem;
     }
 
-    public void setName(String name) {
-	this.nameItem = name;
+    public void setNameItem(String nameItem) {
+	this.nameItem = nameItem;
     }
 
     public int getNumber() {
@@ -49,17 +42,17 @@ public class Item {
 	this.description = description;
     }
 
-    public int getEffect() {
-        return effect;
+    public GameItemTypes getType() {
+	return type;
     }
 
-    public void setEffect(int effect) {
-        this.effect = effect;
+    public void setType(GameItemTypes type) {
+	this.type = type;
     }
 
     @Override
     public int hashCode() {
-	return Objects.hash(description, nameItem, number);
+	return Objects.hash(description, nameItem, number, type);
     }
 
     @Override
@@ -70,14 +63,17 @@ public class Item {
 	    return false;
 	if (getClass() != obj.getClass())
 	    return false;
-	Item other = (Item) obj;
+	AbstractGameItem other = (AbstractGameItem) obj;
 	return Objects.equals(description, other.description) && Objects.equals(nameItem, other.nameItem)
-		&& number == other.number;
+		&& number == other.number && type == other.type;
     }
+
+    public abstract boolean use(Monster m);
 
     @Override
     public String toString() {
-	return nameItem + ", number=" + number + ", description=" + description + ", type= "+ type ;
+	return "AbstractGameItem [nameItem=" + nameItem + ", number=" + number + ", description=" + description
+		+ ", type=" + type + "]";
     }
-
+    
 }

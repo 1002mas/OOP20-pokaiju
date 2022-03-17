@@ -16,6 +16,10 @@ import java.util.LinkedList;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.*;
+
+import model.GameItem.AbstractGameItem;
+import model.GameItem.GameItems;
+import model.GameItem.HealingItem;
 import model.monster.*;
 
 public class PlayerImpl implements Player {
@@ -24,7 +28,7 @@ public class PlayerImpl implements Player {
     private int trainerNumber;
     private Pair<Integer, Integer> position;
     private ArrayList<Monster> monster;
-    private ArrayList<Item> gameItems;
+    private ArrayList<GameItems> gameItems;
     private int money;
 
     public PlayerImpl(String name, Gender gender, int trainerNumber, Pair<Integer, Integer> startingPosition) {
@@ -33,14 +37,13 @@ public class PlayerImpl implements Player {
 	this.trainerNumber = trainerNumber;
 	this.position = startingPosition;
 	this.monster = new ArrayList<Monster>();
-	this.gameItems = new ArrayList<Item>();
+	this.gameItems = new ArrayList<GameItems>();
 	this.money = 500;
 
     }
 
     @Override
     public Pair<Integer, Integer> getPosition() {
-	// TODO Auto-generated method stub
 	return this.position;
     }
 
@@ -52,23 +55,21 @@ public class PlayerImpl implements Player {
 
     public String toString() {
 	return this.name + ", " + this.trainerNumber + ", " + this.gender + ", " + allMonster().toString() + ", "
-		+ this.gameItems.toString();
+		+ this.gameItems.toString() + ", " + this.position.getFirst() + ", " + this.position.getSecond();
 
     }
 
     @Override
-    public ArrayList<Item> allItems() {
-	// TODO Auto-generated method stub
+    public ArrayList<GameItems> allItems() {
 	return new ArrayList<>(this.gameItems);
     }
 
     @Override
-    public void addItem(Item i) {
-	// TODO Auto-generated method stub
+    public void addItem(GameItems i) {
 	if (this.gameItems.contains(i)) {
-	    int numberOfItem = this.gameItems.stream().filter(x -> x.getName().equals(i.getName())).findFirst().get()
-		    .getNumber();
-	    this.gameItems.stream().filter(x -> x.getName().equals(i.getName())).findFirst().get()
+	    int numberOfItem = this.gameItems.stream().filter(x -> x.getNameItem().equals(i.getNameItem())).findFirst()
+		    .get().getNumber();
+	    this.gameItems.stream().filter(x -> x.getNameItem().equals(i.getNameItem())).findFirst().get()
 		    .setNumber(numberOfItem + i.getNumber());
 	} else {
 	    this.gameItems.add(i);
@@ -76,13 +77,13 @@ public class PlayerImpl implements Player {
     }
 
     @Override
-    public void removeItem(Item i) {
+    public void removeItem(GameItems i) {
 	// TODO Auto-generated method stub
 	if (this.gameItems.contains(i)) {
-	    int numberOfItem = this.gameItems.stream().filter(x -> x.getName().equals(i.getName())).findFirst().get()
-		    .getNumber();
+	    int numberOfItem = this.gameItems.stream().filter(x -> x.getNameItem().equals(i.getNameItem())).findFirst()
+		    .get().getNumber();
 	    if (--numberOfItem > 0) {
-		this.gameItems.stream().filter(x -> x.getName().equals(i.getName())).findFirst().get()
+		this.gameItems.stream().filter(x -> x.getNameItem().equals(i.getNameItem())).findFirst().get()
 			.setNumber(numberOfItem);
 	    } else {
 		this.gameItems.remove(i);
@@ -92,26 +93,15 @@ public class PlayerImpl implements Player {
     }
 
     @Override
-    public void useItem(Item i, Monster m) {
-	// TODO Auto-generated method stub
+    public void useItem(GameItems i, Monster m) {
 	if (allItems().contains(i)) {
-	    switch (i.getType()) {
-	    case HEAL:
-		if (m.getHealth() + i.getEffect() > m.getHealth()) {
-		    m.setHealth(m.getHealth());
-		} else {
-		    m.setHealth(m.getHealth() + i.getEffect());
-		}
-		removeItem(i);
-	    case EVOLUTIONTOOL:
-	    case MONSTERBALL:
-	    }
+	    i.use(m);
+	    removeItem(i);
 	}
-
     }
 
     @Override
-    public boolean buyItem(Item i, int price) {
+    public boolean buyItem(GameItems i, int price) {
 	// TODO Auto-generated method stub
 	if (getMoney() - price >= 0) {
 	    addItem(i);
@@ -146,11 +136,11 @@ public class PlayerImpl implements Player {
 	this.monster = monster;
     }
 
-    public ArrayList<Item> getItems() {
+    public ArrayList<GameItems> getItems() {
 	return this.gameItems;
     }
 
-    public void setItems(ArrayList<Item> items) {
+    public void setItems(ArrayList<GameItems> items) {
 	this.gameItems = items;
     }
 

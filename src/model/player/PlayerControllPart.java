@@ -10,6 +10,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import model.GameItem.GameItems;
 import model.monster.Monster;
 
 public class PlayerControllPart {
@@ -75,9 +76,9 @@ public class PlayerControllPart {
 	    listMonster.add(jo);
 
 	}
-	for (Item i : p.allItems()) {
+	for (GameItems i : p.allItems()) {
 	    JSONObject jo = new JSONObject();
-	    jo.put(i.getName(), i);
+	    jo.put(i.getNameItem(), i);
 	    listItem.add(jo);
 	}
 
