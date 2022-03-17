@@ -4,8 +4,6 @@ import java.util.List;
 
 import model.battle.Moves;
 
-
-
 public interface MonsterBuilder {
 
 	/**
@@ -43,26 +41,28 @@ public interface MonsterBuilder {
 	 */
 	MonsterBuilder movesList(List<Moves> movesList);
 	
+	
 	/**
 	 * Build monster's attack stat
 	 * @param atk
 	 * @return a MonsterBuilder
 	 */
-	MonsterBuilder attack(int atk);
+	//MonsterBuilder attack(int atk);
 	
 	/**
 	 * Build monster's defense stat
 	 * @param dfs
 	 * @return a MonsterBuilder
 	 */
-	MonsterBuilder defense(int dfs);
+	//MonsterBuilder defense(int dfs);
 	
 	/**
 	 * Build monster's speed stat
 	 * @param spd
 	 * @return a MonsterBuilder
 	 */
-	MonsterBuilder speed(int spd);
+	//MonsterBuilder speed(int spd);
+	
 	
 	/**
 	 * Build monster's species

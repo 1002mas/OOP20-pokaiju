@@ -42,14 +42,14 @@ public class TestMonster {
 		this.secondEvolution = new MonsterSpeciesImpl("Pippo3", "Info3", MonsterType.FIRE);
 		this.firstEvolution = new MonsterSpeciesImpl("Pippo2", "Info2", MonsterType.FIRE, secondEvolution, SECOND_EVOLUTION_LEVEL);
 		this.species = new MonsterSpeciesImpl("Pippo", "Info", MonsterType.FIRE, firstEvolution, FIRST_EVOLUTION_LEVEL);
-		this.monster = new MonsterBuilderImpl().health(50).exp(0).level(1).isWild(false).species(species).movesList(listOfMoves).build();
+		this.monster = new MonsterBuilderImpl().health(50).exp(0).level(1).isWild(false).species(species).movesList(listOfMoves)/*.attack(5).defense(5).speed(5)*/.build();
 		//Item test initialization
 		this.holdedItemWrong = new Item("PietraPippo", 1, 5, "desc", ItemTypes.EVOLUTIONTOOL);
 		this.holdedItemRight = new Item("PietraPaperino", 1, 5, "desc", ItemTypes.EVOLUTIONTOOL);
 		this.neededItem = new Item("PietraPaperino", 1, 5, "desc", ItemTypes.EVOLUTIONTOOL);
 		this.firstEvolutionByItem = new MonsterSpeciesImpl("Paperino2", "Info2", MonsterType.WATER);
 		this.speciesByItem = new MonsterSpeciesImpl("Paperino", "Info", MonsterType.WATER, firstEvolutionByItem, neededItem);
-		this.monsterByItem = new MonsterBuilderImpl().health(50).exp(0).level(1).isWild(false).species(speciesByItem).movesList(listOfMoves).build();
+		this.monsterByItem = new MonsterBuilderImpl().health(50).exp(0).level(1).isWild(false).species(speciesByItem).movesList(listOfMoves)/*.attack(5).defense(5).speed(5)*/.build();
 	}
 
 	@org.junit.Test

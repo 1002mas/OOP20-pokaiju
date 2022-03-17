@@ -70,24 +70,6 @@ public interface Monster {
 	int getExpCap();
 	
 	/**
-	 * This function returns the attack of the monster
-	 * @return attack stat
-	 */
-	public int getAttack();
-	
-	/**
-	 * This function returns the defense of the monster
-	 * @return defense stat
-	 */
-	public int getDefense();
-	
-	/**
-	 * This function returns the speed of the monster
-	 * @return speed stat
-	 */
-	public int getSpeed();
-	
-	/**
 	 * This function returns if the monster is wild
 	 * @return if the monster is wild
 	 */
@@ -119,16 +101,12 @@ public interface Monster {
 	MonsterType getType();
 	
 	/**
-	 * This function returns if the monster is evolving by level
-	 * @return if monster evolves by level
-	 */
-	boolean evolveByLevel();
-	
-	/**
 	 * This function returns if the monster is evolving by item
 	 * @param item 
 	 * @return if monster evolves by item
 	 */
 	boolean evolveByItem(Item item);
+	
+	MonsterSpeciesImpl getSpecies();
 	
 }

@@ -60,18 +60,22 @@ public class MonsterSpeciesImpl implements MonsterSpecies{
 		this(name, info, type, Optional.of(evolution), EvolutionType.ITEM, 0, evolutionItem);
 	}
 
+	@Override
 	public String getName() {
 		return this.name;
 	}
 	
+	@Override
 	public String getInfo() {
 		return this.info;
 	}
 	
+	@Override
 	public MonsterType getType() {
 		return this.type;
 	}
 	
+	@Override
 	public int getEvolutionLevel() {
 		if(EvolutionType.LEVEL != this.evolutionType) {
 			throw new IllegalStateException();
@@ -79,18 +83,22 @@ public class MonsterSpeciesImpl implements MonsterSpecies{
 		return this.evolutionLevel;
 	}
 	
+	@Override
 	public EvolutionType getEvolutionType() {
 		return this.evolutionType;
 	}
 	
+	@Override
 	public Optional<MonsterSpeciesImpl> getEvolution(){
 		return this.evolution;
 	}
 	
+	@Override
 	public Item getItem() {
 		return this.evolutionItem;
 	}
 	
+	@Override
 	public String toString() {
 		return "Name: " + this.name.toUpperCase() + "\nType: " + this.type + "\nInfo: " + this.info;
 	}
