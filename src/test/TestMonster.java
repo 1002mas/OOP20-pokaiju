@@ -48,7 +48,7 @@ public class TestMonster {
 		SECOND_EVOLUTION_LEVEL);
 	this.species = new MonsterSpeciesImpl("Pippo", "Info", MonsterType.FIRE, firstEvolution, FIRST_EVOLUTION_LEVEL);
 	this.monster = new MonsterBuilderImpl().health(50).exp(0).level(1).isWild(false).species(species)
-		.movesList(listOfMoves).build();
+		.movesList(listOfMoves)/* .attack(5).defense(5).speed(5) */.build();
 	// Item test initialization
 	this.holdedItemWrong = new EvolutionItem("PietraPippo", 1, "desc", GameItemTypes.EVOLUTIONTOOL);
 	this.holdedItemRight = new EvolutionItem("PietraPaperino", 1, "desc", GameItemTypes.EVOLUTIONTOOL);
@@ -57,7 +57,7 @@ public class TestMonster {
 	this.speciesByItem = new MonsterSpeciesImpl("Paperino", "Info", MonsterType.WATER, firstEvolutionByItem,
 		neededItem);
 	this.monsterByItem = new MonsterBuilderImpl().health(50).exp(0).level(1).isWild(false).species(speciesByItem)
-		.movesList(listOfMoves).build();
+		.movesList(listOfMoves)/* .attack(5).defense(5).speed(5) */.build();
     }
 
     @org.junit.Test
