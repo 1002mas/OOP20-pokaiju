@@ -99,21 +99,18 @@ public interface Monster {
 	 */
 	boolean isAlive();
 	
-
 	/**
 	 * This function returns a move from a list of moves
 	 * @param index of the moves
 	 * @return a move
 	 */
-	Moves getAttack(int index);
+	Moves getMoves(int index);
 	
 	/**
 	 * This function returns the numbers of moves owned by the monster
 	 * @return
 	 */
-	int getNumberOfAttacks();
-
-	
+	int getNumberOfMoves();
 	
 	/**
 	 * This function returns the type of the monster

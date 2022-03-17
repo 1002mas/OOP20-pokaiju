@@ -41,7 +41,7 @@ public interface MonsterBuilder {
 	 * @param a list of moves
 	 * @return a MonsterBuilder
 	 */
-	MonsterBuilder attackList(List<Moves> attackList);
+	MonsterBuilder movesList(List<Moves> movesList);
 	
 	/**
 	 * Build monster's attack stat

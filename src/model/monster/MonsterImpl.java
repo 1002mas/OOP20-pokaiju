@@ -1,13 +1,9 @@
 package model.monster;
-
-
 import java.util.ArrayList;
 import java.util.List;
-
 import model.item.Item;
-
+import model.item.ItemTypes;
 import model.battle.Moves;
-
 
 public class MonsterImpl implements Monster {
 
@@ -23,16 +19,16 @@ public class MonsterImpl implements Monster {
 	private boolean isWild;
 	private int maxHealth;
 	private MonsterSpeciesImpl species;
-	private List<Moves> attackList;
+	private List<Moves> movesList;
 
 	public MonsterImpl(int health, int exp, int level, boolean isWild, MonsterSpeciesImpl species,
-			List<Moves> attackList, int attack, int defense, int speed) {
+			List<Moves> movesList, int attack, int defense, int speed) {
 		this.health = health;
 		this.exp = exp;
 		this.level = level;
 		this.isWild = isWild;
 		this.species = species;
-		this.attackList = new ArrayList<>(attackList);
+		this.movesList = new ArrayList<>(movesList);
 		this.attack = attack;
 		this.defense = defense;
 		this.speed = speed;
@@ -112,16 +108,15 @@ public class MonsterImpl implements Monster {
 		return this.health <= 0;
 	}
 
-
-	public Moves getAttack(int index) {
-		if (index <= 0 || index > getNumberOfAttacks()) {
+	public Moves getMoves(int index) {
+		if (index <= 0 || index > getNumberOfMoves()) {
 			throw new IllegalArgumentException();
 		}
-		return this.attackList.get(index);
+		return this.movesList.get(index);
 	}
 
-	public int getNumberOfAttacks() {
-		return this.attackList.size();
+	public int getNumberOfMoves() {
+		return this.movesList.size();
 	}
 
 	public MonsterType getType() {
@@ -139,7 +134,7 @@ public class MonsterImpl implements Monster {
 
 	public boolean evolveByItem(Item item) {
 		if (species.getEvolution().isPresent() && this.species.getEvolutionType() == EvolutionType.ITEM
-				&& item == species.getItem()) {
+				&& item.equals(species.getItem()) && item.getType() == ItemTypes.EVOLUTIONTOOL) {
 			species = species.getEvolution().get();
 			return true;
 		}
@@ -148,7 +143,7 @@ public class MonsterImpl implements Monster {
 
 	public String toString() {
 		return this.species.toString() + "\nHealth: " + this.health + "\nLevel: " + this.level + "\nExp: " + this.exp + "\nAtk: "
-				+ this.attack + "\nDfs: " + this.defense + "\nSpd: " + this.speed + "\nMoves:" + this.attackList.toString() +"\nIsWild: " + this.isWild + "\n";
+				+ this.attack + "\nDfs: " + this.defense + "\nSpd: " + this.speed + "\nMoves:" + this.movesList.toString() +"\nIsWild: " + this.isWild + "\n";
 
 	}
 

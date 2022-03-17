@@ -10,7 +10,7 @@ public class MonsterBuilderImpl implements MonsterBuilder {
 	private static final int EXP_CAP = 1000;
 	private int health;
 	private int exp;
-	private List<Moves> attackList;
+	private List<Moves> movesList;
 	private boolean isWild;
 	private int level;
 	private MonsterSpeciesImpl species;
@@ -55,8 +55,8 @@ public class MonsterBuilderImpl implements MonsterBuilder {
 		return this;
 	}
 	
-	public MonsterBuilder attackList(List<Moves> attackList) {
-		this.attackList = new ArrayList<>(attackList);
+	public MonsterBuilder movesList(List<Moves> movesList) {
+		this.movesList = new ArrayList<>(movesList);
 		return this;
 	}
 	
@@ -76,7 +76,7 @@ public class MonsterBuilderImpl implements MonsterBuilder {
 	}
 
 	public Monster build() {
-		return new MonsterImpl(this.health, this.exp, this.level, this.isWild, this.species, this.attackList, this.attack, this.defense, this.speed);
+		return new MonsterImpl(this.health, this.exp, this.level, this.isWild, this.species, this.movesList, this.attack, this.defense, this.speed);
 	}
 
 }
