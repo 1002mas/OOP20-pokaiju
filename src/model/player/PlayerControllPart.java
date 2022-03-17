@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.text.ParseException;
 
 
+import model.GameItem.GameItems;
 import model.monster.Monster;
 
 public class PlayerControllPart {
@@ -72,9 +73,9 @@ public class PlayerControllPart {
 	    listMonster.add(jo);
 
 	}
-	for (Item i : p.allItems()) {
+	for (GameItems i : p.allItems()) {
 	    JSONObject jo = new JSONObject();
-	    jo.put(i.getName(), i);
+	    jo.put(i.getNameItem(), i);
 	    listItem.add(jo);
 	}
 
