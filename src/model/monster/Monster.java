@@ -2,7 +2,7 @@ package model.monster;
 
 
 
-import model.item.Item;
+import model.GameItem.*;
 
 import model.battle.Moves;
 
@@ -129,6 +129,6 @@ public interface Monster {
 	 * @param item 
 	 * @return if monster evolves by item
 	 */
-	boolean evolveByItem(Item item);
+	boolean evolveByItem(GameItems item);
 	
 }

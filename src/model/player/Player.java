@@ -2,12 +2,11 @@ package model.player;
 
 import java.util.ArrayList;
 
-<<<<<<< HEAD
 import model.Pair;
-import model.item.Item;
-=======
+import model.GameItem.*;
+
 import model.GameItem.GameItems;
->>>>>>> Player3.0
+
 import model.monster.Monster;
 
 public interface Player {
@@ -40,7 +39,7 @@ public interface Player {
      * use Item
      */
     void useItem(GameItems i, Monster m);
-    
+
     /**
      * buy Item
      */
@@ -50,7 +49,7 @@ public interface Player {
      * catch Monster
      */
     void addMonster(Monster m);
-    
+
     /**
      * get Player's name
      */
@@ -60,17 +59,15 @@ public interface Player {
      * get TrainerNumber
      */
     int getTrainerNumber();
-    
+
     /**
      * get Player's gender
      */
     Gender getGender();
-    
+
     /**
      * get Player's Money
      */
     int getMoney();
-
-   
 
 }

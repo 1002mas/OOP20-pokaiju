@@ -16,10 +16,14 @@ public class HealingItem extends AbstractGameItem {
 
     @Override
     public boolean use(Monster m) {
-	if (m.getHealth() == 100) {// da modificare
+	if (m.getHealth() == m.getMaxHealth()) {
 	    return false;
 	}
-	m.setHealth(healedHp + m.getHealth());
+	if (healedHp + m.getHealth() >= m.getMaxHealth()) {
+	    m.setHealth(m.getMaxHealth());
+	} else {
+	    m.setHealth(healedHp + m.getHealth());
+	}
 	return true;
     }
 

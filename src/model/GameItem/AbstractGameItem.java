@@ -1,9 +1,5 @@
-<<<<<<< HEAD:src/model/item/Item.java
-package model.item;
-=======
 package model.GameItem;
 
->>>>>>> Player3.0:src/model/GameItem/AbstractGameItem.java
 import java.util.Objects;
 
 import model.monster.Monster;

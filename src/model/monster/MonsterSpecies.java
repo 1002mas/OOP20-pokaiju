@@ -1,6 +1,6 @@
 package model.monster;
 import java.util.Optional;
-import model.item.Item;
+import model.GameItem.*;
 
 public interface MonsterSpecies{
 	
@@ -44,6 +44,6 @@ public interface MonsterSpecies{
 	 * This function returns the item needed for the evolution
 	 * @return item needed for evolution
 	 */
-	Item getItem();
+	GameItems getItem();
 	
 }

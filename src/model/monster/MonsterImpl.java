@@ -1,8 +1,7 @@
 package model.monster;
 import java.util.ArrayList;
 import java.util.List;
-import model.item.Item;
-import model.item.ItemTypes;
+import model.GameItem.*;
 import model.battle.Moves;
 
 public class MonsterImpl implements Monster {
@@ -132,9 +131,9 @@ public class MonsterImpl implements Monster {
 		return false;
 	}
 
-	public boolean evolveByItem(Item item) {
+	public boolean evolveByItem(GameItems item) {
 		if (species.getEvolution().isPresent() && this.species.getEvolutionType() == EvolutionType.ITEM
-				&& item.equals(species.getItem()) && item.getType() == ItemTypes.EVOLUTIONTOOL) {
+				&& item.equals(species.getItem()) && item.getType() == GameItemTypes.EVOLUTIONTOOL) {
 			species = species.getEvolution().get();
 			return true;
 		}

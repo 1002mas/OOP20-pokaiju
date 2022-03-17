@@ -3,20 +3,18 @@ package model.player;
 import java.util.ArrayList;
 import java.util.Collections;
 
-<<<<<<< HEAD
 import model.Pair;
-import model.item.Item;
+import model.GameItem.*;
 import model.monster.Monster;
-=======
-import org.json.simple.JSONArray;
+/*import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.*;
+import org.json.simple.parser.*;*/
 
 import model.GameItem.AbstractGameItem;
 import model.GameItem.GameItems;
 import model.GameItem.HealingItem;
 import model.monster.*;
->>>>>>> Player3.0
+
 
 public class PlayerImpl implements Player {
     private String name;

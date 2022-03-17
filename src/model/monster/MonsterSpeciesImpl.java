@@ -1,7 +1,8 @@
 package model.monster;
 import java.util.Optional;
 
-import model.item.Item;
+import model.GameItem.GameItems;
+import model.GameItem.*;
 
 //a single instance of this class represents a monster species  
 
@@ -13,10 +14,10 @@ public class MonsterSpeciesImpl implements MonsterSpecies{
 	private final MonsterType type;
 	private int evolutionLevel;
 	private final EvolutionType evolutionType;
-	private Item evolutionItem;
+	private GameItems evolutionItem;
 	
 	private MonsterSpeciesImpl(String name, String info, MonsterType type, Optional<MonsterSpeciesImpl> evolution, 
-			EvolutionType evolutionType, int level, Item evolutionItem) {
+			EvolutionType evolutionType, int level, GameItems evolutionItem) {
 		this.name = name;
 		this.info = info;
 		this.type = type;
@@ -56,7 +57,7 @@ public class MonsterSpeciesImpl implements MonsterSpecies{
 	 * @param evolution
 	 * @param evolutionItem
 	 */
-	public MonsterSpeciesImpl(String name, String info, MonsterType type, MonsterSpeciesImpl evolution, Item evolutionItem) {
+	public MonsterSpeciesImpl(String name, String info, MonsterType type, MonsterSpeciesImpl evolution, GameItems evolutionItem) {
 		this(name, info, type, Optional.of(evolution), EvolutionType.ITEM, 0, evolutionItem);
 	}
 
@@ -87,7 +88,7 @@ public class MonsterSpeciesImpl implements MonsterSpecies{
 		return this.evolution;
 	}
 	
-	public Item getItem() {
+	public GameItems getItem() {
 		return this.evolutionItem;
 	}
 	
