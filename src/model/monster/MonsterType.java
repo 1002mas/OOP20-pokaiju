@@ -1,5 +1,8 @@
 package model.monster;
 
 public enum MonsterType {
-    FIRE, WATER, GRASS
+	FIRE, 
+	WATER,
+	GRASS,
+	NONE
 }

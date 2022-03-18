@@ -2,8 +2,10 @@ package model.battle;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import model.monster.Monster;
+import model.monster.MonsterType;
 import model.npc.NpcImpl;
 import model.player.PlayerImpl;
 
@@ -13,34 +15,36 @@ public class MonsterBattleImpl implements MonsterBattle {
 	private final static int ESCAPE_DIFFICULT = 5;
 	private final static int CAPTURE_RANGE = 10;
 	private final static int CAPTURE_DIFFICULT = 3;
-	private final static int NUMBER_OF_ATTACKS = 4;
-	private final static int MONEY_ADD = 70;
+	private final static int MONEY_WON = 70;
 	private final static int MONEY_LOST = 50;
 
-	private boolean battleStatus; //
-	private boolean isTeamDeath;
+	private boolean battleStatus; //true if the battle enemy/player team is defeat, false otherwise
+	private boolean areEndPP;
 	private Monster playerCurrentMonster;
 	private Monster enemy;
 	private List<Monster> playerTeam;
 	private List<Monster> enemyTeam;
 	private PlayerImpl trainer;
-	private NpcImpl enemyTrainer;
-	private int enemyMonsterCounter;
+	private Optional<NpcImpl> enemyTrainer;
+	private Moves extraMoves;
+	
 
 	private MonsterBattleImpl(PlayerImpl trainer, List<Monster> enemyTeam) {
 		this.trainer = trainer;
 		this.battleStatus = true;
-		this.isTeamDeath = true;
+		this.enemyTrainer=null;
 		this.playerTeam = trainer.allMonster();
 		this.playerCurrentMonster = playerTeam.get(0);
 		this.enemyTeam = new ArrayList<>(enemyTeam);
 		this.enemy = enemyTeam.get(0);
+		this.extraMoves= new MovesImpl("Testata", 30, MonsterType.NONE, 999);
+		this.areEndPP=true;
 	}
 
 	public MonsterBattleImpl(PlayerImpl trainer, NpcImpl enemyTrainer) {
-		this(trainer, enemyTrainer.getMonstersOwned());
-		this.enemyTrainer = enemyTrainer;
-		this.enemyMonsterCounter = 1;
+		this(trainer, enemyTrainer.allMonster());
+		this.enemyTrainer = Optional.of(enemyTrainer);
+		
 
 	}
 
@@ -50,18 +54,17 @@ public class MonsterBattleImpl implements MonsterBattle {
 
 	@Override
 	public Moves enemyAttack() {
-		int x = (int) (Math.random() * NUMBER_OF_ATTACKS);
-		while (!enemy.getAttack(x).checkPP()) {
-			x = (x + 1) % NUMBER_OF_ATTACKS;
+		int x = (int) (Math.random() * this.enemy.getNumberOfMoves());
+		while (!enemy.getMoves(x).checkPP()) {
+			x = (x + 1) % this.enemy.getNumberOfMoves();
 		}
 		;
-		// TODO sostituire number of attacks con enemy.getNumberOfAttacks
-		return enemy.getAttack(x);
+		return enemy.getMoves(x);
 	}
 
 	@Override
 	public boolean capture() {
-
+		throwExceptionIfItIsOver();
 		if (!enemy.getWild()) {
 			return false;
 		}
@@ -79,17 +82,10 @@ public class MonsterBattleImpl implements MonsterBattle {
 
 	}
 
-	@Override
-	public void debug_print() {
-		// TODO Auto-generated method stub
-		System.out.println("------------------------");
-		System.out.println(playerCurrentMonster.getName() + "->" + playerCurrentMonster.getHealth());
-		System.out.println(enemy.getName() + "->" + enemy.getHealth());
-		System.out.println("------------------------");
-	}
 
 	@Override
 	public boolean escape() {
+		throwExceptionIfItIsOver();
 		if (!enemy.getWild()) {
 			// System.out.println("Non puoi scappare");
 			return false;
@@ -105,27 +101,10 @@ public class MonsterBattleImpl implements MonsterBattle {
 
 	}
 
-	@Override
-	public void end() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void lostMoney() {
-
-		trainer.setMoney(trainer.getMoney() - MONEY_LOST);
-	}
-
-	@Override
-	public void winMoney() {
-
-		trainer.setMoney(trainer.getMoney() + MONEY_ADD);
-	}
 
 	@Override
 	public boolean playerChangeMonster(int index) {
-		// TODO Auto-generated method stub
+		throwExceptionIfItIsOver();
 		if (playerTeam.get(index) == playerCurrentMonster) {
 			System.out.println("Il mostro è già in campo");
 			return false;
@@ -141,29 +120,22 @@ public class MonsterBattleImpl implements MonsterBattle {
 	}
 
 	@Override
-	public boolean enemyChangeMonster(int index) {
-		if (enemyTeam.get(index) == enemy) {
-			System.out.println("Il mostro è già in campo");
-			return false;
-		}
-		if (enemyTeam.get(index).isAlive()) {
-			enemy = enemyTeam.get(index);
-			System.out.println("Cambio");
-			return true;
-		} else {
-			System.out.println("Il mostro selezionato è morto");
-			return false;
-		}
-	}
-
-	@Override
 	public boolean movesSelection(int moveIndex) {
-		if (this.playerCurrentMonster.getAttack(moveIndex).checkPP() && this.battleStatus
-				&& this.playerCurrentMonster.isAlive()) {
-			this.playerCurrentMonster.getAttack(moveIndex).decPP();
-			this.turn(this.playerCurrentMonster.getAttack(moveIndex));
+		for(int c = 0; c < this.playerCurrentMonster.getNumberOfMoves(); c++) {
+			if(this.playerCurrentMonster.getMoves(c).checkPP()){
+				this.areEndPP=false;
+			}
+		}
+		if(this.areEndPP) {
+			this.turn(extraMoves);
 			return true;
 		}
+		if (this.playerCurrentMonster.getMoves(moveIndex).checkPP() && this.battleStatus && this.playerCurrentMonster.isAlive()) {
+			this.playerCurrentMonster.getMoves(moveIndex).decPP();
+			this.turn(this.playerCurrentMonster.getMoves(moveIndex));
+			return true;
+		}
+		throwExceptionIfItIsOver();
 		// System.out.println(playerCurrentMonster.getName() + " è troppo stanco per
 		// usare questa mossa");
 		return false;
@@ -181,7 +153,7 @@ public class MonsterBattleImpl implements MonsterBattle {
 			this.enemyTurn();
 			if (allPlayerMonsterDeafeted()) { // player's team defeated
 				this.battleStatus = false;
-				lostMoney();
+				this.trainer.setMoney(trainer.getMoney() - MONEY_LOST);
 			}
 		} else {
 
@@ -189,14 +161,16 @@ public class MonsterBattleImpl implements MonsterBattle {
 			// System.out.println(enemy.getName() + " è morto "); //enemy's team defeated
 			if (!areThereEnemies()) {
 				// ending battle
-				winMoney();
+				trainer.setMoney(trainer.getMoney() + MONEY_WON);
+				if(this.enemyTrainer.isPresent()) {
+					enemyTrainer.get().isDefeated();
+				}
 				this.battleStatus = false;
 			} else {
-				this.enemy = enemyTeam.stream().filter(m -> m.isAlive()).findAny().get();
+				this.enemy = enemyTeam.stream().filter(m -> m.isAlive()).findAny().get(); //change enemy's monster
 			}
 
 		}
-		this.debug_print();
 
 	}
 
@@ -222,5 +196,17 @@ public class MonsterBattleImpl implements MonsterBattle {
 	private boolean allPlayerMonsterDeafeted() {
 		return this.playerTeam.stream().filter(m -> m.isAlive()).count() == 0;
 
+	}
+
+	@Override
+	public boolean isOver() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
+	private void throwExceptionIfItIsOver() {
+		if(!this.battleStatus) {
+			throw new IllegalStateException();
+		}
 	}
 }
