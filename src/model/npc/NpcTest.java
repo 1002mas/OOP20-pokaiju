@@ -10,15 +10,16 @@ import org.junit.Test;
 
 public class NpcTest {
 	
+	
 	@Test
 	public void test1() {
-/*		ArrayList<Monster> k = new ArrayList<Monster>();
+		ArrayList<Monster> k = new ArrayList<Monster>();
 		ArrayList<String> s = new ArrayList<String>();
-		NpcSimple n1 = new NpcImpl("mario",k,s,false);
-		assertTrue("Should be 'false' ",!n1.isTrainer());
-		System.out.println(n1.getName());
+		//NpcSimpleImpl n0 = new NpcSimpleImpl("",null,null);
+		NpcSimple n1 = new NpcSimpleImpl("mario",TypeOfNpc.SIMPLE, s);
+		System.out.println(n1.getTypeOfNpc());
 		assertTrue("Should be 'mario' ",n1.getName().equals("mario"));
-		assertTrue("Shoul be 'false'",!n1.isDefeated());
+/*		assertTrue("Shoul be 'false'",!n1.isDefeated());
 		
 		
 		System.out.println("--------------------------");

@@ -9,13 +9,13 @@ public class NpcMerchantImpl extends NpcSimpleImpl implements NpcMerchant{
 	HashMap<Object,Integer> inventary;
 	
 	
-	public NpcMerchantImpl(String name, String typeOfNpc, ArrayList<String> prhases, HashMap<Object,Integer> inventary) {
-		super(name, typeOfNpc, prhases);
+	public NpcMerchantImpl(String name, TypeOfNpc typeOfNpc, ArrayList<String> sentences, HashMap<Object,Integer> inventary) {
+		super(name, typeOfNpc, sentences);
 		this.inventary = inventary;
 	}
 
 	public Optional<String> interactWith() {
-		Optional<String> result = Optional.of("---");
+		Optional<String> result = Optional.of(this.sentences.get(0));   //-----FIX SONO COLGIONE IO 
 		return result;
 	}
 	

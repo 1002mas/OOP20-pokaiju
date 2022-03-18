@@ -7,5 +7,4 @@ public interface NpcTrainer extends NpcSimple{
 	ArrayList<Monster> getMonstersOwned();
 	public boolean isDefeated();
 	public void setDefeated();	
-	public void devolveToSimple();
 }

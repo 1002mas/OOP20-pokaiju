@@ -10,8 +10,8 @@ public class NpcTrainerImpl extends NpcSimpleImpl implements NpcTrainer{
 	ArrayList<Monster> monstersOwned;
 	boolean isDefated = false;
 	
-	public NpcTrainerImpl(String name, String typeOfNpc, ArrayList<String> prhases, ArrayList<Monster> monstersOwned) {
-		super(name, typeOfNpc, prhases);
+	public NpcTrainerImpl(String name, TypeOfNpc typeOfNpc, ArrayList<String> sentences, ArrayList<Monster> monstersOwned) {
+		super(name, typeOfNpc, sentences);
 		this.monstersOwned = monstersOwned;
 	}
 
@@ -29,26 +29,21 @@ public class NpcTrainerImpl extends NpcSimpleImpl implements NpcTrainer{
 	public void setDefeated() {
 		this.isDefated = true;
 	}
-
-	@Override
-	public void devolveToSimple() {
-		this.typeOfNpc = "SimpleNpc";
-	}
 	
-	int battle() {	//----- DA IMPLEMENTARE -----
+	int battle() {										//----- DA IMPLEMENTARE -----
 		return 0;
 	}
 	
 	public Optional<String> interactWith() {
-		if(!this.isDefated) {
+		if(!this.isDefated){
 			int battleResult = battle();
-			if(battleResult == 1) {			//----- FIXARE battleResult -----
-				setDefeated();
+			if(battleResult == 1) {					//----- FIXARE battleResult -----, Restituisce a prescidere cose
+				setDefeated();	
 			}
-			return Optional.empty();
+			return Optional.of("Bel combattimento");
 		}
 		else {
-			Optional<String> result = Optional.of("---");
+			Optional<String> result = Optional.of(this.sentences.get(0));
 			return result;
 		}
 	}

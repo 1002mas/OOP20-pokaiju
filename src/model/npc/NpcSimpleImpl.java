@@ -3,34 +3,34 @@ package model.npc;
 import java.util.ArrayList;
 import java.util.Optional;
 
-abstract class NpcSimpleImpl implements NpcSimple {
+public class NpcSimpleImpl implements NpcSimple {
 
 	String name;
-	String typeOfNpc;
-	ArrayList<String> prhases;
+	TypeOfNpc typeOfNpc;
+	ArrayList<String> sentences;
 	
-	public NpcSimpleImpl(String name,String typeOfNpc,ArrayList<String> prhases) {
+	public NpcSimpleImpl(String name,TypeOfNpc typeOfNpc,ArrayList<String> sentences) {
 	
 		this.name = name;
 		this.typeOfNpc = typeOfNpc;
-		this.prhases = prhases;
+		this.sentences = sentences;
 	}
 	
 	
 	public Optional<String> interactWith() {
-		Optional<String> result = Optional.of("---");
+		Optional<String> result = Optional.of(sentences.get(0));
 		return result;
 	}
 
 	@Override
-	public String getTypeOfNpc() {
+	public TypeOfNpc getTypeOfNpc() {
 		return this.typeOfNpc;
 	}
 
+	
 	@Override
 	public String getName() {
 		return this.name;
 	}
-
 	
 }
