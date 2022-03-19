@@ -151,6 +151,10 @@ public class MonsterImpl implements Monster {
     public MonsterSpeciesImpl getSpecies() {
 	return this.species;
     }
+    
+    public MonsterStatsImpl getStats() {
+    	return this.stats;
+        }
 
     @Override
     public String toString() {

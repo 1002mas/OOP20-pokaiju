@@ -10,9 +10,9 @@ public interface MonsterStats {
 
 	void setAttack(int attack);
 	
-	int getDef();
+	int getDefense();
 
-	void setDef(int def);
+	void setDefense(int def);
 	
 	int getSpeed();
 

@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import model.GameItem.GameItems;
 import model.monster.Monster;
+import model.monster.MonsterStats;
 import model.monster.MonsterType;
 import model.npc.NpcImpl;
 import model.player.PlayerImpl;
@@ -142,43 +144,72 @@ public class MonsterBattleImpl implements MonsterBattle {
 	}
 
 	private void turn(Moves monsterMove) {
-
-		enemy.setHealth(enemy.getHealth() - monsterMove.getDamage(enemy.getType()));
-		// System.out.println(playerCurrentMonster.getName() + " usa " + att.getName() +
-		// " infliggendo "
-		// + att.getDamage(enemy.getType()) + " danni");
-
-		if (enemy.isAlive()) {
-
-			this.enemyTurn();
+		MonsterStats playerStats = this.playerCurrentMonster.getStats();
+		MonsterStats enemyStats = this.enemy.getStats();
+		int damage = monsterMove.getDamage(enemy.getType())+playerStats.getAttack()-enemyStats.getDefense();
+		
+		if(playerStats.getSpeed() < enemyStats.getSpeed()) {
+			this.enemyTurn(playerStats, enemyStats);
 			if (allPlayerMonsterDeafeted()) { // player's team defeated
 				this.battleStatus = false;
 				this.trainer.setMoney(trainer.getMoney() - MONEY_LOST);
 			}
-		} else {
+			else {
+				enemy.setHealth(enemy.getHealth() - damage);
+				if (!enemy.isAlive()) {
 
-			playerCurrentMonster.incExp(enemy.getLevel() * EXP_MULTIPLER);
-			// System.out.println(enemy.getName() + " è morto "); //enemy's team defeated
-			if (!areThereEnemies()) {
-				// ending battle
-				trainer.setMoney(trainer.getMoney() + MONEY_WON);
-				if(this.enemyTrainer.isPresent()) {
-					enemyTrainer.get().isDefeated();
-				}
-				this.battleStatus = false;
-			} else {
-				this.enemy = enemyTeam.stream().filter(m -> m.isAlive()).findAny().get(); //change enemy's monster
+					playerCurrentMonster.incExp(enemy.getLevel() * EXP_MULTIPLER);
+					// System.out.println(enemy.getName() + " è morto "); //enemy's team defeated
+					if (!areThereEnemies()) {
+						// ending battle
+						trainer.setMoney(trainer.getMoney() + MONEY_WON);
+						if(this.enemyTrainer.isPresent()) {
+							enemyTrainer.get().isDefeated();
+						}
+						this.battleStatus = false;
+					} else {
+						this.enemy = enemyTeam.stream().filter(m -> m.isAlive()).findAny().get(); //change enemy's monster
+					}
+				} 
 			}
+			
+		}else {
+			enemy.setHealth(enemy.getHealth() - damage);
+			// System.out.println(playerCurrentMonster.getName() + " usa " + att.getName() +
+			// " infliggendo "
+			// + att.getDamage(enemy.getType()) + " danni");
 
+			if (enemy.isAlive()) {
+
+				this.enemyTurn(playerStats, enemyStats);
+				if (allPlayerMonsterDeafeted()) { // player's team defeated
+					this.battleStatus = false;
+					this.trainer.setMoney(trainer.getMoney() - MONEY_LOST);
+				}
+			} else {
+
+				playerCurrentMonster.incExp(enemy.getLevel() * EXP_MULTIPLER);
+				// System.out.println(enemy.getName() + " è morto "); //enemy's team defeated
+				if (!areThereEnemies()) {
+					// ending battle
+					trainer.setMoney(trainer.getMoney() + MONEY_WON);
+					if(this.enemyTrainer.isPresent()) {
+						enemyTrainer.get().isDefeated();
+					}
+					this.battleStatus = false;
+				} else {
+					this.enemy = enemyTeam.stream().filter(m -> m.isAlive()).findAny().get(); //change enemy's monster
+				}
+
+			}
 		}
-
 	}
 
-	private void enemyTurn() {
-		var att = this.enemyAttack();
+	private void enemyTurn(MonsterStats playerStats, MonsterStats enemyStats) {
+		Moves att = this.enemyAttack();
+		int damage = att.getDamage(playerCurrentMonster.getType())+enemyStats.getAttack()-playerStats.getDefense();
 		att.decPP();
-		playerCurrentMonster
-				.setHealth(playerCurrentMonster.getHealth() - att.getDamage(playerCurrentMonster.getType()));
+		playerCurrentMonster.setHealth(playerCurrentMonster.getHealth() - damage);
 		System.out.println(enemy.getName() + " usa " + att.getName() + " infliggendo "
 				+ att.getDamage(playerCurrentMonster.getType()) + " danni");
 	}
@@ -208,5 +239,10 @@ public class MonsterBattleImpl implements MonsterBattle {
 		if(!this.battleStatus) {
 			throw new IllegalStateException();
 		}
+	}
+
+	@Override
+	public boolean useItem(GameItems item) {
+		return item.use(playerCurrentMonster);
 	}
 }

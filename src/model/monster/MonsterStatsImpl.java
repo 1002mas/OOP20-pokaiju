@@ -4,13 +4,13 @@ public class MonsterStatsImpl implements MonsterStats{
 	
 	private int health;
 	private int attack;
-	private int def;
+	private int defense;
 	private int speed;
 	
-	public MonsterStatsImpl(int health, int attack, int def, int speed) {
+	public MonsterStatsImpl(int health, int attack, int defense, int speed) {
 		this.health = health;
 		this.attack = attack;
-		this.def = def;
+		this.defense = defense;
 		this.speed = speed;
 	}
 
@@ -29,13 +29,13 @@ public class MonsterStatsImpl implements MonsterStats{
 	public void setAttack(int attack) {
 		this.attack = attack;
 	}
-
-	public int getDef() {
-		return def;
+	
+	public int getDefense() {
+		return defense;
 	}
 
-	public void setDef(int def) {
-		this.def = def;
+	public void setDefense(int def) {
+		this.defense = def;
 	}
 
 	public int getSpeed() {

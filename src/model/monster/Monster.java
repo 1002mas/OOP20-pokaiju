@@ -121,5 +121,7 @@ public interface Monster {
     boolean evolveByItem(GameItems item);
 
     MonsterSpeciesImpl getSpecies();
+    
+    MonsterStatsImpl getStats();
 
 }

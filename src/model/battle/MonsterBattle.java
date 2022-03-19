@@ -1,4 +1,7 @@
 package model.battle;
+
+import model.GameItem.GameItems;
+
 public interface MonsterBattle {
 	
 	Moves enemyAttack();
@@ -16,5 +19,7 @@ public interface MonsterBattle {
 	boolean movesSelection(int moveIndex);
 	
 	boolean isCurrentMonsterAlive();
+	
+	boolean useItem(GameItems item);
 	
 }
