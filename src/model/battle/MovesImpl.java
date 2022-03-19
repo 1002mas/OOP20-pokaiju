@@ -5,17 +5,13 @@ import java.util.*;
 import model.monster.MonsterType;
 
 public class MovesImpl implements Moves {
-	private String name;
-	private int base;
-	private MonsterType type;
+	
+	private MovesDataImpl movesData;
 	private int pp;
 	Map<MonsterType, Map<MonsterType, Double>> buff = new HashMap<>();
 
 	public MovesImpl(String name, int base, MonsterType type, int pp) {
-
-		this.name = name;
-		this.base = base;
-		this.type = type;
+		this.movesData = new MovesDataImpl(name, base, type, pp);
 		this.pp = pp;
 		Map<MonsterType, Double> temp = new HashMap<>();
 		temp.put(MonsterType.WATER, 0.50);
@@ -47,13 +43,13 @@ public class MovesImpl implements Moves {
 	@Override
 	public String getName() {
 		// TODO Auto-generated method stub
-		return this.name;
+		return this.movesData.getName();
 	}
 
 	@Override
 	public int getDamage(MonsterType enemytype) {
 		// TODO Auto-generated method stub
-		return (int) (this.base * buff.get(this.type).get(enemytype));
+		return (int) (this.movesData.getBase() * buff.get(this.movesData.getType()).get(enemytype));
 	}
 
 	@Override
@@ -64,7 +60,7 @@ public class MovesImpl implements Moves {
 
 	@Override
 	public String toString() {
-		return "MovesImpl [name=" + name + ", base=" + base + ", type=" + type + "]";
+		return "MovesImpl [name=" + this.movesData.getName() + ", base=" + this.movesData.getBase() + ", type=" + this.movesData.getType() + "]";
 	}
 
 }

@@ -16,17 +16,19 @@ public class MonsterImpl implements Monster {
     private static final int EXP_CAP = 1000;
     private static final int MAX_LVL = 100;
 
-    private int health;
+    
     private int exp;
     private int level;
     private boolean isWild;
     private int maxHealth;
     private MonsterSpeciesImpl species;
     private List<Moves> movesList;
+    private MonsterStatsImpl stats;
 
-    public MonsterImpl(int health, int exp, int level, boolean isWild, MonsterSpeciesImpl species,
+    public MonsterImpl(int health, int attack, int def, int speed, int exp, int level, boolean isWild, MonsterSpeciesImpl species,
 	    List<Moves> movesList) {
-	this.health = health;
+    this.stats = new MonsterStatsImpl(health,attack,def,speed);
+	this.maxHealth = this.stats.getHealth();
 	this.exp = exp;
 	this.level = level;
 	this.isWild = isWild;
@@ -41,12 +43,12 @@ public class MonsterImpl implements Monster {
 
     @Override
     public int getHealth() {
-	return this.health;
+	return this.stats.getHealth();
     }
 
     @Override
     public void setHealth(int health) {
-	this.health = health <= this.getMaxHealth() ? health : this.getMaxHealth();
+    this.stats.setHealth(health <= this.getMaxHealth() ? health : this.getMaxHealth());	
     }
 
     @Override
@@ -105,7 +107,7 @@ public class MonsterImpl implements Monster {
 
     @Override
     public boolean isAlive() {
-	return this.health <= 0;
+	return this.stats.getHealth() <= 0;
     }
 
     @Override
@@ -152,7 +154,7 @@ public class MonsterImpl implements Monster {
 
     @Override
     public String toString() {
-	return this.species.toString() + "\nHealth: " + this.health + "\nLevel: " + this.level + "\nExp: " + this.exp
+	return this.species.toString() + "\nHealth: " + this.stats.getHealth() + "\nLevel: " + this.level + "\nExp: " + this.exp
 		+ "\nMoves:" + this.movesList.toString() + "\nIsWild: " + this.isWild + "\n";
 
     }
