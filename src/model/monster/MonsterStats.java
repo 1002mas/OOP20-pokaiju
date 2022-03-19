@@ -1,20 +1,20 @@
 package model.monster;
 
 public interface MonsterStats {
-	
-	int getHealth();
 
-	void setHealth(int health);
+    int getHealth();
 
-	int getAttack();
+    void setHealth(int health);
 
-	void setAttack(int attack);
-	
-	int getDef();
+    int getAttack();
 
-	void setDef(int def);
-	
-	int getSpeed();
+    void setAttack(int attack);
 
-	void setSpeed(int speed);
+    int getDefense();
+
+    void setDefense(int def);
+
+    int getSpeed();
+
+    void setSpeed(int speed);
 }

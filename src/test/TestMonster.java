@@ -4,16 +4,18 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.List;
 
+import model.GameItem.EvolutionItem;
 import model.GameItem.GameItemTypes;
 import model.GameItem.GameItems;
 import model.battle.Moves;
 import model.battle.MovesImpl;
-import model.GameItem.*;
 import model.monster.Monster;
 import model.monster.MonsterBuilderImpl;
 import model.monster.MonsterSpeciesImpl;
+import model.monster.MonsterStatsImpl;
 import model.monster.MonsterType;
 
 public class TestMonster {
@@ -47,8 +49,8 @@ public class TestMonster {
 	this.firstEvolution = new MonsterSpeciesImpl("Pippo2", "Info2", MonsterType.FIRE, secondEvolution,
 		SECOND_EVOLUTION_LEVEL);
 	this.species = new MonsterSpeciesImpl("Pippo", "Info", MonsterType.FIRE, firstEvolution, FIRST_EVOLUTION_LEVEL);
-	this.monster = new MonsterBuilderImpl().health(50).exp(0).level(1).isWild(false).species(species)
-		.movesList(listOfMoves)/* .attack(5).defense(5).speed(5) */.build();
+	this.monster = new MonsterBuilderImpl().stats(new MonsterStatsImpl(50, 20, 20, 20)).exp(0).level(1).isWild(false).species(species)
+		.movesList(listOfMoves).build();
 	// Item test initialization
 	this.holdedItemWrong = new EvolutionItem("PietraPippo", 1, "desc", GameItemTypes.EVOLUTIONTOOL);
 	this.holdedItemRight = new EvolutionItem("PietraPaperino", 1, "desc", GameItemTypes.EVOLUTIONTOOL);
@@ -56,8 +58,8 @@ public class TestMonster {
 	this.firstEvolutionByItem = new MonsterSpeciesImpl("Paperino2", "Info2", MonsterType.WATER);
 	this.speciesByItem = new MonsterSpeciesImpl("Paperino", "Info", MonsterType.WATER, firstEvolutionByItem,
 		neededItem);
-	this.monsterByItem = new MonsterBuilderImpl().health(50).exp(0).level(1).isWild(false).species(speciesByItem)
-		.movesList(listOfMoves)/* .attack(5).defense(5).speed(5) */.build();
+	this.monsterByItem = new MonsterBuilderImpl().stats(new MonsterStatsImpl(50, 20, 20, 20)).exp(0).level(1).isWild(false).species(speciesByItem)
+		.movesList(listOfMoves).build();
     }
 
     @org.junit.Test
@@ -69,6 +71,7 @@ public class TestMonster {
 
     @org.junit.Test
     public void levelingByLevel() {
+	System.out.println(monster.toString());
 	monster.setLevel(FIRST_EVOLUTION_LEVEL - 1);
 	assertEquals("Pippo", monster.getName());
 	monster.incExp(EXP_CAP);
@@ -80,6 +83,7 @@ public class TestMonster {
 	assertEquals(0, monster.getExp());
 	monster.incExp(5863655);
 	assertEquals(MAX_LVL, monster.getLevel());
+	System.out.println(monster.toString());
 	assertEquals(0, monster.getExp());
     }
 

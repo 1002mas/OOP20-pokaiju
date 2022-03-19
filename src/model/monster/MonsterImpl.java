@@ -2,21 +2,22 @@ package model.monster;
 
 import java.util.ArrayList;
 import java.util.List;
-import model.GameItem.*;
-import model.battle.Moves;
+import java.util.Random;
 
-/* TODO: 
- * ~fare un'unica funzione getStats
- * ~aumentare il valore delle statistiche in onLevelup. Utilizza una solo costante del tipo "MAX_STAT_STEP" e
- * fai salire le statistiche in modo randomico con new Random().nextInt(MAX_STAT_STEP)
- */
+import model.GameItem.GameItemTypes;
+import model.GameItem.GameItems;
+import model.battle.Moves;
 
 public class MonsterImpl implements Monster {
 
     private static final int EXP_CAP = 1000;
     private static final int MAX_LVL = 100;
-
+    private static final int MAX_HP_STEP = 40;
+    private static final int MIN_HP_STEP = 10;
+    private static final int MAX_STAT_STEP = 10;
+    private static final int MIN_STAT_STEP = 1;
     
+
     private int exp;
     private int level;
     private boolean isWild;
@@ -25,9 +26,9 @@ public class MonsterImpl implements Monster {
     private List<Moves> movesList;
     private MonsterStatsImpl stats;
 
-    public MonsterImpl(int health, int attack, int def, int speed, int exp, int level, boolean isWild, MonsterSpeciesImpl species,
+    public MonsterImpl(MonsterStatsImpl stats, int exp, int level, boolean isWild, MonsterSpeciesImpl species,
 	    List<Moves> movesList) {
-    this.stats = new MonsterStatsImpl(health,attack,def,speed);
+	this.stats = stats;
 	this.maxHealth = this.stats.getHealth();
 	this.exp = exp;
 	this.level = level;
@@ -48,7 +49,7 @@ public class MonsterImpl implements Monster {
 
     @Override
     public void setHealth(int health) {
-    this.stats.setHealth(health <= this.getMaxHealth() ? health : this.getMaxHealth());	
+	this.stats.setHealth(health <= this.getMaxHealth() ? health : this.getMaxHealth());
     }
 
     @Override
@@ -85,6 +86,10 @@ public class MonsterImpl implements Monster {
     }
 
     private void onLevelUp() {
+	this.stats.setHealth(this.stats.getHealth() + new Random().nextInt(MAX_HP_STEP - MIN_HP_STEP) + MIN_HP_STEP);
+	this.stats.setAttack(this.stats.getAttack() + new Random().nextInt(MAX_STAT_STEP - MIN_STAT_STEP) + MIN_STAT_STEP);
+	this.stats.setDefense(this.stats.getDefense() + new Random().nextInt(MAX_STAT_STEP - MIN_STAT_STEP) + MIN_STAT_STEP);
+	this.stats.setSpeed(this.stats.getSpeed() + new Random().nextInt(MAX_STAT_STEP - MIN_STAT_STEP) + MIN_STAT_STEP);
 	if (species.getEvolutionType() == EvolutionType.LEVEL && this.level >= species.getEvolutionLevel()) {
 	    evolveByLevel();
 	}
@@ -152,10 +157,16 @@ public class MonsterImpl implements Monster {
 	return this.species;
     }
 
+    public MonsterStatsImpl getStats() {
+	return this.stats;
+    }
+
     @Override
     public String toString() {
-	return this.species.toString() + "\nHealth: " + this.stats.getHealth() + "\nLevel: " + this.level + "\nExp: " + this.exp
-		+ "\nMoves:" + this.movesList.toString() + "\nIsWild: " + this.isWild + "\n";
+	return this.species.toString() + "\nHealth: " + this.stats.getHealth() + "\nAttack: " + this.stats.getAttack()
+		+ "\nDefense: " + this.stats.getDefense() + "\nSpeed: " + this.stats.getSpeed() + "\nLevel: "
+		+ this.level + "\nExp: " + this.exp + "\nMoves:" + this.movesList.toString() + "\nIsWild: "
+		+ this.isWild + "\n";
 
     }
 

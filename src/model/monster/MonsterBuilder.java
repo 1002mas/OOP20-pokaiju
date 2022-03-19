@@ -15,12 +15,12 @@ public interface MonsterBuilder {
     MonsterBuilder level(int lvl);
 
     /**
-     * Build monster's health
+     * Build monster's stats
      * 
-     * @param hp
+     * @param stats (health, attack, defense, speed)
      * @return a MonsterBuilder
      */
-    MonsterBuilder health(int hp);
+    MonsterBuilder stats(MonsterStatsImpl stats);
 
     /**
      * Build monster's experience
@@ -45,30 +45,6 @@ public interface MonsterBuilder {
      * @return a MonsterBuilder
      */
     MonsterBuilder movesList(List<Moves> movesList);
-
-    /**
-     * Build monster's attack stat
-     * 
-     * @param atk
-     * @return a MonsterBuilder
-     */
-    // MonsterBuilder attack(int atk);
-
-    /**
-     * Build monster's defense stat
-     * 
-     * @param dfs
-     * @return a MonsterBuilder
-     */
-    // MonsterBuilder defense(int dfs);
-
-    /**
-     * Build monster's speed stat
-     * 
-     * @param spd
-     * @return a MonsterBuilder
-     */
-    // MonsterBuilder speed(int spd);
 
     /**
      * Build monster's species
