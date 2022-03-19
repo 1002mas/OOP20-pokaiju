@@ -120,8 +120,19 @@ public interface Monster {
      */
     boolean evolveByItem(GameItems item);
 
-    MonsterSpeciesImpl getSpecies();
-    
-    MonsterStatsImpl getStats();
+    /**
+     * This function returns monster's species
+     * 
+     * @return a monsterSpecies
+     */
+    MonsterSpecies getSpecies();
+
+    /**
+     * This function returns monster's stats
+     * 
+     * @return monster's stats
+     */
+
+    MonsterStats getStats();
 
 }
