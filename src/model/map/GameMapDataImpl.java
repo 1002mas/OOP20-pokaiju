@@ -14,7 +14,7 @@ public class GameMapDataImpl implements GameMapData {
     private final Map<GameMapData, Pair<Integer, Integer>> linkedMapsStartingPosition;
 
     public GameMapDataImpl(String name, Map<Pair<Integer, Integer>, MapBlockType> blocks,
-	    Map<Pair<Integer, Integer>, Npc> npcs, Map<Pair<Integer, Integer>, GameMapData> linkedMaps,
+	    Map<Pair<Integer, Integer>, NpcSimple> npcs, Map<Pair<Integer, Integer>, GameMapData> linkedMaps,
 	    Map<GameMapData, Pair<Integer, Integer>> linkedMapsStartingPosition) {
 	this.name = name;
 

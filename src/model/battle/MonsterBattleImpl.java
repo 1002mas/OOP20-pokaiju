@@ -8,7 +8,7 @@ import model.GameItem.GameItems;
 import model.monster.Monster;
 import model.monster.MonsterStats;
 import model.monster.MonsterType;
-import model.npc.NpcImpl;
+import model.npc.NpcTrainer;
 import model.player.PlayerImpl;
 
 public class MonsterBattleImpl implements MonsterBattle {
@@ -27,7 +27,7 @@ public class MonsterBattleImpl implements MonsterBattle {
     private List<Monster> playerTeam;
     private List<Monster> enemyTeam;
     private PlayerImpl trainer;
-    private Optional<NpcImpl> enemyTrainer;
+    private Optional<NpcTrainer> enemyTrainer;
     private Moves extraMoves;
 
     private MonsterBattleImpl(PlayerImpl trainer, List<Monster> enemyTeam) {
@@ -42,8 +42,8 @@ public class MonsterBattleImpl implements MonsterBattle {
 	this.areEndPP = true;
     }
 
-    public MonsterBattleImpl(PlayerImpl trainer, NpcImpl enemyTrainer) {
-	this(trainer, enemyTrainer.allMonster());
+    public MonsterBattleImpl(PlayerImpl trainer, NpcTrainer enemyTrainer) {
+	this(trainer, enemyTrainer.getMonstersOwned());
 	this.enemyTrainer = Optional.of(enemyTrainer);
 
     }

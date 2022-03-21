@@ -3,8 +3,7 @@ package model.map;
 import java.util.Optional;
 
 import model.Pair;
-
-import model.npc.Npc;
+import model.npc.NpcSimple;
 
 /*
  * GameMapData contains all map info as walkable blocks, npcs in the maps.
@@ -19,7 +18,7 @@ public interface GameMapData {
     /*
      * @return npc in position block if it exists, otherwise Optional.empty
      */
-    Optional<Npc> getNPC(Pair<Integer, Integer> block);
+    Optional<NpcSimple> getNPC(Pair<Integer, Integer> block);
 
     /*
      * @return get the near map linked to the position PlayerPosition and the place where the player appears.
