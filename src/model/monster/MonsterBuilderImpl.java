@@ -1,8 +1,5 @@
 package model.monster;
-
-import java.util.ArrayList;
 import java.util.List;
-
 import model.battle.Moves;
 
 public class MonsterBuilderImpl implements MonsterBuilder {
@@ -13,11 +10,11 @@ public class MonsterBuilderImpl implements MonsterBuilder {
     private List<Moves> movesList;
     private boolean isWild;
     private int level;
-    private MonsterSpeciesImpl species;
-    private MonsterStatsImpl stats;
+    private MonsterSpecies species;
+    private MonsterStats stats;
 
     @Override
-    public MonsterBuilder species(MonsterSpeciesImpl species) {
+    public MonsterBuilder species(MonsterSpecies species) {
 	this.species = species;
 	return this;
     }
@@ -33,7 +30,7 @@ public class MonsterBuilderImpl implements MonsterBuilder {
     }
 
     @Override
-    public MonsterBuilder stats(MonsterStatsImpl stats) {
+    public MonsterBuilder stats(MonsterStats stats) {
 	this.stats = stats;
 	return this;
     }
@@ -56,11 +53,7 @@ public class MonsterBuilderImpl implements MonsterBuilder {
 
     @Override
     public MonsterBuilder movesList(List<Moves> movesList) {
-	ArrayList<Moves> moves = new ArrayList<>();
-	for (int i = 0; i < NUM_MAX_MOVES; i++) {
-	    moves.add(movesList.get(i));
-	}
-	this.movesList = moves;
+	this.movesList = movesList.subList(0, NUM_MAX_MOVES);
 	return this;
     }
 

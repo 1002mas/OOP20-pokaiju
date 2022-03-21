@@ -1,7 +1,5 @@
 package model.monster;
-
 import java.util.List;
-
 import model.battle.Moves;
 
 public interface MonsterBuilder {
@@ -20,7 +18,7 @@ public interface MonsterBuilder {
      * @param stats (health, attack, defense, speed)
      * @return a MonsterBuilder
      */
-    MonsterBuilder stats(MonsterStatsImpl stats);
+    MonsterBuilder stats(MonsterStats stats);
 
     /**
      * Build monster's experience
@@ -49,10 +47,10 @@ public interface MonsterBuilder {
     /**
      * Build monster's species
      * 
-     * @param MonsterSpeciesImpl species
+     * @param MonsterSpecies species
      * @return a MonsterBuilder
      */
-    MonsterBuilder species(MonsterSpeciesImpl species);
+    MonsterBuilder species(MonsterSpecies species);
 
     /**
      * Build the monster
