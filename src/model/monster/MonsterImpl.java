@@ -1,9 +1,7 @@
 package model.monster;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
 import model.GameItem.GameItemTypes;
 import model.GameItem.GameItems;
 import model.battle.Moves;
@@ -22,11 +20,11 @@ public class MonsterImpl implements Monster {
     private int level;
     private boolean isWild;
     private int maxHealth;
-    private MonsterSpeciesImpl species;
+    private MonsterSpecies species;
     private List<Moves> movesList;
-    private MonsterStatsImpl stats;
+    private MonsterStats stats;
 
-    public MonsterImpl(MonsterStatsImpl stats, int exp, int level, boolean isWild, MonsterSpeciesImpl species,
+    public MonsterImpl(MonsterStats stats, int exp, int level, boolean isWild, MonsterSpecies species,
 	    List<Moves> movesList) {
 	this.stats = stats;
 	this.maxHealth = this.stats.getHealth();
@@ -90,7 +88,7 @@ public class MonsterImpl implements Monster {
 	this.stats.setAttack(this.stats.getAttack() + new Random().nextInt(MAX_STAT_STEP - MIN_STAT_STEP) + MIN_STAT_STEP);
 	this.stats.setDefense(this.stats.getDefense() + new Random().nextInt(MAX_STAT_STEP - MIN_STAT_STEP) + MIN_STAT_STEP);
 	this.stats.setSpeed(this.stats.getSpeed() + new Random().nextInt(MAX_STAT_STEP - MIN_STAT_STEP) + MIN_STAT_STEP);
-	if (species.getEvolutionType() == EvolutionType.LEVEL && this.level >= species.getEvolutionLevel()) {
+	if (species.getEvolutionType() == EvolutionType.LEVEL && this.level >= ((MonsterSpeciesByLevel) species).getEvolutionLevel()) {
 	    evolveByLevel();
 	}
     }
@@ -135,7 +133,7 @@ public class MonsterImpl implements Monster {
 
     private boolean evolveByLevel() {
 	if (species.getEvolution().isPresent() && this.species.getEvolutionType() == EvolutionType.LEVEL
-		&& this.level >= species.getEvolutionLevel()) {
+		&& this.level >= ((MonsterSpeciesByLevel) species).getEvolutionLevel()) {
 	    species = species.getEvolution().get();
 	    return true;
 	}
@@ -145,7 +143,7 @@ public class MonsterImpl implements Monster {
     @Override
     public boolean evolveByItem(GameItems item) {
 	if (species.getEvolution().isPresent() && this.species.getEvolutionType() == EvolutionType.ITEM
-		&& item.equals(species.getItem()) && item.getType() == GameItemTypes.EVOLUTIONTOOL) {
+		&& item.equals(((MonsterSpeciesByItem)species).getItem()) && item.getType() == GameItemTypes.EVOLUTIONTOOL) {
 	    species = species.getEvolution().get();
 	    return true;
 	}
@@ -153,11 +151,11 @@ public class MonsterImpl implements Monster {
     }
 
     @Override
-    public MonsterSpeciesImpl getSpecies() {
+    public MonsterSpecies getSpecies() {
 	return this.species;
     }
 
-    public MonsterStatsImpl getStats() {
+    public MonsterStats getStats() {
 	return this.stats;
     }
 

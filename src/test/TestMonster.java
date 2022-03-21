@@ -14,7 +14,10 @@ import model.battle.Moves;
 import model.battle.MovesImpl;
 import model.monster.Monster;
 import model.monster.MonsterBuilderImpl;
-import model.monster.MonsterSpeciesImpl;
+import model.monster.MonsterSpecies;
+import model.monster.MonsterSpeciesByItem;
+import model.monster.MonsterSpeciesByLevel;
+import model.monster.MonsterSpeciesSimple;
 import model.monster.MonsterStatsImpl;
 import model.monster.MonsterType;
 
@@ -27,14 +30,14 @@ public class TestMonster {
     private static final int HEALTH = 50;
 
     private Monster monster;
-    private MonsterSpeciesImpl species;
-    private MonsterSpeciesImpl firstEvolution;
-    private MonsterSpeciesImpl secondEvolution;
+    private MonsterSpecies species;
+    private MonsterSpecies firstEvolution;
+    private MonsterSpecies secondEvolution;
     private List<Moves> listOfMoves;
 
     private Monster monsterByItem;
-    private MonsterSpeciesImpl speciesByItem;
-    private MonsterSpeciesImpl firstEvolutionByItem;
+    private MonsterSpecies speciesByItem;
+    private MonsterSpecies firstEvolutionByItem;
     private GameItems holdedItemWrong;
     private GameItems holdedItemRight;
     private GameItems neededItem;
@@ -45,21 +48,21 @@ public class TestMonster {
 		new MovesImpl("Attacco", 10, MonsterType.FIRE, 10), new MovesImpl("Volo", 50, MonsterType.FIRE, 10),
 		new MovesImpl("Fossa", 50, MonsterType.FIRE, 10));
 	// Level test initialization
-	this.secondEvolution = new MonsterSpeciesImpl("Pippo3", "Info3", MonsterType.FIRE);
-	this.firstEvolution = new MonsterSpeciesImpl("Pippo2", "Info2", MonsterType.FIRE, secondEvolution,
-		SECOND_EVOLUTION_LEVEL);
-	this.species = new MonsterSpeciesImpl("Pippo", "Info", MonsterType.FIRE, firstEvolution, FIRST_EVOLUTION_LEVEL);
-	this.monster = new MonsterBuilderImpl().stats(new MonsterStatsImpl(50, 20, 20, 20)).exp(0).level(1).isWild(false).species(species)
-		.movesList(listOfMoves).build();
+	this.secondEvolution = new MonsterSpeciesSimple("Pippo3", "Info3", MonsterType.FIRE);
+	this.firstEvolution = new MonsterSpeciesByLevel("Pippo2", "Info2", MonsterType.FIRE, secondEvolution, SECOND_EVOLUTION_LEVEL);
+	this.species = new MonsterSpeciesByLevel("Pippo", "Info", MonsterType.FIRE, firstEvolution,
+		FIRST_EVOLUTION_LEVEL);
+	this.monster = new MonsterBuilderImpl().stats(new MonsterStatsImpl(50, 20, 20, 20)).exp(0).level(1)
+		.isWild(false).species(species).movesList(listOfMoves).build();
 	// Item test initialization
 	this.holdedItemWrong = new EvolutionItem("PietraPippo", 1, "desc", GameItemTypes.EVOLUTIONTOOL);
 	this.holdedItemRight = new EvolutionItem("PietraPaperino", 1, "desc", GameItemTypes.EVOLUTIONTOOL);
 	this.neededItem = new EvolutionItem("PietraPaperino", 1, "desc", GameItemTypes.EVOLUTIONTOOL);
-	this.firstEvolutionByItem = new MonsterSpeciesImpl("Paperino2", "Info2", MonsterType.WATER);
-	this.speciesByItem = new MonsterSpeciesImpl("Paperino", "Info", MonsterType.WATER, firstEvolutionByItem,
+	this.firstEvolutionByItem = new MonsterSpeciesSimple("Paperino2", "Info2", MonsterType.WATER);
+	this.speciesByItem = new MonsterSpeciesByItem("Paperino", "Info", MonsterType.WATER, firstEvolutionByItem,
 		neededItem);
-	this.monsterByItem = new MonsterBuilderImpl().stats(new MonsterStatsImpl(50, 20, 20, 20)).exp(0).level(1).isWild(false).species(speciesByItem)
-		.movesList(listOfMoves).build();
+	this.monsterByItem = new MonsterBuilderImpl().stats(new MonsterStatsImpl(50, 20, 20, 20)).exp(0).level(1)
+		.isWild(false).species(speciesByItem).movesList(listOfMoves).build();
     }
 
     @org.junit.Test

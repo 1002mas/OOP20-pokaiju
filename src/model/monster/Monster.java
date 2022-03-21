@@ -124,12 +124,12 @@ public interface Monster {
      * This function returns monster's species
      * @return a monsterSpecies
      */
-    MonsterSpeciesImpl getSpecies();
+    MonsterSpecies getSpecies();
     
     /**
      * This function returns monster's stats
      * @return monster's stats
      */
-    MonsterStatsImpl getStats();
+    MonsterStats getStats();
 
 }
