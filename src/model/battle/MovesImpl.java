@@ -8,26 +8,12 @@ public class MovesImpl implements Moves {
 
     private MovesDataImpl movesData;
     private int pp;
-    Map<MonsterType, Map<MonsterType, Double>> buff = new HashMap<>();
+    
 
     public MovesImpl(String name, int base, MonsterType type, int pp) {
 	this.movesData = new MovesDataImpl(name, base, type, pp);
 	this.pp = pp;
-	Map<MonsterType, Double> temp = new HashMap<>();
-	temp.put(MonsterType.WATER, 0.50);
-	temp.put(MonsterType.FIRE, 0.75);
-	temp.put(MonsterType.GRASS, 1.50);
-	buff.put(MonsterType.FIRE, temp);
-	temp = new HashMap<>();
-	temp.put(MonsterType.WATER, 0.75);
-	temp.put(MonsterType.FIRE, 1.25);
-	temp.put(MonsterType.GRASS, 0.50);
-	buff.put(MonsterType.WATER, temp);
-	temp = new HashMap<>();
-	temp.put(MonsterType.WATER, 1.25);
-	temp.put(MonsterType.FIRE, 0.50);
-	temp.put(MonsterType.GRASS, 0.75);
-	buff.put(MonsterType.GRASS, temp);
+	
 
     }
 
@@ -49,7 +35,7 @@ public class MovesImpl implements Moves {
     @Override
     public int getDamage(MonsterType enemytype) {
 	// TODO Auto-generated method stub
-	return (int) (this.movesData.getBase() * buff.get(this.movesData.getType()).get(enemytype));
+	return (int) (this.movesData.getBase() * this.movesData.getType().damageTo(enemytype));
     }
 
     @Override

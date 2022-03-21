@@ -27,7 +27,9 @@ public class MonsterBattleImpl implements MonsterBattle {
     private List<Monster> playerTeam;
     private List<Monster> enemyTeam;
     private PlayerImpl trainer;
+
     private Optional<NpcTrainer> enemyTrainer;
+
     private Moves extraMoves;
 
     private MonsterBattleImpl(PlayerImpl trainer, List<Monster> enemyTeam) {
@@ -43,6 +45,7 @@ public class MonsterBattleImpl implements MonsterBattle {
     }
 
     public MonsterBattleImpl(PlayerImpl trainer, NpcTrainer enemyTrainer) {
+
 	this(trainer, enemyTrainer.getMonstersOwned());
 	this.enemyTrainer = Optional.of(enemyTrainer);
 
