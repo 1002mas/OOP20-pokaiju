@@ -3,6 +3,7 @@ package model.map;
 import java.util.Optional;
 
 import model.Pair;
+
 import model.npc.Npc;
 
 /*
@@ -30,4 +31,5 @@ public interface GameMapData {
      * @return map name
      */
     String getName();
+
 }
