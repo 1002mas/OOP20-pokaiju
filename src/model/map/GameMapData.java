@@ -10,23 +10,23 @@ import model.npc.NpcSimple;
  * 
  * */
 public interface GameMapData {
-    /*
+    /**
      * @return type of block (es. walkable)
      */
     MapBlockType getBlockType(Pair<Integer, Integer> block);
 
-    /*
+    /**
      * @return npc in position block if it exists, otherwise Optional.empty
      */
     Optional<NpcSimple> getNPC(Pair<Integer, Integer> block);
 
-    /*
+    /**
      * @return get the near map linked to the position PlayerPosition and the place where the player appears.
      * PlayerPosition if no other maps are linked
      */
     Optional<Pair<GameMapData, Pair<Integer, Integer>>> getNextMap(Pair<Integer, Integer> playerPosition);
 
-    /*
+    /**
      * @return map name
      */
     String getName();

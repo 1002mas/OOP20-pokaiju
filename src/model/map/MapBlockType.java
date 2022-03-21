@@ -1,6 +1,6 @@
 package model.map;
 
-/*
+/**
  * MapBlockType represents the map blocks accessibility.
  * BORDER	it's the map limit, you can't go from there on
  * OBSTACLE	it's an obstacle you can't walk through
