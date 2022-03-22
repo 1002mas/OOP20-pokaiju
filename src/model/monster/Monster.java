@@ -1,8 +1,13 @@
 package model.monster;
 
+<<<<<<< HEAD
 import model.GameItem.*;
+=======
+
+>>>>>>> Player4.0
 
 import model.battle.Moves;
+import model.gameitem.*;
 
 public interface Monster {
 

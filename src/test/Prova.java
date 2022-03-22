@@ -4,10 +4,9 @@ import java.io.IOException;
 
 import model.monster.Monster;
 import model.monster.MonsterImpl;
-
-import model.GameItem.GameItemTypes;
-import model.GameItem.GameItems;
-import model.GameItem.HealingItem;
+import model.gameitem.GameItemTypes;
+import model.gameitem.GameItems;
+import model.gameitem.HealingItem;
 import model.monster.*;
 
 public class Prova {

@@ -4,17 +4,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import model.Pair;
-import model.GameItem.*;
+import model.gameitem.*;
 import model.monster.Monster;
 /*import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.*;*/
-
-import model.GameItem.AbstractGameItem;
-import model.GameItem.GameItems;
-import model.GameItem.HealingItem;
 import model.monster.*;
-
 
 public class PlayerImpl implements Player {
     private String name;
@@ -72,7 +67,6 @@ public class PlayerImpl implements Player {
 
     @Override
     public void removeItem(GameItems i) {
-	// TODO Auto-generated method stub
 	if (this.gameItems.contains(i)) {
 	    int numberOfItem = this.gameItems.stream().filter(x -> x.getNameItem().equals(i.getNameItem())).findFirst()
 		    .get().getNumber();
@@ -96,7 +90,6 @@ public class PlayerImpl implements Player {
 
     @Override
     public boolean buyItem(GameItems i, int price) {
-	// TODO Auto-generated method stub
 	if (getMoney() - price >= 0) {
 	    addItem(i);
 	    setMoney(getMoney() - price);
@@ -147,8 +140,13 @@ public class PlayerImpl implements Player {
     }
 
     @Override
-    public void addMonster(Monster m) {
-	this.monster.add(m);
+    public boolean addMonster(Monster m) {
+	if (isTeamFull()) {
+	    return false;
+	} else {
+	    return this.monster.add(m);
+	}
+
     }
 
     public int getMoney() {
@@ -161,6 +159,11 @@ public class PlayerImpl implements Player {
 
     public String getName() {
 	return name;
+    }
+
+    @Override
+    public boolean isTeamFull() {
+	return this.allMonster().stream().count() >= 6 ? true : false;
     }
 
 }
