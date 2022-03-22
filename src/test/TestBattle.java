@@ -11,6 +11,7 @@ public class TestBattle {
 		Monster m2 = new MonsterBuilderImpl().name("Pippo").monsterType(MonsterType.GRASS).level(1).health(50).exp(0)
 				.info("supermario").secondName("SuperMario").secondInfo("Info2").thirdName("SuperMegaMario")
 				.thirdInfo("Info3").build();*/
+
 	}
 
 }
