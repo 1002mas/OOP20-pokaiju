@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import model.GameItem.GameItems;
+import model.gameitem.GameItems;
 import model.monster.Monster;
 import model.monster.MonsterStats;
 import model.monster.MonsterType;

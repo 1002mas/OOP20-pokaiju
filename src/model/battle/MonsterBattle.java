@@ -1,6 +1,6 @@
 package model.battle;
 
-import model.GameItem.GameItems;
+import model.gameitem.GameItems;
 
 public interface MonsterBattle {
 	

@@ -1,13 +1,7 @@
 package model.monster;
 import java.util.ArrayList;
 import java.util.List;
-<<<<<<< HEAD
 import java.util.Random;
-import model.GameItem.GameItemTypes;
-import model.GameItem.GameItems;
-=======
-
->>>>>>> Player4.0
 import model.battle.Moves;
 import model.gameitem.*;
 

@@ -2,7 +2,7 @@ package model.monster;
 
 import java.util.Optional;
 
-import model.GameItem.GameItems;
+import model.gameitem.GameItems;
 
 public class MonsterSpeciesByItem extends AbstractMonsterSpecies {
 

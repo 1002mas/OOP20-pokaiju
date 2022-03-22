@@ -5,6 +5,9 @@ import static org.junit.Assert.assertTrue;
 import model.monster.Monster;
 import model.npc.Npc;
 import model.npc.NpcImpl;
+import model.npc.NpcSimple;
+import model.npc.NpcSimpleImpl;
+import model.npc.TypeOfNpc;
 
 import java.util.ArrayList;
 

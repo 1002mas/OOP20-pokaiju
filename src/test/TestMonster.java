@@ -7,17 +7,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
-<<<<<<< HEAD
-import model.GameItem.EvolutionItem;
-import model.GameItem.GameItemTypes;
-import model.GameItem.GameItems;
-import model.battle.Moves;
-import model.battle.MovesImpl;
-=======
 import model.battle.Moves;
 import model.battle.MovesImpl;
 import model.gameitem.*;
->>>>>>> Player4.0
+
 import model.monster.Monster;
 import model.monster.MonsterBuilderImpl;
 import model.monster.MonsterSpecies;
@@ -55,7 +48,8 @@ public class TestMonster {
 		new MovesImpl("Fossa", 50, MonsterType.FIRE, 10));
 	// Level test initialization
 	this.secondEvolution = new MonsterSpeciesSimple("Pippo3", "Info3", MonsterType.FIRE);
-	this.firstEvolution = new MonsterSpeciesByLevel("Pippo2", "Info2", MonsterType.FIRE, secondEvolution, SECOND_EVOLUTION_LEVEL);
+	this.firstEvolution = new MonsterSpeciesByLevel("Pippo2", "Info2", MonsterType.FIRE, secondEvolution,
+		SECOND_EVOLUTION_LEVEL);
 	this.species = new MonsterSpeciesByLevel("Pippo", "Info", MonsterType.FIRE, firstEvolution,
 		FIRST_EVOLUTION_LEVEL);
 	this.monster = new MonsterBuilderImpl().stats(new MonsterStatsImpl(50, 20, 20, 20)).exp(0).level(1)
