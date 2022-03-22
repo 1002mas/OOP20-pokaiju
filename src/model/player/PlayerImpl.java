@@ -4,12 +4,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import model.Pair;
-import model.gameitem.*;
-import model.monster.Monster;
+import model.gameitem.GameItems;
 /*import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.*;*/
-import model.monster.*;
+import model.monster.Monster;
 
 public class PlayerImpl implements Player {
     private String name;
