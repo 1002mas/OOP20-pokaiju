@@ -1,8 +1,7 @@
 package model.monster;
 import java.util.Optional;
 
-import model.GameItem.GameItems;
-import model.GameItem.*;
+import model.gameitem.*;
 
 //a single instance of this class represents a monster species  
 

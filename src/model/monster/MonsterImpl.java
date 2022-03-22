@@ -1,8 +1,9 @@
 package model.monster;
 import java.util.ArrayList;
 import java.util.List;
-import model.GameItem.*;
+
 import model.battle.Moves;
+import model.gameitem.*;
 
 public class MonsterImpl implements Monster {
 

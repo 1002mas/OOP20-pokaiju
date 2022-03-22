@@ -6,8 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.ParseException;
 
-
-import model.GameItem.GameItems;
+import model.gameitem.GameItems;
 import model.monster.Monster;
 
 public class PlayerControllPart {

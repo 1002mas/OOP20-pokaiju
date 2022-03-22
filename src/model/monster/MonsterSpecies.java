@@ -1,6 +1,7 @@
 package model.monster;
 import java.util.Optional;
-import model.GameItem.*;
+
+import model.gameitem.*;
 
 public interface MonsterSpecies{
 	

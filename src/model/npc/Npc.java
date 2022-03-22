@@ -1,6 +1,8 @@
 package model.npc;
 import java.util.ArrayList;
 
+import model.monster.Monster;
+
 public interface Npc {
 	void interactWith();
 	//int battle();

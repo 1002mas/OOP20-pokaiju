@@ -2,9 +2,8 @@ package model.monster;
 
 
 
-import model.GameItem.*;
-
 import model.battle.Moves;
+import model.gameitem.*;
 
 
 public interface Monster {

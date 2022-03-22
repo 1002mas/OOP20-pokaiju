@@ -1,4 +1,4 @@
-package model.GameItem;
+package model.gameitem;
 
 import model.monster.*;
 

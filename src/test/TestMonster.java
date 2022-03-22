@@ -6,11 +6,9 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.List;
 
-import model.GameItem.GameItemTypes;
-import model.GameItem.GameItems;
 import model.battle.Moves;
 import model.battle.MovesImpl;
-import model.GameItem.*;
+import model.gameitem.*;
 import model.monster.Monster;
 import model.monster.MonsterBuilderImpl;
 import model.monster.MonsterSpeciesImpl;
