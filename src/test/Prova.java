@@ -2,13 +2,6 @@ package test;
 
 import java.io.IOException;
 
-import model.monster.Monster;
-import model.monster.MonsterImpl;
-import model.gameitem.GameItemTypes;
-import model.gameitem.GameItems;
-import model.gameitem.HealingItem;
-import model.monster.*;
-
 public class Prova {
 
     public static void main(String[] args) throws IOException {

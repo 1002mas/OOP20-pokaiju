@@ -1,7 +1,5 @@
 package model.battle;
 
-import java.util.*;
-
 import model.monster.MonsterType;
 
 public class MovesImpl implements Moves {

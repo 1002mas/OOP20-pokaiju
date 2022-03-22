@@ -1,7 +1,6 @@
 package model.monster;
 
 import java.util.Optional;
-import model.gameitem.*;
 
 public interface MonsterSpecies {
 
