@@ -102,10 +102,17 @@ public interface Player {
     boolean isTeamFull();
 
     /**
-     * This function set Player's Money
+     * This function sets Player's Money
      * 
      * @param money to be set
      */
     void setMoney(int money);
+    
+    /**
+     * This function sets Player's position
+     * 
+     * @param position to be set
+     */
+    void setPosition(Pair<Integer, Integer> position);
 
 }
