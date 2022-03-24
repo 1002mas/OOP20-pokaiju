@@ -165,4 +165,5 @@ public class PlayerImpl implements Player {
 	return this.allMonster().stream().count() >= 6 ? true : false;
     }
 
+
 }

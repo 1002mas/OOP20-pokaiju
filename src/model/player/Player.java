@@ -101,4 +101,11 @@ public interface Player {
      */
     boolean isTeamFull();
 
+    /**
+     * This function set Player's Money
+     * 
+     * @param money to be set
+     */
+    void setMoney(int money);
+
 }
