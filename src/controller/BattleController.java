@@ -21,11 +21,17 @@ public interface BattleController {
      */
     boolean flee();
 
-    /***/
+    /**
+     * 
+     * @param gameItem
+     */
     void useItem(GameItems gameItem);
 
-    /***/
-    void changeMonster();
+    /**
+     * 
+     * @param monsterIndex
+     */
+    void changeMonster(int monsterIndex);
 
     /**
      * 
@@ -38,4 +44,10 @@ public interface BattleController {
      * @return player team
      */
     List<Monster> getPlayerTeam();
+    
+    /**
+     * 
+     * @return enemy team
+     */
+    List<Monster> getEnemyTeam();
 }

@@ -6,7 +6,6 @@ public interface MonsterBattle {
 	
 	Moves enemyAttack();
 
-	
 	boolean escape();
 
 	boolean capture();
