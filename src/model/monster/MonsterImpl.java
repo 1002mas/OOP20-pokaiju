@@ -1,5 +1,6 @@
 package model.monster;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import model.battle.Moves;
@@ -117,6 +118,10 @@ public class MonsterImpl implements Monster {
 	    throw new IllegalArgumentException();
 	}
 	return this.movesList.get(index);
+    }
+    
+    public List<Moves> getAllMoves(){
+	return Collections.unmodifiableList(movesList);
     }
 
     @Override

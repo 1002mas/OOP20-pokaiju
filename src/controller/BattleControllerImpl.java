@@ -1,9 +1,6 @@
 package controller;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-
 import model.battle.MonsterBattle;
 import model.battle.Moves;
 import model.gameitem.GameItems;
@@ -51,11 +48,7 @@ public class BattleControllerImpl implements BattleController {
 
     @Override
     public List<Moves> getMoves() {
-	List<Moves> moves = new ArrayList<>();
-	for (int i = 0; i < monster.getNumberOfMoves(); i++) {
-	    moves.add(this.monster.getMoves(i));
-	}
-	return moves;
+	return monster.getAllMoves();
     }
 
     @Override
