@@ -2,6 +2,9 @@ package model.monster;
 
 
 import model.gameitem.*;
+
+import java.util.List;
+
 import model.battle.Moves;
 
 public interface Monster {
@@ -97,6 +100,12 @@ public interface Monster {
      * @return a move
      */
     Moves getMoves(int index);
+    
+    /**
+     * 
+     * @return
+     */
+    List<Moves> getAllMoves();
 
     /**
      * This function returns the numbers of moves owned by the monster
