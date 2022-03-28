@@ -246,4 +246,16 @@ public class MonsterBattleImpl implements MonsterBattle {
     public boolean useItem(GameItems item) {
 	return item.use(playerCurrentMonster);
     }
+
+    @Override
+    public Monster getCurrentPlayerMonster() {
+	// TODO Auto-generated method stub
+	return this.playerCurrentMonster;
+    }
+
+    @Override
+    public Monster getCurrentEnemyMonster() {
+	// TODO Auto-generated method stub
+	return this.enemy;
+    }
 }

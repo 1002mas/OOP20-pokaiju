@@ -1,6 +1,7 @@
 package model.battle;
 
 import model.gameitem.GameItems;
+import model.monster.Monster;
 
 public interface MonsterBattle {
 	
@@ -19,5 +20,9 @@ public interface MonsterBattle {
 	boolean isCurrentMonsterAlive();
 
 	boolean useItem(GameItems item);
+	
+	Monster getCurrentPlayerMonster();
+	
+	Monster getCurrentEnemyMonster();
 	
 }
