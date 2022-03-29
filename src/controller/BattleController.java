@@ -20,7 +20,7 @@ public interface BattleController {
      * @param gameItem
      */
     void useItem(GameItems gameItem);
-    
+
     /**
      * 
      * @return all player items
@@ -97,6 +97,12 @@ public interface BattleController {
      * @return current enemy monster level
      */
     int getCurrentEnemyMonsterLevel();
+
+    /**
+     * 
+     * @return current enemy move
+     */
+    Moves getCurrentEnemyMove();
 
     /**
      * Get all enemy's monsters

@@ -12,19 +12,17 @@ public class BattleControllerImpl implements BattleController {
 
     private Player player;
     private MonsterBattle monsterBattle;
-    private Monster monster;
     private NpcTrainer npcTrainer;
 
-    public BattleControllerImpl(Player player, MonsterBattle monsterBattle, NpcTrainer npcTrainer, Monster monster) {
+    public BattleControllerImpl(Player player, MonsterBattle monsterBattle, NpcTrainer npcTrainer) {
 	this.player = player;
 	this.monsterBattle = monsterBattle;
 	this.npcTrainer = npcTrainer;
-	this.monster = monster;
     }
 
     @Override
     public boolean chooseMove(int moveIndex) {
-	if (monster.getMoves(moveIndex).checkPP()) {
+	if (monsterBattle.getCurrentPlayerMonster().getMoves(moveIndex).checkPP()) {
 	    monsterBattle.movesSelection(moveIndex);
 	    return true;
 	}
@@ -33,9 +31,9 @@ public class BattleControllerImpl implements BattleController {
 
     @Override
     public void useItem(GameItems gameItem) {
-	player.useItem(gameItem, this.monster);
+	player.useItem(gameItem, monsterBattle.getCurrentPlayerMonster());
     }
-    
+
     @Override
     public List<GameItems> getAllPlayerItems() {
 	return player.allItems();
@@ -48,7 +46,7 @@ public class BattleControllerImpl implements BattleController {
 
     @Override
     public List<Moves> getMoves() {
-	return monster.getAllMoves();
+	return monsterBattle.getCurrentPlayerMonster().getAllMoves();
     }
 
     @Override
@@ -97,6 +95,11 @@ public class BattleControllerImpl implements BattleController {
     }
 
     @Override
+    public Moves getCurrentEnemyMove() {
+	return monsterBattle.enemyAttack();
+    }
+
+    @Override
     public List<Monster> getEnemyTeam() {
 	return npcTrainer.getMonstersOwned();
     }
@@ -115,6 +118,5 @@ public class BattleControllerImpl implements BattleController {
     public boolean isOver() {
 	return monsterBattle.isOver();
     }
-
 
 }
