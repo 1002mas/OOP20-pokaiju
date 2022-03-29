@@ -3,11 +3,8 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
-<<<<<<< HEAD
-=======
 import java.awt.Component;
 import java.awt.Dimension;
->>>>>>> gui1.1
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -25,11 +22,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-<<<<<<< HEAD
-
 import controller.ImagesLoader;
-=======
->>>>>>> gui1.1
 import controller.PlayerController;
 import model.Pair;
 import model.player.Gender;
@@ -79,19 +72,19 @@ public class GameFrame extends JFrame {
 	loginPanel.add(quitGame, cons);
 
 	// Pannello di quando clicco continua gioco
-<<<<<<< HEAD
+
 	JPanel gamePanel = buildMapPanel();
 	continueGame.addActionListener(e -> {
 	    cLayout.show(mainPanel, MAPPANEL);
 	    mapPanel.requestFocusInWindow();
 	});
-=======
+
 	JPanel mapPanel = buildMapPanel();
-	continueGame.addActionListener(e -> changePanel(mainPanel, MAPPANEL));
->>>>>>> gui1.1
+	continueGame.addActionListener(e -> changePanel(MAPPANEL));
+
 	// Pannello di quando inizio un nuovo gioco
 	JPanel newGamePanel = newGame();
-	newGame.addActionListener(e -> changePanel(mainPanel, NEWGAMEPANEL));
+	newGame.addActionListener(e -> changePanel(NEWGAMEPANEL));
 	// Pannello del menu di gioco
 	JPanel menuPanel = buildMenuPanel();
 
@@ -110,8 +103,8 @@ public class GameFrame extends JFrame {
     }
 
     private JPanel buildMapPanel() {
-<<<<<<< HEAD
-	//TODO use current player position
+
+	// TODO use current player position
 	PlayerPanel topPanel = new PlayerPanel(new Pair<>(0, 0), imgLoad);
 	topPanel.setPlayerImage(new ImageIcon(imgLoad.getPlayerImages(Direction.DOWN).get(0)));
 
@@ -167,19 +160,6 @@ public class GameFrame extends JFrame {
 	    break;
 	}
 
-    }
-
-    public void changePanel(String name) {
-	cLayout.show(mainPanel, name);
-=======
-	JPanel mapPanel = new JPanel();
-	mapPanel.setLayout(new FlowLayout());
-	final JButton changePanel = new JButton("menu");
-	changePanel.addActionListener(e -> changePanel(mainPanel, MENUPANEL));
-	mapPanel.add(changePanel);
-	return mapPanel;
-
->>>>>>> gui1.1
     }
 
     // TODO create battle scene (panel 3)
@@ -240,11 +220,11 @@ public class GameFrame extends JFrame {
 	underPanel.add(gameItemPanel);
 	underPanel.add(playerInfoPanel);
 
-	monster.addActionListener(e -> changePanel(underPanel, MONSTERPANEL));
-	box.addActionListener(e -> changePanel(underPanel, BOXPANEL));
-	gameItems.addActionListener(e -> changePanel(underPanel, GAMEITEMSPANEL));
-	playerInfo.addActionListener(e -> changePanel(underPanel, PLAYERINFOPANEL));
-	quit.addActionListener(e -> changePanel(this.mainPanel, MAPPANEL));
+	monster.addActionListener(e -> changePanel2(underPanel, MONSTERPANEL));
+	box.addActionListener(e -> changePanel2(underPanel, BOXPANEL));
+	gameItems.addActionListener(e -> changePanel2(underPanel, GAMEITEMSPANEL));
+	playerInfo.addActionListener(e -> changePanel2(underPanel, PLAYERINFOPANEL));
+	quit.addActionListener(e -> changePanel(MAPPANEL));
 
 	underPanel.add(monsterPanel, MONSTERPANEL);
 	underPanel.add(boxPanel, BOXPANEL);
@@ -258,53 +238,19 @@ public class GameFrame extends JFrame {
     }
 
     // TODO create new game menu (panel 5)
-    private JPanel newGame() {
-<<<<<<< HEAD
-	JPanel newgame = new JPanel(new GridBagLayout());
-	newgame.setBorder(BorderFactory.createLineBorder(Color.red));
 
-	JLabel nameLabel = new JLabel();
-	JTextField nameField = new JTextField(10);
-	nameLabel.setText("Insert name :");
-	nameField.setSize(100, 100);
-
-	JLabel askGender = new JLabel();
-	JComboBox<Gender> gender = new JComboBox<>(Gender.values());
-	askGender.setText("Select your gender :");
-	askGender.setSize(100, 100);
-
-	Random rand = new Random();
-	int a = rand.nextInt(999999) + 100000;
-	JLabel trainerNumber = new JLabel();
-	trainerNumber.setText("Trainer number is generated randomly : " + a + " ");
-	trainerNumber.setSize(100, 100);
-	trainerNumber.setFont(new Font("Verdana", Font.CENTER_BASELINE, 20));
-	trainerNumber.setEnabled(false);
-
-	GridBagConstraints rows = new GridBagConstraints();
-	rows.gridy = 0;
-	rows.insets = new Insets(0, 0, 98, 0);
-	rows.fill = GridBagConstraints.HORIZONTAL;
-	newgame.add(nameLabel, rows);
-	newgame.add(nameField, rows);
-	rows.gridy++;
-	newgame.add(askGender, rows);
-	newgame.add(gender, rows);
-	rows.gridy++;
-	newgame.add(trainerNumber, rows);
-	return newgame;
-
-    }
-
-=======
+    public JPanel newGame() {
 	return new NewGamePanel();
     }
 
-    private void changePanel(JPanel panel, String name) {
+    void changePanel(String name) {
+	cLayout.show(mainPanel, name);
+    }
+
+    public void changePanel2(JPanel panel, String name) {
 	cLayout.show(panel, name);
     }
 
->>>>>>> gui1.1
     // main di prova, si puo togliere in qualsiasi momento
     public static void main(String[] args) {
 	GameFrame frame = new GameFrame(new PlayerController() {
