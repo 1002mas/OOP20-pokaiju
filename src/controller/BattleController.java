@@ -46,25 +46,31 @@ public interface BattleController {
      * 
      * @return current player's monster
      */
-    Monster getCurrentPlayerMonster();
+    Monster getPlayerCurrentMonster();
 
     /**
      * 
      * @return current monster name
      */
-    String getCurrentPlayerMonsterName();
+    String getPlayerCurrentMonsterName();
 
     /**
      * 
      * @return current monster health
      */
-    int getCurrentPlayerMonsterHp();
+    int getPlayerCurrentMonsterHp();
+    
+    /**
+     * 
+     * @return
+     */
+    int getPlayerMonsterMaxHealth();
 
     /**
      * 
      * @return current monster level
      */
-    int getCurrentPlayerMonsterLevel();
+    int getPlayerCurrentMonsterLevel();
 
     /**
      * Get all player's monsters
@@ -78,31 +84,37 @@ public interface BattleController {
      * 
      * @return current enemy's monster
      */
-    Monster getCurrentEnemyMonster();
+    Monster getEnemyCurrentMonster();
 
     /**
      * 
      * @return current enemy monster name
      */
-    String getCurrentEnemyMonsterName();
+    String getEnemyCurrentMonsterName();
 
     /**
      * 
      * @return current enemy monster health
      */
-    int getCurrentEnemyMonsterHp();
+    int getEnemyCurrentMonsterHp();
+    
+    /**
+     * 
+     * @return
+     */
+    int getEnemyMonsterMaxHealth();
 
     /**
      * 
      * @return current enemy monster level
      */
-    int getCurrentEnemyMonsterLevel();
+    int getEnemyCurrentMonsterLevel();
 
     /**
      * 
      * @return current enemy move
      */
-    Moves getCurrentEnemyMove();
+    Moves getEnemyCurrentMove();
 
     /**
      * Get all enemy's monsters

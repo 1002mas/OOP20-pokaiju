@@ -10,14 +10,10 @@ import model.player.Player;
 
 public class BattleControllerImpl implements BattleController {
 
-    private Player player;
     private MonsterBattle monsterBattle;
-    private NpcTrainer npcTrainer;
 
     public BattleControllerImpl(Player player, MonsterBattle monsterBattle, NpcTrainer npcTrainer) {
-	this.player = player;
 	this.monsterBattle = monsterBattle;
-	this.npcTrainer = npcTrainer;
     }
 
     @Override
@@ -31,12 +27,12 @@ public class BattleControllerImpl implements BattleController {
 
     @Override
     public void useItem(GameItems gameItem) {
-	player.useItem(gameItem, monsterBattle.getCurrentPlayerMonster());
+	monsterBattle.getPlayer().useItem(gameItem, monsterBattle.getCurrentPlayerMonster());
     }
 
     @Override
     public List<GameItems> getAllPlayerItems() {
-	return player.allItems();
+	return monsterBattle.getPlayer().allItems();
     }
 
     @Override
@@ -50,58 +46,68 @@ public class BattleControllerImpl implements BattleController {
     }
 
     @Override
-    public Monster getCurrentPlayerMonster() {
+    public Monster getPlayerCurrentMonster() {
 	return monsterBattle.getCurrentPlayerMonster();
     }
 
     @Override
-    public String getCurrentPlayerMonsterName() {
+    public String getPlayerCurrentMonsterName() {
 	return monsterBattle.getCurrentPlayerMonster().getName();
     }
 
     @Override
-    public int getCurrentPlayerMonsterHp() {
+    public int getPlayerCurrentMonsterHp() {
 	return monsterBattle.getCurrentPlayerMonster().getHealth();
+    }
+    
+    @Override
+    public int getPlayerMonsterMaxHealth() {
+	return monsterBattle.getCurrentPlayerMonster().getMaxHealth();
     }
 
     @Override
-    public int getCurrentPlayerMonsterLevel() {
+    public int getPlayerCurrentMonsterLevel() {
 	return monsterBattle.getCurrentPlayerMonster().getLevel();
     }
 
     @Override
     public List<Monster> getPlayerTeam() {
-	return player.allMonster();
+	return monsterBattle.getPlayer().allMonster();
     }
 
     @Override
-    public Monster getCurrentEnemyMonster() {
+    public Monster getEnemyCurrentMonster() {
 	return monsterBattle.getCurrentEnemyMonster();
     }
 
     @Override
-    public String getCurrentEnemyMonsterName() {
-	return monsterBattle.getCurrentPlayerMonster().getName();
+    public String getEnemyCurrentMonsterName() {
+	return monsterBattle.getCurrentEnemyMonster().getName();
     }
 
     @Override
-    public int getCurrentEnemyMonsterHp() {
+    public int getEnemyCurrentMonsterHp() {
 	return monsterBattle.getCurrentEnemyMonster().getHealth();
     }
-
+    
     @Override
-    public int getCurrentEnemyMonsterLevel() {
-	return monsterBattle.getCurrentPlayerMonster().getLevel();
+    public int getEnemyMonsterMaxHealth() {
+	return monsterBattle.getCurrentEnemyMonster().getMaxHealth();
     }
 
     @Override
-    public Moves getCurrentEnemyMove() {
+    public int getEnemyCurrentMonsterLevel() {
+	return monsterBattle.getCurrentEnemyMonster().getLevel();
+    }
+
+    @Override
+    public Moves getEnemyCurrentMove() {
 	return monsterBattle.enemyAttack();
     }
 
     @Override
     public List<Monster> getEnemyTeam() {
-	return npcTrainer.getMonstersOwned();
+	return monsterBattle.getNpcEnemy().get().getMonstersOwned();
     }
 
     @Override
@@ -118,5 +124,9 @@ public class BattleControllerImpl implements BattleController {
     public boolean isOver() {
 	return monsterBattle.isOver();
     }
+
+   
+
+
 
 }
