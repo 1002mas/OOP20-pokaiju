@@ -2,19 +2,16 @@ package gui;
 
 import java.awt.CardLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Random;
 
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -22,6 +19,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import controller.ImagesLoader;
 import controller.PlayerController;
 import model.Pair;
 import model.player.Gender;
@@ -39,6 +37,10 @@ public class GameFrame extends JFrame {
     private final CardLayout cLayout = new CardLayout();
     private final GridLayout gridLayout = new GridLayout(1, 3, 50, 0);
     JPanel mainPanel = new JPanel();
+
+    private JPanel mapPanel;
+    final private ImagesLoader imgLoad = new ImagesLoader();
+    private Pair<Integer, Integer> playerPos = new Pair<>(0, 0); // TODO use controller to get this in local function
 
     public GameFrame(PlayerController playerController) {
 	this.playerController = playerController;
@@ -61,6 +63,7 @@ public class GameFrame extends JFrame {
 	JPanel gamePanel = buildMapPanel();
 	continueGame.addActionListener(e -> {
 	    cLayout.show(mainPanel, MAPPANEL);
+	    mapPanel.requestFocusInWindow();
 	});
 	// Pannello di quando inizio un nuovo gioco
 	JPanel newGamePanel = newGame();
@@ -77,10 +80,71 @@ public class GameFrame extends JFrame {
 	this.setVisible(true);
     }
 
-    // TODO create player + map (panel 2)
+    public String getMenuPanelName() {
+	return NEWGAMEPANEL;
+    }
+
     private JPanel buildMapPanel() {
-	return new JPanel() {
-	};
+	//TODO use current player position
+	PlayerPanel topPanel = new PlayerPanel(new Pair<>(0, 0), imgLoad);
+	topPanel.setPlayerImage(new ImageIcon(imgLoad.getPlayerImages(Direction.DOWN).get(0)));
+
+	JPanel bottomPanel = new JPanel();
+	bottomPanel.setOpaque(true);
+	// TODO get Map size and get Map from file
+	bottomPanel.setLayout(new GridLayout(10, 10));
+	for (int i = 0; i < 10; i++) {
+	    for (int j = 0; j < 10; j++) {
+		bottomPanel.add(new JLabel(new ImageIcon(imgLoad.getTerrainImage())));
+	    }
+	}
+	mapPanel = new JPanel();
+	mapPanel.setLayout(null);
+	System.out.println(this.getBounds());
+	topPanel.setBounds(0, 0, this.getWidth(), this.getHeight());
+	bottomPanel.setBounds(0, 0, this.getWidth(), this.getHeight());
+	// added panel in position 0
+	mapPanel.add(topPanel, 0);
+	mapPanel.add(bottomPanel);
+	mapPanel.setFocusable(true);
+	mapPanel.addKeyListener(new PlayerCommands(this));
+	return mapPanel;
+    }
+
+    public void movePlayer(Direction dir) {
+	changePlayerPosition(dir);
+	PlayerPanel topPanel = (PlayerPanel) (mapPanel.getComponent(0));
+	// TODO use controller player
+	topPanel.setNextPosition(playerPos);
+	topPanel.animatedMove(dir, true);// TODO use controller function boolean changePlayerPosition(Direction dir)
+	// TODO check if map has to be changed
+
+    }
+
+    private void changePlayerPosition(Direction dir) {
+	// TODO use controller player
+	switch (dir) {
+	case UP:
+	    this.playerPos = new Pair<>(playerPos.getFirst(), playerPos.getSecond() - 10);
+	    break;
+	case DOWN:
+	    this.playerPos = new Pair<>(playerPos.getFirst(), playerPos.getSecond() + 10);
+	    break;
+	case LEFT:
+	    this.playerPos = new Pair<>(playerPos.getFirst() - 10, playerPos.getSecond());
+	    break;
+	case RIGHT:
+	    this.playerPos = new Pair<>(playerPos.getFirst() + 10, playerPos.getSecond());
+	    break;
+
+	default:
+	    break;
+	}
+
+    }
+
+    public void changePanel(String name) {
+	cLayout.show(mainPanel, name);
     }
 
     // TODO create battle scene (panel 3)
@@ -140,12 +204,8 @@ public class GameFrame extends JFrame {
 	newgame.add(gender, rows);
 	rows.gridy++;
 	newgame.add(trainerNumber, rows);
-
 	return newgame;
 
-    }
-
-    private void changePanel(String name) {
     }
 
     // main di prova, si puo togliere in qualsiasi momento
