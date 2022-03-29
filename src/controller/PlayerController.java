@@ -1,5 +1,7 @@
 package controller;
 
+import java.util.Optional;
+
 import model.Pair;
 
 public interface PlayerController {
@@ -29,7 +31,7 @@ public interface PlayerController {
      * If there is a trainer, it starts the battle.
      * If there is a npc, some text appears.
      * */
-    void interact(Pair<Integer, Integer> coord);
+    Optional<String> interact(Pair<Integer, Integer> coord);
     
     /**
      * @return player position
