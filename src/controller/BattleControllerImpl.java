@@ -1,9 +1,6 @@
 package controller;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-
 import model.battle.MonsterBattle;
 import model.battle.Moves;
 import model.gameitem.GameItems;
@@ -13,21 +10,15 @@ import model.player.Player;
 
 public class BattleControllerImpl implements BattleController {
 
-    private Player player;
     private MonsterBattle monsterBattle;
-    private Monster monster;
-    private NpcTrainer npcTrainer;
 
-    public BattleControllerImpl(Player player, MonsterBattle monsterBattle, NpcTrainer npcTrainer, Monster monster) {
-	this.player = player;
+    public BattleControllerImpl(MonsterBattle monsterBattle) {
 	this.monsterBattle = monsterBattle;
-	this.npcTrainer = npcTrainer;
-	this.monster = monster;
     }
 
     @Override
     public boolean chooseMove(int moveIndex) {
-	if (monster.getMoves(moveIndex).checkPP()) {
+	if (monsterBattle.getCurrentPlayerMonster().getMoves(moveIndex).checkPP()) {
 	    monsterBattle.movesSelection(moveIndex);
 	    return true;
 	}
@@ -35,13 +26,13 @@ public class BattleControllerImpl implements BattleController {
     }
 
     @Override
-    public boolean flee() {
-	return monsterBattle.escape();
+    public void useItem(GameItems gameItem) {
+	monsterBattle.getPlayer().useItem(gameItem, monsterBattle.getCurrentPlayerMonster());
     }
 
     @Override
-    public void useItem(GameItems gameItem) {
-	player.useItem(gameItem, this.monster);
+    public List<GameItems> getAllPlayerItems() {
+	return monsterBattle.getPlayer().allItems();
     }
 
     @Override
@@ -51,21 +42,87 @@ public class BattleControllerImpl implements BattleController {
 
     @Override
     public List<Moves> getMoves() {
-	List<Moves> moves = new ArrayList<>();
-	for (int i = 0; i < monster.getNumberOfMoves(); i++) {
-	    moves.add(this.monster.getMoves(i));
-	}
-	return moves;
+	return monsterBattle.getCurrentPlayerMonster().getAllMoves();
+    }
+
+    @Override
+    public Monster getPlayerCurrentMonster() {
+	return monsterBattle.getCurrentPlayerMonster();
+    }
+
+    @Override
+    public String getPlayerCurrentMonsterName() {
+	return monsterBattle.getCurrentPlayerMonster().getName();
+    }
+
+    @Override
+    public int getPlayerCurrentMonsterHp() {
+	return monsterBattle.getCurrentPlayerMonster().getHealth();
+    }
+
+    @Override
+    public int getPlayerCurrentMonsterMaxHealth() {
+	return monsterBattle.getCurrentPlayerMonster().getMaxHealth();
+    }
+
+    @Override
+    public int getPlayerCurrentMonsterLevel() {
+	return monsterBattle.getCurrentPlayerMonster().getLevel();
     }
 
     @Override
     public List<Monster> getPlayerTeam() {
-	return player.allMonster();
+	return monsterBattle.getPlayer().allMonster();
+    }
+
+    @Override
+    public Monster getEnemyCurrentMonster() {
+	return monsterBattle.getCurrentEnemyMonster();
+    }
+
+    @Override
+    public String getEnemyCurrentMonsterName() {
+	return monsterBattle.getCurrentEnemyMonster().getName();
+    }
+
+    @Override
+    public int getEnemyCurrentMonsterHp() {
+	return monsterBattle.getCurrentEnemyMonster().getHealth();
+    }
+
+    @Override
+    public int getEnemyCurrentMonsterMaxHealth() {
+	return monsterBattle.getCurrentEnemyMonster().getMaxHealth();
+    }
+
+    @Override
+    public int getEnemyCurrentMonsterLevel() {
+	return monsterBattle.getCurrentEnemyMonster().getLevel();
+    }
+
+    @Override
+    public Moves getEnemyCurrentMove() {
+	return monsterBattle.enemyAttack();
     }
 
     @Override
     public List<Monster> getEnemyTeam() {
-	return npcTrainer.getMonstersOwned();
+	return monsterBattle.getNpcEnemy().get().getMonstersOwned();
+    }
+
+    @Override
+    public boolean capture() {
+	return monsterBattle.capture();
+    }
+
+    @Override
+    public boolean flee() {
+	return monsterBattle.escape();
+    }
+
+    @Override
+    public boolean isOver() {
+	return monsterBattle.isOver();
     }
 
 }

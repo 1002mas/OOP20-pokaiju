@@ -1,6 +1,11 @@
 package model.battle;
 
+import java.util.Optional;
+
 import model.gameitem.GameItems;
+import model.monster.Monster;
+import model.npc.NpcTrainer;
+import model.player.Player;
 
 public interface MonsterBattle {
 	
@@ -19,5 +24,13 @@ public interface MonsterBattle {
 	boolean isCurrentMonsterAlive();
 
 	boolean useItem(GameItems item);
+	
+	Monster getCurrentPlayerMonster();
+	
+	Monster getCurrentEnemyMonster();
+	
+	Player getPlayer();
+	
+	Optional<NpcTrainer> getNpcEnemy();
 	
 }
