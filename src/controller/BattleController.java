@@ -47,7 +47,19 @@ public interface BattleController {
     
     /**
      * 
+     * @return
+     */
+    Monster getCurrentPlayerMonster();
+    
+    /**
+     * 
      * @return enemy team
      */
     List<Monster> getEnemyTeam();
+    
+    /**
+     * 
+     * @return
+     */
+    Monster getCurrentEnemyMonster();
 }

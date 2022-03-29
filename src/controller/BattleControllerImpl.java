@@ -61,4 +61,14 @@ public class BattleControllerImpl implements BattleController {
 	return npcTrainer.getMonstersOwned();
     }
 
+    @Override
+    public Monster getCurrentPlayerMonster() {
+	return monsterBattle.getCurrentPlayerMonster();
+    }
+
+    @Override
+    public Monster getCurrentEnemyMonster() {
+	return monsterBattle.getCurrentEnemyMonster();
+    }
+
 }
