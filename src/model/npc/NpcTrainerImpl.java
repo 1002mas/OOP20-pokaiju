@@ -3,6 +3,7 @@ package model.npc;
 import java.util.ArrayList;
 import java.util.Optional;
 
+import model.Pair;
 import model.monster.Monster;
 
 public class NpcTrainerImpl extends NpcSimpleImpl implements NpcTrainer{
@@ -10,8 +11,8 @@ public class NpcTrainerImpl extends NpcSimpleImpl implements NpcTrainer{
 	ArrayList<Monster> monstersOwned;
 	boolean isDefated = false;
 	
-	public NpcTrainerImpl(String name, TypeOfNpc typeOfNpc, ArrayList<String> sentences, ArrayList<Monster> monstersOwned) {
-		super(name, typeOfNpc, sentences);
+	public NpcTrainerImpl(String name, TypeOfNpc typeOfNpc, ArrayList<String> sentences, ArrayList<Monster> monstersOwned, Pair<Integer,Integer> position) {
+		super(name, typeOfNpc, sentences,position);
 		this.monstersOwned = monstersOwned;
 	}
 

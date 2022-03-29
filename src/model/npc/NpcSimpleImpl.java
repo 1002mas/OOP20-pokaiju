@@ -3,17 +3,21 @@ package model.npc;
 import java.util.ArrayList;
 import java.util.Optional;
 
+import model.Pair;
+
 public class NpcSimpleImpl implements NpcSimple {
 
 	String name;
 	TypeOfNpc typeOfNpc;
 	ArrayList<String> sentences;
+	Pair<Integer,Integer> position;
 	
-	public NpcSimpleImpl(String name,TypeOfNpc typeOfNpc,ArrayList<String> sentences) {
+	public NpcSimpleImpl(String name,TypeOfNpc typeOfNpc,ArrayList<String> sentences,Pair<Integer,Integer> position) {
 	
 		this.name = name;
 		this.typeOfNpc = typeOfNpc;
 		this.sentences = sentences;
+		this.position = position;
 	}
 	
 	
@@ -31,6 +35,12 @@ public class NpcSimpleImpl implements NpcSimple {
 	@Override
 	public String getName() {
 		return this.name;
+	}
+
+
+	@Override
+	public Pair<Integer, Integer> getPosition() {
+		return this.position;
 	}
 	
 }
