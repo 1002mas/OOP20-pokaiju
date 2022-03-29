@@ -59,12 +59,12 @@ public interface BattleController {
      * @return current monster health
      */
     int getPlayerCurrentMonsterHp();
-    
+
     /**
      * 
      * @return
      */
-    int getPlayerMonsterMaxHealth();
+    int getPlayerCurrentMonsterMaxHealth();
 
     /**
      * 
@@ -97,12 +97,12 @@ public interface BattleController {
      * @return current enemy monster health
      */
     int getEnemyCurrentMonsterHp();
-    
+
     /**
      * 
      * @return
      */
-    int getEnemyMonsterMaxHealth();
+    int getEnemyCurrentMonsterMaxHealth();
 
     /**
      * 

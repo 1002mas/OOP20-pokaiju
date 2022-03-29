@@ -12,7 +12,7 @@ public class BattleControllerImpl implements BattleController {
 
     private MonsterBattle monsterBattle;
 
-    public BattleControllerImpl(Player player, MonsterBattle monsterBattle, NpcTrainer npcTrainer) {
+    public BattleControllerImpl(MonsterBattle monsterBattle) {
 	this.monsterBattle = monsterBattle;
     }
 
@@ -59,9 +59,9 @@ public class BattleControllerImpl implements BattleController {
     public int getPlayerCurrentMonsterHp() {
 	return monsterBattle.getCurrentPlayerMonster().getHealth();
     }
-    
+
     @Override
-    public int getPlayerMonsterMaxHealth() {
+    public int getPlayerCurrentMonsterMaxHealth() {
 	return monsterBattle.getCurrentPlayerMonster().getMaxHealth();
     }
 
@@ -89,9 +89,9 @@ public class BattleControllerImpl implements BattleController {
     public int getEnemyCurrentMonsterHp() {
 	return monsterBattle.getCurrentEnemyMonster().getHealth();
     }
-    
+
     @Override
-    public int getEnemyMonsterMaxHealth() {
+    public int getEnemyCurrentMonsterMaxHealth() {
 	return monsterBattle.getCurrentEnemyMonster().getMaxHealth();
     }
 
@@ -124,9 +124,5 @@ public class BattleControllerImpl implements BattleController {
     public boolean isOver() {
 	return monsterBattle.isOver();
     }
-
-   
-
-
 
 }
