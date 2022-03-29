@@ -109,7 +109,7 @@ public class MonsterImpl implements Monster {
 
     @Override
     public boolean isAlive() {
-	return this.stats.getHealth() <= 0;
+	return this.stats.getHealth() > 0;
     }
 
     @Override
