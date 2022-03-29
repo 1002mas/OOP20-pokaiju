@@ -19,7 +19,7 @@ public class NpcTest {
 //		ArrayList<Monster> k = new ArrayList<Monster>();
 		ArrayList<String> s = new ArrayList<String>();
 		//NpcSimpleImpl n0 = new NpcSimpleImpl("",null,null);
-		NpcSimple n1 = new NpcTrainerImpl("mario",TypeOfNpc.SIMPLE, s, null);
+		NpcSimple n1 = new NpcTrainerImpl("mario",TypeOfNpc.SIMPLE, s, null, null);
 		System.out.println(n1.getTypeOfNpc());
 		assertTrue("Should be 'mario' ",n1.getName().equals("mario"));
 /*		assertTrue("Shoul be 'false'",!n1.isDefeated());
