@@ -3,47 +3,43 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
-import java.util.Random;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+
 import controller.ImagesLoader;
 import controller.PlayerController;
 import model.Pair;
-import model.player.Gender;
-import model.player.Player;
-import model.player.PlayerImpl;
 
 public class GameFrame extends JFrame {
-    private final static int HEIGHT = 1280;
-    private final static int WIDTH = 720;
-    static final String NEWGAMEPANEL = "new game";
-    static final String MAPPANEL = "map game";
-    static final String MENUPANEL = "menu";
-    static final String LOGINPANEL = "login panel";
+    static final String NEW_GAME_PANEL = "new game";
+    static final String MAP_PANEL = "map game";
+    static final String MENU_PANEL = "menu";
+    static final String LOGIN_PANEL = "login panel";
+
+    private static final int HEIGHT = 1280;
+    private static final int WIDTH = 720;
     private static final long serialVersionUID = -7927156597267134363L;
-    private /* final */ PlayerController playerController;
 
     private final CardLayout cLayout = new CardLayout();
-    private JPanel mainPanel = new JPanel();
+    private final Map<String, JPanel> subPanels = new HashMap<>();
+    private final ImagesLoader imgLoad = new ImagesLoader();
+    private final JPanel mainPanel = new JPanel();
+    private /* final */ PlayerController playerController;
+    
 
-    private JPanel mapPanel;
-    final private ImagesLoader imgLoad = new ImagesLoader();
     private Pair<Integer, Integer> playerPos = new Pair<>(0, 0); // TODO use controller to get this in local function
 
     public GameFrame(PlayerController playerController) {
@@ -52,7 +48,8 @@ public class GameFrame extends JFrame {
 	this.setSize(HEIGHT, WIDTH);
 
 	mainPanel.setLayout(cLayout);
-	// Pannello di quando apro il gioco
+
+	// TODO put this in a different function
 
 	JPanel loginPanel = new JPanel(new GridBagLayout());
 	final JButton continueGame = new JButton(" CONTINUE ");
@@ -74,35 +71,35 @@ public class GameFrame extends JFrame {
 
 	JPanel gamePanel = buildMapPanel();
 	continueGame.addActionListener(e -> {
-	    cLayout.show(mainPanel, MAPPANEL);
-	    mapPanel.requestFocusInWindow();
+	    changePanel(MAP_PANEL);
+	    System.out.println(gamePanel.hasFocus());
+	    System.out.println(gamePanel.isFocusable());
+	    // mapPanel.requestFocusInWindow();
 	});
 
-	JPanel mapPanel = buildMapPanel();
-	continueGame.addActionListener(e -> changePanel(MAPPANEL));
 
 	// Pannello di quando inizio un nuovo gioco
 	JPanel newGamePanel = newGame();
-	newGame.addActionListener(e -> changePanel(NEWGAMEPANEL));
+	newGame.addActionListener(e -> changePanel(NEW_GAME_PANEL));
 	// Pannello del menu di gioco
 	JPanel menuPanel = buildMenuPanel();
 
 	quitGame.addActionListener(e -> System.exit(0));
 
-	mainPanel.add(loginPanel, LOGINPANEL);
-	mainPanel.add(newGamePanel, NEWGAMEPANEL);
-	mainPanel.add(mapPanel, MAPPANEL);
-	mainPanel.add(menuPanel, MENUPANEL);
+	mainPanel.add(loginPanel, LOGIN_PANEL);
+	mainPanel.add(newGamePanel, NEW_GAME_PANEL);
+	mainPanel.add(gamePanel, MAP_PANEL);
+	mainPanel.add(menuPanel, MENU_PANEL);
+
+	subPanels.put(LOGIN_PANEL, loginPanel);
+	subPanels.put(NEW_GAME_PANEL, newGamePanel);
+	subPanels.put(MAP_PANEL, gamePanel);
+	subPanels.put(MENU_PANEL, menuPanel);
 	this.setContentPane(mainPanel);
 	this.setVisible(true);
     }
 
-    public String getMenuPanelName() {
-	return MENUPANEL;
-    }
-
     private JPanel buildMapPanel() {
-
 	// TODO use current player position
 	PlayerPanel topPanel = new PlayerPanel(new Pair<>(0, 0), imgLoad);
 	topPanel.setPlayerImage(new ImageIcon(imgLoad.getPlayerImages(Direction.DOWN).get(0)));
@@ -116,12 +113,10 @@ public class GameFrame extends JFrame {
 		bottomPanel.add(new JLabel(new ImageIcon(imgLoad.getTerrainImage())));
 	    }
 	}
-	mapPanel = new JPanel();
+	JPanel mapPanel = new JPanel();
 	mapPanel.setLayout(null);
-	System.out.println(this.getBounds());
 	topPanel.setBounds(0, 0, this.getWidth(), this.getHeight());
 	bottomPanel.setBounds(0, 0, this.getWidth(), this.getHeight());
-	// added panel in position 0
 	mapPanel.add(topPanel, 0);
 	mapPanel.add(bottomPanel);
 	mapPanel.setFocusable(true);
@@ -131,7 +126,7 @@ public class GameFrame extends JFrame {
 
     public void movePlayer(Direction dir) {
 	changePlayerPosition(dir);
-	PlayerPanel topPanel = (PlayerPanel) (mapPanel.getComponent(0));
+	PlayerPanel topPanel = (PlayerPanel) (subPanels.get(MAP_PANEL).getComponent(0));
 	// TODO use controller player
 	topPanel.setNextPosition(playerPos);
 	topPanel.animatedMove(dir, true);// TODO use controller function boolean changePlayerPosition(Direction dir)
@@ -223,7 +218,7 @@ public class GameFrame extends JFrame {
 	box.addActionListener(e -> changePanel2(underPanel, BOXPANEL));
 	gameItems.addActionListener(e -> changePanel2(underPanel, GAMEITEMSPANEL));
 	playerInfo.addActionListener(e -> changePanel2(underPanel, PLAYERINFOPANEL));
-	quit.addActionListener(e -> changePanel(MAPPANEL));
+	quit.addActionListener(e -> changePanel(MAP_PANEL));
 
 	underPanel.add(monsterPanel, MONSTERPANEL);
 	underPanel.add(boxPanel, BOXPANEL);
@@ -244,14 +239,10 @@ public class GameFrame extends JFrame {
 
     void changePanel(String name) {
 	cLayout.show(mainPanel, name);
+	subPanels.get(name).requestFocusInWindow();
     }
 
     public void changePanel2(JPanel panel, String name) {
 	cLayout.show(panel, name);
-    }
-
-    // main di prova, si puo togliere in qualsiasi momento
-    public static void main(String[] args) {
-	GameFrame newGame = new GameFrame(null);
     }
 }
