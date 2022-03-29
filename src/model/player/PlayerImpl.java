@@ -2,6 +2,7 @@ package model.player;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import model.Pair;
 import model.gameitem.GameItems;
@@ -15,8 +16,8 @@ public class PlayerImpl implements Player {
     private Gender gender;
     private int trainerNumber;
     private Pair<Integer, Integer> position;
-    private ArrayList<Monster> monster;
-    private ArrayList<GameItems> gameItems;
+    private List<Monster> monster;
+    private List<GameItems> gameItems;
     private int money;
 
     public PlayerImpl(String name, Gender gender, int trainerNumber, Pair<Integer, Integer> startingPosition) {
@@ -36,8 +37,8 @@ public class PlayerImpl implements Player {
     }
 
     @Override
-    public ArrayList<Monster> allMonster() {
-	ArrayList<Monster> list = new ArrayList<>(Collections.unmodifiableList(this.monster));
+    public List<Monster> allMonster() {
+	List<Monster> list = new ArrayList<>(Collections.unmodifiableList(this.monster));
 	return list;
     }
 
@@ -48,7 +49,7 @@ public class PlayerImpl implements Player {
     }
 
     @Override
-    public ArrayList<GameItems> allItems() {
+    public List<GameItems> allItems() {
 	return new ArrayList<>(this.gameItems);
     }
 
@@ -114,7 +115,7 @@ public class PlayerImpl implements Player {
 	this.trainerNumber = trainerNumber;
     }
 
-    public ArrayList<Monster> getMonster() {
+    public List<Monster> getMonster() {
 	return monster;
     }
 
@@ -122,7 +123,7 @@ public class PlayerImpl implements Player {
 	this.monster = monster;
     }
 
-    public ArrayList<GameItems> getItems() {
+    public List<GameItems> getItems() {
 	return this.gameItems;
     }
 
@@ -165,5 +166,12 @@ public class PlayerImpl implements Player {
 	return this.allMonster().stream().count() >= 6 ? true : false;
     }
 
+    @Override
+    public boolean removeMonster(Monster m) {
+	if (this.allMonster().contains(m)) {
+	    return this.monster.remove(m);
+	}
+	return false;
+    }
 
 }
