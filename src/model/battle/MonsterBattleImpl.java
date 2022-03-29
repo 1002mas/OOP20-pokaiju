@@ -258,4 +258,16 @@ public class MonsterBattleImpl implements MonsterBattle {
 	// TODO Auto-generated method stub
 	return this.enemy;
     }
+
+    @Override
+    public Player getPlayer() {
+	// TODO Auto-generated method stub
+	return this.trainer;
+    }
+
+    @Override
+    public Optional<NpcTrainer> getNpcEnemy() {
+	// TODO Auto-generated method stub
+	return this.enemyTrainer;
+    }
 }
