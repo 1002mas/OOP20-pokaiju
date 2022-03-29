@@ -32,13 +32,13 @@ public class BattleControllerImpl implements BattleController {
     }
 
     @Override
-    public boolean flee() {
-	return monsterBattle.escape();
-    }
-
-    @Override
     public void useItem(GameItems gameItem) {
 	player.useItem(gameItem, this.monster);
+    }
+    
+    @Override
+    public List<GameItems> getAllPlayerItems() {
+	return player.allItems();
     }
 
     @Override
@@ -52,8 +52,48 @@ public class BattleControllerImpl implements BattleController {
     }
 
     @Override
+    public Monster getCurrentPlayerMonster() {
+	return monsterBattle.getCurrentPlayerMonster();
+    }
+
+    @Override
+    public String getCurrentPlayerMonsterName() {
+	return monsterBattle.getCurrentPlayerMonster().getName();
+    }
+
+    @Override
+    public int getCurrentPlayerMonsterHp() {
+	return monsterBattle.getCurrentPlayerMonster().getHealth();
+    }
+
+    @Override
+    public int getCurrentPlayerMonsterLevel() {
+	return monsterBattle.getCurrentPlayerMonster().getLevel();
+    }
+
+    @Override
     public List<Monster> getPlayerTeam() {
 	return player.allMonster();
+    }
+
+    @Override
+    public Monster getCurrentEnemyMonster() {
+	return monsterBattle.getCurrentEnemyMonster();
+    }
+
+    @Override
+    public String getCurrentEnemyMonsterName() {
+	return monsterBattle.getCurrentPlayerMonster().getName();
+    }
+
+    @Override
+    public int getCurrentEnemyMonsterHp() {
+	return monsterBattle.getCurrentEnemyMonster().getHealth();
+    }
+
+    @Override
+    public int getCurrentEnemyMonsterLevel() {
+	return monsterBattle.getCurrentPlayerMonster().getLevel();
     }
 
     @Override
@@ -62,13 +102,19 @@ public class BattleControllerImpl implements BattleController {
     }
 
     @Override
-    public Monster getCurrentPlayerMonster() {
-	return monsterBattle.getCurrentPlayerMonster();
+    public boolean capture() {
+	return monsterBattle.capture();
     }
 
     @Override
-    public Monster getCurrentEnemyMonster() {
-	return monsterBattle.getCurrentEnemyMonster();
+    public boolean flee() {
+	return monsterBattle.escape();
     }
+
+    @Override
+    public boolean isOver() {
+	return monsterBattle.isOver();
+    }
+
 
 }
