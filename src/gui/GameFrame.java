@@ -40,7 +40,7 @@ public class GameFrame extends JFrame {
     private /* final */ PlayerController playerController;
 
     private final CardLayout cLayout = new CardLayout();
-    JPanel mainPanel = new JPanel();
+    private JPanel mainPanel = new JPanel();
 
     private JPanel mapPanel;
     final private ImagesLoader imgLoad = new ImagesLoader();
@@ -58,7 +58,6 @@ public class GameFrame extends JFrame {
 	final JButton continueGame = new JButton(" CONTINUE ");
 	final JButton newGame = new JButton(" NEW GAME ");
 	final JButton quitGame = new JButton(" QUIT GAME ");
-	// loginPanel.setLayout(gridLayout);
 	final GridBagConstraints cons = new GridBagConstraints();
 	cons.gridy = 0;
 	cons.fill = GridBagConstraints.HORIZONTAL;
@@ -99,7 +98,7 @@ public class GameFrame extends JFrame {
     }
 
     public String getMenuPanelName() {
-	return NEWGAMEPANEL;
+	return MENUPANEL;
     }
 
     private JPanel buildMapPanel() {
@@ -253,37 +252,6 @@ public class GameFrame extends JFrame {
 
     // main di prova, si puo togliere in qualsiasi momento
     public static void main(String[] args) {
-	GameFrame frame = new GameFrame(new PlayerController() {
-
-	    @Override
-	    public void saveData() {
-		// TODO Auto-generated method stub
-
-	    }
-
-	    @Override
-	    public boolean movePlayer(Pair<Integer, Integer> coord) {
-		// TODO Auto-generated method stub
-		return false;
-	    }
-
-	    @Override
-	    public boolean loadData() {
-		// TODO Auto-generated method stub
-		return false;
-	    }
-
-	    @Override
-	    public void interact(Pair<Integer, Integer> coord) {
-		// TODO Auto-generated method stub
-
-	    }
-
-	    @Override
-	    public Pair<Integer, Integer> getPlayerPosition() {
-		// TODO Auto-generated method stub
-		return null;
-	    }
-	});
+	GameFrame newGame = new GameFrame(null);
     }
 }

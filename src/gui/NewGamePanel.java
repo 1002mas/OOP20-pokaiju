@@ -25,10 +25,7 @@ public class NewGamePanel extends JPanel {
     }
 
     private void init() {
-	/*
-	 * JPanel newgame = new JPanel(new GridBagLayout());
-	 * newgame.setBorder(BorderFactory.createLineBorder(Color.green));
-	 */
+
 	this.setLayout(new GridBagLayout());
 	this.setBorder(BorderFactory.createLineBorder(Color.green));
 
