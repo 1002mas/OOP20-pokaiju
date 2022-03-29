@@ -1,6 +1,7 @@
 package model.player;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import model.Pair;
 import model.gameitem.*;
@@ -19,14 +20,14 @@ public interface Player {
      * 
      * @return Player's list of monster
      */
-    ArrayList<Monster> allMonster();
+    List<Monster> allMonster();
 
     /**
      * This function returns all player's GameItems
      * 
      * @return Player's list of GameItem
      */
-    ArrayList<GameItems> allItems();
+    List<GameItems> allItems();
 
     /**
      * This function adds new GameItems to player's bag
@@ -65,6 +66,14 @@ public interface Player {
      * @return true if add is successfully
      */
     boolean addMonster(Monster m);
+
+    /**
+     * This function returns if remove Monster is successfully or not
+     * 
+     * @param Monster
+     * @return true if remove is successfully
+     */
+    boolean removeMonster(Monster m);
 
     /**
      * This function returns Player's name
@@ -107,7 +116,7 @@ public interface Player {
      * @param money to be set
      */
     void setMoney(int money);
-    
+
     /**
      * This function sets Player's position
      * 
