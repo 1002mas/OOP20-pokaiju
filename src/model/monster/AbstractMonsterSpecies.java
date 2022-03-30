@@ -1,4 +1,5 @@
 package model.monster;
+
 import java.util.Optional;
 
 //a single instance of this class represents a monster species  
@@ -10,12 +11,14 @@ public abstract class AbstractMonsterSpecies implements MonsterSpecies {
     private final String info;
     private final MonsterType type;
     private final EvolutionType evolutionType;
+    private final MonsterStats stats;
 
-    protected AbstractMonsterSpecies(String name, String info, MonsterType type, Optional<MonsterSpecies> evolution,
-	    EvolutionType evolutionType) {
+    protected AbstractMonsterSpecies(String name, String info, MonsterType type, MonsterStats stats,
+	    Optional<MonsterSpecies> evolution, EvolutionType evolutionType) {
 	this.name = name;
 	this.info = info;
 	this.type = type;
+	this.stats = stats;
 	this.evolution = evolution;
 	this.evolutionType = evolutionType;
 
@@ -34,6 +37,11 @@ public abstract class AbstractMonsterSpecies implements MonsterSpecies {
     @Override
     public MonsterType getType() {
 	return this.type;
+    }
+
+    @Override
+    public MonsterStats getStats() {
+	return this.stats;
     }
 
     @Override

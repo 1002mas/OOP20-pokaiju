@@ -24,6 +24,13 @@ public interface MonsterSpecies {
      * @return monster type
      */
     MonsterType getType();
+    
+    /**
+     * This function returns monster's stats
+     * 
+     * @return monster stats
+     */
+    MonsterStats getStats();
 
     /**
      * This function returns the evolution type

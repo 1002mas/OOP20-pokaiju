@@ -47,20 +47,22 @@ public class TestMonster {
 		new MovesImpl("Attacco", 10, MonsterType.FIRE, 10), new MovesImpl("Volo", 50, MonsterType.FIRE, 10),
 		new MovesImpl("Fossa", 50, MonsterType.FIRE, 10));
 	// Level test initialization
-	this.secondEvolution = new MonsterSpeciesSimple("Pippo3", "Info3", MonsterType.FIRE);
-	this.firstEvolution = new MonsterSpeciesByLevel("Pippo2", "Info2", MonsterType.FIRE, secondEvolution,
-		SECOND_EVOLUTION_LEVEL);
-	this.species = new MonsterSpeciesByLevel("Pippo", "Info", MonsterType.FIRE, firstEvolution,
-		FIRST_EVOLUTION_LEVEL);
+	this.secondEvolution = new MonsterSpeciesSimple("Pippo3", "Info3", MonsterType.FIRE,
+		new MonsterStatsImpl(50, 10, 10, 10));
+	this.firstEvolution = new MonsterSpeciesByLevel("Pippo2", "Info2", MonsterType.FIRE,
+		new MonsterStatsImpl(50, 10, 10, 10), secondEvolution, SECOND_EVOLUTION_LEVEL);
+	this.species = new MonsterSpeciesByLevel("Pippo", "Info", MonsterType.FIRE,
+		new MonsterStatsImpl(50, 10, 10, 10), firstEvolution, FIRST_EVOLUTION_LEVEL);
 	this.monster = new MonsterBuilderImpl().stats(new MonsterStatsImpl(50, 20, 20, 20)).exp(0).level(1)
 		.isWild(false).species(species).movesList(listOfMoves).build();
 	// Item test initialization
 	this.holdedItemWrong = new EvolutionItem("PietraPippo", 1, "desc", GameItemTypes.EVOLUTIONTOOL);
 	this.holdedItemRight = new EvolutionItem("PietraPaperino", 1, "desc", GameItemTypes.EVOLUTIONTOOL);
 	this.neededItem = new EvolutionItem("PietraPaperino", 1, "desc", GameItemTypes.EVOLUTIONTOOL);
-	this.firstEvolutionByItem = new MonsterSpeciesSimple("Paperino2", "Info2", MonsterType.WATER);
-	this.speciesByItem = new MonsterSpeciesByItem("Paperino", "Info", MonsterType.WATER, firstEvolutionByItem,
-		neededItem);
+	this.firstEvolutionByItem = new MonsterSpeciesSimple("Paperino2", "Info2", MonsterType.WATER,
+		new MonsterStatsImpl(50, 10, 10, 10));
+	this.speciesByItem = new MonsterSpeciesByItem("Paperino", "Info", MonsterType.WATER,
+		new MonsterStatsImpl(50, 10, 10, 10), firstEvolutionByItem, neededItem);
 	this.monsterByItem = new MonsterBuilderImpl().stats(new MonsterStatsImpl(50, 20, 20, 20)).exp(0).level(1)
 		.isWild(false).species(speciesByItem).movesList(listOfMoves).build();
     }
