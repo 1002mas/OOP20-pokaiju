@@ -18,6 +18,13 @@ public interface GameItems {
     GameItemTypes getType();
 
     /**
+     * This function returns GameItem's Description
+     *
+     * @return GameItem's Description
+     */
+     String getDescription();
+
+    /**
      * This function returns if GameItem is used
      * 
      * @param monster

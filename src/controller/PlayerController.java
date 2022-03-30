@@ -3,6 +3,9 @@ package controller;
 import java.util.Optional;
 
 import model.Pair;
+import model.player.Gender;
+import model.player.Player;
+import model.player.PlayerImpl;
 
 public interface PlayerController {
     /**
@@ -37,4 +40,19 @@ public interface PlayerController {
      * @return player position
      * */
     Pair<Integer, Integer> getPlayerPosition();
+    
+    /**
+     * set new Player
+     * 
+     * @param new name, gender, trainerNumber
+     */
+    public void setNewPlayer(String name, Gender gender, int trainerNumber);
+    
+    /**
+     * get Player
+     * 
+     * @return Player
+     */
+    public Player getPlayer();
+     
 }
