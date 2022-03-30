@@ -17,10 +17,20 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import controller.PlayerController;
+import model.Pair;
+import model.map.GameMapDataImpl;
+import model.map.GameMapImpl;
 import model.player.Gender;
+import model.player.Player;
+import model.player.PlayerImpl;
 
 public class NewGamePanel extends JPanel {
-    public NewGamePanel() {
+
+    private PlayerController playerController;
+
+    public NewGamePanel(PlayerController playerController) {
+	this.playerController = playerController;
 	init();
     }
 
@@ -47,8 +57,9 @@ public class NewGamePanel extends JPanel {
 	trainerNumberLabel.setFont(new Font("Verdana", Font.CENTER_BASELINE, 20));
 	trainerNumberLabel.setEnabled(false);
 
-	JButton postData = new JButton("POST");
+	JButton postData = new JButton("CREATE");
 	postData.addActionListener(new ActionListener() {
+
 	    public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		/*
@@ -56,9 +67,13 @@ public class NewGamePanel extends JPanel {
 		 * gender.getSelectedItem(), Integer.valueOf(trainerNumberField.getText()), new
 		 * Pair<Integer, Integer>(0, 0)); System.out.println(p);
 		 */
+
 		if (nameField.getText().equals("")) {
 		    JOptionPane.showMessageDialog(null, "name can't be null", "alert", JOptionPane.WARNING_MESSAGE);
 		}
+		playerController.setNewPlayer(nameField.getText(), (Gender) gender.getSelectedItem(), a);
+		System.out.println(playerController.getPlayer().toString());
+
 	    }
 	});
 

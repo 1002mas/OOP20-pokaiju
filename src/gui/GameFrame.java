@@ -8,7 +8,12 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.BorderFactory;
@@ -17,11 +22,20 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTable;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 import controller.ImagesLoader;
 import controller.PlayerController;
+import model.JTableModel;
 import model.Pair;
+import model.gameitem.GameItemTypes;
+import model.gameitem.GameItems;
+import model.gameitem.SimpleItem;
+import model.monster.*;
 
 public class GameFrame extends JFrame {
     static final String NEW_GAME_PANEL = "new game";
@@ -60,7 +74,7 @@ public class GameFrame extends JFrame {
 	});
 
 	// Pannello di quando inizio un nuovo gioco
-	JPanel newGamePanel = newGame();
+	JPanel newGamePanel = newGamePanel();
 	loginPanel.getnewGame().addActionListener(e -> changePanel(NEW_GAME_PANEL));
 	// Pannello del menu di gioco
 	JPanel menuPanel = buildMenuPanel();
@@ -151,43 +165,61 @@ public class GameFrame extends JFrame {
 
 	JPanel mainPanel = new JPanel(new BorderLayout());
 
-	JPanel options = new JPanel(new FlowLayout());
-	options.setBorder(BorderFactory.createLineBorder(Color.blue));
+	JPanel upPanel = new JPanel(new FlowLayout());
+	upPanel.setBorder(BorderFactory.createLineBorder(Color.blue));
 
 	final JButton monster = new JButton("MONSTER");
 	final JButton box = new JButton(" BOX ");
-	final JButton gameItems = new JButton(" GAMEITEMS ");
+	final JButton gameItems = new JButton(" BAG ");
 	final JButton playerInfo = new JButton(" PLAYERINFO ");
 	final JButton quit = new JButton(" QUIT MENU ");
 
-	options.add(monster);
-	options.add(box);
-	options.add(gameItems);
-	options.add(playerInfo);
-	options.add(quit);
+	upPanel.add(monster);
+	upPanel.add(box);
+	upPanel.add(gameItems);
+	upPanel.add(playerInfo);
+	upPanel.add(quit);
 
 	JPanel underPanel = new JPanel();
 	underPanel.setBorder(BorderFactory.createLineBorder(Color.red));
 	underPanel.setLayout(cLayout);
 
-	JPanel monsterPanel = new JPanel();
-	JLabel monsterLabel = new JLabel();
-	monsterLabel.setText("panel 1");
-	monsterPanel.add(monsterLabel);
+	JPanel monsterPanel = new JPanel(new GridLayout(2, 3));
+	List<JLabel> monsterLabel = new ArrayList<>();
+	List<String> listTry = new ArrayList<>();
+	listTry.add("ciao");
+	listTry.add("cia");
+	listTry.add("ci");
+	listTry.add("c");
+	listTry.add("c");
+	listTry.add("luca");
+	/*
+	 * for(Monster m : this.playerController.getPlayer().allMonster()) { JLabel
+	 * singlePanelJLabel = new JLabel(); singlePanelJLabel.setText(m.getName());
+	 * monsterLabel.add(singlePanelJLabel); }
+	 */
+	for (String m : listTry) {
+	    JLabel singlePanelJLabel = new JLabel();
+	    singlePanelJLabel.setText(m);
+	    singlePanelJLabel.setHorizontalAlignment(SwingConstants.CENTER);
+	    singlePanelJLabel.setVerticalAlignment(SwingConstants.CENTER);
+	    singlePanelJLabel.setBorder(BorderFactory.createLineBorder(Color.blue));
+	    monsterLabel.add(singlePanelJLabel);
+	}
+	for (JLabel j : monsterLabel) {
+	    monsterPanel.add(j);
+	}
 
 	JPanel boxPanel = new JPanel();
 	JLabel boxLabel = new JLabel();
-	boxLabel.setText("panel 2");
 	boxPanel.add(boxLabel);
 
-	JPanel gameItemPanel = new JPanel();
-	JLabel gameItemLabel = new JLabel();
-	gameItemLabel.setText("panel 3");
-	gameItemPanel.add(gameItemLabel);
+	//codice giusto
+	//GameItemPanel gameItemPanel = new GameItemPanel(playerController.getPlayer().allItems());
+	GameItemPanel gameItemPanel = new GameItemPanel();
 
 	JPanel playerInfoPanel = new JPanel();
 	JLabel playerInfolabel = new JLabel();
-	playerInfolabel.setText("panel 4");
 	playerInfoPanel.add(playerInfolabel);
 
 	underPanel.add(monsterPanel);
@@ -206,7 +238,7 @@ public class GameFrame extends JFrame {
 	underPanel.add(gameItemPanel, GAMEITEMSPANEL);
 	underPanel.add(playerInfoPanel, PLAYERINFOPANEL);
 
-	mainPanel.add(options, BorderLayout.NORTH);
+	mainPanel.add(upPanel, BorderLayout.NORTH);
 	mainPanel.add(underPanel, BorderLayout.CENTER);
 
 	return mainPanel;
@@ -214,8 +246,8 @@ public class GameFrame extends JFrame {
 
     // TODO create new game menu (panel 5)
 
-    public JPanel newGame() {
-	return new NewGamePanel();
+    private JPanel newGamePanel() {
+	return new NewGamePanel(this.playerController);
     }
 
     void changePanel(String name) {

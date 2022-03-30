@@ -21,90 +21,98 @@ import model.map.GameMapImpl;
 import model.monster.MonsterSpecies;
 import model.monster.MonsterStats;
 import model.npc.NpcSimple;
+import model.player.Gender;
 import model.player.Player;
 import model.player.PlayerImpl;
 import test.InterfaceAdapter;
 
 public class PlayerControllerImpl implements PlayerController {
-	
-	PlayerImpl player;
-	GameMapDataImpl gameDataMap;
-	GameMapImpl gameMap;
-	GsonBuilder gsonBuilder;
-	Gson gson;
-	
-	public PlayerControllerImpl(PlayerImpl player, GameMapDataImpl gameDataMap, GameMapImpl gameMap) {
-		this.player = player;
-		this.gameDataMap = gameDataMap;
-		this.gameMap = gameMap;
-		this.gsonBuilder = new GsonBuilder();
-		gsonBuilder.registerTypeAdapter(MonsterSpecies.class, new TypeAdapterController());
-		gsonBuilder.registerTypeAdapter(Moves.class, new TypeAdapterController());
-		gsonBuilder.registerTypeAdapter(MonsterStats.class, new TypeAdapterController());
-		this.gson = gsonBuilder.create();
-	}
-	
-	@Override
-	public void saveData() {
-		
-		String playerJson = gson.toJson(player);
 
-		 try (BufferedWriter bf = new BufferedWriter( new FileWriter("PlayerData.json"))) {	
-	        	bf.write(playerJson);	
-	        } catch (IOException e) {
-	            e.printStackTrace();
-	        }
-		 //---ADD NPC saver---
-	}
+    PlayerImpl player;
+    GameMapDataImpl gameDataMap;
+    GameMapImpl gameMap;
+    GsonBuilder gsonBuilder;
+    Gson gson;
 
-	@Override
-	public boolean loadData() {
-		String playerNameFile = "PlayerData.json";
-		File playerDataFile = new File(playerNameFile);
-		if(playerDataFile.exists()) {
-			 
-			try (final BufferedReader reader = new BufferedReader ( new FileReader ( "pirupiru.json" ))){
-		        			String stringReadPlayer; 
-		        			while ((stringReadPlayer = reader.readLine()) != null) {
-		        				Player Loadedplayer = gson.fromJson(stringReadPlayer,PlayerImpl.class);	
-		    	   			  }
-		        			
-		    		    } catch (IOException e) {
-							//e.printStackTrace();
-							return false;
-						} 
-			//---ADD NPC loader---
-			
-			
-			return true;
+    public PlayerControllerImpl(PlayerImpl player, GameMapDataImpl gameDataMap, GameMapImpl gameMap) {
+	this.player = player;
+	this.gameDataMap = gameDataMap;
+	this.gameMap = gameMap;
+	this.gsonBuilder = new GsonBuilder();
+	gsonBuilder.registerTypeAdapter(MonsterSpecies.class, new TypeAdapterController());
+	gsonBuilder.registerTypeAdapter(Moves.class, new TypeAdapterController());
+	gsonBuilder.registerTypeAdapter(MonsterStats.class, new TypeAdapterController());
+	this.gson = gsonBuilder.create();
+    }
+
+    @Override
+    public void saveData() {
+
+	String playerJson = gson.toJson(player);
+
+	try (BufferedWriter bf = new BufferedWriter(new FileWriter("PlayerData.json"))) {
+	    bf.write(playerJson);
+	} catch (IOException e) {
+	    e.printStackTrace();
+	}
+	// ---ADD NPC saver---
+    }
+
+    @Override
+    public boolean loadData() {
+	String playerNameFile = "PlayerData.json";
+	File playerDataFile = new File(playerNameFile);
+	if (playerDataFile.exists()) {
+
+	    try (final BufferedReader reader = new BufferedReader(new FileReader("pirupiru.json"))) {
+		String stringReadPlayer;
+		while ((stringReadPlayer = reader.readLine()) != null) {
+		    Player Loadedplayer = gson.fromJson(stringReadPlayer, PlayerImpl.class);
 		}
+
+	    } catch (IOException e) {
+		// e.printStackTrace();
 		return false;
-	}
+	    }
+	    // ---ADD NPC loader---
 
-	@Override
-	public boolean movePlayer(Pair<Integer, Integer> coord) {
-		
-		if(gameMap.canChangeMap(coord) || gameMap.canPassThrough(coord)) {
-			player.setPosition(coord);
-			return true;
-		} 
-		return false;
+	    return true;
 	}
+	return false;
+    }
 
-	@Override
-	public  Optional<String> interact(Pair<Integer, Integer> coord) {	//----Problema battaglia-----
-		if(gameDataMap.getNPC(coord).isPresent()) {
-			Optional<String> result = gameDataMap.getNPC(coord).get().interactWith();
-			return result;
-		}
-		return Optional.empty();
-	}
+    @Override
+    public boolean movePlayer(Pair<Integer, Integer> coord) {
 
-	@Override
-	public Pair<Integer, Integer> getPlayerPosition() {
-		return this.player.getPosition();
+	if (gameMap.canChangeMap(coord) || gameMap.canPassThrough(coord)) {
+	    player.setPosition(coord);
+	    return true;
 	}
-	
-	//-----add useItems function-----
-		
+	return false;
+    }
+
+    @Override
+    public Optional<String> interact(Pair<Integer, Integer> coord) { // ----Problema battaglia-----
+	if (gameDataMap.getNPC(coord).isPresent()) {
+	    Optional<String> result = gameDataMap.getNPC(coord).get().interactWith();
+	    return result;
+	}
+	return Optional.empty();
+    }
+
+    @Override
+    public Pair<Integer, Integer> getPlayerPosition() {
+	return this.player.getPosition();
+    }
+
+    public PlayerImpl getPlayer() {
+	return player;
+    }
+
+    public void setNewPlayer(String name, Gender gender, int trainerNumber) {
+	this.player = new PlayerImpl(name, gender, trainerNumber, new Pair<Integer, Integer>(0, 0));
+    }
+
+    // -----add useItems function-----
+
 }
