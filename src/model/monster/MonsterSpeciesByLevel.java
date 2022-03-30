@@ -5,8 +5,8 @@ public class MonsterSpeciesByLevel extends AbstractMonsterSpecies {
 
     private int evolutionLevel;
 
-    public MonsterSpeciesByLevel(String name, String info, MonsterType type, MonsterSpecies evolution, int evolutionLevel) {
-	super(name, info, type, Optional.of(evolution), EvolutionType.LEVEL);
+    public MonsterSpeciesByLevel(String name, String info, MonsterType type, MonsterStats stats, MonsterSpecies evolution, int evolutionLevel) {
+	super(name, info, type, stats, Optional.of(evolution), EvolutionType.LEVEL);
 	this.evolutionLevel = evolutionLevel;
     }
 
