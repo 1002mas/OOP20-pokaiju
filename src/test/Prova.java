@@ -8,7 +8,7 @@ public class Prova {
 	// TODO Auto-generated method stub
 
 	/*
-	 * Player p = new PlayerImpl("Luca",Gender.MAN, 6969669, 0, 0); Monster m = new
+	 * Player p = new PlayerImpl("Luca",Gender.MAN, 6969669, 0, 0); //Monster m = new
 	 * MonsterImpl("pikachu", 100, "Electro", "Topo giallo"); Monster m2 = new
 	 * MonsterImpl("pikachu", 150, "Electro", "Topo giallo");
 	 * //System.out.println(p); Item i1 = new Item("Pokeball", 1,

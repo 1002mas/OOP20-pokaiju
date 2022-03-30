@@ -1,44 +1,45 @@
 package gui;
 
+import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.Random;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
+import controller.ImagesLoader;
 import controller.PlayerController;
 import model.Pair;
-import model.player.Gender;
 
 public class GameFrame extends JFrame {
-    private final static int HEIGHT = 1280;
-    private final static int WIDTH = 720;
-    static final String NEWGAMEPANEL = "new game";
-    static final String MAPPANEL = "map game";
-    static final String GAMEPANEL = "ingame";
-    static final String LOGINPANEL = "login panel";
+    static final String NEW_GAME_PANEL = "new game";
+    static final String MAP_PANEL = "map game";
+    static final String MENU_PANEL = "menu";
+    static final String LOGIN_PANEL = "login panel";
+
+    private static final int HEIGHT = 1280;
+    private static final int WIDTH = 720;
     private static final long serialVersionUID = -7927156597267134363L;
-    private /* final */ PlayerController playerController;
 
     private final CardLayout cLayout = new CardLayout();
-    private final GridLayout gridLayout = new GridLayout(1, 3, 50, 0);
-    JPanel mainPanel = new JPanel();
+    private final Map<String, JPanel> subPanels = new HashMap<>();
+    private final ImagesLoader imgLoad = new ImagesLoader();
+    private final JPanel mainPanel = new JPanel();
+    private /* final */ PlayerController playerController;
+
+    private Pair<Integer, Integer> playerPos = new Pair<>(0, 0); // TODO use controller to get this in local function
 
     public GameFrame(PlayerController playerController) {
 	this.playerController = playerController;
@@ -46,41 +47,94 @@ public class GameFrame extends JFrame {
 	this.setSize(HEIGHT, WIDTH);
 
 	mainPanel.setLayout(cLayout);
-	// Pannello di quando apro il gioco
 
-	JPanel loginPanel = new JPanel();
-	loginPanel.setLayout(gridLayout);
-	final JButton continueGame = new JButton(" CONTINUE ");
-	final JButton newGame = new JButton(" NEW GAME ");
-	final JButton quitGame = new JButton(" QUIT GAME ");
-	loginPanel.add(continueGame);
-	loginPanel.add(newGame);
-	loginPanel.add(quitGame);
+	LoginPanel loginPanel = new LoginPanel();
 
 	// Pannello di quando clicco continua gioco
 	JPanel gamePanel = buildMapPanel();
-	continueGame.addActionListener(e -> {
-	    cLayout.show(mainPanel, MAPPANEL);
+	loginPanel.getContinue().addActionListener(e -> {
+	    changePanel(MAP_PANEL);
+	    System.out.println(gamePanel.hasFocus());
+	    System.out.println(gamePanel.isFocusable());
+	    // mapPanel.requestFocusInWindow();
 	});
+
 	// Pannello di quando inizio un nuovo gioco
 	JPanel newGamePanel = newGame();
-	newGame.addActionListener(e -> {
-	    cLayout.show(mainPanel, NEWGAMEPANEL);
-	});
+	loginPanel.getnewGame().addActionListener(e -> changePanel(NEW_GAME_PANEL));
+	// Pannello del menu di gioco
+	JPanel menuPanel = buildMenuPanel();
 
-	quitGame.addActionListener(e -> System.exit(0));
+	loginPanel.getquitGame().addActionListener(e -> System.exit(0));
 
-	mainPanel.add(loginPanel, LOGINPANEL);
-	mainPanel.add(newGamePanel, NEWGAMEPANEL);
-	mainPanel.add(gamePanel, MAPPANEL);
+	mainPanel.add(loginPanel, LOGIN_PANEL);
+	mainPanel.add(newGamePanel, NEW_GAME_PANEL);
+	mainPanel.add(gamePanel, MAP_PANEL);
+	mainPanel.add(menuPanel, MENU_PANEL);
+
+	subPanels.put(LOGIN_PANEL, loginPanel);
+	subPanels.put(NEW_GAME_PANEL, newGamePanel);
+	subPanels.put(MAP_PANEL, gamePanel);
+	subPanels.put(MENU_PANEL, menuPanel);
 	this.setContentPane(mainPanel);
 	this.setVisible(true);
     }
 
-    // TODO create player + map (panel 2)
     private JPanel buildMapPanel() {
-	return new JPanel() {
-	};
+	// TODO use current player position
+	PlayerPanel topPanel = new PlayerPanel(new Pair<>(0, 0), imgLoad);
+	topPanel.setPlayerImage(new ImageIcon(imgLoad.getPlayerImages(Direction.DOWN).get(0)));
+
+	JPanel bottomPanel = new JPanel();
+	bottomPanel.setOpaque(true);
+	// TODO get Map size and get Map from file
+	bottomPanel.setLayout(new GridLayout(10, 10));
+	for (int i = 0; i < 10; i++) {
+	    for (int j = 0; j < 10; j++) {
+		bottomPanel.add(new JLabel(new ImageIcon(imgLoad.getTerrainImage())));
+	    }
+	}
+	JPanel mapPanel = new JPanel();
+	mapPanel.setLayout(null);
+	topPanel.setBounds(0, 0, this.getWidth(), this.getHeight());
+	bottomPanel.setBounds(0, 0, this.getWidth(), this.getHeight());
+	mapPanel.add(topPanel, 0);
+	mapPanel.add(bottomPanel);
+	mapPanel.setFocusable(true);
+	mapPanel.addKeyListener(new PlayerCommands(this));
+	return mapPanel;
+    }
+
+    public void movePlayer(Direction dir) {
+	changePlayerPosition(dir);
+	PlayerPanel topPanel = (PlayerPanel) (subPanels.get(MAP_PANEL).getComponent(0));
+	// TODO use controller player
+	topPanel.setNextPosition(playerPos);
+	topPanel.animatedMove(dir, true);// TODO use controller function boolean changePlayerPosition(Direction dir)
+	// TODO check if map has to be changed
+
+    }
+
+    private void changePlayerPosition(Direction dir) {
+	// TODO use controller player
+	switch (dir) {
+	case UP:
+	    this.playerPos = new Pair<>(playerPos.getFirst(), playerPos.getSecond() - 10);
+	    break;
+	case DOWN:
+	    this.playerPos = new Pair<>(playerPos.getFirst(), playerPos.getSecond() + 10);
+	    break;
+	case LEFT:
+	    this.playerPos = new Pair<>(playerPos.getFirst() - 10, playerPos.getSecond());
+	    break;
+	case RIGHT:
+	    this.playerPos = new Pair<>(playerPos.getFirst() + 10, playerPos.getSecond());
+	    break;
+
+	default:
+	    break;
+	}
+
     }
 
     // TODO create battle scene (panel 3)
@@ -90,97 +144,83 @@ public class GameFrame extends JFrame {
 
     // TODO create menu (panel 4)
     private JPanel buildMenuPanel() {
-	JPanel options = new JPanel();
-	options.setLayout(new FlowLayout());
+	final String MONSTERPANEL = "MONSTER";
+	final String BOXPANEL = "BOX";
+	final String GAMEITEMSPANEL = "ITEMS";
+	final String PLAYERINFOPANEL = "INFO";
+
+	JPanel mainPanel = new JPanel(new BorderLayout());
+
+	JPanel options = new JPanel(new FlowLayout());
+	options.setBorder(BorderFactory.createLineBorder(Color.blue));
+
 	final JButton monster = new JButton("MONSTER");
 	final JButton box = new JButton(" BOX ");
 	final JButton gameItems = new JButton(" GAMEITEMS ");
 	final JButton playerInfo = new JButton(" PLAYERINFO ");
-	final JButton quit = new JButton(" QUIT ");
+	final JButton quit = new JButton(" QUIT MENU ");
 
 	options.add(monster);
 	options.add(box);
 	options.add(gameItems);
 	options.add(playerInfo);
 	options.add(quit);
-	return options;
+
+	JPanel underPanel = new JPanel();
+	underPanel.setBorder(BorderFactory.createLineBorder(Color.red));
+	underPanel.setLayout(cLayout);
+
+	JPanel monsterPanel = new JPanel();
+	JLabel monsterLabel = new JLabel();
+	monsterLabel.setText("panel 1");
+	monsterPanel.add(monsterLabel);
+
+	JPanel boxPanel = new JPanel();
+	JLabel boxLabel = new JLabel();
+	boxLabel.setText("panel 2");
+	boxPanel.add(boxLabel);
+
+	JPanel gameItemPanel = new JPanel();
+	JLabel gameItemLabel = new JLabel();
+	gameItemLabel.setText("panel 3");
+	gameItemPanel.add(gameItemLabel);
+
+	JPanel playerInfoPanel = new JPanel();
+	JLabel playerInfolabel = new JLabel();
+	playerInfolabel.setText("panel 4");
+	playerInfoPanel.add(playerInfolabel);
+
+	underPanel.add(monsterPanel);
+	underPanel.add(boxPanel);
+	underPanel.add(gameItemPanel);
+	underPanel.add(playerInfoPanel);
+
+	monster.addActionListener(e -> cLayout.show(underPanel, MONSTERPANEL));
+	box.addActionListener(e -> cLayout.show(underPanel, BOXPANEL));
+	gameItems.addActionListener(e -> cLayout.show(underPanel, GAMEITEMSPANEL));
+	playerInfo.addActionListener(e -> cLayout.show(underPanel, PLAYERINFOPANEL));
+	quit.addActionListener(e -> changePanel(MAP_PANEL));
+
+	underPanel.add(monsterPanel, MONSTERPANEL);
+	underPanel.add(boxPanel, BOXPANEL);
+	underPanel.add(gameItemPanel, GAMEITEMSPANEL);
+	underPanel.add(playerInfoPanel, PLAYERINFOPANEL);
+
+	mainPanel.add(options, BorderLayout.NORTH);
+	mainPanel.add(underPanel, BorderLayout.CENTER);
+
+	return mainPanel;
     }
 
     // TODO create new game menu (panel 5)
-    private JPanel newGame() {
-	JPanel newgame = new JPanel(new GridBagLayout());
-	newgame.setBorder(BorderFactory.createLineBorder(Color.red));
 
-	JLabel nameLabel = new JLabel();
-	JTextField nameField = new JTextField(10);
-	nameLabel.setText("Insert name :");
-	nameField.setSize(100, 100);
-
-	JLabel askGender = new JLabel();
-	JComboBox<Gender> gender = new JComboBox<>(Gender.values());
-	askGender.setText("Select your gender :");
-	askGender.setSize(100, 100);
-
-	Random rand = new Random();
-	int a = rand.nextInt(999999) + 100000;
-	JLabel trainerNumber = new JLabel();
-	trainerNumber.setText("Trainer number is generated randomly : " + a + " ");
-	trainerNumber.setSize(100, 100);
-	trainerNumber.setFont(new Font("Verdana", Font.CENTER_BASELINE, 20));
-	trainerNumber.setEnabled(false);
-
-	GridBagConstraints rows = new GridBagConstraints();
-	rows.gridy = 0;
-	rows.insets = new Insets(0, 0, 98, 0);
-	rows.fill = GridBagConstraints.HORIZONTAL;
-	newgame.add(nameLabel, rows);
-	newgame.add(nameField, rows);
-	rows.gridy++;
-	newgame.add(askGender, rows);
-	newgame.add(gender, rows);
-	rows.gridy++;
-	newgame.add(trainerNumber, rows);
-
-	return newgame;
-
+    public JPanel newGame() {
+	return new NewGamePanel();
     }
 
-    private void changePanel(String name) {
+    void changePanel(String name) {
+	cLayout.show(mainPanel, name);
+	subPanels.get(name).requestFocusInWindow();
     }
 
-    // main di prova, si puo togliere in qualsiasi momento
-    public static void main(String[] args) {
-	GameFrame frame = new GameFrame(new PlayerController() {
-
-	    @Override
-	    public void saveData() {
-		// TODO Auto-generated method stub
-
-	    }
-
-	    @Override
-	    public boolean movePlayer(Pair<Integer, Integer> coord) {
-		// TODO Auto-generated method stub
-		return false;
-	    }
-
-	    @Override
-	    public boolean loadData() {
-		// TODO Auto-generated method stub
-		return false;
-	    }
-
-	    @Override
-	    public void interact(Pair<Integer, Integer> coord) {
-		// TODO Auto-generated method stub
-
-	    }
-
-	    @Override
-	    public Pair<Integer, Integer> getPlayerPosition() {
-		// TODO Auto-generated method stub
-		return null;
-	    }
-	});
-    }
 }
