@@ -10,4 +10,6 @@ public interface Moves {
     public String getName();
 
     public int getDamage(MonsterType enemytype);
+    
+    public MovesData getData();
 }

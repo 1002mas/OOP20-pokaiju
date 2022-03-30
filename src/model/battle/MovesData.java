@@ -11,4 +11,5 @@ public interface MovesData {
     MonsterType getType();
 
     int getPP();
+    
 }

@@ -123,6 +123,7 @@ public class MonsterBattleImpl implements MonsterBattle {
 
     @Override
     public boolean movesSelection(int moveIndex) {
+	 
 	for (int c = 0; c < this.playerCurrentMonster.getNumberOfMoves(); c++) {
 	    if (this.playerCurrentMonster.getMoves(c).checkPP()) {
 		this.areEndPP = false;
@@ -134,8 +135,10 @@ public class MonsterBattleImpl implements MonsterBattle {
 	}
 	if (this.playerCurrentMonster.getMoves(moveIndex).checkPP() && this.battleStatus
 		&& this.playerCurrentMonster.isAlive()) {
+	   
 	    this.playerCurrentMonster.getMoves(moveIndex).decPP();
 	    this.turn(this.playerCurrentMonster.getMoves(moveIndex));
+	   
 	    return true;
 	}
 	throwExceptionIfItIsOver();
@@ -159,7 +162,7 @@ public class MonsterBattleImpl implements MonsterBattle {
 		if (!enemy.isAlive()) {
 
 		    playerCurrentMonster.incExp(enemy.getLevel() * EXP_MULTIPLER);
-		    // System.out.println(enemy.getName() + " è morto "); //enemy's team defeated
+		    System.out.println(enemy.getName() + " è morto "); //enemy's team defeated
 		    if (!areThereEnemies()) {
 			// ending battle
 			trainer.setMoney(trainer.getMoney() + MONEY_WON);
@@ -180,7 +183,7 @@ public class MonsterBattleImpl implements MonsterBattle {
 	    // " infliggendo "
 	    // + att.getDamage(enemy.getType()) + " danni");
 
-	    if (enemy.isAlive()) {
+	    if (!enemy.isAlive()) {
 
 		this.enemyTurn(playerStats, enemyStats);
 		if (allPlayerMonsterDeafeted()) { // player's team defeated
@@ -190,7 +193,8 @@ public class MonsterBattleImpl implements MonsterBattle {
 	    } else {
 
 		playerCurrentMonster.incExp(enemy.getLevel() * EXP_MULTIPLER);
-		// System.out.println(enemy.getName() + " è morto "); //enemy's team defeated
+		 System.out.println(enemy.getName() + " è morto "); //enemy's team defeated
+		 
 		if (!areThereEnemies()) {
 		    // ending battle
 		    trainer.setMoney(trainer.getMoney() + MONEY_WON);

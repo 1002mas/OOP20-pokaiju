@@ -109,12 +109,12 @@ public class MonsterImpl implements Monster {
 
     @Override
     public boolean isAlive() {
-	return this.stats.getHealth() <= 0;
+	return this.stats.getHealth() > 0;
     }
 
     @Override
     public Moves getMoves(int index) {
-	if (index <= 0 || index > getNumberOfMoves()) {
+	if (index < 0 || index > getNumberOfMoves()) {
 	    throw new IllegalArgumentException();
 	}
 	return this.movesList.get(index);

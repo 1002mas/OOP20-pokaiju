@@ -48,4 +48,10 @@ public class MovesImpl implements Moves {
 		+ this.movesData.getType() + "]";
     }
 
+    @Override
+    public MovesData getData() {
+	// TODO Auto-generated method stub
+	return this.movesData;
+    }
+
 }
