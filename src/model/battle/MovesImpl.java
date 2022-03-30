@@ -54,4 +54,10 @@ public class MovesImpl implements Moves {
 	return this.movesData;
     }
 
+    @Override
+    public int getCurrentPP() {
+	// TODO Auto-generated method stub
+	return this.pp;
+    }
+
 }

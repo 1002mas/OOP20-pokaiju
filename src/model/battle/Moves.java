@@ -8,6 +8,8 @@ public interface Moves {
     public boolean checkPP();
 
     public String getName();
+    
+    public int getCurrentPP();
 
     public int getDamage(MonsterType enemytype);
     

@@ -56,8 +56,9 @@ public class TestBattleGUI {
 		FIRST_EVOLUTION_LEVEL);
 	enemyMonster = new MonsterBuilderImpl().stats(new MonsterStatsImpl(500, 20, 20, 20)).exp(0).level(1).isWild(true).species(species).movesList(listOfMoves).build();
 	pg = new PlayerImpl("Luca", Gender.OTHER, 0, null);
-	ArrayList<Monster> pgList = new ArrayList<>(List.of(pgMonster));
+	ArrayList<Monster> pgList = new ArrayList<>(List.of(pgMonster,enemyMonster,pgMonster,enemyMonster));
 	pg.setMonster(pgList);
+	
 	battle = new MonsterBattleImpl(pg,enemyMonster);
 	ctrl = new BattleControllerImpl(battle);
 	GUI = new BattleFrame(ctrl);
