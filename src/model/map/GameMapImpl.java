@@ -1,11 +1,18 @@
 package model.map;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 import model.GameEvent;
 import model.Pair;
+import model.monster.Monster;
+import model.monster.MonsterBuilderImpl;
+import model.monster.MonsterSpecies;
 
 public class GameMapImpl implements GameMap {
+    private static final int MONSTER_SPAWN_RATE = 5;
+    private static final int MAXIMUM_MONSTER_SPAWN_RATE = 10;
     private GameMapData map;
     private Optional<Pair<Integer, Integer>> enteringStartPosition;
 
@@ -19,14 +26,9 @@ public class GameMapImpl implements GameMap {
 	return map.getBlockType(block).canPassThrough() && map.getNPC(block).isEmpty();
     }
 
-    /* TODO add events */
     @Override
-    public Optional<GameEvent> getEvent() {
-	return null;
-    }
-
-    private void setMap(GameMapData map) {
-	this.map = map;
+    public boolean canChangeMap(Pair<Integer, Integer> playerPosition) {
+	return map.getBlockType(playerPosition) == MapBlockType.MAP_CHANGE;
     }
 
     @Override
@@ -41,9 +43,8 @@ public class GameMapImpl implements GameMap {
 
     }
 
-    @Override
-    public boolean canChangeMap(Pair<Integer, Integer> playerPosition) {
-	return map.getBlockType(playerPosition) == MapBlockType.MAP_CHANGE;
+    private void setMap(GameMapData map) {
+	this.map = map;
     }
 
     @Override
@@ -51,6 +52,25 @@ public class GameMapImpl implements GameMap {
 	Optional<Pair<Integer, Integer>> temp = enteringStartPosition;
 	enteringStartPosition = Optional.empty();
 	return temp;
+    }
+
+    @Override
+    public Optional<Monster> getWildMonster(Pair<Integer, Integer> pos) {
+	List<MonsterSpecies> monsters = map.getMonstersInArea();
+	if (!map.getBlockType(pos).canMonstersAppear() || monsters.size() < 1
+		|| new Random().nextInt(MAXIMUM_MONSTER_SPAWN_RATE) > MONSTER_SPAWN_RATE) {
+	    return Optional.empty();
+	}
+	MonsterSpecies species = monsters.get(new Random().nextInt(monsters.size()));
+	Monster m = new MonsterBuilderImpl()
+		.species(species)
+		.isWild(true)
+		.level(1)
+		.exp(0)
+		.stats(species.getStats())
+		.movesList(null)//TODO use monster.getMoves
+		.build();
+	return Optional.of(m);
     }
 
 }

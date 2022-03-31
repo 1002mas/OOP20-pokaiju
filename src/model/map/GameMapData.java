@@ -1,8 +1,10 @@
 package model.map;
 
+import java.util.List;
 import java.util.Optional;
 
 import model.Pair;
+import model.monster.MonsterSpecies;
 import model.npc.NpcSimple;
 
 /*
@@ -16,13 +18,18 @@ public interface GameMapData {
     MapBlockType getBlockType(Pair<Integer, Integer> block);
 
     /**
-     * @return npc in position block if it exists, otherwise Optional.empty
+     * @return list of all wild monsters that may appears in the area
+     */
+    List<MonsterSpecies> getMonstersInArea();
+
+    /**
+     * @return a npc if there is in block position, otherwise Optional.empty
      */
     Optional<NpcSimple> getNPC(Pair<Integer, Integer> block);
 
     /**
-     * @return get the near map linked to the position PlayerPosition and the place where the player appears.
-     * PlayerPosition if no other maps are linked
+     * @return get the near map linked to the position PlayerPosition and the place
+     *         where the player appears. PlayerPosition if no other maps are linked
      */
     Optional<Pair<GameMapData, Pair<Integer, Integer>>> getNextMap(Pair<Integer, Integer> playerPosition);
 
