@@ -34,7 +34,7 @@ import model.JTableModel;
 import model.Pair;
 import model.gameitem.GameItemTypes;
 import model.gameitem.GameItems;
-import model.gameitem.SimpleItem;
+import model.gameitem.CaptureItem;
 import model.monster.*;
 
 public class GameFrame extends JFrame {
@@ -184,38 +184,15 @@ public class GameFrame extends JFrame {
 	underPanel.setBorder(BorderFactory.createLineBorder(Color.red));
 	underPanel.setLayout(cLayout);
 
-	JPanel monsterPanel = new JPanel(new GridLayout(2, 3));
-	List<JLabel> monsterLabel = new ArrayList<>();
-	List<String> listTry = new ArrayList<>();
-	listTry.add("ciao");
-	listTry.add("cia");
-	listTry.add("ci");
-	listTry.add("c");
-	listTry.add("c");
-	listTry.add("luca");
-	/*
-	 * for(Monster m : this.playerController.getPlayer().allMonster()) { JLabel
-	 * singlePanelJLabel = new JLabel(); singlePanelJLabel.setText(m.getName());
-	 * monsterLabel.add(singlePanelJLabel); }
-	 */
-	for (String m : listTry) {
-	    JLabel singlePanelJLabel = new JLabel();
-	    singlePanelJLabel.setText(m);
-	    singlePanelJLabel.setHorizontalAlignment(SwingConstants.CENTER);
-	    singlePanelJLabel.setVerticalAlignment(SwingConstants.CENTER);
-	    singlePanelJLabel.setBorder(BorderFactory.createLineBorder(Color.blue));
-	    monsterLabel.add(singlePanelJLabel);
-	}
-	for (JLabel j : monsterLabel) {
-	    monsterPanel.add(j);
-	}
+	MonsterPanel monsterPanel = new MonsterPanel();
 
 	JPanel boxPanel = new JPanel();
 	JLabel boxLabel = new JLabel();
 	boxPanel.add(boxLabel);
 
-	//codice giusto
-	//GameItemPanel gameItemPanel = new GameItemPanel(playerController.getPlayer().allItems());
+	// codice giusto
+	// GameItemPanel gameItemPanel = new
+	// GameItemPanel(playerController.getPlayer().allItems());
 	GameItemPanel gameItemPanel = new GameItemPanel();
 
 	JPanel playerInfoPanel = new JPanel();

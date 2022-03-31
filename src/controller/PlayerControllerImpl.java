@@ -109,7 +109,7 @@ public class PlayerControllerImpl implements PlayerController {
 	return player;
     }
 
-    public void setNewPlayer(String name, Gender gender, int trainerNumber) {
+    public void createNewPlayer(String name, Gender gender, int trainerNumber) {
 	this.player = new PlayerImpl(name, gender, trainerNumber, new Pair<Integer, Integer>(0, 0));
     }
 

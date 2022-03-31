@@ -71,7 +71,7 @@ public class NewGamePanel extends JPanel {
 		if (nameField.getText().equals("")) {
 		    JOptionPane.showMessageDialog(null, "name can't be null", "alert", JOptionPane.WARNING_MESSAGE);
 		}
-		playerController.setNewPlayer(nameField.getText(), (Gender) gender.getSelectedItem(), a);
+		playerController.createNewPlayer(nameField.getText(), (Gender) gender.getSelectedItem(), a);
 		System.out.println(playerController.getPlayer().toString());
 
 	    }

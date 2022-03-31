@@ -82,8 +82,7 @@ public class PlayerImpl implements Player {
 
     @Override
     public void useItem(GameItems i, Monster m) {
-	if (allItems().contains(i)) {
-	    i.use(m);
+	if (allItems().contains(i) && i.use(m)) {
 	    removeItem(i);
 	}
     }

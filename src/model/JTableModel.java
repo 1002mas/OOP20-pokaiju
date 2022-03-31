@@ -20,6 +20,12 @@ public class JTableModel extends AbstractTableModel {
 	// TODO Auto-generated method stub
 	return this.gameItemList.size();
     }
+    
+    @Override
+    public String getColumnName(int column)
+    {
+        return columnNames[column];
+    }
 
     @Override
     public int getColumnCount() {
