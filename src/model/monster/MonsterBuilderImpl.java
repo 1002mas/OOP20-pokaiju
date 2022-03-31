@@ -65,5 +65,4 @@ public class MonsterBuilderImpl implements MonsterBuilder {
 	}
 	return new MonsterImpl(this.stats, this.exp, this.level, this.isWild, this.species, this.movesList);
     }
-
 }

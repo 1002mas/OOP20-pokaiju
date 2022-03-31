@@ -45,5 +45,4 @@ public class MonsterStatsImpl implements MonsterStats {
     public void setSpeed(int speed) {
 	this.speed = speed;
     }
-
 }

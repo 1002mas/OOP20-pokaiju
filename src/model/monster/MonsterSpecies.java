@@ -1,6 +1,9 @@
 package model.monster;
 
+import java.util.List;
 import java.util.Optional;
+
+import model.battle.Moves;
 
 public interface MonsterSpecies {
 
@@ -45,9 +48,20 @@ public interface MonsterSpecies {
      * @return next evolution monster
      */
     Optional<MonsterSpecies> getEvolution();
-
-
-
+    
+    /**
+     * 
+     * @param level
+     * @return
+     */
+    List<Moves> getAllLearnableMoves(int level);
+    
+    /**
+     * 
+     * @param level
+     * @return
+     */
+    Optional<Moves> learnNewMove(int level);
 }
 
 
