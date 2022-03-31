@@ -123,22 +123,23 @@ public class TestMonster {
 	assertEquals("Paperino", monsterByItem.getName());
     }
     
+    @org.junit.Test
     public void evolveByLevelAndItem() {
 	GameItems holdedItem = new EvolutionItem("PietraPaperino", 1, "desc", GameItemTypes.EVOLUTIONTOOL);
 	monsterByLevelAndItem.incExp((FIRST_EVOLUTION_LEVEL - 2) * EXP_CAP);
-	assertEquals("Topolino", monster.getName());
+	assertEquals("Topolino", monsterByLevelAndItem.getName());
 	monsterByLevelAndItem.incExp(EXP_CAP);
-	assertEquals("Topolino2", monster.getName());
-	monsterByLevelAndItem.incExp(((SECOND_EVOLUTION_LEVEL - monster.getLevel() - 1) * EXP_CAP));
+	assertEquals("Topolino2", monsterByLevelAndItem.getName());
+	monsterByLevelAndItem.incExp(((SECOND_EVOLUTION_LEVEL - monsterByLevelAndItem.getLevel() - 1) * EXP_CAP));
 	monsterByLevelAndItem.incExp(EXP_CAP);
-	assertEquals("Topolino2", monster.getName());
-	assertEquals(30, monster.getLevel());
-	assertEquals(0, monster.getExp());
+	assertEquals("Topolino2", monsterByLevelAndItem.getName());
+	assertEquals(30, monsterByLevelAndItem.getLevel());
+	assertEquals(0, monsterByLevelAndItem.getExp());
 	monsterByLevelAndItem.incExp(5863655);
-	assertEquals(MAX_LVL, monster.getLevel());
-	assertEquals(0, monster.getExp());
+	assertEquals(MAX_LVL, monsterByLevelAndItem.getLevel());
+	assertEquals(0, monsterByLevelAndItem.getExp());
 	monsterByLevelAndItem.evolveByItem(holdedItem);
-	assertEquals("Topolino3", monster.getName());
+	assertEquals("Topolino3", monsterByLevelAndItem.getName());
     }
 
     
