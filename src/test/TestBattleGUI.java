@@ -11,9 +11,10 @@ import model.battle.MonsterBattle;
 import model.battle.MonsterBattleImpl;
 import model.battle.Moves;
 import model.battle.MovesImpl;
+import model.gameitem.CaptureItem;
 import model.gameitem.GameItemTypes;
+import model.gameitem.GameItems;
 import model.gameitem.HealingItem;
-import model.gameitem.SimpleItem;
 import model.monster.EvolutionType;
 import model.monster.Monster;
 import model.monster.MonsterBuilderImpl;
@@ -45,35 +46,41 @@ public class TestBattleGUI {
 	listOfMoves = List.of(new MovesImpl("Braciere", 50, MonsterType.FIRE, 10),
 		new MovesImpl("Attacco", 10, MonsterType.FIRE, 10), new MovesImpl("Volo", 50, MonsterType.FIRE, 10),
 		new MovesImpl("Fossa", 50, MonsterType.FIRE, 10));
-	MonsterSpeciesSimple secondEvolution = new MonsterSpeciesSimple("Pippo3", "Info3", MonsterType.FIRE);
+	List<Moves> listOfMoves2 = List.of(new MovesImpl("Lanciafiamme", 50, MonsterType.FIRE, 10),
+		new MovesImpl("Pugno", 10, MonsterType.FIRE, 10), new MovesImpl("Volo", 50, MonsterType.FIRE, 10),
+		new MovesImpl("Fossa", 50, MonsterType.FIRE, 10));
+	MonsterSpeciesSimple secondEvolution = new MonsterSpeciesSimple("Pippo3", "Info3", MonsterType.FIRE, null, null);
 	MonsterSpecies firstEvolution;
-	firstEvolution = new MonsterSpeciesByLevel("Pippo2", "Info2", MonsterType.FIRE, secondEvolution, SECOND_EVOLUTION_LEVEL);
+	firstEvolution = new MonsterSpeciesByLevel("Pippo2", "Info2", MonsterType.FIRE, null, secondEvolution, SECOND_EVOLUTION_LEVEL, null);
 	
-	MonsterSpeciesByLevel species = new MonsterSpeciesByLevel("Pippo", "Info", MonsterType.FIRE, firstEvolution,
-		FIRST_EVOLUTION_LEVEL);
+	MonsterSpeciesByLevel species = new MonsterSpeciesByLevel("Pippo", "Info", MonsterType.FIRE, null, firstEvolution,
+		FIRST_EVOLUTION_LEVEL, null);
 	pgMonster = new MonsterBuilderImpl().stats(new MonsterStatsImpl(500, 20, 20, 20)).exp(0).level(1).isWild(false).species(species).movesList(listOfMoves).build();
 	listOfMoves = List.of(new MovesImpl("Braciere", 50, MonsterType.FIRE, 10),
 		new MovesImpl("Attacco", 10, MonsterType.FIRE, 10), new MovesImpl("Volo", 50, MonsterType.FIRE, 10),
 		new MovesImpl("Fossa", 50, MonsterType.FIRE, 10));
-	secondEvolution = new MonsterSpeciesSimple("Pippo3", "Info3", MonsterType.FIRE);
+	secondEvolution = new MonsterSpeciesSimple("Pippo3", "Info3", MonsterType.FIRE, null, null);
 	
-	firstEvolution = new MonsterSpeciesByLevel("Pippo2", "Info2", MonsterType.FIRE, secondEvolution, SECOND_EVOLUTION_LEVEL);
+	firstEvolution = new MonsterSpeciesByLevel("Pippo2", "Info2", MonsterType.FIRE, null, secondEvolution, SECOND_EVOLUTION_LEVEL, null);
 	
-	 species = new MonsterSpeciesByLevel("Paperino", "Info", MonsterType.FIRE, firstEvolution,
-		FIRST_EVOLUTION_LEVEL);
+	 species = new MonsterSpeciesByLevel("Paperino", "Info", MonsterType.FIRE, null, firstEvolution,
+		FIRST_EVOLUTION_LEVEL, null);
 	enemyMonster = new MonsterBuilderImpl().stats(new MonsterStatsImpl(500, 20, 20, 20)).exp(0).level(1).isWild(true).species(species).movesList(listOfMoves).build();
-	species = new MonsterSpeciesByLevel("Pluto", "Info", MonsterType.FIRE, firstEvolution,
-		FIRST_EVOLUTION_LEVEL);
+	species = new MonsterSpeciesByLevel("Pluto", "Info", MonsterType.FIRE, null, firstEvolution,
+		FIRST_EVOLUTION_LEVEL, null);
 	Monster enemySecondMonster = new MonsterBuilderImpl().stats(new MonsterStatsImpl(500, 20, 20, 20)).exp(0).level(1).isWild(true).species(species).movesList(listOfMoves).build();
+	species = new MonsterSpeciesByLevel("Minni", "Info", MonsterType.FIRE, null, firstEvolution,
+		FIRST_EVOLUTION_LEVEL, null);
+	Monster playerSecondMonster = new MonsterBuilderImpl().stats(new MonsterStatsImpl(500, 20, 20, 20)).exp(0).level(1).isWild(true).species(species).movesList(listOfMoves2).build();
 	pg = new PlayerImpl("Luca", Gender.OTHER, 0, null);
-	ArrayList<Monster> pgList = new ArrayList<>(List.of(pgMonster,enemyMonster,pgMonster,enemyMonster));
+	ArrayList<Monster> pgList = new ArrayList<>(List.of(pgMonster,playerSecondMonster,pgMonster,enemyMonster));
 	pg.setMonster(pgList);
 	pg.addItem(new HealingItem("Cura", 5, "", GameItemTypes.HEAL));
 	pg.addItem(new HealingItem("Life Jar", 10, "", GameItemTypes.HEAL));
 	pg.addItem(new HealingItem("Sapone", 10, "", GameItemTypes.HEAL));
-	pg.addItem(new SimpleItem("Boooble", 5, "", GameItemTypes.MONSTERBALL));
+	pg.addItem(new CaptureItem("Boooble", 5, "", GameItemTypes.MONSTERBALL));
 	enemyTrainer = new NpcTrainerImpl("Luca", TypeOfNpc.TRAINER, null, new ArrayList<>(List.of(enemyMonster,enemySecondMonster)), null);
-	battle = new MonsterBattleImpl(pg,enemyTrainer);
+	battle = new MonsterBattleImpl(pg,enemySecondMonster);
 	ctrl = new BattleControllerImpl(battle);
 	GUI = new BattleFrame(ctrl);
 	    

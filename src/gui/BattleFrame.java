@@ -85,20 +85,32 @@ public class BattleFrame {
 	if(!this.move.checkPP()) {
 	    this.firstAttButton.setEnabled(false);
 	}
+	else {
+	    this.firstAttButton.setEnabled(true);
+	}
 	this.move = this.moves.get(1);
 	this.secondAttButton.setText("" + move.getData().getName() + " " + move.getCurrentPP() + " PP");
 	if(!this.move.checkPP()) {
 	    this.secondAttButton.setEnabled(false);
+	}
+	else {
+	    this.secondAttButton.setEnabled(true);
 	}
 	this.move = this.moves.get(2);
 	this.thirdAttButton.setText("" + move.getData().getName() + " " + move.getCurrentPP() + " PP");
 	if(!this.move.checkPP()) {
 	    this.thirdAttButton.setEnabled(false);
 	}
+	else {
+	    this.thirdAttButton.setEnabled(true);
+	}
 	this.move = this.moves.get(3);
 	this.fourthAttButton.setText("" + move.getData().getName() + " " + move.getCurrentPP() + " PP");
 	if(!this.move.checkPP()) {
 	    this.fourthAttButton.setEnabled(false);
+	}
+	else {
+	    this.fourthAttButton.setEnabled(true);
 	}
 	
     }
@@ -109,6 +121,7 @@ public class BattleFrame {
   	if(!this.monster.isAlive()) {
   	    this.firstMonButton.setEnabled(false);
   	}
+  	
   	this.monster = this.playerTeam.get(1);
   	this.secondMonButton.setText("" + monster.getName());
   	if(!this.monster.isAlive()) {
@@ -272,15 +285,30 @@ public class BattleFrame {
 		
 		
 		ctrl.chooseMove(0);
+		System.out.println("VIVO: "+ctrl.getPlayerCurrentMonster().isAlive());
 		if(!ctrl.getPlayerCurrentMonster().isAlive()) {
 		    actionText.setText(ctrl.getPlayerCurrentMonsterName() + " is dead");
 		    playerMonster.setText(getCurrentPlayerMonsterData());
-		    setMonster();
-		    cLayout.show(southPanel, "monsters");
+		    System.out.println("STATO BATTLE:"+ctrl.isOver());
+		    if(ctrl.isOver()) {
+			//ENDING BATTLE player team dead
+		    }else {
+			setMonster();
+			cLayout.show(southPanel, "monsters");
+		    }
+		    
+		    
 		}
 		else {
-		  refresh();  
+		    if(ctrl.isOver()) {
+			//ENDING BATTLE enemy team dead
+			System.out.println("i nemici sono morti");
+		    }
+		    else {
+			refresh();  
+		    }
 		}
+		
 		
 		
 	    }
@@ -296,11 +324,23 @@ public class BattleFrame {
 		if(!ctrl.getPlayerCurrentMonster().isAlive()) {
 		    actionText.setText(ctrl.getPlayerCurrentMonsterName() + " is dead");
 		    playerMonster.setText(getCurrentPlayerMonsterData());
-		    setMonster();
-		    cLayout.show(southPanel, "monsters");
-		}
+		    System.out.println(ctrl.isOver());
+		    if(ctrl.isOver()) {
+			//ENDING BATTLE player team dead
+		    }else {
+			setMonster();
+			cLayout.show(southPanel, "monsters");
+		    }
+		   
+		} 
 		else {
-		  refresh();  
+		    if(ctrl.isOver()) {
+			//ENDING BATTLE enemy team dead
+			System.out.println("i nemici sono morti");
+		    }
+		    else {
+			refresh();  
+		    }
 		}
 		
 	    }
@@ -316,11 +356,24 @@ public class BattleFrame {
 		if(!ctrl.getPlayerCurrentMonster().isAlive()) {
 		    actionText.setText(ctrl.getPlayerCurrentMonsterName() + " is dead");
 		    playerMonster.setText(getCurrentPlayerMonsterData());
-		    setMonster();
-		    cLayout.show(southPanel, "monsters");
+		    System.out.println(ctrl.isOver());
+		    if(ctrl.isOver()) {
+			//ENDING BATTLE player team dead
+		    }else {
+			setMonster();
+			cLayout.show(southPanel, "monsters");
+		    }
+		    
+		    
 		}
 		else {
-		  refresh();  
+		    if(ctrl.isOver()) {
+			//ENDING BATTLE enemy team dead
+			System.out.println("i nemici sono morti");
+		    }
+		    else {
+			refresh();  
+		    }
 		}
 		
 	    }
@@ -336,13 +389,24 @@ public class BattleFrame {
 		if(!ctrl.getPlayerCurrentMonster().isAlive()) {
 		    actionText.setText(ctrl.getPlayerCurrentMonsterName() + " is dead");
 		    playerMonster.setText(getCurrentPlayerMonsterData());
-		    setMonster();
-		    cLayout.show(southPanel, "monsters");
-		}
+		    System.out.println(ctrl.isOver());
+		    if(ctrl.isOver()) {
+			//ENDING BATTLE player team dead
+		    }else {
+			setMonster();
+			cLayout.show(southPanel, "monsters");
+		    }
+		     
+		} 
 		else {
-		  refresh();  
+		    if(ctrl.isOver()) {
+			//ENDING BATTLE enemy team dead
+			System.out.println("i nemici sono morti");
+		    }
+		    else {
+			refresh();  
+		    }
 		}
-		
 	    }
 	    
 	});
@@ -376,7 +440,7 @@ public class BattleFrame {
 	    @Override
 	    public void actionPerformed(ActionEvent e) {
 		
-		ctrl.changeMonster(1);
+		ctrl.changeMonster(2);
 		System.out.println(ctrl.getPlayerCurrentMonsterName());
 		refresh();
 	    }
@@ -388,7 +452,7 @@ public class BattleFrame {
 	    @Override
 	    public void actionPerformed(ActionEvent e) {
 		
-		ctrl.changeMonster(1);
+		ctrl.changeMonster(3);
 		System.out.println(ctrl.getPlayerCurrentMonsterName());
 		refresh();
 	    }
@@ -401,14 +465,69 @@ public class BattleFrame {
 	    @Override
 	    public void actionPerformed(ActionEvent e) {
 		
-		ctrl.useItem(ctrl.getAllPlayerItems().get(0));
-		refresh();
+		ctrl.useItem(ctrl.getAllPlayerItems().get(0),ctrl.getPlayerTeam().indexOf(ctrl.getPlayerCurrentMonster()));
+		if(ctrl.isOver()) {
+		    //ENDING BY CAPTURE
+		    System.out.println("Catturato");
+		}
+		else {
+		   refresh(); 
+		   System.out.println("Non catturato");
+		}
+		
 	    }
 	    
 	});
 	this.secondItemsButton = new JButton();
+	this.secondItemsButton.addActionListener(new ActionListener() {
+
+	    @Override
+	    public void actionPerformed(ActionEvent e) {
+		
+		ctrl.useItem(ctrl.getAllPlayerItems().get(1), ctrl.getPlayerTeam().indexOf(ctrl.getPlayerCurrentMonster()));
+		if(ctrl.isOver()) {
+		    //ENDING BY CAPTURE
+		}
+		else {
+		   refresh(); 
+		}
+	    }
+	    
+	});
 	this.thirdItemsButton = new JButton();
+	this.thirdItemsButton.addActionListener(new ActionListener() {
+
+	    @Override
+	    public void actionPerformed(ActionEvent e) {
+		
+		ctrl.useItem(ctrl.getAllPlayerItems().get(2),ctrl.getPlayerTeam().indexOf(ctrl.getPlayerCurrentMonster()));
+		if(ctrl.isOver()) {
+		    //ENDING BY CAPTURE
+		}
+		else {
+		   refresh(); 
+		}
+	    }
+	    
+	});
 	this.fourthItemsButton = new JButton();
+	this.fourthItemsButton.addActionListener(new ActionListener() {
+
+	    @Override
+	    public void actionPerformed(ActionEvent e) {
+		
+		ctrl.useItem(ctrl.getAllPlayerItems().get(3),ctrl.getPlayerTeam().indexOf(ctrl.getPlayerCurrentMonster()));
+		if(ctrl.isOver()) {
+		    //ENDING BY CAPTURE
+		    System.out.println("Catturato");
+		}
+		else {
+		   refresh(); 
+		   System.out.println("Non Catturato");
+		}
+	    }
+	    
+	});
 	
 	this.itemsPanel.add(firstItemsButton);
 	this.itemsPanel.add(secondItemsButton);

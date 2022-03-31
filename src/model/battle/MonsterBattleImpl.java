@@ -240,7 +240,7 @@ public class MonsterBattleImpl implements MonsterBattle {
     @Override
     public boolean isOver() {
 	// TODO Auto-generated method stub
-	return false;
+	return !battleStatus;
     }
 
     private void throwExceptionIfItIsOver() {
