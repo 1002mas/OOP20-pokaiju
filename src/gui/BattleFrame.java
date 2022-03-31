@@ -22,6 +22,7 @@ import javax.swing.SwingUtilities;
 import controller.BattleController;
 import model.battle.Moves;
 import model.battle.MovesData;
+import model.gameitem.GameItems;
 import model.monster.Monster;
 
 public class BattleFrame {
@@ -36,6 +37,7 @@ public class BattleFrame {
     private JPanel choosePanel;
     private JPanel movesPanel;
     private JPanel monsterPanel;
+    private JPanel itemsPanel;
     private JButton leftNorthButton;
     private JButton rightNorthButton;
     private JButton leftSouthButton;
@@ -48,11 +50,17 @@ public class BattleFrame {
     private JButton secondMonButton;
     private JButton thirdMonButton;
     private JButton fourthMonButton;
+    private JButton firstItemsButton;
+    private JButton secondItemsButton;
+    private JButton thirdItemsButton;
+    private JButton fourthItemsButton;
     private JLabel backgroundLabel;
     private BufferedImage background;
     private BattleController ctrl;
     private List<Moves> moves;
     private List<Monster> playerTeam;
+    private List<GameItems> playerItems;
+    private GameItems item;
     private Moves move;
     private Monster monster;
     private CardLayout cLayout;
@@ -98,26 +106,50 @@ public class BattleFrame {
   	this.playerTeam = ctrl.getPlayerTeam();
   	this.monster = this.playerTeam.get(0);
   	this.firstMonButton.setText("" + monster.getName());
-//  	if(!this.move.checkPP()) {
-//  	    this.firstMonButton.setEnabled(false);
-//  	}
+  	if(!this.monster.isAlive()) {
+  	    this.firstMonButton.setEnabled(false);
+  	}
   	this.monster = this.playerTeam.get(1);
   	this.secondMonButton.setText("" + monster.getName());
-//  	if(!this.move.checkPP()) {
-//  	    this.secondAttButton.setEnabled(false);
-//  	}
+  	if(!this.monster.isAlive()) {
+  	    this.secondMonButton.setEnabled(false);
+  	}
   	this.monster = this.playerTeam.get(2);
   	this.thirdMonButton.setText("" + monster.getName());
-//  	if(!this.move.checkPP()) {
-//  	    this.thirdAttButton.setEnabled(false);
-//  	}
+  	if(!this.monster.isAlive()) {
+  	    this.thirdMonButton.setEnabled(false);
+  	}
   	this.monster = this.playerTeam.get(3);
   	this.fourthMonButton.setText("" + monster.getName());
-//  	if(!this.move.checkPP()) {
-//  	    this.fourthAttButton.setEnabled(false);
-//  	}
+  	if(!this.monster.isAlive()) {
+  	    this.fourthMonButton.setEnabled(false);
+  	}
   	
-      }
+    }
+    void setItems() {
+   	this.playerItems = ctrl.getAllPlayerItems();
+   	this.item = this.playerItems.get(0);
+   	this.firstItemsButton.setText("" + item.getNameItem() + " " + item.getNumber());
+   	if(this.item.getNumber() <= 0) {
+   	    this.firstItemsButton.setEnabled(false);
+   	}
+   	this.item = this.playerItems.get(1);
+   	this.secondItemsButton.setText("" + item.getNameItem() + " " + item.getNumber());
+   	if(this.item.getNumber() <= 0) {
+   	    this.secondItemsButton.setEnabled(false);
+   	}
+   	this.item = this.playerItems.get(2);
+   	this.thirdItemsButton.setText("" + item.getNameItem() + " " + item.getNumber());
+   	if(this.item.getNumber() <= 0) {
+   	    this.thirdItemsButton.setEnabled(false);
+   	}
+   	this.item = this.playerItems.get(3);
+   	this.fourthItemsButton.setText("" + item.getNameItem() + " " + item.getNumber());
+   	if(this.item.getNumber() <= 0) {
+   	    this.fourthItemsButton.setEnabled(false);
+   	}
+   	
+     }
     void refresh() {
 	this.playerMonster.setText(getCurrentPlayerMonsterData());
 	this.enemyMonster.setText(getCurrentEnemyMonsterData());
@@ -155,6 +187,8 @@ public class BattleFrame {
 	this.movesPanel.setLayout(new GridLayout());
 	this.monsterPanel = new JPanel();
 	this.monsterPanel.setLayout(new GridLayout());
+	this.itemsPanel = new JPanel();
+	this.itemsPanel.setLayout(new GridLayout());
 	
 	this.playerMonster = new JTextField(this.getCurrentPlayerMonsterData()); 
 	this.playerMonster.setEditable(false);
@@ -200,6 +234,17 @@ public class BattleFrame {
 	    
 	});
 	this.leftSouthButton = new JButton("Equipment");
+	this.leftSouthButton.addActionListener(new ActionListener() {
+
+	    @Override
+	    public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		setItems();
+		actionText.setText("What item do u choose?");
+		cLayout.show(southPanel, "items");
+	    }
+	    
+	});
 	this.rightSouthButton = new JButton("Get Out");
 	this.rightSouthButton.addActionListener(new ActionListener() {
 
@@ -227,7 +272,17 @@ public class BattleFrame {
 		
 		
 		ctrl.chooseMove(0);
-		refresh();
+		if(!ctrl.getPlayerCurrentMonster().isAlive()) {
+		    actionText.setText(ctrl.getPlayerCurrentMonsterName() + " is dead");
+		    playerMonster.setText(getCurrentPlayerMonsterData());
+		    setMonster();
+		    cLayout.show(southPanel, "monsters");
+		}
+		else {
+		  refresh();  
+		}
+		
+		
 	    }
 	    
 	});
@@ -238,7 +293,16 @@ public class BattleFrame {
 	    public void actionPerformed(ActionEvent e) {
 		
 		ctrl.chooseMove(1);
-		refresh();
+		if(!ctrl.getPlayerCurrentMonster().isAlive()) {
+		    actionText.setText(ctrl.getPlayerCurrentMonsterName() + " is dead");
+		    playerMonster.setText(getCurrentPlayerMonsterData());
+		    setMonster();
+		    cLayout.show(southPanel, "monsters");
+		}
+		else {
+		  refresh();  
+		}
+		
 	    }
 	    
 	});
@@ -249,7 +313,16 @@ public class BattleFrame {
 	    public void actionPerformed(ActionEvent e) {
 		
 		ctrl.chooseMove(2);
-		refresh();
+		if(!ctrl.getPlayerCurrentMonster().isAlive()) {
+		    actionText.setText(ctrl.getPlayerCurrentMonsterName() + " is dead");
+		    playerMonster.setText(getCurrentPlayerMonsterData());
+		    setMonster();
+		    cLayout.show(southPanel, "monsters");
+		}
+		else {
+		  refresh();  
+		}
+		
 	    }
 	    
 	});
@@ -260,7 +333,16 @@ public class BattleFrame {
 	    public void actionPerformed(ActionEvent e) {
 		
 		ctrl.chooseMove(3);
-		refresh();
+		if(!ctrl.getPlayerCurrentMonster().isAlive()) {
+		    actionText.setText(ctrl.getPlayerCurrentMonsterName() + " is dead");
+		    playerMonster.setText(getCurrentPlayerMonsterData());
+		    setMonster();
+		    cLayout.show(southPanel, "monsters");
+		}
+		else {
+		  refresh();  
+		}
+		
 	    }
 	    
 	});
@@ -289,7 +371,49 @@ public class BattleFrame {
 	    
 	});
 	this.thirdMonButton = new JButton();
+	this.thirdMonButton.addActionListener(new ActionListener() {
+
+	    @Override
+	    public void actionPerformed(ActionEvent e) {
+		
+		ctrl.changeMonster(1);
+		System.out.println(ctrl.getPlayerCurrentMonsterName());
+		refresh();
+	    }
+	    
+	});
 	this.fourthMonButton = new JButton();
+	this.fourthMonButton.addActionListener(new ActionListener() {
+
+	    @Override
+	    public void actionPerformed(ActionEvent e) {
+		
+		ctrl.changeMonster(1);
+		System.out.println(ctrl.getPlayerCurrentMonsterName());
+		refresh();
+	    }
+	    
+	});
+	
+	this.firstItemsButton = new JButton();
+	this.firstItemsButton.addActionListener(new ActionListener() {
+
+	    @Override
+	    public void actionPerformed(ActionEvent e) {
+		
+		ctrl.useItem(ctrl.getAllPlayerItems().get(0));
+		refresh();
+	    }
+	    
+	});
+	this.secondItemsButton = new JButton();
+	this.thirdItemsButton = new JButton();
+	this.fourthItemsButton = new JButton();
+	
+	this.itemsPanel.add(firstItemsButton);
+	this.itemsPanel.add(secondItemsButton);
+	this.itemsPanel.add(thirdItemsButton);
+	this.itemsPanel.add(fourthItemsButton);
 	
 	this.movesPanel.add(firstAttButton);
 	this.movesPanel.add(secondAttButton);
@@ -309,6 +433,7 @@ public class BattleFrame {
 	this.southPanel.add(choosePanel,"choose");
 	this.southPanel.add(monsterPanel,"monsters");
 	this.southPanel.add(movesPanel,"moves");
+	this.southPanel.add(itemsPanel,"items");
 	this.cLayout.show(southPanel,"choose");
 	this.mainPanel.add(topPanel, BorderLayout.NORTH);
 	this.mainPanel.add(centerPanel,BorderLayout.CENTER);

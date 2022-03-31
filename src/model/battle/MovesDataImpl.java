@@ -1,5 +1,7 @@
 package model.battle;
 
+import java.util.Objects;
+
 import model.monster.MonsterType;
 
 public class MovesDataImpl implements MovesData {
@@ -32,5 +34,23 @@ public class MovesDataImpl implements MovesData {
 	return pp;
     }
 
+    @Override
+    public int hashCode() {
+	return Objects.hash(name);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+	if (this == obj)
+	    return true;
+	if (obj == null)
+	    return false;
+	if (getClass() != obj.getClass())
+	    return false;
+	MovesDataImpl other = (MovesDataImpl) obj;
+	return Objects.equals(name, other.name);
+    }
+    
+    
 
 }

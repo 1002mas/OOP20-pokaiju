@@ -11,6 +11,9 @@ import model.battle.MonsterBattle;
 import model.battle.MonsterBattleImpl;
 import model.battle.Moves;
 import model.battle.MovesImpl;
+import model.gameitem.GameItemTypes;
+import model.gameitem.HealingItem;
+import model.gameitem.SimpleItem;
 import model.monster.EvolutionType;
 import model.monster.Monster;
 import model.monster.MonsterBuilderImpl;
@@ -19,6 +22,9 @@ import model.monster.MonsterSpeciesByLevel;
 import model.monster.MonsterSpeciesSimple;
 import model.monster.MonsterStatsImpl;
 import model.monster.MonsterType;
+import model.npc.NpcTrainer;
+import model.npc.NpcTrainerImpl;
+import model.npc.TypeOfNpc;
 import model.player.Gender;
 import model.player.Player;
 import model.player.PlayerImpl;
@@ -29,6 +35,7 @@ public class TestBattleGUI {
     private static BattleController ctrl;
     private static MonsterBattle battle;
     private static PlayerImpl pg;
+    private static NpcTrainer enemyTrainer;
     private  static Monster pgMonster;
     private  static Monster enemyMonster;
     private  static List<Moves> listOfMoves;
@@ -55,11 +62,18 @@ public class TestBattleGUI {
 	 species = new MonsterSpeciesByLevel("Paperino", "Info", MonsterType.FIRE, firstEvolution,
 		FIRST_EVOLUTION_LEVEL);
 	enemyMonster = new MonsterBuilderImpl().stats(new MonsterStatsImpl(500, 20, 20, 20)).exp(0).level(1).isWild(true).species(species).movesList(listOfMoves).build();
+	species = new MonsterSpeciesByLevel("Pluto", "Info", MonsterType.FIRE, firstEvolution,
+		FIRST_EVOLUTION_LEVEL);
+	Monster enemySecondMonster = new MonsterBuilderImpl().stats(new MonsterStatsImpl(500, 20, 20, 20)).exp(0).level(1).isWild(true).species(species).movesList(listOfMoves).build();
 	pg = new PlayerImpl("Luca", Gender.OTHER, 0, null);
 	ArrayList<Monster> pgList = new ArrayList<>(List.of(pgMonster,enemyMonster,pgMonster,enemyMonster));
 	pg.setMonster(pgList);
-	
-	battle = new MonsterBattleImpl(pg,enemyMonster);
+	pg.addItem(new HealingItem("Cura", 5, "", GameItemTypes.HEAL));
+	pg.addItem(new HealingItem("Life Jar", 10, "", GameItemTypes.HEAL));
+	pg.addItem(new HealingItem("Sapone", 10, "", GameItemTypes.HEAL));
+	pg.addItem(new SimpleItem("Boooble", 5, "", GameItemTypes.MONSTERBALL));
+	enemyTrainer = new NpcTrainerImpl("Luca", TypeOfNpc.TRAINER, null, new ArrayList<>(List.of(enemyMonster,enemySecondMonster)), null);
+	battle = new MonsterBattleImpl(pg,enemyTrainer);
 	ctrl = new BattleControllerImpl(battle);
 	GUI = new BattleFrame(ctrl);
 	    
