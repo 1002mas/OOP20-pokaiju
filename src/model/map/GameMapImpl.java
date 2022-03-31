@@ -4,11 +4,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
-import model.GameEvent;
 import model.Pair;
 import model.monster.Monster;
 import model.monster.MonsterBuilderImpl;
 import model.monster.MonsterSpecies;
+import model.npc.NpcSimple;
 
 public class GameMapImpl implements GameMap {
     private static final int MONSTER_SPAWN_RATE = 5;
@@ -71,6 +71,11 @@ public class GameMapImpl implements GameMap {
 		.movesList(null)//TODO use monster.getMoves
 		.build();
 	return Optional.of(m);
+    }
+
+    @Override
+    public List<NpcSimple> getAllNpcsInCurrentMap() {
+	return this.map.getAllNpcs();
     }
 
 }

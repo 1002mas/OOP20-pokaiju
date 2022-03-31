@@ -77,4 +77,9 @@ public class GameMapDataImpl implements GameMapData {
 	return id == other.id;
     }
 
+    @Override
+    public List<NpcSimple> getAllNpcs() {
+	return Collections.unmodifiableList(this.npcs.values().stream().toList());
+    }
+
 }

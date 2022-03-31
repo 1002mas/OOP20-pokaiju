@@ -1,9 +1,11 @@
 package model.map;
 
+import java.util.List;
 import java.util.Optional;
-import model.GameEvent;
+
 import model.Pair;
 import model.monster.Monster;
+import model.npc.NpcSimple;
 
 /*
  * GameMapData decorator
@@ -38,4 +40,9 @@ public interface GameMap {
      * @return true if the player is in a block linked to another map
      */
     Optional<Pair<Integer, Integer>> getPlayerMapPosition();
+
+    /**
+     * @return all npcs in the current map
+     */
+    List<NpcSimple> getAllNpcsInCurrentMap();
 }

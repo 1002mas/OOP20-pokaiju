@@ -38,4 +38,9 @@ public interface GameMapData {
      */
     String getName();
 
+    /**
+     * @return a list containing all npcs in the map
+     */
+    List<NpcSimple> getAllNpcs();
+
 }
