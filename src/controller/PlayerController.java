@@ -46,7 +46,7 @@ public interface PlayerController {
      * 
      * @param new name, gender, trainerNumber
      */
-    public void setNewPlayer(String name, Gender gender, int trainerNumber);
+    public void createNewPlayer(String name, Gender gender, int trainerNumber);
     
     /**
      * get Player
