@@ -58,5 +58,4 @@ public interface MonsterBuilder {
      * @return new Monster
      */
     Monster build();
-
 }

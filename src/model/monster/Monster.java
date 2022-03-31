@@ -52,13 +52,6 @@ public interface Monster {
     int getLevel();
 
     /**
-     * This function set the monster's level
-     * 
-     * @param level
-     */
-    void setLevel(int level);
-
-    /**
      * This function increase the monster's experience points
      * 
      * @param experience
@@ -106,6 +99,18 @@ public interface Monster {
      * @return
      */
     List<Moves> getAllMoves();
+    
+    /**
+     * 
+     * @return
+     */
+    boolean canLearnNewMove();
+    
+    /**
+     * 
+     * @return
+     */
+    Moves getMoveToLearn();
 
     /**
      * This function returns the numbers of moves owned by the monster
@@ -142,5 +147,4 @@ public interface Monster {
      * @return monster's stats
      */
     MonsterStats getStats();
-
 }

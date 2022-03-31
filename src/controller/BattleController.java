@@ -19,7 +19,7 @@ public interface BattleController {
      * 
      * @param gameItem
      */
-    void useItem(GameItems gameItem);
+    void useItem(GameItems gameItem, int monsterIndex);
 
     /**
      * 
@@ -122,6 +122,12 @@ public interface BattleController {
      * @return enemy team
      */
     List<Monster> getEnemyTeam();
+    
+    /**
+     * 
+     * @return
+     */
+    boolean isEnemyCaught();
 
     /**
      * The player tries to escape the battle
@@ -129,13 +135,6 @@ public interface BattleController {
      * @return if fleeing is successful, false otherwise
      */
     boolean flee();
-
-    /**
-     * Try to catch the monster
-     * 
-     * @return true if captured, false otherwise
-     */
-    boolean capture();
 
     /**
      * 

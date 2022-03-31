@@ -3,14 +3,14 @@ package controller;
 import java.util.List;
 import model.battle.MonsterBattle;
 import model.battle.Moves;
+import model.gameitem.GameItemTypes;
 import model.gameitem.GameItems;
 import model.monster.Monster;
-import model.npc.NpcTrainer;
-import model.player.Player;
 
 public class BattleControllerImpl implements BattleController {
 
     private MonsterBattle monsterBattle;
+    private boolean enemyCaptured = false;
 
     public BattleControllerImpl(MonsterBattle monsterBattle) {
 	this.monsterBattle = monsterBattle;
@@ -26,8 +26,11 @@ public class BattleControllerImpl implements BattleController {
     }
 
     @Override
-    public void useItem(GameItems gameItem) {
-	monsterBattle.getPlayer().useItem(gameItem, monsterBattle.getCurrentPlayerMonster());
+    public void useItem(GameItems gameItem, int monsterIndex) {
+	monsterBattle.getPlayer().useItem(gameItem, monsterBattle.getPlayer().allMonster().get(monsterIndex));
+	if (gameItem.getType() == GameItemTypes.MONSTERBALL) {
+	    this.enemyCaptured = monsterBattle.capture();
+	}
     }
 
     @Override
@@ -111,8 +114,8 @@ public class BattleControllerImpl implements BattleController {
     }
 
     @Override
-    public boolean capture() {
-	return monsterBattle.capture();
+    public boolean isEnemyCaught() {
+	return this.enemyCaptured;
     }
 
     @Override

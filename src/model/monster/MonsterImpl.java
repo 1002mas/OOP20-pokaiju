@@ -1,10 +1,16 @@
 package model.monster;
+
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
+import java.util.Set;
+
 import model.battle.Moves;
-import model.gameitem.*;
+import model.gameitem.GameItemTypes;
+import model.gameitem.GameItems;
 
 public class MonsterImpl implements Monster {
 
@@ -22,6 +28,7 @@ public class MonsterImpl implements Monster {
     private MonsterSpecies species;
     private List<Moves> movesList;
     private MonsterStats stats;
+    private Set<Moves> movesToLearn;
 
     public MonsterImpl(MonsterStats stats, int exp, int level, boolean isWild, MonsterSpecies species,
 	    List<Moves> movesList) {
@@ -32,6 +39,7 @@ public class MonsterImpl implements Monster {
 	this.isWild = isWild;
 	this.species = species;
 	this.movesList = new ArrayList<>(movesList);
+	this.movesToLearn = new HashSet<>();
     }
 
     @Override
@@ -54,6 +62,7 @@ public class MonsterImpl implements Monster {
 	return this.maxHealth;
     }
 
+    @Override
     public String getInfo() {
 	return this.species.getInfo();
     }
@@ -63,10 +72,8 @@ public class MonsterImpl implements Monster {
 	return this.level;
     }
 
-    @Override
-    public void setLevel(int level) {
+    private void setLevel(int level) {
 	this.level = level <= MAX_LVL ? level : MAX_LVL;
-	onLevelUp();
     }
 
     @Override
@@ -78,17 +85,27 @@ public class MonsterImpl implements Monster {
 	    this.exp = 0;
 	}
 	if (incLevel > 0) {
-	    onLevelUp();
+	    onLevelUp(incLevel);
 	}
     }
 
-    private void onLevelUp() {
+    private void onLevelUp(int incLevel) {
 	this.stats.setHealth(this.stats.getHealth() + new Random().nextInt(MAX_HP_STEP - MIN_HP_STEP) + MIN_HP_STEP);
-	this.stats.setAttack(this.stats.getAttack() + new Random().nextInt(MAX_STAT_STEP - MIN_STAT_STEP) + MIN_STAT_STEP);
-	this.stats.setDefense(this.stats.getDefense() + new Random().nextInt(MAX_STAT_STEP - MIN_STAT_STEP) + MIN_STAT_STEP);
-	this.stats.setSpeed(this.stats.getSpeed() + new Random().nextInt(MAX_STAT_STEP - MIN_STAT_STEP) + MIN_STAT_STEP);
-	if (species.getEvolutionType() == EvolutionType.LEVEL && this.level >= ((MonsterSpeciesByLevel) species).getEvolutionLevel()) {
+	this.stats.setAttack(
+		this.stats.getAttack() + new Random().nextInt(MAX_STAT_STEP - MIN_STAT_STEP) + MIN_STAT_STEP);
+	this.stats.setDefense(
+		this.stats.getDefense() + new Random().nextInt(MAX_STAT_STEP - MIN_STAT_STEP) + MIN_STAT_STEP);
+	this.stats
+		.setSpeed(this.stats.getSpeed() + new Random().nextInt(MAX_STAT_STEP - MIN_STAT_STEP) + MIN_STAT_STEP);
+	if (species.getEvolutionType() == EvolutionType.LEVEL
+		&& this.level >= ((MonsterSpeciesByLevel) species).getEvolutionLevel()) {
 	    evolveByLevel();
+	}
+	for (; incLevel > 0; incLevel--) {
+	    Optional<Moves> moves = species.learnNewMove(this.level - incLevel + 1);
+	    if(moves.isPresent() && !movesList.contains(moves.get())) {
+		this.movesToLearn.add(moves.get());
+	    }
 	}
     }
 
@@ -119,9 +136,24 @@ public class MonsterImpl implements Monster {
 	}
 	return this.movesList.get(index);
     }
-    
-    public List<Moves> getAllMoves(){
+
+    @Override
+    public List<Moves> getAllMoves() {
 	return Collections.unmodifiableList(movesList);
+    }
+
+    @Override
+    public boolean canLearnNewMove() {
+	return !movesToLearn.isEmpty();
+    }
+
+    public Moves getMoveToLearn() {
+	if (!canLearnNewMove()) {
+	    return null;
+	}
+	Moves m = movesToLearn.stream().findAny().get();
+	movesToLearn.remove(m);
+	return m;
     }
 
     @Override
@@ -146,7 +178,8 @@ public class MonsterImpl implements Monster {
     @Override
     public boolean evolveByItem(GameItems item) {
 	if (species.getEvolution().isPresent() && this.species.getEvolutionType() == EvolutionType.ITEM
-		&& item.equals(((MonsterSpeciesByItem)species).getItem()) && item.getType() == GameItemTypes.EVOLUTIONTOOL) {
+		&& item.equals(((MonsterSpeciesByItem) species).getItem())
+		&& item.getType() == GameItemTypes.EVOLUTIONTOOL) {
 	    species = species.getEvolution().get();
 	    return true;
 	}
@@ -158,6 +191,7 @@ public class MonsterImpl implements Monster {
 	return this.species;
     }
 
+    @Override
     public MonsterStats getStats() {
 	return this.stats;
     }
@@ -168,7 +202,5 @@ public class MonsterImpl implements Monster {
 		+ "\nDefense: " + this.stats.getDefense() + "\nSpeed: " + this.stats.getSpeed() + "\nLevel: "
 		+ this.level + "\nExp: " + this.exp + "\nMoves:" + this.movesList.toString() + "\nIsWild: "
 		+ this.isWild + "\n";
-
     }
-
 }
