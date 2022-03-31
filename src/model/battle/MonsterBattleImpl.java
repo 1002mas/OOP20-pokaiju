@@ -36,7 +36,7 @@ public class MonsterBattleImpl implements MonsterBattle {
     private MonsterBattleImpl(Player trainer, List<Monster> enemyTeam) {
 	this.trainer = trainer;
 	this.battleStatus = true;
-	this.enemyTrainer = null;
+	this.enemyTrainer = Optional.empty();
 	this.playerTeam = trainer.allMonster();
 	this.playerCurrentMonster = playerTeam.get(0);
 	this.enemyTeam = new ArrayList<>(enemyTeam);
@@ -107,15 +107,18 @@ public class MonsterBattleImpl implements MonsterBattle {
     @Override
     public boolean playerChangeMonster(int index) {
 	throwExceptionIfItIsOver();
+	
 	if (playerTeam.get(index) == playerCurrentMonster) {
 	    System.out.println("Il mostro è già in campo");
 	    return false;
 	}
+	
 	if (playerTeam.get(index).isAlive()) {
 	    playerCurrentMonster = playerTeam.get(index);
 	    System.out.println("Cambio");
 	    return true;
 	}
+	
 	System.out.println("Il mostro selezionato è morto");
 	return false;
 
@@ -123,6 +126,7 @@ public class MonsterBattleImpl implements MonsterBattle {
 
     @Override
     public boolean movesSelection(int moveIndex) {
+	 
 	for (int c = 0; c < this.playerCurrentMonster.getNumberOfMoves(); c++) {
 	    if (this.playerCurrentMonster.getMoves(c).checkPP()) {
 		this.areEndPP = false;
@@ -134,8 +138,10 @@ public class MonsterBattleImpl implements MonsterBattle {
 	}
 	if (this.playerCurrentMonster.getMoves(moveIndex).checkPP() && this.battleStatus
 		&& this.playerCurrentMonster.isAlive()) {
+	   
 	    this.playerCurrentMonster.getMoves(moveIndex).decPP();
 	    this.turn(this.playerCurrentMonster.getMoves(moveIndex));
+	   
 	    return true;
 	}
 	throwExceptionIfItIsOver();
@@ -157,9 +163,9 @@ public class MonsterBattleImpl implements MonsterBattle {
 	    } else {
 		enemy.setHealth(enemy.getHealth() - damage);
 		if (!enemy.isAlive()) {
-
+		    
 		    playerCurrentMonster.incExp(enemy.getLevel() * EXP_MULTIPLER);
-		    // System.out.println(enemy.getName() + " è morto "); //enemy's team defeated
+		    System.out.println(enemy.getName() + " è morto"); //enemy's team defeated
 		    if (!areThereEnemies()) {
 			// ending battle
 			trainer.setMoney(trainer.getMoney() + MONEY_WON);
@@ -190,7 +196,8 @@ public class MonsterBattleImpl implements MonsterBattle {
 	    } else {
 
 		playerCurrentMonster.incExp(enemy.getLevel() * EXP_MULTIPLER);
-		// System.out.println(enemy.getName() + " è morto "); //enemy's team defeated
+		 System.out.println(enemy.getName() + " è morto "); //enemy's team defeated
+		 
 		if (!areThereEnemies()) {
 		    // ending battle
 		    trainer.setMoney(trainer.getMoney() + MONEY_WON);

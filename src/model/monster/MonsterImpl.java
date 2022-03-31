@@ -114,7 +114,7 @@ public class MonsterImpl implements Monster {
 
     @Override
     public Moves getMoves(int index) {
-	if (index <= 0 || index > getNumberOfMoves()) {
+	if (index < 0 || index > getNumberOfMoves()) {
 	    throw new IllegalArgumentException();
 	}
 	return this.movesList.get(index);
