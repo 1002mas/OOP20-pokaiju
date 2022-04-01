@@ -42,6 +42,11 @@ public interface GameMap {
     Optional<Pair<Integer, Integer>> getPlayerMapPosition();
 
     /**
+     * @return npc at the given position if it is present, Optional.empty otherwise
+     */
+    Optional<NpcSimple> getNpcAt(Pair<Integer, Integer> position);
+
+    /**
      * @return all npcs in the current map
      */
     List<NpcSimple> getAllNpcsInCurrentMap();

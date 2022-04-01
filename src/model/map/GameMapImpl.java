@@ -78,4 +78,9 @@ public class GameMapImpl implements GameMap {
 	return this.map.getAllNpcs();
     }
 
+    @Override
+    public Optional<NpcSimple> getNpcAt(Pair<Integer, Integer> position) {
+	return map.getNPC(position);
+    }
+
 }
