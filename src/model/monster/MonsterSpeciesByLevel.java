@@ -6,7 +6,7 @@ import java.util.Optional;
 import model.Pair;
 import model.battle.Moves;
 
-public class MonsterSpeciesByLevel extends AbstractMonsterSpecies {
+public class MonsterSpeciesByLevel extends MonsterSpeciesImpl {
 
     private int evolutionLevel;
 
