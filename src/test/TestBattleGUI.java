@@ -17,7 +17,7 @@ import model.monster.Monster;
 import model.monster.MonsterBuilderImpl;
 import model.monster.MonsterSpecies;
 import model.monster.MonsterSpeciesByLevel;
-import model.monster.MonsterSpeciesSimple;
+import model.monster.MonsterSpeciesImpl;
 import model.monster.MonsterStatsImpl;
 import model.monster.MonsterType;
 import model.npc.NpcTrainer;
@@ -46,7 +46,7 @@ public class TestBattleGUI {
 	List<Moves> listOfMoves2 = List.of(new MovesImpl("Lanciafiamme", 50, MonsterType.FIRE, 10),
 		new MovesImpl("Pugno", 10, MonsterType.FIRE, 10), new MovesImpl("Volo", 50, MonsterType.FIRE, 10),
 		new MovesImpl("Fossa", 50, MonsterType.FIRE, 10));
-	MonsterSpeciesSimple secondEvolution = new MonsterSpeciesSimple("Pippo3", "Info3", MonsterType.FIRE, null,
+	MonsterSpeciesImpl secondEvolution = new MonsterSpeciesImpl("Pippo3", "Info3", MonsterType.FIRE, null,
 		null);
 	MonsterSpecies firstEvolution;
 	firstEvolution = new MonsterSpeciesByLevel("Pippo2", "Info2", MonsterType.FIRE, null, secondEvolution,
@@ -59,7 +59,7 @@ public class TestBattleGUI {
 	listOfMoves = List.of(new MovesImpl("Braciere", 50, MonsterType.FIRE, 10),
 		new MovesImpl("Attacco", 10, MonsterType.FIRE, 10), new MovesImpl("Volo", 50, MonsterType.FIRE, 10),
 		new MovesImpl("Fossa", 50, MonsterType.FIRE, 10));
-	secondEvolution = new MonsterSpeciesSimple("Pippo3", "Info3", MonsterType.FIRE, null, null);
+	secondEvolution = new MonsterSpeciesImpl("Pippo3", "Info3", MonsterType.FIRE, null, null);
 
 	firstEvolution = new MonsterSpeciesByLevel("Pippo2", "Info2", MonsterType.FIRE, null, secondEvolution,
 		SECOND_EVOLUTION_LEVEL, null);

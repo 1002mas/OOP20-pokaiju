@@ -1,6 +1,7 @@
 package controller;
 
 import java.util.List;
+import model.gameitem.GameItems;
 
 public interface BattleController {
     
@@ -9,42 +10,14 @@ public interface BattleController {
      * 
      * @return true if you can choose the selected move
      */
-    boolean chooseMove(String moveName);
-    
-    /**
-     * 
-     * @param move
-     * @return
-     */
-    int getCurrentPP(String moveName);
-    
-    /**
-     * 
-     * @param move
-     * @return
-     */
-    boolean checkPP(String moveName);
-    
-    /**
-     * 
-     * @param monsterId
-     * @return
-     */
-    boolean isAlive(int monsterId);
-    
-    /**
-     * 
-     * @param item
-     * @return
-     */
-    int getItemNumber(String gameItemName);
+    boolean chooseMove(int moveIndex);
 
     /**
      * Use an item
      * 
      * @param gameItem
      */
-    void useItem(String gameItemName, int monsterIndex);
+    void useItem(GameItems gameItem, int monsterIndex);
 
     /**
      * 
@@ -173,4 +146,16 @@ public interface BattleController {
      * @return if the battle ends
      */
     boolean isOver();
+
+    boolean isAlive(int monsterId);
+
+    int getCurrentPP(String move);
+
+    boolean checkPP(String move);
+
+    int getItemNumber(String item);
+
+    boolean chooseMove(String moveName);
+
+    void useItem(String gameItemName, int monsterIndex);
 }
