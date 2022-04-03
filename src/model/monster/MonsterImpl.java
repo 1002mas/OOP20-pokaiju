@@ -21,6 +21,7 @@ public class MonsterImpl implements Monster {
     private static final int MAX_STAT_STEP = 10;
     private static final int MIN_STAT_STEP = 1;
 
+    private int id;
     private int exp;
     private int level;
     private boolean isWild;
@@ -30,8 +31,9 @@ public class MonsterImpl implements Monster {
     private MonsterStats stats;
     private Set<Moves> movesToLearn;
 
-    public MonsterImpl(MonsterStats stats, int exp, int level, boolean isWild, MonsterSpecies species,
+    public MonsterImpl(int id, MonsterStats stats, int exp, int level, boolean isWild, MonsterSpecies species,
 	    List<Moves> movesList) {
+	this.id = id;
 	this.stats = stats;
 	this.maxHealth = this.stats.getHealth();
 	this.exp = exp;
@@ -41,7 +43,11 @@ public class MonsterImpl implements Monster {
 	this.movesList = new ArrayList<>(movesList);
 	this.movesToLearn = new HashSet<>();
     }
-
+    
+    public int getId() {
+	return this.id;
+    }
+    
     @Override
     public String getName() {
 	return this.species.getName();

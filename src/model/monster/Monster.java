@@ -1,6 +1,5 @@
 package model.monster;
 
-
 import model.gameitem.*;
 
 import java.util.List;
@@ -9,6 +8,12 @@ import model.battle.Moves;
 
 public interface Monster {
 
+    /**
+     * 
+     * @return
+     */
+    int getId();
+    
     /**
      * This function returns the name of the monster
      * 

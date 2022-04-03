@@ -1,12 +1,10 @@
 package controller;
 
 import java.util.List;
-
-import model.battle.Moves;
 import model.gameitem.GameItems;
-import model.monster.Monster;
 
 public interface BattleController {
+    
     /**
      * Choose the player move in the battle and starts the turn
      * 
@@ -25,7 +23,7 @@ public interface BattleController {
      * 
      * @return all player items
      */
-    List<GameItems> getAllPlayerItems();
+    List<String> getAllPlayerItems();
 
     /**
      * Change monster
@@ -39,14 +37,14 @@ public interface BattleController {
      * 
      * @return current player's monster moves
      */
-    List<Moves> getMoves();
+    List<String> getMoves();
 
     /**
      * Get current player's monster
      * 
      * @return current player's monster
      */
-    Monster getPlayerCurrentMonster();
+    String getPlayerCurrentMonster();
 
     /**
      * 
@@ -77,20 +75,20 @@ public interface BattleController {
      * 
      * @return player team
      */
-    List<Monster> getPlayerTeam();
+    List<Integer> getPlayerTeam();
 
     /**
      * Get current enemy's monster
      * 
      * @return current enemy's monster
      */
-    Monster getEnemyCurrentMonster();
+    int getEnemyCurrentMonster();
 
     /**
      * 
      * @return current enemy monster name
      */
-    String getEnemyCurrentMonsterName();
+    int getEnemyCurrentMonsterName();
 
     /**
      * 
@@ -114,14 +112,21 @@ public interface BattleController {
      * 
      * @return current enemy move
      */
-    Moves getEnemyCurrentMove();
+    String getEnemyCurrentMove();
 
     /**
      * Get all enemy's monsters
      * 
      * @return enemy team
      */
-    List<Monster> getEnemyTeam();
+    List<Integer> getEnemyTeam();
+    
+    /**
+     * 
+     * @param idMonster
+     * @return
+     */
+    String getMonsterName(int idMonster);
     
     /**
      * 
