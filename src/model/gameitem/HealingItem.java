@@ -2,7 +2,7 @@ package model.gameitem;
 
 import model.monster.*;
 
-public class HealingItem extends AbstractGameItem {
+public class HealingItem extends GameItemImpl {
     private int healedHp = 100;// default Hp healed
 
     public HealingItem(String nameItem, int quantity, String description, GameItemTypes type) {
