@@ -7,7 +7,7 @@ public class MonsterBuilderImpl implements MonsterBuilder {
 
     private static final int EXP_CAP = 1000;
     private static final int NUM_MAX_MOVES = 4;
-    private int id;
+    private static int id = 0;
     private int exp;
     private List<Moves> movesList;
     private boolean isWild;
@@ -15,10 +15,12 @@ public class MonsterBuilderImpl implements MonsterBuilder {
     private MonsterSpecies species;
     private MonsterStats stats;
 
-    @Override
-    public MonsterBuilder id(int id) {
+    public int getId() {
+	return id;
+    }
+
+    public void setId(int id) {
 	this.id = id;
-	return this;
     }
 
     @Override
@@ -67,11 +69,12 @@ public class MonsterBuilderImpl implements MonsterBuilder {
 
     @Override
     public Monster build() {
-	if (this.id <= 0 || this.species == null || this.stats.getHealth() < 0 || this.stats.getAttack() < 0
+	if (id <= 0 || this.species == null || this.stats.getHealth() < 0 || this.stats.getAttack() < 0
 		|| this.stats.getDefense() < 0 || this.stats.getSpeed() < 0 || this.exp < 0 || this.movesList.isEmpty()
 		|| this.level <= 0) {
 	    throw new IllegalStateException();
 	}
-	return new MonsterImpl(this.id, this.stats, this.exp, this.level, this.isWild, this.species, this.movesList);
+	id++;
+	return new MonsterImpl(id, this.stats, this.exp, this.level, this.isWild, this.species, this.movesList);
     }
 }

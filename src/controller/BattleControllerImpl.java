@@ -19,16 +19,19 @@ public class BattleControllerImpl implements BattleController {
     }
 
     @Override
-    public boolean chooseMove(int moveIndex) {
-	if (monsterBattle.getCurrentPlayerMonster().getMoves(moveIndex).checkPP()) {
-	    monsterBattle.movesSelection(moveIndex);
-	    return true;
+    public boolean chooseMove(String moveName) {
+	for (int i = 0; i < monsterBattle.getCurrentPlayerMonster().getAllMoves().size(); i++) {
+	    if (monsterBattle.getCurrentPlayerMonster().getMoves(i).getName().equals(moveName)) {
+		return monsterBattle.movesSelection(i);
+	    }
 	}
 	return false;
     }
 
     @Override
-    public void useItem(GameItems gameItem, int monsterIndex) {
+    public void useItem(String gameItemName, int monsterIndex) {
+	GameItems gameItem = monsterBattle.getPlayer().allItems().stream()
+		.filter(i -> i.getNameItem().equals(gameItemName)).findAny().get();
 	monsterBattle.getPlayer().useItem(gameItem, monsterBattle.getPlayer().allMonster().get(monsterIndex));
 	if (gameItem.getType() == GameItemTypes.MONSTERBALL) {
 	    this.enemyCaptured = monsterBattle.capture();
@@ -55,17 +58,17 @@ public class BattleControllerImpl implements BattleController {
 
     @Override
     public String getMonsterName(int idMonster) {
-	Optional<Monster> m =  getMonsterById(idMonster);
-	if(m.isEmpty()) {
+	Optional<Monster> m = getMonsterById(idMonster);
+	if (m.isEmpty()) {
 	    throw new IllegalArgumentException();
 	}
 	return m.get().getName();
     }
 
-    private Optional<Monster> getMonsterById(int idMonster){
+    private Optional<Monster> getMonsterById(int idMonster) {
 	return monsterBattle.getPlayer().allMonster().stream().filter(i -> i.getId() == idMonster).findAny();
     }
-    
+
     @Override
     public String getPlayerCurrentMonster() {
 	return monsterBattle.getCurrentPlayerMonster().getName();
@@ -128,9 +131,34 @@ public class BattleControllerImpl implements BattleController {
 
     @Override
     public List<Integer> getEnemyTeam() {
-	return monsterBattle.getNpcEnemy().get().getMonstersOwned().stream().map(i -> i.getId()).collect(Collectors.toList());
+	return monsterBattle.getNpcEnemy().get().getMonstersOwned().stream().map(i -> i.getId())
+		.collect(Collectors.toList());
     }
 
+    @Override
+    public int getCurrentPP(String move) {
+	return monsterBattle.getCurrentPlayerMonster().getAllMoves().stream().filter(m -> m.getName().equals(move))
+		.findAny().get().getCurrentPP();
+    }
+
+    @Override
+    public boolean checkPP(String move) {
+	return monsterBattle.getCurrentPlayerMonster().getAllMoves().stream().filter(m -> m.getName().equals(move))
+		.findAny().get().checkPP();
+    }
+
+    @Override
+    public boolean isAlive(int monsterId) {
+	return monsterBattle.getPlayer().allMonster().stream().filter(i -> i.getId() == monsterId).findAny().get()
+		.isAlive();
+    }
+
+    @Override
+    public int getItemNumber(String item) {
+	return monsterBattle.getPlayer().allItems().stream().filter(i -> i.getNameItem().equals(item)).findAny().get()
+		.getNumber();
+    }
+    
     @Override
     public boolean isEnemyCaught() {
 	return this.enemyCaptured;

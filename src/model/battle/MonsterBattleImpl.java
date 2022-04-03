@@ -3,14 +3,12 @@ package model.battle;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import model.gameitem.GameItems;
 import model.monster.Monster;
 import model.monster.MonsterStats;
 import model.monster.MonsterType;
 import model.npc.NpcTrainer;
 import model.player.Player;
-import model.player.PlayerImpl;
 
 public class MonsterBattleImpl implements MonsterBattle {
     private final static int EXP_MULTIPLER = 5;
