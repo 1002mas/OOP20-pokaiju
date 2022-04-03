@@ -4,13 +4,17 @@ import java.util.Objects;
 
 import model.monster.Monster;
 
-public abstract class AbstractGameItem implements GameItems {
+public class GameItemImpl implements GameItems {
     private String nameItem;
     private int quantity;
     private String description;
     private GameItemTypes type;
 
-    public AbstractGameItem(String nameItem, int quantity, String description, GameItemTypes type) {
+    public GameItemImpl(String nameItem, int quantity, String description) {
+	this(nameItem, quantity, description, GameItemTypes.MONSTERBALL);
+    }
+    
+    protected GameItemImpl(String nameItem, int quantity, String description, GameItemTypes type) {
 	super();
 	this.nameItem = nameItem;
 	this.quantity = quantity;
@@ -38,7 +42,9 @@ public abstract class AbstractGameItem implements GameItems {
 	return type;
     }
 
-    public abstract boolean use(Monster m);
+    public boolean use(Monster m) {
+	return true;
+    }
 
     @Override
     public String toString() {
@@ -58,7 +64,7 @@ public abstract class AbstractGameItem implements GameItems {
 	    return false;
 	if (getClass() != obj.getClass())
 	    return false;
-	AbstractGameItem other = (AbstractGameItem) obj;
+	GameItemImpl other = (GameItemImpl) obj;
 	return Objects.equals(nameItem, other.nameItem) && type == other.type;
     }
 

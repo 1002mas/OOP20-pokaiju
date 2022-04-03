@@ -66,7 +66,7 @@ public class TestMonster {
 		.movesList(listOfMoves).build();
 	
 	// Item test initialization
-	neededItem = new EvolutionItem("PietraPaperino", 1, "desc", GameItemTypes.EVOLUTIONTOOL);
+	neededItem = new EvolutionItem("PietraPaperino", 1, "desc");
 	firstEvolutionByItem = new MonsterSpeciesSimple("Paperino2", "Info2", MonsterType.WATER, stats, allMoves);
 	speciesByItem = new MonsterSpeciesByItem("Paperino", "Info", MonsterType.WATER, stats, firstEvolutionByItem,
 		neededItem, allMoves);
@@ -108,7 +108,7 @@ public class TestMonster {
 
     @org.junit.Test
     public void evolutionByRightItem() {
-	GameItems holdedItemRight = new EvolutionItem("PietraPaperino", 1, "desc", GameItemTypes.EVOLUTIONTOOL);
+	GameItems holdedItemRight = new EvolutionItem("PietraPaperino", 1, "desc");
 	assertEquals("Paperino", monsterByItem.getName());
 	assertTrue(this.monsterByItem.evolveByItem(holdedItemRight));
 	assertEquals("Paperino2", monsterByItem.getName());
@@ -116,7 +116,7 @@ public class TestMonster {
 
     @org.junit.Test
     public void evolutionByWrongItem() {
-	GameItems holdedItemWrong = new EvolutionItem("PietraPippo", 1, "desc", GameItemTypes.EVOLUTIONTOOL);
+	GameItems holdedItemWrong = new EvolutionItem("PietraPippo", 1, "desc");
 	assertEquals("Paperino", monsterByItem.getName());
 	assertFalse(this.monsterByItem.evolveByItem(holdedItemWrong));
 	assertNotEquals("Paperino2", monsterByItem.getName());
@@ -125,7 +125,7 @@ public class TestMonster {
     
     @org.junit.Test
     public void evolveByLevelAndItem() {
-	GameItems holdedItem = new EvolutionItem("PietraPaperino", 1, "desc", GameItemTypes.EVOLUTIONTOOL);
+	GameItems holdedItem = new EvolutionItem("PietraPaperino", 1, "desc");
 	monsterByLevelAndItem.incExp((FIRST_EVOLUTION_LEVEL - 2) * EXP_CAP);
 	assertEquals("Topolino", monsterByLevelAndItem.getName());
 	monsterByLevelAndItem.incExp(EXP_CAP);

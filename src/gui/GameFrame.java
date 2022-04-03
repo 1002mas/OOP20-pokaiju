@@ -32,9 +32,7 @@ import controller.ImagesLoader;
 import controller.PlayerController;
 import model.JTableModel;
 import model.Pair;
-import model.gameitem.GameItemTypes;
-import model.gameitem.GameItems;
-import model.gameitem.CaptureItem;
+import model.gameitem.*;
 import model.monster.*;
 
 public class GameFrame extends JFrame {

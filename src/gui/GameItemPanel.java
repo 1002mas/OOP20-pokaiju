@@ -10,8 +10,7 @@ import javax.swing.JTable;
 
 import model.JTableModel;
 import model.gameitem.GameItemTypes;
-import model.gameitem.GameItems;
-import model.gameitem.CaptureItem;
+import model.gameitem.*;
 
 public class GameItemPanel extends JPanel {
 
@@ -22,9 +21,9 @@ public class GameItemPanel extends JPanel {
     private void init() {
 	this.setLayout(new GridLayout());
 	List<GameItems> listGameItemTry = new ArrayList<>();
-	listGameItemTry.add(new CaptureItem("Heal", 1, "heal 100 hp", GameItemTypes.HEAL));
-	listGameItemTry.add(new CaptureItem("Heal3123", 12, "heal 10as0 hp", GameItemTypes.HEAL));
-	listGameItemTry.add(new CaptureItem("Heal123", 1, "heal 10sda0 hp", GameItemTypes.HEAL));
+	listGameItemTry.add(new HealingItem("Heal", 1, "heal 100 hp"));
+	listGameItemTry.add(new HealingItem("Heal3123", 12, "heal 10as0 hp"));
+	listGameItemTry.add(new HealingItem("Heal123", 1, "heal 10sda0 hp"));
 	JTableModel model = new JTableModel(listGameItemTry);
 	JTable gameItemTable = new JTable(model);
 	JScrollPane scrollPane = new JScrollPane(gameItemTable);
