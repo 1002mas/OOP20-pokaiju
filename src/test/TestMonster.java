@@ -18,7 +18,7 @@ import model.monster.MonsterBuilderImpl;
 import model.monster.MonsterSpecies;
 import model.monster.MonsterSpeciesByItem;
 import model.monster.MonsterSpeciesByLevel;
-import model.monster.MonsterSpeciesSimple;
+import model.monster.*;
 import model.monster.MonsterStats;
 import model.monster.MonsterStatsImpl;
 import model.monster.MonsterType;
