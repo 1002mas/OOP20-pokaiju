@@ -6,7 +6,7 @@ import model.Pair;
 import model.battle.Moves;
 import model.gameitem.GameItems;
 
-public class MonsterSpeciesByItem extends AbstractMonsterSpecies {
+public class MonsterSpeciesByItem extends MonsterSpeciesImpl {
 
     private GameItems evolutionItem;
 

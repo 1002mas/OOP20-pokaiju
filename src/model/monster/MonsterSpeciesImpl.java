@@ -9,7 +9,7 @@ import model.battle.Moves;
 
 //a single instance of this class represents a monster species  
 
-public abstract class AbstractMonsterSpecies implements MonsterSpecies {
+public class MonsterSpeciesImpl implements MonsterSpecies {
 
     private final Optional<MonsterSpecies> evolution;
     private final String name;
@@ -19,7 +19,7 @@ public abstract class AbstractMonsterSpecies implements MonsterSpecies {
     private final MonsterStats stats;
     private final List<Pair<Moves, Integer>> allMoves;
 
-    protected AbstractMonsterSpecies(String name, String info, MonsterType type, MonsterStats stats,
+    protected MonsterSpeciesImpl(String name, String info, MonsterType type, MonsterStats stats,
 	    Optional<MonsterSpecies> evolution, EvolutionType evolutionType, List<Pair<Moves, Integer>> allMoves) {
 	this.name = name;
 	this.info = info;
@@ -28,6 +28,10 @@ public abstract class AbstractMonsterSpecies implements MonsterSpecies {
 	this.evolution = evolution;
 	this.evolutionType = evolutionType;
 	this.allMoves = allMoves;
+    }
+    
+    public MonsterSpeciesImpl(String name, String info, MonsterType type, MonsterStats stats, List<Pair<Moves, Integer>> allMoves) {
+   	this(name, info, type, stats, Optional.empty(), EvolutionType.NONE, allMoves);
     }
 
     @Override
