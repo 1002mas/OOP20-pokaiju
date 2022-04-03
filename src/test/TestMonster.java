@@ -11,14 +11,13 @@ import model.Pair;
 import model.battle.Moves;
 import model.battle.MovesImpl;
 import model.gameitem.EvolutionItem;
-import model.gameitem.GameItemTypes;
 import model.gameitem.GameItems;
 import model.monster.Monster;
 import model.monster.MonsterBuilderImpl;
 import model.monster.MonsterSpecies;
 import model.monster.MonsterSpeciesByItem;
 import model.monster.MonsterSpeciesByLevel;
-import model.monster.MonsterSpeciesSimple;
+import model.monster.MonsterSpeciesImpl;
 import model.monster.MonsterStats;
 import model.monster.MonsterStatsImpl;
 import model.monster.MonsterType;
@@ -57,29 +56,29 @@ public class TestMonster {
 	allMoves = List.of(new Pair<>(m5, 10), new Pair<>(m6, 25));
 	
 	// Level test initialization
-	secondEvolution = new MonsterSpeciesSimple("Pippo3", "Info3", MonsterType.FIRE, stats, allMoves);
+	secondEvolution = new MonsterSpeciesImpl("Pippo3", "Info3", MonsterType.FIRE, stats, allMoves);
 	firstEvolution = new MonsterSpeciesByLevel("Pippo2", "Info2", MonsterType.FIRE, stats, secondEvolution,
 		SECOND_EVOLUTION_LEVEL, allMoves);
 	species = new MonsterSpeciesByLevel("Pippo", "Info", MonsterType.FIRE, stats, firstEvolution,
 		FIRST_EVOLUTION_LEVEL, allMoves);
-	this.monster = new MonsterBuilderImpl().stats(stats).exp(0).level(1).isWild(false).species(species)
+	this.monster = new MonsterBuilderImpl().id(1).stats(stats).exp(0).level(1).isWild(false).species(species)
 		.movesList(listOfMoves).build();
 	
 	// Item test initialization
 	neededItem = new EvolutionItem("PietraPaperino", 1, "desc");
-	firstEvolutionByItem = new MonsterSpeciesSimple("Paperino2", "Info2", MonsterType.WATER, stats, allMoves);
+	firstEvolutionByItem = new MonsterSpeciesImpl("Paperino2", "Info2", MonsterType.WATER, stats, allMoves);
 	speciesByItem = new MonsterSpeciesByItem("Paperino", "Info", MonsterType.WATER, stats, firstEvolutionByItem,
 		neededItem, allMoves);
-	monsterByItem = new MonsterBuilderImpl().stats(stats).exp(0).level(1).isWild(false).species(speciesByItem)
+	monsterByItem = new MonsterBuilderImpl().id(2).stats(stats).exp(0).level(1).isWild(false).species(speciesByItem)
 		.movesList(listOfMoves).build();
 	
 	// Level -> Item initialization
-	MonsterSpecies secondEvolutionByLevelAndItem = new MonsterSpeciesSimple("Topolino3", "Info3", MonsterType.GRASS, stats, allMoves);
+	MonsterSpecies secondEvolutionByLevelAndItem = new MonsterSpeciesImpl("Topolino3", "Info3", MonsterType.GRASS, stats, allMoves);
 	MonsterSpecies firstEvolutionByLevelAndItem = new MonsterSpeciesByItem("Topolino2", "Info", MonsterType.GRASS, stats, secondEvolutionByLevelAndItem,
 		neededItem, allMoves);
 	MonsterSpecies speciesByLevelAndItem = new MonsterSpeciesByLevel("Topolino", "Info", MonsterType.GRASS, stats, firstEvolutionByLevelAndItem,
 		FIRST_EVOLUTION_LEVEL, allMoves);
-	this.monsterByLevelAndItem = new MonsterBuilderImpl().stats(stats).exp(0).level(1).isWild(false).species(speciesByLevelAndItem)
+	this.monsterByLevelAndItem = new MonsterBuilderImpl().id(3).stats(stats).exp(0).level(1).isWild(false).species(speciesByLevelAndItem)
 		.movesList(listOfMoves).build();
     }
 

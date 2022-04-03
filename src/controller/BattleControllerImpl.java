@@ -1,8 +1,10 @@
 package controller;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 import model.battle.MonsterBattle;
-import model.battle.Moves;
 import model.gameitem.GameItemTypes;
 import model.gameitem.GameItems;
 import model.monster.Monster;
@@ -34,8 +36,10 @@ public class BattleControllerImpl implements BattleController {
     }
 
     @Override
-    public List<GameItems> getAllPlayerItems() {
-	return monsterBattle.getPlayer().allItems();
+    public List<String> getAllPlayerItems() {
+	return monsterBattle.getPlayer().allItems().stream()
+		.filter(gameItem -> gameItem.getType() != GameItemTypes.EVOLUTIONTOOL)
+		.map(gameItem -> gameItem.getNameItem()).collect(Collectors.toList());
     }
 
     @Override
@@ -44,13 +48,27 @@ public class BattleControllerImpl implements BattleController {
     }
 
     @Override
-    public List<Moves> getMoves() {
-	return monsterBattle.getCurrentPlayerMonster().getAllMoves();
+    public List<String> getMoves() {
+	return monsterBattle.getCurrentPlayerMonster().getAllMoves().stream().map(i -> i.getName())
+		.collect(Collectors.toList());
     }
 
     @Override
-    public Monster getPlayerCurrentMonster() {
-	return monsterBattle.getCurrentPlayerMonster();
+    public String getMonsterName(int idMonster) {
+	Optional<Monster> m =  getMonsterById(idMonster);
+	if(m.isEmpty()) {
+	    throw new IllegalArgumentException();
+	}
+	return m.get().getName();
+    }
+
+    private Optional<Monster> getMonsterById(int idMonster){
+	return monsterBattle.getPlayer().allMonster().stream().filter(i -> i.getId() == idMonster).findAny();
+    }
+    
+    @Override
+    public String getPlayerCurrentMonster() {
+	return monsterBattle.getCurrentPlayerMonster().getName();
     }
 
     @Override
@@ -74,18 +92,18 @@ public class BattleControllerImpl implements BattleController {
     }
 
     @Override
-    public List<Monster> getPlayerTeam() {
-	return monsterBattle.getPlayer().allMonster();
+    public List<Integer> getPlayerTeam() {
+	return monsterBattle.getPlayer().allMonster().stream().map(i -> i.getId()).collect(Collectors.toList());
     }
 
     @Override
-    public Monster getEnemyCurrentMonster() {
-	return monsterBattle.getCurrentEnemyMonster();
+    public int getEnemyCurrentMonster() {
+	return monsterBattle.getCurrentEnemyMonster().getId();
     }
 
     @Override
-    public String getEnemyCurrentMonsterName() {
-	return monsterBattle.getCurrentEnemyMonster().getName();
+    public int getEnemyCurrentMonsterName() {
+	return monsterBattle.getCurrentEnemyMonster().getId();
     }
 
     @Override
@@ -104,13 +122,13 @@ public class BattleControllerImpl implements BattleController {
     }
 
     @Override
-    public Moves getEnemyCurrentMove() {
-	return monsterBattle.enemyAttack();
+    public String getEnemyCurrentMove() {
+	return monsterBattle.enemyAttack().getName();
     }
 
     @Override
-    public List<Monster> getEnemyTeam() {
-	return monsterBattle.getNpcEnemy().get().getMonstersOwned();
+    public List<Integer> getEnemyTeam() {
+	return monsterBattle.getNpcEnemy().get().getMonstersOwned().stream().map(i -> i.getId()).collect(Collectors.toList());
     }
 
     @Override
@@ -127,5 +145,4 @@ public class BattleControllerImpl implements BattleController {
     public boolean isOver() {
 	return monsterBattle.isOver();
     }
-
 }
