@@ -160,6 +160,16 @@ public class BattleControllerImpl implements BattleController {
     }
     
     @Override
+    public int getPlayerCurrentMonsterId() {
+	return monsterBattle.getCurrentPlayerMonster().getId();
+    }
+
+    @Override
+    public int getEnemyCurrentMonsterId() {
+	return monsterBattle.getCurrentEnemyMonster().getId();
+    }
+    
+    @Override
     public boolean isEnemyCaught() {
 	return this.enemyCaptured;
     }
@@ -173,4 +183,6 @@ public class BattleControllerImpl implements BattleController {
     public boolean isOver() {
 	return monsterBattle.isOver();
     }
+
+
 }

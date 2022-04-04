@@ -150,6 +150,18 @@ public interface BattleController {
     
     /**
      * 
+     * @return
+     */
+    int getPlayerCurrentMonsterId();
+    
+    /**
+     * 
+     * @return
+     */
+    int getEnemyCurrentMonsterId();
+    
+    /**
+     * 
      * @param idMonster
      * @return
      */
