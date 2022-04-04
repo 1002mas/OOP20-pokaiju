@@ -38,7 +38,7 @@ public class PlayerCommands implements KeyListener {
         gui.movePlayer(Direction.RIGHT);
         break;
         case menuCommand:
-        gui.changePanel(gui.MENU_PANEL);;
+        gui.changePanel(PanelTypes.MENU_PANEL.name());
         break;
 
         default:

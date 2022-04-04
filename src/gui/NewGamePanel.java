@@ -1,6 +1,9 @@
 package gui;
 
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -19,25 +22,30 @@ import javax.swing.JTextField;
 
 import controller.PlayerController;
 import model.Pair;
-import model.map.GameMapDataImpl;
-import model.map.GameMapImpl;
-import model.player.Gender;
-import model.player.Player;
-import model.player.PlayerImpl;
+import model.map.*;
+import model.player.*;
+import gui.PanelTypes;
 
 public class NewGamePanel extends JPanel {
-
+    private static final String LOGIN_PANEL = "login panel";
+    private JPanel mainPanel;
     private PlayerController playerController;
 
-    public NewGamePanel(PlayerController playerController) {
+    public NewGamePanel(PlayerController playerController, JPanel mainPanel) {
 	this.playerController = playerController;
+	this.mainPanel = mainPanel;
 	init();
     }
 
     private void init() {
-
-	this.setLayout(new GridBagLayout());
+	CardLayout c1 = (CardLayout) this.mainPanel.getLayout();
+	this.setLayout(new BorderLayout());
 	this.setBorder(BorderFactory.createLineBorder(Color.green));
+
+	JLabel tipsLabel = new JLabel();
+	tipsLabel.setText("Creating a new game will delete the old savedata");
+	tipsLabel.setFont(new Font("SansSerif Bold Italic", Font.CENTER_BASELINE, 25));
+	tipsLabel.setForeground(Color.red);
 
 	JLabel nameLabel = new JLabel();
 	JTextField nameField = new JTextField();
@@ -61,36 +69,44 @@ public class NewGamePanel extends JPanel {
 	postData.addActionListener(new ActionListener() {
 
 	    public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		/*
-		 * Player p = new PlayerImpl(nameField.getText(), (Gender)
-		 * gender.getSelectedItem(), Integer.valueOf(trainerNumberField.getText()), new
-		 * Pair<Integer, Integer>(0, 0)); System.out.println(p);
-		 */
-
 		if (nameField.getText().equals("")) {
 		    JOptionPane.showMessageDialog(null, "name can't be null", "alert", JOptionPane.WARNING_MESSAGE);
+		} else {
+		    playerController.createNewPlayer(nameField.getText(), (Gender) gender.getSelectedItem(), a);
+		    System.out.println(playerController.getPlayer().toString());
+		  
 		}
-		playerController.createNewPlayer(nameField.getText(), (Gender) gender.getSelectedItem(), a);
-		System.out.println(playerController.getPlayer().toString());
-
 	    }
 	});
 
+	JButton quitButton = new JButton("BACK TO MENU");
+	quitButton.addActionListener(e -> c1.show(this.mainPanel, PanelTypes.LOGIN_PANEL.name()));
+
+	JPanel topPanel = new JPanel(new FlowLayout());
+	topPanel.add(quitButton, FlowLayout.LEFT);
+
+	JPanel underPanel = new JPanel(new GridBagLayout());
+
 	GridBagConstraints rows = new GridBagConstraints();
-	rows.gridy = 0;
+	rows.gridy = 1;
+	underPanel.add(nameLabel, rows);
 	rows.insets = new Insets(0, 0, 50, 0);
 	rows.fill = GridBagConstraints.HORIZONTAL;
-	this.add(nameLabel, rows);
-	this.add(nameField, rows);
+	underPanel.add(nameLabel, rows);
+	underPanel.add(nameField, rows);
 	rows.gridy++;
-	this.add(genderLabel, rows);
-	this.add(gender, rows);
+	underPanel.add(genderLabel, rows);
+	underPanel.add(gender, rows);
 	rows.gridy++;
-	this.add(trainerNumberLabel, rows);
-	this.add(trainerNumberField, rows);
+	underPanel.add(trainerNumberLabel, rows);
+	underPanel.add(trainerNumberField, rows);
 	rows.gridy++;
-	this.add(postData, rows);
+	underPanel.add(postData, rows);
+	rows.gridy++;
+	underPanel.add(tipsLabel, rows);
+
+	this.add(topPanel, BorderLayout.LINE_START);
+	this.add(underPanel, BorderLayout.CENTER);
 
     }
 }
