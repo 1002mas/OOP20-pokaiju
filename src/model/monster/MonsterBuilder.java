@@ -1,16 +1,29 @@
 package model.monster;
+
 import java.util.List;
 import model.battle.Moves;
 
 public interface MonsterBuilder {
 
+    static int id = 0;
+
+    /**
+     * 
+     * @return
+     */
+    static int getId() {
+	return id;
+    }
+
     /**
      * 
      * @param id
-     * @return
      */
-    MonsterBuilder id(int id); 
-    
+    static void setId(int monsterId) {
+	//TODO:
+	//id = monsterId;
+    }
+
     /**
      * Build monster's level
      * 
