@@ -13,6 +13,11 @@ import model.npc.NpcSimple;
  * */
 public interface GameMapData {
     /**
+     * @return map id
+     */
+    int getMapId();
+
+    /**
      * @return type of block (es. walkable)
      */
     MapBlockType getBlockType(Pair<Integer, Integer> block);

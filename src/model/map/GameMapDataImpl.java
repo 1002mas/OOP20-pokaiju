@@ -36,6 +36,11 @@ public class GameMapDataImpl implements GameMapData {
     }
 
     @Override
+    public int getMapId() {
+	return this.id;
+    }
+
+    @Override
     public MapBlockType getBlockType(Pair<Integer, Integer> block) {
 	return blocks.containsKey(block) ? blocks.get(block) : MapBlockType.BORDER;
     }

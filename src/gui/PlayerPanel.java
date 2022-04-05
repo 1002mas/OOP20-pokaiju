@@ -13,12 +13,14 @@ import model.Pair;
 public class PlayerPanel extends JPanel {
     private static final long serialVersionUID = -7016352522753786674L;
     private static final int CHARACTER_STEP = 2;
-    
+
+    private final ImagesLoader imgLoader;
+    private final JLabel player = new JLabel();
+    private final int size = 10;
+
     private Pair<Integer, Integer> playerNextPos;
     private Pair<Integer, Integer> playerPos;
-    private ImagesLoader imgLoader;
     private boolean leftLeg = false;
-    private final JLabel player = new JLabel();
 
     public PlayerPanel(Pair<Integer, Integer> playerPos, ImagesLoader imgLoader) {
 	super();
@@ -78,8 +80,14 @@ public class PlayerPanel extends JPanel {
 	leftLeg = !leftLeg;
     }
 
+    public void staticMove() {
+	this.playerPos = this.playerNextPos;
+	this.paintImmediately(this.getBounds());
+    }
+
+    // TODO analyze good ratio logic move/view move/steps
     public void setNextPosition(Pair<Integer, Integer> nextPos) {
-	this.playerNextPos = nextPos;
+	this.playerNextPos = new Pair<>(nextPos.getFirst() * size, nextPos.getSecond() * size);
     }
 
     private void sleepMillisec(long millisec) {

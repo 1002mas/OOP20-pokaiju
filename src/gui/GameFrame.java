@@ -45,9 +45,7 @@ public class GameFrame extends JFrame {
     private final Map<String, JPanel> subPanels = new HashMap<>();
     private final ImagesLoader imgLoad = new ImagesLoader();
     private final JPanel mainPanel = new JPanel();
-    private /* final */ PlayerController playerController;
-
-    private Pair<Integer, Integer> playerPos = new Pair<>(0, 0); // TODO use controller to get this in local function
+    private final PlayerController playerController;
 
     public GameFrame(PlayerController playerController) {
 	this.playerController = playerController;
@@ -84,66 +82,31 @@ public class GameFrame extends JFrame {
     }
 
     private JPanel buildMapPanel() {
-	// TODO use current player position
-	PlayerPanel topPanel = new PlayerPanel(playerController.getPlayerPosition(), imgLoad);
-	topPanel.setPlayerImage(new ImageIcon(imgLoad.getPlayerImages(Direction.DOWN).get(0)));
-
-	JPanel bottomPanel = new JPanel();
-	bottomPanel.setOpaque(true);
-	// TODO get Map size
-	// TODO get Map image
-	bottomPanel.setLayout(new GridLayout(10, 10));
-	for (int i = 0; i < 10; i++) {
-	    for (int j = 0; j < 10; j++) {
-		bottomPanel.add(new JLabel(new ImageIcon(imgLoad.getTerrainImage())));
-	    }
-	}
-	JPanel mapPanel = new JPanel();
-	mapPanel.setLayout(null);
-	topPanel.setBounds(0, 0, this.getWidth(), this.getHeight());
-	bottomPanel.setBounds(0, 0, this.getWidth(), this.getHeight());
-	mapPanel.add(topPanel, 0);
-	mapPanel.add(bottomPanel);
-	mapPanel.setFocusable(true);
+	TwoLayersPanel mapPanel = new TwoLayersPanel(playerController, imgLoad, this.getHeight(), this.getWidth());
 	mapPanel.addKeyListener(new PlayerCommands(this));
 	return mapPanel;
     }
 
     public void movePlayer(Direction dir) {
-	PlayerPanel topPanel = (PlayerPanel) (subPanels.get(PanelTypes.MAP_PANEL.name()).getComponent(0));
-	// TODO use controller player
+	TwoLayersPanel p = (TwoLayersPanel) subPanels.get(PanelTypes.MAP_PANEL.name());
+	PlayerPanel topPanel = p.getTopPanel();
+	boolean animationOn = true;
+	Pair<Integer, Integer> newPosition = playerController.getPlayerPosition();
+	
 	if (playerController.canPassThrough(dir)) {
-	    changePlayerPosition(dir);
-	    topPanel.setNextPosition(playerPos);
-	    playerController.movePlayer(dir);
+	    newPosition = playerController.movePlayer(dir);
+	    topPanel.setNextPosition(newPosition);
+	    if (playerController.canChangeMap(dir)) {// hasMapChanged...
+		// TODO get Map id
+		// TODO load map image by id
+		animationOn = false;
+	    }
 	}
-	topPanel.animatedMove(dir, true);
-	if (playerController.canChangeMap(dir)) {
-	    // TODO get Position in new Map
-	    // TODO set view Position in new Map
-	    // TODO get Map id
-	    // TODO load map image by id
-	}
-    }
-
-    private void changePlayerPosition(Direction dir) {
-	// TODO use controller player
-	switch (dir) {
-	case UP:
-	    this.playerPos = new Pair<>(playerPos.getFirst(), playerPos.getSecond() - 10);
-	    break;
-	case DOWN:
-	    this.playerPos = new Pair<>(playerPos.getFirst(), playerPos.getSecond() + 10);
-	    break;
-	case LEFT:
-	    this.playerPos = new Pair<>(playerPos.getFirst() - 10, playerPos.getSecond());
-	    break;
-	case RIGHT:
-	    this.playerPos = new Pair<>(playerPos.getFirst() + 10, playerPos.getSecond());
-	    break;
-
-	default:
-	    break;
+	
+	if (animationOn) {
+	    topPanel.animatedMove(dir, playerController.hasPlayerMoved());
+	} else {
+	    topPanel.staticMove();
 	}
 
     }

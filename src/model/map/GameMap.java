@@ -12,6 +12,11 @@ import model.npc.NpcSimple;
  * */
 public interface GameMap {
     /**
+     * @return current map id
+     */
+    int getCurrentMapId();
+
+    /**
      * @return true if the player can access the block, false if it can't go to
      *         position block
      */
