@@ -60,12 +60,7 @@ public class GameFrame extends JFrame {
 
 	// Pannello di quando clicco continua gioco
 	JPanel gamePanel = buildMapPanel();
-	loginPanel.getContinue().addActionListener(e -> {
-	    changePanel(PanelTypes.MAP_PANEL.name());
-	    System.out.println(gamePanel.hasFocus());
-	    System.out.println(gamePanel.isFocusable());
-	    // mapPanel.requestFocusInWindow();
-	});
+	loginPanel.getContinue().addActionListener(e -> changePanel(PanelTypes.MAP_PANEL.name()));
 
 	// Pannello di quando inizio un nuovo gioco
 	JPanel newGamePanel = newGamePanel();
@@ -90,12 +85,13 @@ public class GameFrame extends JFrame {
 
     private JPanel buildMapPanel() {
 	// TODO use current player position
-	PlayerPanel topPanel = new PlayerPanel(new Pair<>(0, 0), imgLoad);
+	PlayerPanel topPanel = new PlayerPanel(playerController.getPlayerPosition(), imgLoad);
 	topPanel.setPlayerImage(new ImageIcon(imgLoad.getPlayerImages(Direction.DOWN).get(0)));
 
 	JPanel bottomPanel = new JPanel();
 	bottomPanel.setOpaque(true);
-	// TODO get Map size and get Map from file
+	// TODO get Map size
+	// TODO get Map image
 	bottomPanel.setLayout(new GridLayout(10, 10));
 	for (int i = 0; i < 10; i++) {
 	    for (int j = 0; j < 10; j++) {
@@ -114,13 +110,20 @@ public class GameFrame extends JFrame {
     }
 
     public void movePlayer(Direction dir) {
-	changePlayerPosition(dir);
 	PlayerPanel topPanel = (PlayerPanel) (subPanels.get(PanelTypes.MAP_PANEL.name()).getComponent(0));
 	// TODO use controller player
-	topPanel.setNextPosition(playerPos);
-	topPanel.animatedMove(dir, true);// TODO use controller function boolean changePlayerPosition(Direction dir)
-	// TODO check if map has to be changed
-
+	if (playerController.canPassThrough(dir)) {
+	    changePlayerPosition(dir);
+	    topPanel.setNextPosition(playerPos);
+	    playerController.movePlayer(dir);
+	}
+	topPanel.animatedMove(dir, true);
+	if (playerController.canChangeMap(dir)) {
+	    // TODO get Position in new Map
+	    // TODO set view Position in new Map
+	    // TODO get Map id
+	    // TODO load map image by id
+	}
     }
 
     private void changePlayerPosition(Direction dir) {
