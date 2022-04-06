@@ -32,20 +32,7 @@ public class GameItemPanel extends JPanel {
 
 }
 // codice giusto
-/*package gui;
-
-import java.awt.GridLayout;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.JPanel;
-import javax.swing.JTable;
-
-import model.JTableModel;
-import model.gameitem.GameItemTypes;
-import model.gameitem.GameItems;
-import model.gameitem.SimpleItem;
-
+/*
 public class GameItemPanel extends JPanel {
     private final List<GameItems> gameItemlist;
 

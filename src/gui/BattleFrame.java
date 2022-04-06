@@ -70,6 +70,7 @@ public class BattleFrame {
     private String itemUsed;
     private Map<JButton,Integer> monsterMap;
     private Map<JButton,String> itemMap;
+    private Map<JButton,String> movesMap;
     
     public BattleFrame(BattleController ctrl) {
 	this.ctrl = ctrl;
@@ -85,9 +86,10 @@ public class BattleFrame {
     }
     void setMoves() {
 	this.moves = ctrl.getMoves();
-	
+	this.movesMap = new HashMap<>();
 	this.move = this.moves.get(0);
 	this.firstAttButton.setText("" + move + " " + ctrl.getCurrentPP(move) + " PP");
+	this.movesMap.put(firstAttButton, move);
 	if(!this.ctrl.checkPP(move)) {
 	    this.firstAttButton.setEnabled(false);
 	}
@@ -96,6 +98,7 @@ public class BattleFrame {
 	}
 	this.move = this.moves.get(1);
 	this.secondAttButton.setText("" + move + " " + ctrl.getCurrentPP(move) + " PP");
+	this.movesMap.put(secondAttButton, move);
 	if(!this.ctrl.checkPP(move)) {
 	    this.secondAttButton.setEnabled(false);
 	}
@@ -104,6 +107,7 @@ public class BattleFrame {
 	}
 	this.move = this.moves.get(2);
 	this.thirdAttButton.setText("" + move+ " " + ctrl.getCurrentPP(move) + " PP");
+	this.movesMap.put(thirdAttButton, move);
 	if(!this.ctrl.checkPP(move)) {
 	    this.thirdAttButton.setEnabled(false);
 	}
@@ -112,6 +116,7 @@ public class BattleFrame {
 	}
 	this.move = this.moves.get(3);
 	this.fourthAttButton.setText("" + move + " " + ctrl.getCurrentPP(move) + " PP");
+	this.movesMap.put(fourthAttButton, move);
 	if(!this.ctrl.checkPP(move)) {
 	    this.fourthAttButton.setEnabled(false);
 	}
@@ -126,6 +131,7 @@ public class BattleFrame {
   	this.monsterName = ctrl.getMonsterName(this.playerTeam.get(0));
   	this.firstMonButton.setText("" + monsterName);
   	this.monsterMap.put(firstMonButton,this.playerTeam.get(0));
+  	System.out.println(monsterName+"-->"+this.playerTeam.get(0));
   	if(!this.ctrl.isAlive(this.playerTeam.get(0))) { 
   	    this.firstMonButton.setEnabled(false);
   	}
@@ -133,18 +139,21 @@ public class BattleFrame {
   	this.monsterName = ctrl.getMonsterName(this.playerTeam.get(1));
   	this.secondMonButton.setText("" + monsterName);
   	this.monsterMap.put(secondMonButton,this.playerTeam.get(1));
+  	System.out.println(monsterName+"-->"+this.playerTeam.get(1));
   	if(!this.ctrl.isAlive(this.playerTeam.get(1))) {
   	    this.secondMonButton.setEnabled(false);
   	}
   	this.monsterName = ctrl.getMonsterName(this.playerTeam.get(2));
   	this.thirdMonButton.setText("" + monsterName);
   	this.monsterMap.put(thirdMonButton,this.playerTeam.get(2));
+  	System.out.println(monsterName+"-->"+this.playerTeam.get(2));
   	if(!this.ctrl.isAlive(this.playerTeam.get(2))) {
   	    this.thirdMonButton.setEnabled(false);
   	}
   	this.monsterName = ctrl.getMonsterName(this.playerTeam.get(3));
   	this.fourthMonButton.setText("" + monsterName);
   	this.monsterMap.put(fourthMonButton,this.playerTeam.get(3));
+  	System.out.println(monsterName+"-->"+this.playerTeam.get(3));
   	if(!this.ctrl.isAlive(this.playerTeam.get(3))) {
   	    this.fourthMonButton.setEnabled(false);
   	}
@@ -291,9 +300,9 @@ public class BattleFrame {
 		
 		
 		
-		ctrl.chooseMove((String) e.getSource());
+		ctrl.chooseMove(this.movesMap.get(e.getSource()));
 		
-		if(!ctrl.isAlive(ctrl.getPlayerCurrentMonster())) {
+		if(!ctrl.isAlive(ctrl.getPlayerCurrentMonsterId())) {
 		    actionText.setText(ctrl.getPlayerCurrentMonsterName() + " is dead");
 		    playerMonster.setText(getCurrentPlayerMonsterData());
 		    System.out.println("STATO BATTLE:"+ctrl.isOver());
@@ -329,9 +338,9 @@ public class BattleFrame {
 		
 		
 		
-		ctrl.chooseMove((String) e.getSource());
+	    	ctrl.chooseMove(this.movesMap.get(e.getSource()));
 		
-		if(!ctrl.isAlive(ctrl.getPlayerCurrentMonster())) {
+		if(!ctrl.isAlive(ctrl.getPlayerCurrentMonsterId())) {
 		    actionText.setText(ctrl.getPlayerCurrentMonsterName() + " is dead");
 		    playerMonster.setText(getCurrentPlayerMonsterData());
 		    System.out.println("STATO BATTLE:"+ctrl.isOver());
@@ -367,9 +376,9 @@ public class BattleFrame {
 		
 		
 		
-		ctrl.chooseMove((String) e.getSource());
+	    	ctrl.chooseMove(this.movesMap.get(e.getSource()));
 		
-		if(!ctrl.isAlive(ctrl.getPlayerCurrentMonster())) {
+		if(!ctrl.isAlive(ctrl.getPlayerCurrentMonsterId())) {
 		    actionText.setText(ctrl.getPlayerCurrentMonsterName() + " is dead");
 		    playerMonster.setText(getCurrentPlayerMonsterData());
 		    System.out.println("STATO BATTLE:"+ctrl.isOver());
@@ -405,9 +414,9 @@ public class BattleFrame {
 		
 		
 		
-		ctrl.chooseMove((String) e.getSource());
+	    	ctrl.chooseMove(this.movesMap.get(e.getSource()));
 		
-		if(!ctrl.isAlive(ctrl.getPlayerCurrentMonster())) {
+		if(!ctrl.isAlive(ctrl.getPlayerCurrentMonsterId())) {
 		    actionText.setText(ctrl.getPlayerCurrentMonsterName() + " is dead");
 		    playerMonster.setText(getCurrentPlayerMonsterData());
 		    System.out.println("STATO BATTLE:"+ctrl.isOver());
@@ -460,11 +469,13 @@ public class BattleFrame {
 		if(itemsFlag) {
 		    
 		    ctrl.useItem(itemUsed, monsterMap.get(e.getSource()) );
+		    System.out.println(this.monsterMap.get(e.getSource()));
 		    this.itemsFlag =false;
 		}
-		else {
-		    ctrl.changeMonster(monsterMap.get(e.getSource()));
-		    System.out.println(ctrl.getPlayerCurrentMonsterName());
+		else { System.out.println(this.monsterMap.get(e.getSource()));
+			ctrl.changeMonster(monsterMap.get(e.getSource()));
+		
+		   
 		}
 		
 		refresh();

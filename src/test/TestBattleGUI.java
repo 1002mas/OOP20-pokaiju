@@ -18,6 +18,7 @@ import model.monster.MonsterBuilderImpl;
 import model.monster.MonsterSpecies;
 import model.monster.MonsterSpeciesByLevel;
 import model.monster.MonsterSpeciesImpl;
+import model.monster.*;
 import model.monster.MonsterStatsImpl;
 import model.monster.MonsterType;
 import model.npc.NpcTrainer;

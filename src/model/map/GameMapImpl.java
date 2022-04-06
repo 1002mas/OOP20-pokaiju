@@ -83,4 +83,9 @@ public class GameMapImpl implements GameMap {
 	return map.getNPC(position);
     }
 
+    @Override
+    public int getCurrentMapId() {
+	return map.getMapId();
+    }
+
 }

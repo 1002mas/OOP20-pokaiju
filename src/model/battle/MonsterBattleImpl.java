@@ -105,14 +105,18 @@ public class MonsterBattleImpl implements MonsterBattle {
     @Override
     public boolean playerChangeMonster(int index) {
 	throwExceptionIfItIsOver();
-	
-	if (playerTeam.get(index) == playerCurrentMonster) {
+	Monster  changingMonster = null;
+	if (index == playerCurrentMonster.getId()) {
 	    System.out.println("Il mostro è già in campo");
 	    return false;
 	}
-	
-	if (playerTeam.get(index).isAlive()) {
-	    playerCurrentMonster = playerTeam.get(index);
+	for (var monster : playerTeam) {
+	    if(monster.getId() == index) {
+		 changingMonster = monster;
+	    }
+	}
+	if (changingMonster.isAlive()) {
+	    playerCurrentMonster =changingMonster;
 	    System.out.println("Cambio");
 	    return true;
 	}
