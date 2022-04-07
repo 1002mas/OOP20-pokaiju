@@ -34,7 +34,7 @@ public class GameFrame extends JFrame {
     private final int size;
     private final CardLayout cLayout = new CardLayout();
     private final Map<String, JPanel> subPanels = new HashMap<>();
-    private final ImagesLoader imgLoad = new ImagesLoader();
+    private final ImagesLoader imgLoad;
     private final JPanel mainPanel = new JPanel();
     private final PlayerController playerController;
 
@@ -77,7 +77,9 @@ public class GameFrame extends JFrame {
 	subPanels.put(LOGIN_PANEL, loginPanel);
 	subPanels.put(NEW_GAME_PANEL, newGamePanel);
 	subPanels.put(MENU_PANEL, menuPanel);
+
 	size = getMainPanelSize();
+	imgLoad = new ImagesLoader(size, size);
 	mainPanel.setPreferredSize(new Dimension(size, size));
 	mainPanel.setBounds(0, 0, size, size);
 	this.setContentPane(mainPanel);
