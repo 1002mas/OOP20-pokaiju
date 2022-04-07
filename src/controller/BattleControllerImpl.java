@@ -152,6 +152,11 @@ public class BattleControllerImpl implements BattleController {
 		.filter(gameItem -> gameItem.getType() != GameItemTypes.EVOLUTIONTOOL)
 		.map(gameItem -> gameItem.getNameItem()).collect(Collectors.toList());
     }
+    
+    @Override
+    public boolean isCaptureItem(String gameItemName) {
+	return monsterBattle.getPlayer().allItems().stream().filter(i -> i.getNameItem().equals(gameItemName) && i.getType() == GameItemTypes.MONSTERBALL).findAny().isPresent();
+    }
 
     @Override
     public boolean isAlive(int monsterId) {
