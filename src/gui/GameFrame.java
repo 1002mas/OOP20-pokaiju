@@ -31,7 +31,7 @@ public class GameFrame extends JFrame {
     public GameFrame(PlayerController playerController) {
 	this.playerController = playerController;
 	this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	this.setSize(HEIGHT, WIDTH);
+	this.setResizable(false);
 
 	mainPanel.setLayout(cLayout);
 
@@ -62,7 +62,10 @@ public class GameFrame extends JFrame {
 	subPanels.put(PanelTypes.LOGIN_PANEL.name(), loginPanel);
 	subPanels.put(PanelTypes.NEW_GAME_PANEL.name(), newGamePanel);
 	subPanels.put(PanelTypes.MENU_PANEL.name(), menuPanel);
+
+	mainPanel.setBounds(0, 0, WIDTH, HEIGHT);
 	this.setContentPane(mainPanel);
+	this.pack();
 	this.setVisible(true);
     }
 
