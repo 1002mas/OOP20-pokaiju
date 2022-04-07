@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import model.Pair;
 import model.monster.MonsterSpecies;
@@ -79,7 +81,7 @@ public class GameMapDataImpl implements GameMapData {
 
     @Override
     public List<NpcSimple> getAllNpcs() {
-	return Collections.unmodifiableList(this.npcs.values().stream().toList());
+	return Collections.unmodifiableList(this.npcs.values().stream().collect(Collectors.toList()));
     }
 
 }
