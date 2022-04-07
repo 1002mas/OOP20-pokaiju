@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import controller.BattleController;
 import controller.BattleControllerImpl;
+import controller.ImagesLoader;
 import gui.BattleFrame;
 import model.battle.MonsterBattle;
 import model.battle.MonsterBattleImpl;
@@ -53,7 +54,7 @@ public class TestBattleGUI {
 	firstEvolution = new MonsterSpeciesByLevel("Pippo2", "Info2", MonsterType.FIRE, null, secondEvolution,
 		SECOND_EVOLUTION_LEVEL, null);
 
-	MonsterSpeciesByLevel species = new MonsterSpeciesByLevel("Pippo", "Info", MonsterType.FIRE, null,
+	MonsterSpeciesByLevel species = new MonsterSpeciesByLevel("kracez", "Info", MonsterType.FIRE, null,
 		firstEvolution, FIRST_EVOLUTION_LEVEL, null);
 	pgMonster = new MonsterBuilderImpl().stats(new MonsterStatsImpl(500, 20, 20, 20)).exp(0).level(1).isWild(false)
 		.species(species).movesList(listOfMoves).build();
@@ -65,19 +66,19 @@ public class TestBattleGUI {
 	firstEvolution = new MonsterSpeciesByLevel("Pippo2", "Info2", MonsterType.FIRE, null, secondEvolution,
 		SECOND_EVOLUTION_LEVEL, null);
 
-	species = new MonsterSpeciesByLevel("Paperino", "Info", MonsterType.FIRE, null, firstEvolution,
+	species = new MonsterSpeciesByLevel("greyfish", "Info", MonsterType.FIRE, null, firstEvolution,
 		FIRST_EVOLUTION_LEVEL, null);
 	enemyMonster = new MonsterBuilderImpl().stats(new MonsterStatsImpl(500, 20, 20, 20)).exp(0).level(1)
 		.isWild(true).species(species).movesList(listOfMoves).build();
 	species = new MonsterSpeciesByLevel("Pluto", "Info", MonsterType.FIRE, null, firstEvolution,
 		FIRST_EVOLUTION_LEVEL, null);
 	Monster enemySecondMonster = new MonsterBuilderImpl().stats(new MonsterStatsImpl(500, 20, 20, 20)).exp(0)
-		.level(1).isWild(true).species(species).movesList(listOfMoves).build();
-	species = new MonsterSpeciesByLevel("Minni", "Info", MonsterType.FIRE, null, firstEvolution,
+		.level(1).isWild(false).species(species).movesList(listOfMoves).build();
+	species = new MonsterSpeciesByLevel("bibol", "Info", MonsterType.FIRE, null, firstEvolution,
 		FIRST_EVOLUTION_LEVEL, null);
 	Monster playerSecondMonster = new MonsterBuilderImpl().stats(new MonsterStatsImpl(500, 20, 20, 20)).exp(0)
 		.level(1).isWild(true).species(species).movesList(listOfMoves2).build();
-	pg = new PlayerImpl("Luca", Gender.OTHER, 0, null);
+	pg = new PlayerImpl("Luca", Gender.MAN, 0, null);
 	ArrayList<Monster> pgList = new ArrayList<>(List.of(pgMonster, playerSecondMonster, pgMonster, enemyMonster));
 	pg.setMonster(pgList);
 	pg.addItem(new HealingItem("Cura", 5, ""));
@@ -86,9 +87,9 @@ public class TestBattleGUI {
 	pg.addItem(new GameItemImpl("Boooble", 5, ""));
 	enemyTrainer = new NpcTrainerImpl("Luca", TypeOfNpc.TRAINER, null,
 		new ArrayList<>(List.of(enemyMonster, enemySecondMonster)), null);
-	battle = new MonsterBattleImpl(pg, enemySecondMonster);
+	battle = new MonsterBattleImpl(pg, enemyMonster);
 	ctrl = new BattleControllerImpl(battle);
-	GUI = new BattleFrame(ctrl);
+	GUI = new BattleFrame(ctrl, new ImagesLoader());
 
     }
 

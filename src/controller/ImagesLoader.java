@@ -18,10 +18,12 @@ public class ImagesLoader {
     static final private int PLAYER_SEQUENCE_LENGTH = 3;
 
     static final String BASE_PATH = "res" + File.separator + "textures" + File.separator;
+    static final String MONSTER_PATH = "res" + File.separator + "monster" + File.separator;
     final int scale = 3;
 
     private BufferedImage terrain;
     private Map<Direction, List<BufferedImage>> player = new HashMap<>();
+    private Map<String, BufferedImage> monsters = new HashMap<>();
 
     public BufferedImage getTerrainImage() {
 	if (terrain == null) {
@@ -67,6 +69,26 @@ public class ImagesLoader {
 		null);
 	graphics2D.dispose();
 	return resizedImage;
+    }
+    
+    public BufferedImage getMonster(String monsterName) {
+	if(!monsters.containsKey(monsterName)) {
+	    final String basePath = MONSTER_PATH + monsterName;
+	    final String fileType = ".png";
+	    BufferedImage monsterPng = null;
+	    
+	    try {
+		
+		    String imgPath = basePath + fileType;
+		    monsterPng = ImageIO.read(new File(imgPath));
+		
+	    } catch (IOException e) {
+		e.printStackTrace();
+	    }
+	    monsters.put(monsterName, monsterPng);
+	}
+	return monsters.get(monsterName);
+	
     }
 
 }

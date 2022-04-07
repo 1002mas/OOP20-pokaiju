@@ -3,6 +3,7 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.GridLayout;
+import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -22,6 +23,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
 import controller.BattleController;
+import controller.ImagesLoader;
 import model.battle.Moves;
 import model.battle.MovesData;
 import model.gameitem.GameItems;
@@ -56,9 +58,10 @@ public class BattleFrame {
     private JButton secondItemsButton;
     private JButton thirdItemsButton;
     private JButton fourthItemsButton;
-    private JLabel backgroundLabel;
+    //private JLabel backgroundLabel;
     private BufferedImage background;
     private BattleController ctrl;
+    private ImagesLoader img;
     private List<String> moves;
     private List<Integer> playerTeam;
     private List<String> playerItems;
@@ -71,9 +74,12 @@ public class BattleFrame {
     private Map<JButton,Integer> monsterMap;
     private Map<JButton,String> itemMap;
     private Map<JButton,String> movesMap;
+    private JLabel playerMonsterImg = new JLabel();
+    private JLabel enemyMonsterImg = new JLabel();
     
-    public BattleFrame(BattleController ctrl) {
+    public BattleFrame(BattleController ctrl, ImagesLoader img) {
 	this.ctrl = ctrl;
+	this.img = img;
 	start();
     }
     
@@ -83,6 +89,14 @@ public class BattleFrame {
     
     String getCurrentEnemyMonsterData() {
 	return " " + ctrl.getEnemyCurrentMonsterName() + " " +  ctrl.getEnemyCurrentMonsterHp() + "/" + ctrl.getEnemyCurrentMonsterMaxHealth() + " HP " + "LVL." +ctrl.getEnemyCurrentMonsterLevel();
+    }
+    
+    void setImg() {
+	playerMonsterImg.setIcon(new ImageIcon(img.getMonster(ctrl.getPlayerCurrentMonsterName())));
+	this.centerPanel.add(playerMonsterImg, BorderLayout.WEST);
+	enemyMonsterImg.setIcon(new ImageIcon(img.getMonster(ctrl.getEnemyCurrentMonsterName())));
+	this.centerPanel.add(enemyMonsterImg, BorderLayout.EAST);
+	this.centerPanel.repaint();
     }
     void setMoves() {
 	this.moves = ctrl.getMoves();
@@ -232,12 +246,12 @@ public class BattleFrame {
 	    // TODO Auto-generated catch block
 	    e.printStackTrace();
 	}
-	this.backgroundLabel = new JLabel(new ImageIcon(background));
+	//this.backgroundLabel = new JLabel(new ImageIcon(background));
 	this.actionText = new JTextField("What do you want to do?...");
 	this.actionText.setEditable(false);
-	this.centerPanel.add(backgroundLabel, BorderLayout.CENTER);
+	//this.centerPanel.add(backgroundLabel, BorderLayout.CENTER);
 	this.centerPanel.add(actionText, BorderLayout.SOUTH);
-	
+	this.setImg();
 	this.leftNorthButton = new JButton("Attack");
 	this.leftNorthButton.addActionListener(new ActionListener() {
 
@@ -456,6 +470,7 @@ public class BattleFrame {
 		else {
 		    ctrl.changeMonster(monsterMap.get(e.getSource()));
 		    System.out.println(ctrl.getPlayerCurrentMonsterName());
+		    this.setImg();
 		}
 		
 		refresh();
@@ -474,6 +489,7 @@ public class BattleFrame {
 		}
 		else { System.out.println(this.monsterMap.get(e.getSource()));
 			ctrl.changeMonster(monsterMap.get(e.getSource()));
+			this.setImg();
 		
 		   
 		}
@@ -549,10 +565,21 @@ public class BattleFrame {
 	this.fourthItemsButton = new JButton();
 	this.fourthItemsButton.addActionListener(e -> {
 	    	this.itemUsed = this.itemMap.get(e.getSource());
-	    	this.itemsFlag=true;
-	    	setMonster();
-		actionText.setText("What monster do u choose?");
-		cLayout.show(southPanel, "monsters");
+	    	if(this.ctrl.isCaptureItem(itemUsed)) {
+	    	    this.ctrl.useItem(itemUsed, 0);
+	    	    if(ctrl.isEnemyCaught()) {
+	    		//ENDING BATTLE
+	    	    }else {
+	    		refresh();
+	    	    }
+	    	    
+	    	}else {
+	    	    this.itemsFlag=true;
+	    	    setMonster();
+	    	    actionText.setText("What monster do u choose?");
+	    	    cLayout.show(southPanel, "monsters");
+	    	}
+	    	
 
 	});
 	

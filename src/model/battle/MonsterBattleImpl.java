@@ -68,18 +68,20 @@ public class MonsterBattleImpl implements MonsterBattle {
     public boolean capture() {
 	throwExceptionIfItIsOver();
 	if (!enemy.getWild()) {
+	    System.out.println("non puoi catturare");
 	    return false;
 	}
 
 	int attempt = (int) (Math.random() * CAPTURE_RANGE);
 	if (attempt <= CAPTURE_DIFFICULT) {
-	    // System.out.println(enemy.getName() + " è stato catturato");
+	     System.out.println(enemy.getName() + " è stato catturato");
+	     trainer.addMonster(enemy);
 	    int expReached = enemy.getLevel() * EXP_MULTIPLER;
 	    playerCurrentMonster.incExp(expReached);
 	    this.battleStatus = false;
 	    return true;
 	}
-	// System.out.println("cattura fallita");
+	 System.out.println("cattura fallita");
 	return false;
 
     }
