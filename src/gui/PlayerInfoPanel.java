@@ -25,19 +25,16 @@ import controller.PlayerController;
 	JLabel playerName = new JLabel("Name : " + this.playerController.getPlayerName());
 	JLabel trainerNumber = new JLabel("Trainer number : " + this.playerController.getTrainerNumber());
 	JLabel gender = new JLabel("Gender : " + this.playerController.getGender());
-	JLabel MonsterCaptured = new JLabel();
 	JLabel money = new JLabel("Money : " + this.playerController.getMoney() + " $ ");
 	this.add(playerName);
 	this.add(trainerNumber);
 	this.add(gender);
-	this.add(MonsterCaptured);
 	this.add(money);
     }
 }*/
 //codice di prova
 public class PlayerInfoPanel extends JPanel {
     private final PlayerController playerController;
-    
 
     public PlayerInfoPanel(PlayerController playerController) {
 	this.playerController = playerController;
@@ -49,18 +46,15 @@ public class PlayerInfoPanel extends JPanel {
 	JLabel playerName = new JLabel("Name : ");
 	JLabel trainerNumber = new JLabel("Trainer number : ");
 	JLabel gender = new JLabel("Gender : ");
-	JLabel NumbMonsterCaptured = new JLabel();
 	JLabel money = new JLabel("Money : ");
 	setLabelProperties(playerName);
 	setLabelProperties(trainerNumber);
 	setLabelProperties(gender);
-	setLabelProperties(NumbMonsterCaptured);
 	setLabelProperties(money);
 
 	this.add(playerName);
 	this.add(trainerNumber);
 	this.add(gender);
-	this.add(NumbMonsterCaptured);
 	this.add(money);
     }
 
