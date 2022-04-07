@@ -163,6 +163,13 @@ public interface BattleController {
      * @return all player items
      */
     List<String> getAllPlayerItems();
+    
+    /**
+     * Returns if an item is a capture item
+     * 
+     * @return true if is a capture item, false otherwise
+     */
+    boolean isCaptureItem(String gameItemName);
 
     /**
      * Check the health of the monster
