@@ -57,7 +57,7 @@ public interface PlayerController {
 	
 	public boolean canPassThrough(Direction direction);
 	
-	public boolean canChangeMap(Direction direction);
+	public boolean canChangeMap();
 	
 	public void useItem(String item, String m);
 
@@ -75,7 +75,7 @@ public interface PlayerController {
 	
 	public int getTrainerNumber();
 	
-	public Gender getGender();
+	public String getGender();
 	
 	public int getMoney();
 	
@@ -83,7 +83,7 @@ public interface PlayerController {
 	
 	public void setMoney(int money);
 	
-	public void addNpcTraier(NpcTrainer npc);
+	public void addNpcTrainer(NpcTrainer npc);
      
 	public List<String> getMonstersNames();
 	
@@ -103,13 +103,13 @@ public interface PlayerController {
     
     public List<String> getMovesNames(String monster);
     
-    public int getHealth(String monster);
+    public int getMonsterHealth(String monster);
     
-    public int getAttack(String monster);
+    public int getMonsterAttack(String monster);
     
-    public int getDefense(String monster);
+    public int getMonsterDefense(String monster);
     
-    public int getSpeed(String monster);
+    public int getMonsterSpeed(String monster);
     
     public int getItemQuantity(String item);
     
@@ -118,4 +118,10 @@ public interface PlayerController {
     public String getItemtype(String item);
     
     public void addItem(String item);
+    
+    public void save(Player player);
+    
+    public boolean load();
+    
+    public boolean dataExsist();
 }

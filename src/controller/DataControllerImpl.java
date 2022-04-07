@@ -6,55 +6,63 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 import model.battle.Moves;
+import model.gameitem.GameItemImpl;
+import model.gameitem.GameItems;
 import model.map.GameMap;
 import model.map.GameMapData;
+import model.map.GameMapDataImpl;
 import model.map.GameMapImpl;
 import model.monster.Monster;
+import model.monster.MonsterImpl;
 import model.monster.MonsterSpecies;
 import model.monster.MonsterStats;
+import model.npc.NpcSimple;
+import model.npc.NpcSimpleImpl;
 import model.npc.NpcTrainer;
 import model.player.Player;
 import model.player.PlayerImpl;
 
-public class DataControllerImpl implements DataController {
-
-	private Player player;
-	private GameMap gameMap;
-	private boolean hasPlayerMoved;
+public class DataControllerImpl implements DataController {				
+	
+	
+										
+	private GameMapData gameMapData;			
+	private GameMap gameMap;			
 	private GsonBuilder gsonBuilder;
 	private Gson gson;
-	private final String playerDataPath = "res/Data/PlayerData.json";
-	private final String NpcsDataPath = "res/Data/NpcsData.json";
-	private List<NpcTrainer> npcsDefeated;
+	private final String playerDataPath = "res"+File.separator+"Data"+File.separator+"PlayerData.json";	
+	private final String NpcsDataPath = "res"+File.separator+"Data"+File.separator+"NpcsData.json";
+	private final String mapDataPath = "res"+File.separator+"Data"+File.separator+"MapData.json";		
+	private final String gameMosterPath = "res"+File.separator+"Data"+File.separator+"MonstersData.json";	
+	private final String gameItemsPath = "res"+File.separator+"Data"+File.separator+"ItemsData.json";	
+	private List<NpcTrainer> npcsDefeated = new ArrayList<>();
 	
-	//LOAD MAP DATA 
 	
-	public DataControllerImpl(PlayerController playerController) {	//COSI' OR IL CONTRARIO? CHI INCAPSULA CHI?
-		
-		//this.gameMap = 
-		this.player = playerController.getPlayer();
-		/*
-		this.player = player;
-		this.gameDataMap = gameDataMap;
-		this.gameMap = gameMap;
-		this.hasPlayerMoved = false;
-		*/
+	
+	public DataControllerImpl() {
 		this.gsonBuilder = new GsonBuilder();
 		gsonBuilder.registerTypeAdapter(MonsterSpecies.class, new TypeAdapterController());
 		gsonBuilder.registerTypeAdapter(Moves.class, new TypeAdapterController());
 		gsonBuilder.registerTypeAdapter(MonsterStats.class, new TypeAdapterController());
 		gsonBuilder.registerTypeAdapter(Monster.class, new TypeAdapterController());
+		gsonBuilder.registerTypeAdapter(GameMapData.class, new TypeAdapterController());
+		gsonBuilder.registerTypeAdapter(GameItems.class,new TypeAdapterController());
 		this.gson = gsonBuilder.create();
+		loadMapData();
+		gameMap = new GameMapImpl(gameMapData);
 	}
 	
 	@Override
-	public void saveData() {
+	public void saveData(Player player) {	//--
 		
 		String playerJson = gson.toJson(player);
 		String npcsJson= gson.toJson(npcsDefeated);
@@ -74,7 +82,7 @@ public class DataControllerImpl implements DataController {
 	}
 
 	@Override
-	public boolean loadData() {
+	public boolean loadData(Player player) {	//--
 		File playerDataFile = new File(playerDataPath);
 		if(playerDataFile.exists()) {
 			try (final BufferedReader reader = new BufferedReader ( new FileReader ( playerDataPath ))){
@@ -87,24 +95,124 @@ public class DataControllerImpl implements DataController {
 							//e.printStackTrace();
 							return false;
 						} 
-			//---ADD NPC loader---
 			
-			
+			File dataFile = new File(NpcsDataPath);
+			if(dataFile.exists()) {
+				try (final BufferedReader reader = new BufferedReader ( new FileReader ( dataFile))){
+			        			String stringRead; 
+			        			while ((stringRead= reader.readLine()) != null) {
+			        				Type type = new TypeToken<ArrayList<NpcSimpleImpl>>(){}.getType();
+			            			npcsDefeated = gson.fromJson(stringRead, type);  
+			            			
+			    	   			  }
+			        			
+			    		    } catch (IOException e) {
+								//e.printStackTrace();
+								return false;
+							} 
 			return true;
+			}	
 		}
 		return false;
 	}
 	
 	@Override
-	public boolean dataExsist() {
+	public boolean dataExsist() {	//--
 		File playerDataFile = new File(playerDataPath);
 		return playerDataFile.exists();
 	}
 
 	@Override
-	public boolean loadMap() {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean loadMapData() {	//--
+		File mapDataFile = new File(mapDataPath);
+		if(mapDataFile.exists()) {
+			try (final BufferedReader reader = new BufferedReader ( new FileReader ( mapDataFile))){
+		        			String stringReadMap; 
+		        			while ((stringReadMap= reader.readLine()) != null) {
+		        				gameMapData = gson.fromJson(stringReadMap,GameMapDataImpl.class);	//sost. gameMapData
+		        				//set
+		        				setNpcDefeatedInMap();
+		    	   			  }
+		        			
+		    		    } catch (IOException e) {
+							//e.printStackTrace();
+							return false;
+						} 
+		return true;
+		}
+	return false;
 	}
+	
+	@Override
+	public List<Monster> loadMonsters() {	//-?-
+		List<Monster> m = new ArrayList<>();
+		File dataFile = new File(gameMosterPath);
+		if(dataFile.exists()) {
+			try (final BufferedReader reader = new BufferedReader ( new FileReader ( gameMosterPath))){
+		        			String stringReadMonster; 
+		        			while ((stringReadMonster= reader.readLine()) != null) {
+		        				Type type = new TypeToken<ArrayList<MonsterImpl>>(){}.getType();		           			 
+		            			m = gson.fromJson(stringReadMonster, type);
+		    	   			  }
+		        			
+		    		    } catch (IOException e) {
+							//e.printStackTrace();
+						} 
+		}
+		return m;
+	}
+
+	@Override
+	public List<GameItems> loadItems() {	//-?-
+		List<GameItems> i = new ArrayList<>();
+		File dataFile = new File(gameItemsPath);
+		if(dataFile.exists()) {
+			try (final BufferedReader reader = new BufferedReader ( new FileReader ( gameItemsPath))){
+		        			String stringReadItem; 
+		        			while ((stringReadItem= reader.readLine()) != null) {
+		        				Type type = new TypeToken<ArrayList<GameItemImpl>>(){}.getType();		           			 
+		            			i = gson.fromJson(stringReadItem, type);
+		    	   			  }
+		        			
+		    		    } catch (IOException e) {
+							//e.printStackTrace();
+						} 
+		}
+		return i;
+	}
+	
+
+	@Override
+	public GameMapData getGameMapData() {		//-!bisogna sostituire in PlayerController! e mettere solo dataController-
+		return this.gameMapData;				
+	}
+
+	@Override
+	public GameMap getGameMap() {				//-!bisogna sostituire in PlayerController! e mettere solo dataController-
+		return this.gameMap;
+	}
+	
+	@Override
+	public void addNpcsDefeated(NpcTrainer npc) {	//--
+		this.npcsDefeated.add(npc);		
+	}
+
+	@Override
+	public void setNpcDefeatedInMap() {		
+											//-codice da pulire-
+		if(!npcsDefeated.isEmpty()) {
+			for (NpcSimple npc : gameMapData.getAllNpcs()) {		////sost. gameMapData	
+				for(NpcTrainer npcTrainer : npcsDefeated) {
+					if(npcTrainer.getName().equals(npc.getName())) {
+						npc = npcTrainer;
+				 	}
+				}
+			}
+		}
+	}
+
+	
+	
+	
 
 }

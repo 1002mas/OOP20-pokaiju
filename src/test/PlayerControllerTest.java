@@ -28,12 +28,12 @@ import model.map.MapBlockType;
 import model.monster.Monster;
 import model.monster.MonsterImpl;
 import model.monster.MonsterSpecies;
-import model.monster.MonsterSpeciesSimple;
 import model.monster.MonsterStats;
 import model.monster.MonsterStatsImpl;
 import model.monster.MonsterType;
 import model.npc.NpcSimple;
 import model.npc.NpcSimpleImpl;
+import model.npc.NpcTrainer;
 import model.npc.NpcTrainerImpl;
 import model.npc.TypeOfNpc;
 import model.player.Gender;
@@ -42,6 +42,9 @@ import model.player.PlayerImpl;
 
 public class PlayerControllerTest {
 
+
+	
+	
 	public static void main(String[] args) throws InterruptedException
     {
 		ArrayList<String> a = new ArrayList();
@@ -53,8 +56,15 @@ public class PlayerControllerTest {
 		NpcSimple ns1 = new NpcSimpleImpl("BUbu", TypeOfNpc.SIMPLE, a, pos);
 		NpcSimple nt =  new NpcTrainerImpl("saro",TypeOfNpc.TRAINER,a,null,pos);
 		
-		//Map
 		
+		List<NpcSimple> lista = new ArrayList<>();
+		
+		
+		
+		//lista.add(nt); lista.add(ns1); lista.add(nt);
+		
+		//Map
+		/*
 		Map<Pair<Integer, Integer>, MapBlockType> n = new  HashMap<>();
 		n.put(pos, MapBlockType.WILD_ZONE);
 		n.put(pos2, MapBlockType.BORDER);
@@ -99,12 +109,14 @@ public class PlayerControllerTest {
 		builder.registerTypeAdapter(MonsterSpecies.class, new InterfaceAdapter());
 		builder.registerTypeAdapter(Moves.class, new InterfaceAdapter());
 		builder.registerTypeAdapter(MonsterStats.class, new InterfaceAdapter());
+		builder.registerTypeAdapter(MonsterStats.class, new InterfaceAdapter());
+		builder.registerTypeAdapter(NpcSimple.class, new InterfaceAdapter());
 		Gson g = builder.create();
 		System.out.println("Fine gson");
 		
-		
+		String listajson = g.toJson(lista);
 
-		
+		Gson g1 = new Gson();
 		/*
 		String s =g.toJson(ns);
 		System.out.println(s);
@@ -126,7 +138,7 @@ public class PlayerControllerTest {
 		*/
 		
 		//Player
-		
+		/*
 		String playerJson = g.toJson(p);
 		System.out.println(playerJson);
 		
@@ -152,8 +164,8 @@ public class PlayerControllerTest {
 		
 		
 		
-		
 		String listagay = g.toJson(listOfMoves);
+		*/
 		//System.out.println("species -->"+ m.getSpecies().getClass());
 		//Class stocazzo = m.getSpecies().getClass();
 		/*		*/
@@ -199,9 +211,10 @@ public class PlayerControllerTest {
         	bf.write(itemsp);bf.newLine();bf.write("---");bf.newLine();bf.flush();
         	*/
         	
-        	bf.write(playerJson);
+        	//bf.write(playerJson);
         	//bf.write(listagay);
         	
+        	//bf.write(listajson);;
         	
         	
         } catch (IOException e) {
@@ -238,10 +251,18 @@ public class PlayerControllerTest {
         			
         			*/
         			
-        				Monster newm = g.fromJson(temp,MonsterImpl.class);
+        				//Monster newm = g.fromJson(temp,MonsterImpl.class);
         				//MonsterSpecies mspi = g.fromJson(temp, MonsterSpecies.class);
         				//System.out.println(mspi);
         			
+        				//List<NpcSimple> lista2 = g.fromJson(temp, List.class);
+        				
+        			
+        			Type userListType = new TypeToken<ArrayList<NpcSimpleImpl>>(){}.getType();
+        			 
+        			ArrayList<NpcSimpleImpl> lista2 = g.fromJson(temp, userListType);  
+        			
+        			System.out.println(lista2);
         			
         			while ((first=r.readLine()) != null) {
         			

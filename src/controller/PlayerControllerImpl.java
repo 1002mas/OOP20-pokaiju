@@ -1,96 +1,52 @@
 package controller;
 
 import java.util.List;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Optional;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import gui.Direction;
 import model.Pair;
 import model.battle.Moves;
-import model.gameitem.GameItemTypes;
 import model.gameitem.GameItems;
 import model.map.GameMap;
-import model.map.GameMapData;
-import model.map.GameMapDataImpl;
-import model.map.GameMapImpl;
 import model.monster.Monster;
-import model.monster.MonsterSpecies;
-import model.monster.MonsterStats;
 import model.player.Gender;
 import model.player.Player;
 import model.player.PlayerImpl;
-import test.InterfaceAdapter;
 import model.npc.NpcTrainer;
 
 public class PlayerControllerImpl implements PlayerController {
 	
-	private final int MAX_MONSTERS_IN_PLAYER_TEAM = 6;
+	
 	private Player player;
-	//private GameMapData gameDataMap;
-	private GameMap gameMap;
+	//private GameMap gameMap;
 	private boolean hasPlayerMoved;
-	private GsonBuilder gsonBuilder;
-	private Gson gson;
-	private List<NpcTrainer> npcsDefeated;
 	private List<Monster> gameMonster;
 	private List<GameItems> gameItems;
-	private String gameItemsPath = "res/Data/ItemsData.json";
-	private String gameMosterPath = "res/Data/MonstersData.json";
-	private String gamenpcsDefeatedPath= "res/Data/NpcsData.json";
+	private DataController dataController;
+	 
 	
-												//CREARE LISTA MOSTRI NEL SAVE
+	// creare funzione che prima del cambio mappa salvi tutti gli npcTrainer (Con controlli) nella lista nel  dataController
 	
-	
-	public PlayerControllerImpl(GameMap gameMap) {
+	public PlayerControllerImpl(DataController dataController) {
 		
-		this.gameMap = gameMap;
-		loadGameData();
-		/*
-		this.player = player;
-		this.gameDataMap = gameDataMap;		
-		*/
-		this.gsonBuilder = new GsonBuilder();
-		gsonBuilder.registerTypeAdapter(MonsterSpecies.class, new TypeAdapterController());
-		gsonBuilder.registerTypeAdapter(Moves.class, new TypeAdapterController());
-		gsonBuilder.registerTypeAdapter(MonsterStats.class, new TypeAdapterController());
-		gsonBuilder.registerTypeAdapter(Monster.class, new TypeAdapterController());
-		this.gson = gsonBuilder.create();
-		
+		this.dataController = dataController;
+		//this.gameMap = dataController.getGameMap();
+		loadGameData();	
 	}
 	
-	
-	private void loadGameData() {
-		//load di lista npc, mostri e items.	//CERCARE COME SALVARE LISTA
-		File pathFile;
+												
+	private void loadGameData() {	//--
+		gameItems = dataController.loadItems();
+		gameMonster = dataController.loadMonsters();
 		
-		pathFile = new File(gameItemsPath);
-		if(pathFile.exists()) {
-			
-		}
-		pathFile = new File(gameItemsPath);
-		if(pathFile.exists()) {
-			
-		}
-		pathFile = new File(gameItemsPath);
-		if(pathFile.exists()) {
-			
-		}
 	}
 	
 	//--PLAYER--
 	@Override
 	public  Optional<String> interact(Pair<Integer, Integer> coord) {	//----Problema battaglia-----
-		if(gameMap.getNpcAt(coord).isPresent()) {
-			Optional<String> result = gameMap.getNpcAt(coord).get().interactWith();
+		if(dataController.getGameMap().getNpcAt(coord).isPresent()) {
+			Optional<String> result = dataController.getGameMap().getNpcAt(coord).get().interactWith();
 			return result;
 		}
 		return Optional.empty();
@@ -103,16 +59,16 @@ public class PlayerControllerImpl implements PlayerController {
 
 	@Override
 	public Pair<Integer, Integer> movePlayer(Direction direction) {	//--
-		if(canChangeMap(direction)) {
-			gameMap.changeMap(getPlayerPosition());
-			setPlayerPosition(gameMap.getPlayerMapPosition().get());
+		if(canChangeMap()) {
+			dataController.getGameMap().changeMap(getPlayerPosition());
+			dataController.setNpcDefeatedInMap();
+			setPlayerPosition(dataController.getGameMap().getPlayerMapPosition().get());
 			setHasPlayerMoved(true);
 		}else if(canPassThrough(direction)){
 			Pair<Integer, Integer> newPosition = generateCoordinates(direction);
 			player.setPosition(newPosition);
 			setHasPlayerMoved(true);
 		}
-		setHasPlayerMoved(false);
 		return getPlayerPosition();
 	}
 
@@ -130,19 +86,18 @@ public class PlayerControllerImpl implements PlayerController {
 	}
 
 	@Override
-	public boolean canPassThrough(Direction direction) {		//--?--
+	public boolean canPassThrough(Direction direction) {		//--
 		Pair<Integer, Integer> newPosition = generateCoordinates(direction);
-		return gameMap.canPassThrough(newPosition);
+		return dataController.getGameMap().canPassThrough(newPosition);
 	}
 	
 	@Override
-	public boolean canChangeMap(Direction direction) {	//--?--
-		Pair<Integer, Integer> newPosition = generateCoordinates(direction);
-		return gameMap.canChangeMap(newPosition);
+	public boolean canChangeMap() {	//--
+		return dataController.getGameMap().canChangeMap(getPlayerPosition());
 	}
 	
 	@Override
-	public Player getPlayer() {
+	public Player getPlayer() {	//--
 		return player;
 	    }
 
@@ -176,8 +131,8 @@ public class PlayerControllerImpl implements PlayerController {
 	}
 
 	@Override
-	public Gender getGender() {	//--
-		return player.getGender();
+	public String  getGender() {	//--
+		return player.getGender().name();
 	}
 	
 	@Override
@@ -187,8 +142,8 @@ public class PlayerControllerImpl implements PlayerController {
 	}
 	
 	@Override
-	public void addNpcTraier(NpcTrainer npc) {	
-		this.npcsDefeated.add(npc);
+	public void addNpcTrainer(NpcTrainer npc) {		//-??- non aggiunto quando un npc perde, funzione non in uso
+		dataController.addNpcsDefeated(npc);
 	}
 
 	//--MONSTERS--
@@ -228,9 +183,8 @@ public class PlayerControllerImpl implements PlayerController {
 	
 	
 	@Override
-	public boolean isTeamFull() {			//--
-		List<Monster> playerMonsters = player.allMonster();
-		return (playerMonsters.size() == MAX_MONSTERS_IN_PLAYER_TEAM);
+	public boolean isTeamFull() {  //--
+		return player.isTeamFull();
 	}
 	
 
@@ -281,25 +235,25 @@ public class PlayerControllerImpl implements PlayerController {
 	}
 
 	@Override
-	public int getHealth(String monster) {	//--
+	public int getMonsterHealth(String monster) {	//--
 		return getMonster(monster).getStats().getHealth();
 	}
 
 
 	@Override
-	public int getAttack(String monster) {	//--
+	public int getMonsterAttack(String monster) {	//--
 		return getMonster(monster).getStats().getAttack();
 	}
 
 
 	@Override
-	public int getDefense(String monster) {	//--
+	public int getMonsterDefense(String monster) {	//--
 		return getMonster(monster).getStats().getDefense();
 	}
 
 
 	@Override
-	public int getSpeed(String monster) {	//--
+	public int getMonsterSpeed(String monster) {	//--
 		return getMonster(monster).getStats().getSpeed();
 	}
 
@@ -379,5 +333,21 @@ public class PlayerControllerImpl implements PlayerController {
 			}
 		}
 		
+	}
+
+	@Override
+	public void save(Player player) {	//--
+		 dataController.saveData(player);
+	}
+
+
+	@Override
+	public boolean load() {				//--
+		return dataController.loadData(player);
+	}
+
+	@Override
+	public boolean dataExsist() {		//--
+		return dataController.dataExsist();
 	}
 }

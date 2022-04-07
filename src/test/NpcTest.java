@@ -14,6 +14,12 @@ import model.npc.TypeOfNpc;
 public class NpcTest {
 	
 	
+	
+	
+	
+	
+	
+	
 	@Test
 	public void test1() {
 //		ArrayList<Monster> k = new ArrayList<Monster>();
