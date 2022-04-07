@@ -42,11 +42,29 @@ import model.player.PlayerImpl;
 
 public class PlayerControllerTest {
 
-
+	String hh;
 	
+	static public void setNpcDefeatedFromMap(List<NpcSimple> lissim ,List<NpcSimple> listr ) {		//-?da provare se funziona correttamente?-
+		System.out.println("listr--> "+listr);
+		NpcTrainer temp;
+		for (NpcSimple npc : lissim) {	
+			if(npc.getTypeOfNpc().equals(TypeOfNpc.TRAINER)) {
+				temp = (NpcTrainer) npc;
+					if(!temp.isDefeated() && !listr.contains(temp)) {
+						System.out.println("addo: "+temp.getName());
+						listr.add(temp);
+					}
+			}
+		}
+		
+	}
 	
 	public static void main(String[] args) throws InterruptedException
     {
+		
+		List<NpcSimple> lissim = new ArrayList<>();
+		List<NpcSimple> listr= new ArrayList<>();
+		
 		ArrayList<String> a = new ArrayList();
 		a.add("Sciao bello");
 		a.add("addio");
@@ -55,7 +73,16 @@ public class PlayerControllerTest {
 		NpcSimple ns = new  NpcSimpleImpl("Ru", TypeOfNpc.SIMPLE, a, pos);
 		NpcSimple ns1 = new NpcSimpleImpl("BUbu", TypeOfNpc.SIMPLE, a, pos);
 		NpcSimple nt =  new NpcTrainerImpl("saro",TypeOfNpc.TRAINER,a,null,pos);
+		NpcSimple nt2 =  new NpcTrainerImpl("culo",TypeOfNpc.TRAINER,a,null,pos);
+		NpcSimple nt3 =  new NpcTrainerImpl("jonny",TypeOfNpc.TRAINER,a,null,pos);
 		
+		lissim.add(ns);lissim.add(ns1);lissim.add(nt);
+		NpcTrainer temp3 = (NpcTrainer) nt;
+		System.out.println(temp3.getName());
+		temp3.setDefeated();
+		listr.add(nt3); //listr.add(temp3);
+		
+		setNpcDefeatedFromMap(lissim, listr);
 		
 		List<NpcSimple> lista = new ArrayList<>();
 		

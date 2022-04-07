@@ -1,22 +1,11 @@
 package controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
-
 import gui.Direction;
 import model.Pair;
-import model.battle.Moves;
-import model.gameitem.GameItemTypes;
-import model.gameitem.GameItems;
-import model.monster.Monster;
-import model.monster.MonsterSpecies;
-import model.monster.MonsterStats;
-import model.npc.NpcTrainer;
 import model.player.Gender;
 import model.player.Player;
-import model.player.PlayerImpl;
 
 public interface PlayerController {
     /**
@@ -83,7 +72,7 @@ public interface PlayerController {
 	
 	public void setMoney(int money);
 	
-	public void addNpcTrainer(NpcTrainer npc);
+	//public void addNpcTrainer(NpcTrainer npc);
      
 	public List<String> getMonstersNames();
 	
@@ -122,6 +111,8 @@ public interface PlayerController {
     public void save(Player player);
     
     public boolean load();
+    
+    public boolean usebleItem(String item);
     
     public boolean dataExsist();
 }

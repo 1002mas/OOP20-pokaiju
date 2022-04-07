@@ -3,35 +3,29 @@ package controller;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Optional;
-
 import gui.Direction;
 import model.Pair;
 import model.battle.Moves;
+import model.gameitem.GameItemTypes;
 import model.gameitem.GameItems;
-import model.map.GameMap;
 import model.monster.Monster;
 import model.player.Gender;
 import model.player.Player;
 import model.player.PlayerImpl;
-import model.npc.NpcTrainer;
 
 public class PlayerControllerImpl implements PlayerController {
 	
+
 	
 	private Player player;
-	//private GameMap gameMap;
 	private boolean hasPlayerMoved;
 	private List<Monster> gameMonster;
 	private List<GameItems> gameItems;
 	private DataController dataController;
-	 
-	
-	// creare funzione che prima del cambio mappa salvi tutti gli npcTrainer (Con controlli) nella lista nel  dataController
 	
 	public PlayerControllerImpl(DataController dataController) {
 		
 		this.dataController = dataController;
-		//this.gameMap = dataController.getGameMap();
 		loadGameData();	
 	}
 	
@@ -60,6 +54,7 @@ public class PlayerControllerImpl implements PlayerController {
 	@Override
 	public Pair<Integer, Integer> movePlayer(Direction direction) {	//--
 		if(canChangeMap()) {
+			dataController.setNpcDefeatedFromMap();
 			dataController.getGameMap().changeMap(getPlayerPosition());
 			dataController.setNpcDefeatedInMap();
 			setPlayerPosition(dataController.getGameMap().getPlayerMapPosition().get());
@@ -141,11 +136,13 @@ public class PlayerControllerImpl implements PlayerController {
 		this.hasPlayerMoved = false;
 	}
 	
+	/*
 	@Override
 	public void addNpcTrainer(NpcTrainer npc) {		//-??- non aggiunto quando un npc perde, funzione non in uso
 		dataController.addNpcsDefeated(npc);
 	}
-
+	*/
+	
 	//--MONSTERS--
 	
 	@Override
@@ -349,5 +346,11 @@ public class PlayerControllerImpl implements PlayerController {
 	@Override
 	public boolean dataExsist() {		//--
 		return dataController.dataExsist();
+	}
+
+
+	@Override
+	public boolean usebleItem(String item) {	//--
+		return getItem(item).getType().equals(GameItemTypes.MONSTERBALL);
 	}
 }
