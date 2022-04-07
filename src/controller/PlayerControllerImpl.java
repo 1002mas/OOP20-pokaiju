@@ -369,6 +369,11 @@ public class PlayerControllerImpl implements PlayerController {
 	public String getItemtype(String item) {	//--
 		return getItem(item).getType().toString();
 	}
+	
+	@Override
+	public List<GameItems> getItemList() {	//--
+		return player.allItems();
+	}
 
 	@Override
 	public void addItem(String item) {	//--

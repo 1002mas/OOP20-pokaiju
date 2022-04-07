@@ -1,5 +1,6 @@
 package gui;
 
+import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -16,59 +17,108 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-public class MonsterPanel extends JPanel {
+import controller.PlayerController;
+
+/*public class MonsterPanel extends JPanel {
 
     private final CardLayout cardlayout = new CardLayout();
+    private final PlayerController playerController;
 
-    public MonsterPanel() {
+    public MonsterPanel(PlayerController playerController) {
+	this.playerController = playerController;
 	init();
     }
 
     private void init() {
 	this.setLayout(cardlayout);
-	JPanel allMonsterPanel = new JPanel(new GridLayout(1,6));
-	List<JPanel> monsterInfoPanel = new ArrayList<>();
-	List<JLabel> monsterLabel = new ArrayList<>();
-	List<String> listTry = new ArrayList<>();
-	listTry.add("ciao");
-	listTry.add("cia");
-	listTry.add("ci");
-	listTry.add("c");
-	listTry.add("c");
-	listTry.add("luca");
-	/*
-	 * for(Monster m : this.playerController.getPlayer().allMonster()) { JLabel
-	 * singlePanelJLabel = new JLabel(); singlePanelJLabel.setText(m.getName());
-	 * monsterLabel.add(singlePanelJLabel); }
-	 */
-	for (String m : listTry) {
-	    JPanel newPanel = new JPanel(new FlowLayout());
-	    JButton backButton = new JButton("Back");
-	    JLabel prova = new JLabel("ciao");
-	    backButton.addActionListener(e-> cardlayout.show(this,Integer.toString(0)));
-	    newPanel.add(backButton);
-	    newPanel.add(prova);   
-	    monsterInfoPanel.add(newPanel);
-	}
-	for (String m : listTry) {
-	    int index = 1;
-	    JLabel singlePanelJLabel = new JLabel();
-	    singlePanelJLabel.setLayout(new FlowLayout());
-	    JButton singleButton = new JButton("STATS");
-	    singleButton.addActionListener(e -> cardlayout.show(this, Integer.toString(index)));
-	    singlePanelJLabel.setText(m);
-	    singlePanelJLabel.setHorizontalAlignment(SwingConstants.CENTER);
-	    singlePanelJLabel.setVerticalAlignment(SwingConstants.CENTER);
-	    singlePanelJLabel.setBorder(BorderFactory.createLineBorder(Color.blue));
-	    singlePanelJLabel.add(singleButton);
-	    monsterLabel.add(singlePanelJLabel);
-	}
-	for (JLabel j : monsterLabel) {
-	    allMonsterPanel.add(j);
-	}
-	this.add(allMonsterPanel,Integer.toString(0));
+	JPanel allMonsterPanel = new JPanel(new GridLayout(1, 6));
+	List<JPanel> monsterStatsPanel = new ArrayList<>();
+	List<JLabel> listMonsterLabel = new ArrayList<>();
+	List<String> monsterNames = this.playerController.getMonstersNames();
 
-	for (JPanel p : monsterInfoPanel) {
+	for (String name : monsterNames) {//  stats
+	    MonsterInfoPanel singleMonsterPanel = new MonsterInfoPanel(this.playerController, this, name);
+	    monsterStatsPanel.add(singleMonsterPanel);
+	}
+	for (String name : monsterNames) {// nome lv vita , img , stats
+	    int index = 1;
+	    JLabel singleMonsterLabel = new JLabel();
+	    singleMonsterLabel.setLayout(new BorderLayout());
+	    singleMonsterLabel.setText("name :" + name + " level: " + this.playerController.getMonsterLevel(name)
+		    + " Hp: " + this.playerController.getHealth(name) + "/"
+		    + this.playerController.getMonsterMaxHealth(name));
+	    singleMonsterLabel.setHorizontalAlignment(SwingConstants.CENTER);
+	    singleMonsterLabel.setVerticalAlignment(SwingConstants.CENTER);
+	    singleMonsterLabel.setBorder(BorderFactory.createLineBorder(Color.blue));
+
+	    JButton statsButton = new JButton("STATS");
+	    statsButton.addActionListener(e -> cardlayout.show(this, Integer.toString(index)));
+
+	    singleMonsterLabel.add(statsButton, BorderLayout.SOUTH);
+	    listMonsterLabel.add(singleMonsterLabel);
+	}
+	for (JLabel singleMonsterLabel : listMonsterLabel) {
+	    allMonsterPanel.add(singleMonsterLabel);
+	}
+
+	this.add(allMonsterPanel, Integer.toString(0));
+
+	for (JPanel p : monsterStatsPanel) {
+	    int index = 1;
+	    this.add(p, Integer.toString(index));
+	}
+
+    }
+}*/
+//codice di prova
+public class MonsterPanel extends JPanel {
+
+    private final CardLayout cardlayout = new CardLayout();
+    private JPanel mainPanel;
+
+    public MonsterPanel(JPanel mainPanel) {
+	init();
+    }
+
+    private void init() {
+	this.setLayout(cardlayout);
+	JPanel allMonsterPanel = new JPanel(new GridLayout(1, 6));
+	List<JPanel> monsterStatsPanel = new ArrayList<>();
+	List<JLabel> listMonsterLabel = new ArrayList<>();
+	List<String> monsterNames = new ArrayList<String>();
+	monsterNames.add("AA");
+	monsterNames.add("BB");
+	monsterNames.add("CC");
+	monsterNames.add("DD");
+	monsterNames.add("EE");
+	monsterNames.add("FF");
+
+	for (String name : monsterNames) {// stats
+	    MonsterInfoPanel singleMonsterPanel = new MonsterInfoPanel(this);
+	    monsterStatsPanel.add(singleMonsterPanel);
+	}
+	for (String name : monsterNames) {// nome lv vita , img , stats
+	    int index = 1;
+	    JLabel singleMonsterLabel = new JLabel();
+	    singleMonsterLabel.setLayout(new BorderLayout());
+	    singleMonsterLabel.setText("name :" + name + " level: " + " Hp: ");
+	    singleMonsterLabel.setHorizontalAlignment(SwingConstants.CENTER);
+	    singleMonsterLabel.setVerticalAlignment(SwingConstants.CENTER);
+	    singleMonsterLabel.setBorder(BorderFactory.createLineBorder(Color.blue));
+
+	    JButton statsButton = new JButton("STATS");
+	    statsButton.addActionListener(e -> cardlayout.show(this, Integer.toString(index)));
+
+	    singleMonsterLabel.add(statsButton, BorderLayout.SOUTH);
+	    listMonsterLabel.add(singleMonsterLabel);
+	}
+	for (JLabel singleMonsterLabel : listMonsterLabel) {
+	    allMonsterPanel.add(singleMonsterLabel);
+	}
+
+	this.add(allMonsterPanel, Integer.toString(0));
+
+	for (JPanel p : monsterStatsPanel) {
 	    int index = 1;
 	    this.add(p, Integer.toString(index));
 	}

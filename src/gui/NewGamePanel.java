@@ -24,10 +24,8 @@ import controller.PlayerController;
 import model.Pair;
 import model.map.*;
 import model.player.*;
-import gui.PanelTypes;
 
 public class NewGamePanel extends JPanel {
-    private static final String LOGIN_PANEL = "login panel";
     private JPanel mainPanel;
     private PlayerController playerController;
 
@@ -44,7 +42,7 @@ public class NewGamePanel extends JPanel {
 
 	JLabel tipsLabel = new JLabel();
 	tipsLabel.setText("Creating a new game will delete the old savedata");
-	tipsLabel.setFont(new Font("SansSerif Bold Italic", Font.CENTER_BASELINE, 25));
+	tipsLabel.setFont(new Font("SansSerif Bold Italic", Font.CENTER_BASELINE, 22));
 	tipsLabel.setForeground(Color.red);
 
 	JLabel nameLabel = new JLabel();
@@ -62,7 +60,7 @@ public class NewGamePanel extends JPanel {
 	JTextField trainerNumberField = new JTextField();
 	trainerNumberField.setText(String.valueOf(a));
 	trainerNumberField.setEditable(false);
-	trainerNumberLabel.setFont(new Font("Verdana", Font.CENTER_BASELINE, 20));
+	trainerNumberLabel.setFont(new Font("SansSerif Bold Italic", Font.CENTER_BASELINE, 22));
 	trainerNumberLabel.setEnabled(false);
 
 	JButton postData = new JButton("CREATE");
@@ -74,13 +72,13 @@ public class NewGamePanel extends JPanel {
 		} else {
 		    playerController.createNewPlayer(nameField.getText(), (Gender) gender.getSelectedItem(), a);
 		    System.out.println(playerController.getPlayer().toString());
-		  
+
 		}
 	    }
 	});
 
 	JButton quitButton = new JButton("BACK TO MENU");
-	quitButton.addActionListener(e -> c1.show(this.mainPanel, PanelTypes.LOGIN_PANEL.name()));
+	quitButton.addActionListener(e -> c1.show(this.mainPanel, GameFrame.LOGIN_PANEL));
 
 	JPanel topPanel = new JPanel(new FlowLayout());
 	topPanel.add(quitButton, FlowLayout.LEFT);
