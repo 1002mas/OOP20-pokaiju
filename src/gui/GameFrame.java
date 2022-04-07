@@ -4,37 +4,18 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Insets;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTable;
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 
 import controller.ImagesLoader;
 import controller.PlayerController;
-import model.JTableModel;
 import model.Pair;
-import model.gameitem.*;
-import model.monster.*;
 
 public class GameFrame extends JFrame {
     private static final int HEIGHT = 1280;
@@ -57,8 +38,14 @@ public class GameFrame extends JFrame {
 	LoginPanel loginPanel = new LoginPanel();
 
 	// Pannello di quando clicco continua gioco
-	JPanel gamePanel = buildMapPanel();
-	loginPanel.getContinue().addActionListener(e -> changePanel(PanelTypes.MAP_PANEL.name()));
+	loginPanel.getContinue().addActionListener(e -> {
+	    if (!subPanels.containsKey(PanelTypes.MAP_PANEL.name())) {
+		JPanel gamePanel = buildMapPanel();
+		mainPanel.add(gamePanel, PanelTypes.MAP_PANEL.name());
+		subPanels.put(PanelTypes.MAP_PANEL.name(), gamePanel);
+	    }
+	    changePanel(PanelTypes.MAP_PANEL.name());
+	});
 
 	// Pannello di quando inizio un nuovo gioco
 	JPanel newGamePanel = newGamePanel();
@@ -70,12 +57,10 @@ public class GameFrame extends JFrame {
 
 	mainPanel.add(loginPanel, PanelTypes.LOGIN_PANEL.name());
 	mainPanel.add(newGamePanel, PanelTypes.NEW_GAME_PANEL.name());
-	mainPanel.add(gamePanel, PanelTypes.MAP_PANEL.name());
 	mainPanel.add(menuPanel, PanelTypes.MENU_PANEL.name());
 
 	subPanels.put(PanelTypes.LOGIN_PANEL.name(), loginPanel);
 	subPanels.put(PanelTypes.NEW_GAME_PANEL.name(), newGamePanel);
-	subPanels.put(PanelTypes.MAP_PANEL.name(), gamePanel);
 	subPanels.put(PanelTypes.MENU_PANEL.name(), menuPanel);
 	this.setContentPane(mainPanel);
 	this.setVisible(true);
@@ -92,7 +77,7 @@ public class GameFrame extends JFrame {
 	PlayerPanel topPanel = p.getTopPanel();
 	boolean animationOn = true;
 	Pair<Integer, Integer> newPosition = playerController.getPlayerPosition();
-	
+
 	if (playerController.canPassThrough(dir)) {
 	    newPosition = playerController.movePlayer(dir);
 	    topPanel.setNextPosition(newPosition);
@@ -102,7 +87,7 @@ public class GameFrame extends JFrame {
 		animationOn = false;
 	    }
 	}
-	
+
 	if (animationOn) {
 	    topPanel.animatedMove(dir, playerController.hasPlayerMoved());
 	} else {

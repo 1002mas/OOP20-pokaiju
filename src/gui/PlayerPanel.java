@@ -16,17 +16,19 @@ public class PlayerPanel extends JPanel {
 
     private final ImagesLoader imgLoader;
     private final JLabel player = new JLabel();
+    private final String player_gender;
     private final int size = 10;
 
     private Pair<Integer, Integer> playerNextPos;
     private Pair<Integer, Integer> playerPos;
     private boolean leftLeg = false;
 
-    public PlayerPanel(Pair<Integer, Integer> playerPos, ImagesLoader imgLoader) {
+    public PlayerPanel(Pair<Integer, Integer> playerPos, ImagesLoader imgLoader, String player_gender) {
 	super();
 	this.playerNextPos = playerPos;
 	this.playerPos = playerPos;
 	this.imgLoader = imgLoader;
+	this.player_gender = player_gender;
 	this.add(player);
 	this.setOpaque(false);
     }
@@ -52,12 +54,12 @@ public class PlayerPanel extends JPanel {
 	int diff = dir.isVertical() ? playerPos.getSecond() - playerNextPos.getSecond()
 		: playerPos.getFirst() - playerNextPos.getFirst();
 	JLabel player = (JLabel) this.getComponent(0);
-	player.setIcon(new ImageIcon(imgLoader.getPlayerImages(dir).get(0)));
+	player.setIcon(new ImageIcon(imgLoader.getPlayerImages(dir, player_gender).get(0)));
 	this.paintImmediately(this.getBounds());
 	sleepMillisec(100);
 	if (canMove) {
 	    // starts moving
-	    player.setIcon(new ImageIcon(imgLoader.getPlayerImages(dir).get(leftLeg ? 1 : 2)));
+	    player.setIcon(new ImageIcon(imgLoader.getPlayerImages(dir, player_gender).get(leftLeg ? 1 : 2)));
 	    this.paintImmediately(this.getBounds());
 	    while (diff != 0) {
 		int x = playerPos.getFirst();
@@ -76,7 +78,7 @@ public class PlayerPanel extends JPanel {
 
 	}
 	// end movement
-	player.setIcon(new ImageIcon(imgLoader.getPlayerImages(dir).get(0)));
+	player.setIcon(new ImageIcon(imgLoader.getPlayerImages(dir, player_gender).get(0)));
 	leftLeg = !leftLeg;
     }
 

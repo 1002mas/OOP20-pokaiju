@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 
 import controller.ImagesLoader;
 import controller.PlayerController;
+import model.Pair;
 
 public class TwoLayersPanel extends JPanel {
 
@@ -17,8 +18,10 @@ public class TwoLayersPanel extends JPanel {
 
     public TwoLayersPanel(PlayerController playerController, ImagesLoader imgLoad, int windowHeight, int windowWidth) {
 	super();
-	topPanel = new PlayerPanel(playerController.getPlayerPosition(), imgLoad);
-	topPanel.setPlayerImage(new ImageIcon(imgLoad.getPlayerImages(Direction.DOWN).get(0)));
+	//TODO use String getGender of Controller
+	//TODO use playerController.getPlayerPosition()
+	topPanel = new PlayerPanel(new Pair<>(0, 0), imgLoad, "male");
+	topPanel.setPlayerImage(new ImageIcon(imgLoad.getPlayerImages(Direction.DOWN, "male").get(0)));
 
 	bottomPanel = new JPanel();
 	bottomPanel.setOpaque(true);
