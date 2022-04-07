@@ -117,4 +117,6 @@ public interface PlayerController {
     public String getItemtype(String item);
 
     public void addItem(String item);
+
+    List<GameItems> getItemList();
 }
