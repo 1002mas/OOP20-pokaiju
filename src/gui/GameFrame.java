@@ -3,19 +3,11 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
-
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Insets;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.util.ArrayList;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,14 +23,15 @@ import controller.PlayerController;
 import model.Pair;
 
 public class GameFrame extends JFrame {
-    private static final int HEIGHT = 1280;
-    private static final int WIDTH = 720;
+    // private static final int HEIGHT = 1280;
+    // private static final int WIDTH = 720;
     private static final long serialVersionUID = -7927156597267134363L;
     static final String NEW_GAME_PANEL = "new game";
     static final String MAP_PANEL = "map game";
     static final String MENU_PANEL = "menu";
     static final String LOGIN_PANEL = "login panel";
 
+    private final int size;
     private final CardLayout cLayout = new CardLayout();
     private final Map<String, JPanel> subPanels = new HashMap<>();
     private final ImagesLoader imgLoad = new ImagesLoader();
@@ -84,11 +77,20 @@ public class GameFrame extends JFrame {
 	subPanels.put(LOGIN_PANEL, loginPanel);
 	subPanels.put(NEW_GAME_PANEL, newGamePanel);
 	subPanels.put(MENU_PANEL, menuPanel);
-
-	mainPanel.setBounds(0, 0, WIDTH, HEIGHT);
+	size = getMainPanelSize();
+	mainPanel.setPreferredSize(new Dimension(size, size));
+	mainPanel.setBounds(0, 0, size, size);
 	this.setContentPane(mainPanel);
 	this.pack();
 	this.setVisible(true);
+    }
+
+    private int getMainPanelSize() {
+	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+	int s = (int) (screenSize.getHeight() > screenSize.getWidth() ? screenSize.getWidth() : screenSize.getHeight());
+	s = (5 * s) / 6;
+	System.out.println(s);
+	return s;
     }
 
     private JPanel buildMapPanel() {
