@@ -131,10 +131,10 @@ public class BattleControllerImpl implements BattleController {
     }
 
     @Override
-    public void useItem(String gameItemName, int monsterIndex) {
+    public void useItem(String gameItemName, int monsterId) {
 	GameItems gameItem = monsterBattle.getPlayer().allItems().stream()
 		.filter(i -> i.getNameItem().equals(gameItemName)).findAny().get();
-	monsterBattle.getPlayer().useItem(gameItem, monsterBattle.getPlayer().allMonster().get(monsterIndex));
+	monsterBattle.getPlayer().useItem(gameItem, monsterBattle.getPlayer().allMonster().stream().filter(i -> i.getId() == monsterId).findAny().get());
 	if (gameItem.getType() == GameItemTypes.MONSTERBALL) {
 	    this.enemyCaptured = monsterBattle.capture();
 	}

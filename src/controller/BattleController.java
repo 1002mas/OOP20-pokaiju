@@ -160,9 +160,9 @@ public interface BattleController {
      * Use a GameItem
      * 
      * @param gameItemName
-     * @param monsterIndex
+     * @param monsterId
      */
-    void useItem(String gameItemName, int monsterIndex);
+    void useItem(String gameItemName, int monsterId);
 
     /**
      * Returns the number of GameItems that have the name gameItemName
