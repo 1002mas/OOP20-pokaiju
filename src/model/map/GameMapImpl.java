@@ -1,12 +1,15 @@
 package model.map;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
 import model.Pair;
+import model.battle.Moves;
 import model.monster.Monster;
 import model.monster.MonsterBuilderImpl;
+import model.monster.MonsterImpl;
 import model.monster.MonsterSpecies;
 import model.npc.NpcSimple;
 
@@ -54,6 +57,22 @@ public class GameMapImpl implements GameMap {
 	return temp;
     }
 
+    private List<Moves> getRandomListMoves(MonsterSpecies species, int level) {
+	List<Moves> movesList = new ArrayList<>();
+	List<Moves> learnableMoves = species.getAllLearnableMoves(level);
+	for (Moves m : learnableMoves) {
+	    if (movesList.size() < MonsterImpl.NUM_MAX_MOVES) {
+		movesList.add(m);
+	    } else {
+		break;
+	    }
+	}
+	if (movesList.size() == 0 && learnableMoves.size() > 0) {
+	    movesList.add(learnableMoves.get(0));
+	}
+	return movesList;
+    }
+
     @Override
     public Optional<Monster> getWildMonster(Pair<Integer, Integer> pos) {
 	List<MonsterSpecies> monsters = map.getMonstersInArea();
@@ -62,13 +81,12 @@ public class GameMapImpl implements GameMap {
 	    return Optional.empty();
 	}
 	MonsterSpecies species = monsters.get(new Random().nextInt(monsters.size()));
-	Monster m = new MonsterBuilderImpl()
-		.species(species)
-		.isWild(true)
-		.level(1)
-		.exp(0)
-		.stats(species.getStats())
-		.movesList(null)//TODO use monster.getMoves
+	int monsterLevel = new Random()
+		.nextInt(map.getWildMonsterLevelRange().getSecond() - map.getWildMonsterLevelRange().getFirst())
+		+ map.getWildMonsterLevelRange().getFirst();
+	Monster m = new MonsterBuilderImpl().monsterId(1).species(species).isWild(true)
+		.level(map.getWildMonsterLevelRange().getFirst()).exp(0)
+		.movesList(getRandomListMoves(species, monsterLevel))
 		.build();
 	return Optional.of(m);
     }
