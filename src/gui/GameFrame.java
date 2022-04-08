@@ -72,18 +72,19 @@ public class GameFrame extends JFrame {
 
 	mainPanel.add(loginPanel, LOGIN_PANEL);
 	mainPanel.add(newGamePanel, NEW_GAME_PANEL);
-
 	mainPanel.add(menuPanel, MENU_PANEL);
 
 	subPanels.put(LOGIN_PANEL, loginPanel);
 	subPanels.put(NEW_GAME_PANEL, newGamePanel);
 	subPanels.put(MENU_PANEL, menuPanel);
 
+
 	size = getMainPanelSize();
 	//TODO get cells number from controller
 	imgLoad = new ImagesLoader(size, size, 20, 20);
 	mainPanel.setPreferredSize(new Dimension(size, size));
 	mainPanel.setBounds(0, 0, size, size);
+
 	this.setContentPane(mainPanel);
 	this.pack();
 	this.setVisible(true);
@@ -196,7 +197,7 @@ public class GameFrame extends JFrame {
 	JLabel boxLabel = new JLabel();
 	boxPanel.add(boxLabel);
 
-	GameItemPanel gameItemPanel = new GameItemPanel(this.playerController);
+	final GameItemPanel gameItemPanel = new GameItemPanel(this.playerController);
 
 	PlayerInfoPanel playerInfoPanel = new PlayerInfoPanel(this.playerController);
 
@@ -207,9 +208,17 @@ public class GameFrame extends JFrame {
 
 	monster.addActionListener(e -> cLayout.show(bottomPanel, MONSTERPANEL));
 	box.addActionListener(e -> cLayout.show(bottomPanel, BOXPANEL));
-	gameItems.addActionListener(e -> cLayout.show(bottomPanel, GAMEITEMSPANEL));
+	gameItems.addActionListener(e -> {
+	    gameItemPanel.update();
+	    cLayout.show(bottomPanel, GAMEITEMSPANEL);
+
+	});
 	playerInfo.addActionListener(e -> cLayout.show(bottomPanel, PLAYERINFOPANEL));
-	quit.addActionListener(e -> changePanel(MAP_PANEL));
+	quit.addActionListener(e -> {
+	    monsterPanel.changePanel(Integer.toString(0));
+	    changePanel(MAP_PANEL);
+	});
+
 	save.addActionListener(new ActionListener() {
 	    public void actionPerformed(ActionEvent e) {
 		// TODO salvataggio
