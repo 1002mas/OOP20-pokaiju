@@ -18,6 +18,11 @@ public interface GameMapData {
     int getMapId();
 
     /**
+     * @return a pair containing the minimum and maximum level for monsters in the area 
+     */
+    Pair<Integer, Integer> getWildMonsterLevelRange();
+
+    /**
      * @return type of block (es. walkable)
      */
     MapBlockType getBlockType(Pair<Integer, Integer> block);

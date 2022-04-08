@@ -77,6 +77,7 @@ public class ImagesLoader {
 	    try {
 
 		String imgPath = basePath + fileType;
+		System.out.println(imgPath);
 		monsterPng = ImageIO.read(new File(imgPath));
 
 	    } catch (IOException e) {
