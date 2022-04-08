@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import gui.Direction;
 import model.Pair;
-import model.npc.NpcTrainer;
 import model.player.Gender;
 import model.player.Player;
 
@@ -73,7 +72,7 @@ public interface PlayerController {
 	
 	public void setMoney(int money);
 	
-	public void addNpcTrainer(NpcTrainer npc);
+	//public void addNpcTrainer(NpcTrainer npc);
      
 	public List<String> getMonstersNames();
 	
@@ -115,5 +114,7 @@ public interface PlayerController {
     
     public boolean dataExist();
 
+    public boolean usableItem(String item);
+    
 
 }

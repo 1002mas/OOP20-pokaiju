@@ -46,7 +46,7 @@ public interface DataController {
     
     void setNpcDefeatedInMap();
     
-   // boolean loadNpc();
+    void setNpcDefeatedFromMap();
     
     List<Monster> loadMonsters();
     

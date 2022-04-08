@@ -28,13 +28,12 @@ import model.monster.MonsterStats;
 import model.npc.NpcSimple;
 import model.npc.NpcSimpleImpl;
 import model.npc.NpcTrainer;
+import model.npc.TypeOfNpc;
 import model.player.Player;
 import model.player.PlayerImpl;
 
 public class DataControllerImpl implements DataController {				
-	
-	
-										
+											
 	private GameMapData gameMapData;			
 	private GameMap gameMap;			
 	private GsonBuilder gsonBuilder;
@@ -144,7 +143,7 @@ public class DataControllerImpl implements DataController {
 	}
 	
 	@Override
-	public List<Monster> loadMonsters() {	//-?-
+	public List<Monster> loadMonsters() {	//--
 		List<Monster> m = new ArrayList<>();
 		File dataFile = new File(gameMosterPath);
 		if(dataFile.exists()) {
@@ -163,7 +162,7 @@ public class DataControllerImpl implements DataController {
 	}
 
 	@Override
-	public List<GameItems> loadItems() {	//-?-
+	public List<GameItems> loadItems() {	//--
 		List<GameItems> i = new ArrayList<>();
 		File dataFile = new File(gameItemsPath);
 		if(dataFile.exists()) {
@@ -183,12 +182,12 @@ public class DataControllerImpl implements DataController {
 	
 
 	@Override
-	public GameMapData getGameMapData() {		//-!bisogna sostituire in PlayerController! e mettere solo dataController-
+	public GameMapData getGameMapData() {	//--	
 		return this.gameMapData;				
 	}
 
 	@Override
-	public GameMap getGameMap() {				//-!bisogna sostituire in PlayerController! e mettere solo dataController-
+	public GameMap getGameMap() {	//--			
 		return this.gameMap;
 	}
 	
@@ -198,10 +197,9 @@ public class DataControllerImpl implements DataController {
 	}
 
 	@Override
-	public void setNpcDefeatedInMap() {		
-											//-codice da pulire-
+	public void setNpcDefeatedInMap() {		//--
 		if(!npcsDefeated.isEmpty()) {
-			for (NpcSimple npc : gameMapData.getAllNpcs()) {		////sost. gameMapData	
+			for (NpcSimple npc : gameMapData.getAllNpcs()) {		
 				for(NpcTrainer npcTrainer : npcsDefeated) {
 					if(npcTrainer.getName().equals(npc.getName())) {
 						npc = npcTrainer;
@@ -209,6 +207,20 @@ public class DataControllerImpl implements DataController {
 				}
 			}
 		}
+	}
+
+	@Override
+	public void setNpcDefeatedFromMap() {		//--
+		NpcTrainer temp;
+		for (NpcSimple npc : gameMapData.getAllNpcs()) {	
+			if(npc.getTypeOfNpc() == TypeOfNpc.TRAINER ) {
+				temp = (NpcTrainer) npc;
+					if(!temp.isDefeated() && !npcsDefeated.contains(temp)) {
+						npcsDefeated.add(temp);
+					}
+			}
+		}
+		
 	}
 
 	
