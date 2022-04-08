@@ -6,7 +6,7 @@ import model.battle.Moves;
 public class MonsterBuilderImpl implements MonsterBuilder {
 
     private static final int MIN_LEVEL = 1;
-    private static int id = 0;
+    private int id;
     private int exp;
     private List<Moves> movesList;
     private boolean isWild;
@@ -14,12 +14,13 @@ public class MonsterBuilderImpl implements MonsterBuilder {
     private MonsterSpecies species;
     private MonsterStats stats = new MonsterStatsImpl(-1, -1, -1, -1);
 
-    public static int getId() {
-	return id;
-    }
-
-    public void setId(int id) {
-	MonsterBuilderImpl.id = id;
+    @Override
+    public MonsterBuilder monsterId(int id) {
+	if (id <= 0) {
+	    throw new IllegalArgumentException(); 
+	}
+	this.id = id;
+	return this;
     }
 
     @Override
@@ -39,7 +40,7 @@ public class MonsterBuilderImpl implements MonsterBuilder {
     
     @Override
     public MonsterBuilder health(int health) {
-	this.stats.setAttack(health);
+	this.stats.setHealth(health);
 	return this;
     }
     
@@ -51,13 +52,13 @@ public class MonsterBuilderImpl implements MonsterBuilder {
     
     @Override
     public MonsterBuilder defense(int dfs) {
-	this.stats.setAttack(dfs);
+	this.stats.setDefense(dfs);
 	return this;
     }
     
     @Override
     public MonsterBuilder speed(int spd) {
-	this.stats.setAttack(spd);
+	this.stats.setSpeed(spd);
 	return this;
     }
 
@@ -84,10 +85,9 @@ public class MonsterBuilderImpl implements MonsterBuilder {
 
     @Override
     public Monster build() {
-	if (this.species == null || this.movesList.isEmpty()) {
+	if (this.id <= 0 || this.species == null || this.movesList.isEmpty()) {
 	    throw new IllegalStateException();
 	}
-	id++;
 	Monster monster = new MonsterImpl(id, this.species.getBaseStats(), 0, MIN_LEVEL, this.isWild, this.species, this.movesList);
 	for(int i = MIN_LEVEL; i <= this.level; i++) {
 	    monster.levelUp();

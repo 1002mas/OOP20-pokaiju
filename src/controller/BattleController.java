@@ -1,7 +1,9 @@
 package controller;
 
 import java.util.List;
-import model.gameitem.GameItems;
+import java.util.Optional;
+
+import model.Pair;
 
 public interface BattleController {
 
@@ -185,6 +187,12 @@ public interface BattleController {
      * @return true if is a capture item, false otherwise
      */
     boolean isCaptureItem(String gameItemName);
+    
+    boolean canOneMonsterEvolve();
+    
+    Optional<Integer> getEvolutionSpeciesNames();
+    
+    Optional<Pair<String, String>> evolveByLevel(int monsterId);
 
     /**
      * Check the health of the monster
