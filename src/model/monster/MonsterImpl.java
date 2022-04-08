@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
@@ -14,8 +15,10 @@ import model.gameitem.GameItems;
 
 public class MonsterImpl implements Monster {
 
-    private static final int EXP_CAP = 1000;
-    private static final int MAX_LVL = 100;
+    public static final int EXP_CAP = 1000;
+    public static final int MAX_LVL = 100;
+    public static final int NUM_MAX_MOVES = 4;
+
     private static final int MAX_HP_STEP = 40;
     private static final int MIN_HP_STEP = 10;
     private static final int MAX_STAT_STEP = 10;
@@ -25,17 +28,17 @@ public class MonsterImpl implements Monster {
     private int exp;
     private int level;
     private boolean isWild;
-    private int maxHealth;
     private MonsterSpecies species;
     private List<Moves> movesList;
     private MonsterStats stats;
+    private MonsterStats maxStats;
     private Set<Moves> movesToLearn;
 
     public MonsterImpl(int id, MonsterStats stats, int exp, int level, boolean isWild, MonsterSpecies species,
 	    List<Moves> movesList) {
 	this.id = id;
-	this.stats = stats;
-	this.maxHealth = this.stats.getHealth();
+	this.maxStats = stats;
+	this.stats = new MonsterStatsImpl(maxStats.getHealth(), maxStats.getAttack(), maxStats.getDefense(), maxStats.getSpeed());
 	this.exp = exp;
 	this.level = level;
 	this.isWild = isWild;
@@ -54,18 +57,20 @@ public class MonsterImpl implements Monster {
     }
 
     @Override
-    public int getHealth() {
-	return this.stats.getHealth();
-    }
-
-    @Override
     public void setHealth(int health) {
 	this.stats.setHealth(health <= this.getMaxHealth() ? health : this.getMaxHealth());
     }
 
     @Override
+    public void restoreStats() {
+	Map<String, Integer> maxStatsMap = this.maxStats.getStatsAsMap();
+	Map<String, Integer> statsMap = this.stats.getStatsAsMap();
+	maxStatsMap.entrySet().forEach(e -> statsMap.put(e.getKey(), e.getValue()));
+    }
+
+    @Override
     public int getMaxHealth() {
-	return this.maxHealth;
+	return this.maxStats.getHealth();
     }
 
     @Override
@@ -83,6 +88,13 @@ public class MonsterImpl implements Monster {
     }
 
     @Override
+    public void levelUp() {
+	this.level++;
+	this.exp = 0;
+	onLevelUp(1);
+    }
+
+    @Override
     public void incExp(int experience) {
 	int incLevel = (this.exp + experience) / EXP_CAP;
 	setLevel(incLevel + level);
@@ -96,13 +108,14 @@ public class MonsterImpl implements Monster {
     }
 
     private void onLevelUp(int incLevel) {
-	this.stats.setHealth(this.stats.getHealth() + new Random().nextInt(MAX_HP_STEP - MIN_HP_STEP) + MIN_HP_STEP);
-	this.stats.setAttack(
-		this.stats.getAttack() + new Random().nextInt(MAX_STAT_STEP - MIN_STAT_STEP) + MIN_STAT_STEP);
-	this.stats.setDefense(
-		this.stats.getDefense() + new Random().nextInt(MAX_STAT_STEP - MIN_STAT_STEP) + MIN_STAT_STEP);
-	this.stats
-		.setSpeed(this.stats.getSpeed() + new Random().nextInt(MAX_STAT_STEP - MIN_STAT_STEP) + MIN_STAT_STEP);
+	this.maxStats
+		.setHealth(this.maxStats.getHealth() + new Random().nextInt(MAX_HP_STEP - MIN_HP_STEP) + MIN_HP_STEP);
+	this.maxStats.setAttack(
+		this.maxStats.getAttack() + new Random().nextInt(MAX_STAT_STEP - MIN_STAT_STEP) + MIN_STAT_STEP);
+	this.maxStats.setDefense(
+		this.maxStats.getDefense() + new Random().nextInt(MAX_STAT_STEP - MIN_STAT_STEP) + MIN_STAT_STEP);
+	this.maxStats.setSpeed(
+		this.maxStats.getSpeed() + new Random().nextInt(MAX_STAT_STEP - MIN_STAT_STEP) + MIN_STAT_STEP);
 	for (; incLevel > 0; incLevel--) {
 	    Optional<Moves> moves = species.learnNewMove(this.level - incLevel + 1);
 	    if (moves.isPresent() && !movesList.contains(moves.get())) {
@@ -149,6 +162,7 @@ public class MonsterImpl implements Monster {
 	return !movesToLearn.isEmpty();
     }
 
+    @Override
     public Moves getMoveToLearn() {
 	if (!canLearnNewMove()) {
 	    return null;
@@ -156,6 +170,29 @@ public class MonsterImpl implements Monster {
 	Moves m = movesToLearn.stream().findAny().get();
 	movesToLearn.remove(m);
 	return m;
+    }
+
+    @Override
+    public void learnNewMove(Moves move) {
+	if (isMoveSetFull()) {
+	    throw new IllegalStateException();
+	}
+	this.movesList.add(move);
+    }
+
+    @Override
+    public void learnNewMove(Moves oldMove, Moves newMove) {
+	if (!this.movesList.contains(oldMove)) {
+	    throw new IllegalArgumentException();
+	}
+	int index = this.movesList.indexOf(oldMove);
+	this.movesList.remove(index);
+	this.movesList.add(index, newMove);
+    }
+
+    @Override
+    public boolean isMoveSetFull() {
+	return this.movesList.size() == NUM_MAX_MOVES;
     }
 
     @Override
@@ -180,10 +217,12 @@ public class MonsterImpl implements Monster {
 		&& item.equals(((MonsterSpeciesByItem) species).getItem())
 		&& item.getType() == GameItemTypes.EVOLUTIONTOOL;
     }
-    
+
     @Override
     public void evolve() {
-	this.species = this.species.getEvolution().get();
+	if (this.species.getEvolution().isPresent()) {
+	    this.species = this.species.getEvolution().get();
+	}
     }
 
     @Override

@@ -5,22 +5,22 @@ import model.battle.Moves;
 
 public class MonsterBuilderImpl implements MonsterBuilder {
 
-    private static final int EXP_CAP = 1000;
-    private static final int NUM_MAX_MOVES = 4;
+    private static final int MIN_LEVEL = 1;
     private static int id = 0;
     private int exp;
     private List<Moves> movesList;
     private boolean isWild;
-    private int level;
+    private int level = MIN_LEVEL;
     private MonsterSpecies species;
-    private MonsterStats stats;
+    private MonsterStats stats = new MonsterStatsImpl(-1, -1, -1, -1);
 
     public int getId() {
 	return id;
     }
 
     public void setId(int id) {
-	this.id = id;
+	//TODO: check warning 
+	MonsterBuilder.id = id;
     }
 
     @Override
@@ -31,25 +31,41 @@ public class MonsterBuilderImpl implements MonsterBuilder {
 
     @Override
     public MonsterBuilder level(int lvl) {
-	if (lvl <= 0 || lvl > 100) {
-	    this.level = 1;
-	    return this;
+	if (lvl < MIN_LEVEL || lvl > MonsterImpl.MAX_LVL) {
+	   throw new IllegalArgumentException(); 
 	}
 	this.level = lvl;
 	return this;
     }
-
+    
     @Override
-    public MonsterBuilder stats(MonsterStats stats) {
-	this.stats = stats;
+    public MonsterBuilder health(int health) {
+	this.stats.setAttack(health);
+	return this;
+    }
+    
+    @Override
+    public MonsterBuilder attack(int atk) {
+	this.stats.setAttack(atk);
+	return this;
+    }
+    
+    @Override
+    public MonsterBuilder defense(int dfs) {
+	this.stats.setAttack(dfs);
+	return this;
+    }
+    
+    @Override
+    public MonsterBuilder speed(int spd) {
+	this.stats.setAttack(spd);
 	return this;
     }
 
     @Override
     public MonsterBuilder exp(int exp) {
-	if (exp >= EXP_CAP || exp < 0) {
-	    this.exp = EXP_CAP;
-	    return this;
+	if (exp < 0 || exp > MonsterImpl.EXP_CAP) {
+	    throw new IllegalArgumentException(); 
 	}
 	this.exp = exp;
 	return this;
@@ -63,18 +79,27 @@ public class MonsterBuilderImpl implements MonsterBuilder {
 
     @Override
     public MonsterBuilder movesList(List<Moves> movesList) {
-	this.movesList = movesList.subList(0, NUM_MAX_MOVES);
+	this.movesList = movesList.subList(0, MonsterImpl.NUM_MAX_MOVES);
 	return this;
     }
 
     @Override
     public Monster build() {
-	if (id < 0 || this.species == null || this.stats.getHealth() < 0 || this.stats.getAttack() < 0
-		|| this.stats.getDefense() < 0 || this.stats.getSpeed() < 0 || this.exp < 0 || this.movesList.isEmpty()
-		|| this.level <= 0) {
+	if (this.species == null || this.movesList.isEmpty()) {
 	    throw new IllegalStateException();
 	}
 	id++;
-	return new MonsterImpl(id, this.stats, this.exp, this.level, this.isWild, this.species, this.movesList);
+	Monster monster = new MonsterImpl(id, this.species.getBaseStats(), 0, MIN_LEVEL, this.isWild, this.species, this.movesList);
+	for(int i = MIN_LEVEL; i <= this.level; i++) {
+	    monster.levelUp();
+	    monster.getMoveToLearn();
+	}
+	monster.incExp(exp);
+	stats.getStatsAsMap().entrySet().forEach(e -> {
+	    if(e.getValue() > 0) {
+		monster.getStats().getStatsAsMap().put(e.getKey(), e.getValue());
+	    }
+	});
+	return monster;
     }
 }

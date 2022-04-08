@@ -33,13 +33,33 @@ public interface MonsterBuilder {
     MonsterBuilder level(int lvl);
 
     /**
-     * Build monster's stats
      * 
-     * @param stats (health, attack, defense, speed)
-     * @return a MonsterBuilder
+     * @param health
+     * @return
      */
-    MonsterBuilder stats(MonsterStats stats);
-
+    public MonsterBuilder health(int health);
+    
+    /**
+     * 
+     * @param atk
+     * @return
+     */
+    public MonsterBuilder attack(int atk);    
+   
+    /**
+     * 
+     * @param dfs
+     * @return
+     */
+    public MonsterBuilder defense(int dfs);
+    
+    /**
+     * 
+     * @param spd
+     * @return
+     */
+    public MonsterBuilder speed(int spd);
+    
     /**
      * Build monster's experience
      * 

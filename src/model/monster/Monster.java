@@ -22,18 +22,16 @@ public interface Monster {
     String getName();
 
     /**
-     * This function returns the health of the monster
-     * 
-     * @return monster's health
-     */
-    int getHealth();
-
-    /**
      * This function set the health of the monster
      * 
      * @param health
      */
     void setHealth(int health);
+    
+    /**
+     * 
+     */
+    void restoreStats();
 
     /**
      * This function returns monster's max health
@@ -55,6 +53,11 @@ public interface Monster {
      * @return monster's level
      */
     int getLevel();
+    
+    /**
+     * 
+     */
+    void levelUp();
 
     /**
      * This function increase the monster's experience points
@@ -116,6 +119,25 @@ public interface Monster {
      * @return
      */
     Moves getMoveToLearn();
+    
+    /**
+     * 
+     * @param move
+     */
+    void learnNewMove(Moves move);
+    
+    /**
+     * 
+     * @param oldMove
+     * @param newMove
+     */
+    void learnNewMove(Moves oldMove, Moves newMove);
+    
+    /**
+     * 
+     * @return
+     */
+    public boolean isMoveSetFull();
 
     /**
      * This function returns the numbers of moves owned by the monster
