@@ -37,7 +37,7 @@ public class MonsterImpl implements Monster {
     public MonsterImpl(int id, MonsterStats stats, int exp, int level, boolean isWild, MonsterSpecies species,
 	    List<Moves> movesList) {
 	this.id = id;
-	this.maxStats = stats;
+	this.maxStats = new MonsterStatsImpl(stats.getHealth(), stats.getAttack(), stats.getDefense(), stats.getSpeed());
 	this.stats = new MonsterStatsImpl(maxStats.getHealth(), maxStats.getAttack(), maxStats.getDefense(), maxStats.getSpeed());
 	this.exp = exp;
 	this.level = level;
@@ -122,6 +122,7 @@ public class MonsterImpl implements Monster {
 		this.movesToLearn.add(moves.get());
 	    }
 	}
+	restoreStats();
     }
 
     @Override

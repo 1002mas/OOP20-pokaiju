@@ -1,9 +1,11 @@
 package controller;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import model.Pair;
 import model.battle.MonsterBattle;
 import model.gameitem.GameItemTypes;
 import model.gameitem.GameItems;
@@ -137,8 +139,9 @@ public class BattleControllerImpl implements BattleController {
 	if (gameItem.getType() == GameItemTypes.MONSTERBALL) {
 	    monsterBattle.getPlayer().useItem(gameItem, null);
 	    this.enemyCaptured = monsterBattle.capture();
-	}else {
-	    monsterBattle.getPlayer().useItem(gameItem, monsterBattle.getPlayer().allMonster().stream().filter(i -> i.getId() == monsterId).findAny().get());
+	} else {
+	    monsterBattle.getPlayer().useItem(gameItem, monsterBattle.getPlayer().allMonster().stream()
+		    .filter(i -> i.getId() == monsterId).findAny().get());
 	}
     }
 
@@ -154,10 +157,37 @@ public class BattleControllerImpl implements BattleController {
 		.filter(gameItem -> gameItem.getType() != GameItemTypes.EVOLUTIONTOOL)
 		.map(gameItem -> gameItem.getNameItem()).collect(Collectors.toList());
     }
-    
+
     @Override
     public boolean isCaptureItem(String gameItemName) {
-	return monsterBattle.getPlayer().allItems().stream().filter(i -> i.getNameItem().equals(gameItemName) && i.getType() == GameItemTypes.MONSTERBALL).findAny().isPresent();
+	return monsterBattle.getPlayer().allItems().stream()
+		.filter(i -> i.getNameItem().equals(gameItemName) && i.getType() == GameItemTypes.MONSTERBALL).findAny()
+		.isPresent();
+    }
+
+    public boolean canOneMonsterEvolve() {
+	return getEvolutionSpeciesNames().isPresent();
+    }
+
+    public Optional<Pair<String, String>> evolveByLevel(int monsterId) {
+	Optional<Monster> monster = monsterBattle.getPlayer().allMonster().stream().filter(i -> i.getId() == monsterId).findAny();
+	if (monster.isPresent() && monster.get().canEvolveByLevel()) {
+	    String monsterName = monster.get().getName();
+	    monster.get().evolve();
+	    return Optional.of(new Pair<>(monsterName, monster.get().getName()));
+	}
+	return Optional.empty();
+    }
+
+    public Optional<Integer> getEvolutionSpeciesNames() {
+	Iterator<Monster> i = monsterBattle.getPlayer().allMonster().iterator();
+	while (i.hasNext()) {
+	    Monster m = i.next();
+	    if (m.canEvolveByLevel()) {
+		return Optional.of(m.getId());
+	    }
+	}
+	return Optional.empty();
     }
 
     @Override
@@ -181,5 +211,4 @@ public class BattleControllerImpl implements BattleController {
 	return monsterBattle.isOver();
     }
 
-   
 }

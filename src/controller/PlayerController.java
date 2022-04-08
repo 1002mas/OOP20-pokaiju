@@ -116,5 +116,9 @@ public interface PlayerController {
 
     public boolean usableItem(String item);
     
+    boolean canEvolveByItem(String nameItem, int monsterId);
+    
+    Optional<Pair<String, String>> evolveByItem(String nameItem, int monsterId);
+    
 
 }

@@ -63,4 +63,9 @@ public class MonsterStatsImpl implements MonsterStats {
     public Map<String, Integer> getStatsAsMap() {
 	return this.statsMap;
     }
+
+    @Override
+    public String toString() {
+	return "MonsterStatsImpl [stats=" + statsMap + "]";
+    }
 }
