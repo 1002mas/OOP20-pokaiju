@@ -398,6 +398,7 @@ public class BattleFrame {
 		    System.out.println("STATO BATTLE:"+ctrl.isOver());
 		    if(ctrl.isOver()) {
 			//ENDING BATTLE player team dead
+			actionText.setText("Your monsters are dead!! You lose!!");
 		    }else {
 			setMonster();
 			cLayout.show(southPanel, "monsters");
@@ -409,6 +410,7 @@ public class BattleFrame {
 		    if(ctrl.isOver()) {
 			//ENDING BATTLE enemy team dead
 			System.out.println("i nemici sono morti");
+			actionText.setText("You have defeated your enemy!! You won!!");
 		    }
 		    else {
 			refresh();  

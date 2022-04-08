@@ -158,6 +158,9 @@ public class MonsterBattleImpl implements MonsterBattle {
 	MonsterStats playerStats = this.playerCurrentMonster.getStats();
 	MonsterStats enemyStats = this.enemy.getStats();
 	int damage = monsterMove.getDamage(enemy.getType()) + playerStats.getAttack() - enemyStats.getDefense();
+	if(damage < 1) {
+	    damage = 1;
+	}
 
 	if (playerStats.getSpeed() < enemyStats.getSpeed()) {
 	    this.enemyTurn(playerStats, enemyStats);
@@ -165,7 +168,7 @@ public class MonsterBattleImpl implements MonsterBattle {
 		this.battleStatus = false;
 		this.trainer.setMoney(trainer.getMoney() - MONEY_LOST);
 	    } else {
-		enemy.setHealth(enemy.getStats().getHealth() - damage);
+		enemy.getStats().setHealth(enemy.getStats().getHealth() - damage);
 		if (!enemy.isAlive()) {
 		    
 		    playerCurrentMonster.incExp(enemy.getLevel() * EXP_MULTIPLER);
@@ -185,7 +188,7 @@ public class MonsterBattleImpl implements MonsterBattle {
 	    }
 
 	} else {
-	    enemy.setHealth(enemy.getStats().getHealth() - damage);
+	    enemy.getStats().setHealth(enemy.getStats().getHealth() - damage);
 	    // System.out.println(playerCurrentMonster.getName() + " usa " + att.getName() +
 	    // " infliggendo "
 	    // + att.getDamage(enemy.getType()) + " danni");
@@ -220,10 +223,14 @@ public class MonsterBattleImpl implements MonsterBattle {
     private void enemyTurn(MonsterStats playerStats, MonsterStats enemyStats) {
 	Moves att = this.enemyAttack();
 	int damage = att.getDamage(playerCurrentMonster.getType()) + enemyStats.getAttack() - playerStats.getDefense();
+	if(damage < 1) {
+	    damage = 1;
+	}
 	att.decPP();
-	playerCurrentMonster.setHealth(playerCurrentMonster.getStats().getHealth() - damage);
+	playerCurrentMonster.getStats().setHealth(playerCurrentMonster.getStats().getHealth() - damage);
 	System.out.println(enemy.getName() + " usa " + att.getName() + " infliggendo "
-		+ att.getDamage(playerCurrentMonster.getType()) + " danni");
+		+ damage + " danni");
+	System.out.println(this.playerCurrentMonster.getName() +"->"+this.playerCurrentMonster.getStats().getHealth());
     }
 
     private boolean areThereEnemies() {

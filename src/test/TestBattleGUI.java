@@ -56,7 +56,7 @@ public class TestBattleGUI {
 		SECOND_EVOLUTION_LEVEL, allMoves);
 	MonsterSpeciesByLevel species = new MonsterSpeciesByLevel("kracez", "Info", MonsterType.FIRE, stats, firstEvolution,
 		FIRST_EVOLUTION_LEVEL, allMoves);
-	pgMonster = new MonsterBuilderImpl().health(500).attack(50).defense(50).speed(50).isWild(false).species(species)
+	pgMonster = new MonsterBuilderImpl().health(500).attack(50).defense(10).speed(50).isWild(false).species(species).monsterId(33)
 		.movesList(listOfMoves).build();
 	
 	listOfMoves = List.of(new MovesImpl("Braciere", 50, MonsterType.FIRE, 10),
@@ -69,16 +69,16 @@ public class TestBattleGUI {
 
 	species = new MonsterSpeciesByLevel("greyfish", "Info", MonsterType.FIRE, stats, firstEvolution,
 		FIRST_EVOLUTION_LEVEL, allMoves);
-	enemyMonster = new MonsterBuilderImpl().health(500).attack(20).defense(20).speed(20).exp(0).level(1)
-		.isWild(true).species(species).movesList(listOfMoves).build();
+	enemyMonster = new MonsterBuilderImpl().health(500).attack(20).defense(10).speed(20).exp(0).level(1)
+		.isWild(true).species(species).movesList(listOfMoves).monsterId(32).build();
 	species = new MonsterSpeciesByLevel("Brun", "Info", MonsterType.FIRE, stats, firstEvolution,
 		FIRST_EVOLUTION_LEVEL, allMoves);
-	Monster enemySecondMonster = new MonsterBuilderImpl().health(500).attack(20).defense(20).speed(20).exp(0)
-		.level(1).isWild(false).species(species).movesList(listOfMoves).build();
-	species = new MonsterSpeciesByLevel("Bibol", "Info", MonsterType.FIRE, stats, firstEvolution,
+	Monster enemySecondMonster = new MonsterBuilderImpl().health(500).attack(20).defense(10).speed(20).exp(0)
+		.level(1).isWild(false).species(species).movesList(listOfMoves).monsterId(36).build();
+	species = new MonsterSpeciesByLevel("bibol", "Info", MonsterType.FIRE, stats, firstEvolution,
 		FIRST_EVOLUTION_LEVEL, allMoves);
-	Monster playerSecondMonster = new MonsterBuilderImpl().health(500).attack(20).defense(20).speed(20).exp(0)
-		.level(1).isWild(true).species(species).movesList(listOfMoves2).build();
+	Monster playerSecondMonster = new MonsterBuilderImpl().health(500).attack(20).defense(10).speed(20).exp(0)
+		.level(1).isWild(true).species(species).movesList(listOfMoves2).monsterId(35).build();
 	pg = new PlayerImpl("Luca", Gender.MAN, 0, null);
 	ArrayList<Monster> pgList = new ArrayList<>(List.of(pgMonster, playerSecondMonster, pgMonster, enemyMonster));
 	pg.setMonster(pgList);
