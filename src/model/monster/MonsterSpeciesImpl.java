@@ -50,7 +50,7 @@ public class MonsterSpeciesImpl implements MonsterSpecies {
     }
 
     @Override
-    public MonsterStats getStats() {
+    public MonsterStats getBaseStats() {
 	return this.stats;
     }
 

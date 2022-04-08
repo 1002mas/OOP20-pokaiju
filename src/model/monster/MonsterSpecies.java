@@ -33,7 +33,7 @@ public interface MonsterSpecies {
      * 
      * @return monster stats
      */
-    MonsterStats getStats();
+    MonsterStats getBaseStats();
 
     /**
      * This function returns the evolution type
