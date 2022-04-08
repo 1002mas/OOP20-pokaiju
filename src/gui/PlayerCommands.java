@@ -4,6 +4,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class PlayerCommands implements KeyListener {
+    private static final int INPUT_RESPONSE_TIME = 40;// ms
+
     private final char moveUp = 'w';
     private final char moveDown = 's';
     private final char moveLeft = 'a';
@@ -11,7 +13,7 @@ public class PlayerCommands implements KeyListener {
     private final char menuCommand = 'x';
     private final char interactionCommand = 'z';
     private final GameFrame gui;
-    
+
     private long lastPressProcessed = 0;
     private boolean canMove = true;
 
@@ -26,7 +28,7 @@ public class PlayerCommands implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-	if (System.currentTimeMillis() - lastPressProcessed > 80) {
+	if (System.currentTimeMillis() - lastPressProcessed > INPUT_RESPONSE_TIME) {
 	    if (canMove) {
 		switch (e.getKeyChar()) {
 		case moveUp:
