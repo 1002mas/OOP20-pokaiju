@@ -68,18 +68,20 @@ public class MonsterBattleImpl implements MonsterBattle {
     public boolean capture() {
 	throwExceptionIfItIsOver();
 	if (!enemy.getWild()) {
+	    System.out.println("non puoi catturare");
 	    return false;
 	}
 
 	int attempt = (int) (Math.random() * CAPTURE_RANGE);
 	if (attempt <= CAPTURE_DIFFICULT) {
-	    // System.out.println(enemy.getName() + " è stato catturato");
+	     System.out.println(enemy.getName() + " è stato catturato");
+	     trainer.addMonster(enemy);
 	    int expReached = enemy.getLevel() * EXP_MULTIPLER;
 	    playerCurrentMonster.incExp(expReached);
 	    this.battleStatus = false;
 	    return true;
 	}
-	// System.out.println("cattura fallita");
+	 System.out.println("cattura fallita");
 	return false;
 
     }
@@ -105,14 +107,18 @@ public class MonsterBattleImpl implements MonsterBattle {
     @Override
     public boolean playerChangeMonster(int index) {
 	throwExceptionIfItIsOver();
-	
-	if (playerTeam.get(index) == playerCurrentMonster) {
+	Monster  changingMonster = null;
+	if (index == playerCurrentMonster.getId()) {
 	    System.out.println("Il mostro è già in campo");
 	    return false;
 	}
-	
-	if (playerTeam.get(index).isAlive()) {
-	    playerCurrentMonster = playerTeam.get(index);
+	for (var monster : playerTeam) {
+	    if(monster.getId() == index) {
+		 changingMonster = monster;
+	    }
+	}
+	if (changingMonster.isAlive()) {
+	    playerCurrentMonster =changingMonster;
 	    System.out.println("Cambio");
 	    return true;
 	}

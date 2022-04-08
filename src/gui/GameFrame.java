@@ -3,72 +3,62 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Insets;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.util.ArrayList;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTable;
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 
 import controller.ImagesLoader;
 import controller.PlayerController;
-import model.JTableModel;
 import model.Pair;
-import model.gameitem.*;
-import model.monster.*;
 
 public class GameFrame extends JFrame {
+    // private static final int HEIGHT = 1280;
+    // private static final int WIDTH = 720;
+    private static final long serialVersionUID = -7927156597267134363L;
     static final String NEW_GAME_PANEL = "new game";
     static final String MAP_PANEL = "map game";
     static final String MENU_PANEL = "menu";
     static final String LOGIN_PANEL = "login panel";
 
-    private static final int HEIGHT = 1280;
-    private static final int WIDTH = 720;
-    private static final long serialVersionUID = -7927156597267134363L;
-
+    private final int size;
     private final CardLayout cLayout = new CardLayout();
     private final Map<String, JPanel> subPanels = new HashMap<>();
-    private final ImagesLoader imgLoad = new ImagesLoader();
+    private final ImagesLoader imgLoad;
     private final JPanel mainPanel = new JPanel();
-    private /* final */ PlayerController playerController;
-
-    private Pair<Integer, Integer> playerPos = new Pair<>(0, 0); // TODO use controller to get this in local function
+    private final PlayerController playerController;
 
     public GameFrame(PlayerController playerController) {
 	this.playerController = playerController;
 	this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	this.setSize(HEIGHT, WIDTH);
+	this.setResizable(false);
 
 	mainPanel.setLayout(cLayout);
 
-	LoginPanel loginPanel = new LoginPanel();
+	LoginPanel loginPanel = new LoginPanel(this.playerController);
 
 	// Pannello di quando clicco continua gioco
-	JPanel gamePanel = buildMapPanel();
 	loginPanel.getContinue().addActionListener(e -> {
+
+	    if (!subPanels.containsKey(MAP_PANEL)) {
+		JPanel gamePanel = buildMapPanel();
+		mainPanel.add(gamePanel, MAP_PANEL);
+		subPanels.put(MAP_PANEL, gamePanel);
+	    }
 	    changePanel(MAP_PANEL);
-	    System.out.println(gamePanel.hasFocus());
-	    System.out.println(gamePanel.isFocusable());
+
 	    // mapPanel.requestFocusInWindow();
+
 	});
 
 	// Pannello di quando inizio un nuovo gioco
@@ -81,70 +71,56 @@ public class GameFrame extends JFrame {
 
 	mainPanel.add(loginPanel, LOGIN_PANEL);
 	mainPanel.add(newGamePanel, NEW_GAME_PANEL);
-	mainPanel.add(gamePanel, MAP_PANEL);
+
 	mainPanel.add(menuPanel, MENU_PANEL);
 
 	subPanels.put(LOGIN_PANEL, loginPanel);
 	subPanels.put(NEW_GAME_PANEL, newGamePanel);
-	subPanels.put(MAP_PANEL, gamePanel);
 	subPanels.put(MENU_PANEL, menuPanel);
+
+	size = getMainPanelSize();
+	imgLoad = new ImagesLoader(size, size);
+	mainPanel.setPreferredSize(new Dimension(size, size));
+	mainPanel.setBounds(0, 0, size, size);
 	this.setContentPane(mainPanel);
+	this.pack();
 	this.setVisible(true);
     }
 
-    private JPanel buildMapPanel() {
-	// TODO use current player position
-	PlayerPanel topPanel = new PlayerPanel(new Pair<>(0, 0), imgLoad);
-	topPanel.setPlayerImage(new ImageIcon(imgLoad.getPlayerImages(Direction.DOWN).get(0)));
+    private int getMainPanelSize() {
+	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+	int s = (int) (screenSize.getHeight() > screenSize.getWidth() ? screenSize.getWidth() : screenSize.getHeight());
+	s = (5 * s) / 6;
+	System.out.println(s);
+	return s;
+    }
 
-	JPanel bottomPanel = new JPanel();
-	bottomPanel.setOpaque(true);
-	// TODO get Map size and get Map from file
-	bottomPanel.setLayout(new GridLayout(10, 10));
-	for (int i = 0; i < 10; i++) {
-	    for (int j = 0; j < 10; j++) {
-		bottomPanel.add(new JLabel(new ImageIcon(imgLoad.getTerrainImage())));
-	    }
-	}
-	JPanel mapPanel = new JPanel();
-	mapPanel.setLayout(null);
-	topPanel.setBounds(0, 0, this.getWidth(), this.getHeight());
-	bottomPanel.setBounds(0, 0, this.getWidth(), this.getHeight());
-	mapPanel.add(topPanel, 0);
-	mapPanel.add(bottomPanel);
-	mapPanel.setFocusable(true);
+    private JPanel buildMapPanel() {
+	TwoLayersPanel mapPanel = new TwoLayersPanel(playerController, imgLoad, this.getHeight(), this.getWidth());
 	mapPanel.addKeyListener(new PlayerCommands(this));
 	return mapPanel;
     }
 
     public void movePlayer(Direction dir) {
-	changePlayerPosition(dir);
-	PlayerPanel topPanel = (PlayerPanel) (subPanels.get(MAP_PANEL).getComponent(0));
-	// TODO use controller player
-	topPanel.setNextPosition(playerPos);
-	topPanel.animatedMove(dir, true);// TODO use controller function boolean changePlayerPosition(Direction dir)
-	// TODO check if map has to be changed
+	TwoLayersPanel p = (TwoLayersPanel) subPanels.get(MAP_PANEL);
+	PlayerPanel topPanel = p.getTopPanel();
+	boolean animationOn = true;
+	Pair<Integer, Integer> newPosition = playerController.getPlayerPosition();
 
-    }
+	if (playerController.canPassThrough(dir)) {
+	    newPosition = playerController.movePlayer(dir);
+	    topPanel.setNextPosition(newPosition);
+	    if (playerController.canChangeMap(dir)) {// hasMapChanged...
+		// TODO get Map id
+		// TODO load map image by id
+		animationOn = false;
+	    }
+	}
 
-    private void changePlayerPosition(Direction dir) {
-	// TODO use controller player
-	switch (dir) {
-	case UP:
-	    this.playerPos = new Pair<>(playerPos.getFirst(), playerPos.getSecond() - 10);
-	    break;
-	case DOWN:
-	    this.playerPos = new Pair<>(playerPos.getFirst(), playerPos.getSecond() + 10);
-	    break;
-	case LEFT:
-	    this.playerPos = new Pair<>(playerPos.getFirst() - 10, playerPos.getSecond());
-	    break;
-	case RIGHT:
-	    this.playerPos = new Pair<>(playerPos.getFirst() + 10, playerPos.getSecond());
-	    break;
-
-	default:
-	    break;
+	if (animationOn) {
+	    topPanel.animatedMove(dir, playerController.hasPlayerMoved());
+	} else {
+	    topPanel.staticMove();
 	}
 
     }
@@ -163,58 +139,76 @@ public class GameFrame extends JFrame {
 
 	JPanel mainPanel = new JPanel(new BorderLayout());
 
-	JPanel upPanel = new JPanel(new FlowLayout());
-	upPanel.setBorder(BorderFactory.createLineBorder(Color.blue));
+	JPanel topPanel = new JPanel(new FlowLayout());
+	topPanel.setBorder(BorderFactory.createLineBorder(Color.blue));
 
 	final JButton monster = new JButton("MONSTER");
 	final JButton box = new JButton(" BOX ");
 	final JButton gameItems = new JButton(" BAG ");
 	final JButton playerInfo = new JButton(" PLAYERINFO ");
 	final JButton quit = new JButton(" QUIT MENU ");
+	final JButton backToMainMenu = new JButton(" BACK TO MAIN MENU ");
+	final JButton save = new JButton(" SAVE ");
 
-	upPanel.add(monster);
-	upPanel.add(box);
-	upPanel.add(gameItems);
-	upPanel.add(playerInfo);
-	upPanel.add(quit);
+	topPanel.add(monster);
+	topPanel.add(box);
+	topPanel.add(gameItems);
+	topPanel.add(playerInfo);
+	topPanel.add(quit);
+	topPanel.add(save);
+	topPanel.add(backToMainMenu);
 
-	JPanel underPanel = new JPanel();
-	underPanel.setBorder(BorderFactory.createLineBorder(Color.red));
-	underPanel.setLayout(cLayout);
+	JPanel bottomPanel = new JPanel();
+	bottomPanel.setBorder(BorderFactory.createLineBorder(Color.red));
+	bottomPanel.setLayout(cLayout);
 
-	MonsterPanel monsterPanel = new MonsterPanel();
+	MonsterPanel monsterPanel = new MonsterPanel(this.mainPanel);
 
 	JPanel boxPanel = new JPanel();
 	JLabel boxLabel = new JLabel();
 	boxPanel.add(boxLabel);
 
-	// codice giusto
-	// GameItemPanel gameItemPanel = new
-	// GameItemPanel(playerController.getPlayer().allItems());
-	GameItemPanel gameItemPanel = new GameItemPanel();
+	GameItemPanel gameItemPanel = new GameItemPanel(this.playerController);
 
-	JPanel playerInfoPanel = new JPanel();
-	JLabel playerInfolabel = new JLabel();
-	playerInfoPanel.add(playerInfolabel);
+	PlayerInfoPanel playerInfoPanel = new PlayerInfoPanel(this.playerController);
 
-	underPanel.add(monsterPanel);
-	underPanel.add(boxPanel);
-	underPanel.add(gameItemPanel);
-	underPanel.add(playerInfoPanel);
+	bottomPanel.add(monsterPanel);
+	bottomPanel.add(boxPanel);
+	bottomPanel.add(gameItemPanel);
+	bottomPanel.add(playerInfoPanel);
 
-	monster.addActionListener(e -> cLayout.show(underPanel, MONSTERPANEL));
-	box.addActionListener(e -> cLayout.show(underPanel, BOXPANEL));
-	gameItems.addActionListener(e -> cLayout.show(underPanel, GAMEITEMSPANEL));
-	playerInfo.addActionListener(e -> cLayout.show(underPanel, PLAYERINFOPANEL));
+	monster.addActionListener(e -> cLayout.show(bottomPanel, MONSTERPANEL));
+	box.addActionListener(e -> cLayout.show(bottomPanel, BOXPANEL));
+	gameItems.addActionListener(e -> cLayout.show(bottomPanel, GAMEITEMSPANEL));
+	playerInfo.addActionListener(e -> cLayout.show(bottomPanel, PLAYERINFOPANEL));
 	quit.addActionListener(e -> changePanel(MAP_PANEL));
+	save.addActionListener(new ActionListener() {
+	    public void actionPerformed(ActionEvent e) {
+		// TODO salvataggio
+	    }
+	});
+	backToMainMenu.addActionListener(new ActionListener() {
+	    public void actionPerformed(ActionEvent e) {
+		int result = JOptionPane.showConfirmDialog(null, "Sure? You want to exit?", "Warning",
+			JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+		if (result == JOptionPane.YES_OPTION) {
+		    changePanel(LOGIN_PANEL);
+		} else if (result == JOptionPane.NO_OPTION) {
 
-	underPanel.add(monsterPanel, MONSTERPANEL);
-	underPanel.add(boxPanel, BOXPANEL);
-	underPanel.add(gameItemPanel, GAMEITEMSPANEL);
-	underPanel.add(playerInfoPanel, PLAYERINFOPANEL);
+		} else {
 
-	mainPanel.add(upPanel, BorderLayout.NORTH);
-	mainPanel.add(underPanel, BorderLayout.CENTER);
+		}
+	    }
+
+	});
+
+	bottomPanel.add(monsterPanel, MONSTERPANEL);
+	bottomPanel.add(boxPanel, BOXPANEL);
+	bottomPanel.add(gameItemPanel, GAMEITEMSPANEL);
+	bottomPanel.add(playerInfoPanel, PLAYERINFOPANEL);
+
+	mainPanel.add(topPanel, BorderLayout.NORTH);
+	mainPanel.add(bottomPanel, BorderLayout.CENTER);
 
 	return mainPanel;
     }
@@ -222,7 +216,7 @@ public class GameFrame extends JFrame {
     // TODO create new game menu (panel 5)
 
     private JPanel newGamePanel() {
-	return new NewGamePanel(this.playerController);
+	return new NewGamePanel(this.playerController, mainPanel);
     }
 
     void changePanel(String name) {

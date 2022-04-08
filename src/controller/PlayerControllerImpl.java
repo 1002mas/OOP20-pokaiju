@@ -323,6 +323,7 @@ public class PlayerControllerImpl implements PlayerController {
 	public String getItemtype(String item) {	//--
 		return getItem(item).getType().toString();
 	}
+	
 
 	@Override
 	public void addItem(String item) {	//--
@@ -347,7 +348,11 @@ public class PlayerControllerImpl implements PlayerController {
 	}
 
 	@Override
-	public boolean dataExsist() {		//--
+	public boolean dataExist() {		//--
 		return dataController.dataExsist();
 	}
+
+
+
+
 }

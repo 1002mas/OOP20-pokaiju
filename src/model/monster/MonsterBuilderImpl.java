@@ -69,7 +69,7 @@ public class MonsterBuilderImpl implements MonsterBuilder {
 
     @Override
     public Monster build() {
-	if (id <= 0 || this.species == null || this.stats.getHealth() < 0 || this.stats.getAttack() < 0
+	if (id < 0 || this.species == null || this.stats.getHealth() < 0 || this.stats.getAttack() < 0
 		|| this.stats.getDefense() < 0 || this.stats.getSpeed() < 0 || this.exp < 0 || this.movesList.isEmpty()
 		|| this.level <= 0) {
 	    throw new IllegalStateException();

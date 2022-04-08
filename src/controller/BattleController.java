@@ -1,56 +1,65 @@
 package controller;
 
 import java.util.List;
+import model.gameitem.GameItems;
 
 public interface BattleController {
+
     
     /**
      * Choose the player move in the battle and starts the turn
      * 
      * @return true if you can choose the selected move
      */
-    boolean chooseMove(String moveName);
-    
-    /**
-     * 
-     * @param move
-     * @return
-     */
-    int getCurrentPP(String moveName);
-    
-    /**
-     * 
-     * @param move
-     * @return
-     */
-    boolean checkPP(String moveName);
-    
-    /**
-     * 
-     * @param monsterId
-     * @return
-     */
-    boolean isAlive(int monsterId);
-    
-    /**
-     * 
-     * @param item
-     * @return
-     */
-    int getItemNumber(String gameItemName);
+    //boolean chooseMove(int moveIndex);
+
 
     /**
-     * Use an item
+     * Get the id of the current player monster
      * 
-     * @param gameItem
+     * @return id of the current monster
      */
-    void useItem(String gameItemName, int monsterIndex);
+    int getPlayerCurrentMonsterId();
 
     /**
+     * Get current player's monster name
      * 
-     * @return all player items
+     * @return current player's monster
      */
-    List<String> getAllPlayerItems();
+    String getPlayerCurrentMonsterName();
+
+    /**
+     * Get current player's monster health points
+     * 
+     * @return current monster health
+     */
+    int getPlayerCurrentMonsterHp();
+
+    /**
+     * Get current player's monster max health points
+     * 
+     * @return monster max health points
+     */
+    int getPlayerCurrentMonsterMaxHealth();
+
+
+    /**
+     * Get current player's monster level
+     * 
+     * @return current monster level
+     */
+
+    //void useItem(GameItems gameItem, int monsterIndex);
+
+    int getPlayerCurrentMonsterLevel();
+
+
+    /**
+     * Get all the names of the player's monsters
+     * 
+     * @return all the names of the player's monsters
+     */
+    List<Integer> getPlayerTeam();
 
     /**
      * Change monster
@@ -60,116 +69,135 @@ public interface BattleController {
     void changeMonster(int monsterIndex);
 
     /**
-     * Get monster's moves
+     * Get the id of the current enemy monster
      * 
-     * @return current player's monster moves
+     * @return current enemy's monster id
      */
-    List<String> getMoves();
+    int getEnemyCurrentMonsterId();
 
     /**
-     * Get current player's monster
-     * 
-     * @return current player's monster
-     */
-    String getPlayerCurrentMonster();
-
-    /**
-     * 
-     * @return current monster name
-     */
-    String getPlayerCurrentMonsterName();
-
-    /**
-     * 
-     * @return current monster health
-     */
-    int getPlayerCurrentMonsterHp();
-
-    /**
-     * 
-     * @return
-     */
-    int getPlayerCurrentMonsterMaxHealth();
-
-    /**
-     * 
-     * @return current monster level
-     */
-    int getPlayerCurrentMonsterLevel();
-
-    /**
-     * Get all player's monsters
-     * 
-     * @return player team
-     */
-    List<Integer> getPlayerTeam();
-
-    /**
-     * Get current enemy's monster
-     * 
-     * @return current enemy's monster
-     */
-    int getEnemyCurrentMonster();
-
-    /**
+     * Get the name of the current enemy monster
      * 
      * @return current enemy monster name
      */
-    int getEnemyCurrentMonsterName();
+    String getEnemyCurrentMonsterName();
 
     /**
+     * Get the health points of the current enemy monster
      * 
      * @return current enemy monster health
      */
     int getEnemyCurrentMonsterHp();
 
     /**
+     * Get the max health points of the current enemy monster
      * 
-     * @return
+     * @return monster max health points
      */
     int getEnemyCurrentMonsterMaxHealth();
 
     /**
+     * Get the level of the current enemy monster
      * 
      * @return current enemy monster level
      */
     int getEnemyCurrentMonsterLevel();
 
     /**
+     * Get the move of the current enemy monster
      * 
      * @return current enemy move
      */
     String getEnemyCurrentMove();
 
     /**
-     * Get all enemy's monsters
+     * Get all enemy's monsters id
      * 
      * @return enemy team
      */
     List<Integer> getEnemyTeam();
-    
+
     /**
-     * 
-     * @return
-     */
-    int getPlayerCurrentMonsterId();
-    
-    /**
-     * 
-     * @return
-     */
-    int getEnemyCurrentMonsterId();
-    
-    /**
+     * Get the name of the monster with id equals idMonster
      * 
      * @param idMonster
-     * @return
+     * @return name of the monster
      */
     String getMonsterName(int idMonster);
+
+    /**
+     * Choose the player move in the battle and starts the turn
+     * 
+     * @param moveName
+     * @return true if you can choose the selected move
+     */
+    boolean chooseMove(String moveName);
+
+    /**
+     * Returns the PP of a move
+     * 
+     * @param moveName
+     * @return move's PP
+     */
+    int getCurrentPP(String moveName);
+
+    /**
+     * Check the PP of a move
+     * 
+     * @param moveName
+     * @return if PP are below zero returns false, true otherwise
+     */
+    boolean checkPP(String moveName);
+
+    /**
+     * Get a list with all the monster's moves
+     * 
+     * @return current player's monster moves
+     */
+    List<String> getMoves();
+
+    /**
+     * Use a GameItem
+     * 
+     * @param gameItemName
+     * @param monsterId
+     */
+    void useItem(String gameItemName, int monsterId);
+
+    /**
+     * Returns the number of GameItems that have the name gameItemName
+     * 
+     * @param gameItemName
+     * @return items number
+     */
+    int getItemNumber(String gameItemName);
+
+    /**
+     * Returns a list with all the GameItem names
+     * 
+     * @return all player items
+     */
+    List<String> getAllPlayerItems();
     
     /**
+     * Returns if an item is a capture item
      * 
-     * @return
+     * @return true if is a capture item, false otherwise
+     */
+    boolean isCaptureItem(String gameItemName);
+
+    /**
+     * Check the health of the monster
+     * 
+     * @param monsterId
+     * @return if HP are below zero returns false, true otherwise
+     */
+    boolean isAlive(int monsterId);
+
+    /**
+     * Returns true if the monster is caught, false otherwise
+     * 
+     * @return if the monster is caught
      */
     boolean isEnemyCaught();
 
@@ -181,8 +209,10 @@ public interface BattleController {
     boolean flee();
 
     /**
+     * Returns true if the battle is over, false otherwise
      * 
      * @return if the battle ends
      */
     boolean isOver();
+
 }
