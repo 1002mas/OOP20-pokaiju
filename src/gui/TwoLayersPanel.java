@@ -21,16 +21,16 @@ public class TwoLayersPanel extends JPanel {
 	//TODO use String getGender of Controller
 	//TODO use playerController.getPlayerPosition()
 	//TODO use playerController.getMaximumBlockNumbers()
-	topPanel = new PlayerPanel(new Pair<>(0, 0), imgLoad, "male", 30, 30);
+	topPanel = new PlayerPanel(new Pair<>(0, 0), imgLoad, "male", 20, 20);
 	topPanel.setPlayerImage(new ImageIcon(imgLoad.getPlayerImages(Direction.DOWN, "male").get(0)));
 
 	bottomPanel = new JPanel();
 	bottomPanel.setOpaque(true);
 	// TODO get Map size
 	// TODO get Map image
-	bottomPanel.setLayout(new GridLayout(10, 10));
-	for (int i = 0; i < 10; i++) {
-	    for (int j = 0; j < 10; j++) {
+	bottomPanel.setLayout(new GridLayout(20, 20));
+	for (int i = 0; i < 20; i++) {
+	    for (int j = 0; j < 20; j++) {
 		bottomPanel.add(new JLabel(new ImageIcon(imgLoad.getTerrainImage())));
 	    }
 	}

@@ -80,7 +80,8 @@ public class GameFrame extends JFrame {
 	subPanels.put(MENU_PANEL, menuPanel);
 
 	size = getMainPanelSize();
-	imgLoad = new ImagesLoader(size, size);
+	//TODO get cells number from controller
+	imgLoad = new ImagesLoader(size, size, 20, 20);
 	mainPanel.setPreferredSize(new Dimension(size, size));
 	mainPanel.setBounds(0, 0, size, size);
 	this.setContentPane(mainPanel);
