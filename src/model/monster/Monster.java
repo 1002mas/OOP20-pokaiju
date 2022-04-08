@@ -185,4 +185,10 @@ public interface Monster {
      * @return monster's stats
      */
     MonsterStats getStats();
+    
+    /**
+     * 
+     * @return
+     */
+    MonsterStats getMaxStats();
 }

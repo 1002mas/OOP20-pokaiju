@@ -235,6 +235,11 @@ public class MonsterImpl implements Monster {
     public MonsterStats getStats() {
 	return this.stats;
     }
+    
+    @Override
+    public MonsterStats getMaxStats() {
+	return this.maxStats;
+    }
 
     @Override
     public String toString() {

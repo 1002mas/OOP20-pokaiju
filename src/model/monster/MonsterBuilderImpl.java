@@ -97,6 +97,7 @@ public class MonsterBuilderImpl implements MonsterBuilder {
 	stats.getStatsAsMap().entrySet().forEach(e -> {
 	    if(e.getValue() > 0) {
 		monster.getStats().getStatsAsMap().put(e.getKey(), e.getValue());
+		monster.getMaxStats().getStatsAsMap().put(e.getKey(), e.getValue());
 	    }
 	});
 	return monster;
