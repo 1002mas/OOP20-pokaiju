@@ -16,23 +16,32 @@ import model.Pair;
 
 public class PlayerPanel extends JPanel {
     private static final long serialVersionUID = -7016352522753786674L;
-    private static final int CHARACTER_STEP = 2;
+    private static final int CHARACTER_STEP = 1;
+    private static final int STEP_TIME = 500;// ms
+    private static final int CHARACTER_TURN_TIME = 60;// ms
 
     private final ImagesLoader imgLoader;
     private final JLabel player = new JLabel();
-    private final String player_gender;
-    private final int size = 10;
     private final JLabel textLabel = new JLabel();
+    private final int maximumCellsInRow;
+    private final int maximumCellsInColumn;
+    private final String player_gender;
 
     private Pair<Integer, Integer> playerNextPos;
     private Pair<Integer, Integer> playerPos;
+    private int horizontalMovementStep;
+    private int verticalMovementStep;
+    private int speed = 1;
     private boolean leftLeg = false;
 
-    public PlayerPanel(Pair<Integer, Integer> playerPos, ImagesLoader imgLoader, String player_gender) {
+    public PlayerPanel(Pair<Integer, Integer> playerPos, ImagesLoader imgLoader, String player_gender,
+	    int maximumCellsInRow, int maximumCellsInColumn) {
 	super();
 	this.playerNextPos = playerPos;
 	this.playerPos = playerPos;
 	this.imgLoader = imgLoader;
+	this.maximumCellsInRow = maximumCellsInRow;
+	this.maximumCellsInColumn = maximumCellsInColumn;
 	this.player_gender = player_gender;
 	this.add(player);
 	this.setOpaque(false);
@@ -56,6 +65,16 @@ public class PlayerPanel extends JPanel {
 	textLabel.setBounds(0, this.getHeight() - textLabelHeight, this.getWidth(), textLabelHeight);
     }
 
+    @Override
+    public void setBounds(int x, int y, int width, int height) {
+	super.setBounds(x, y, width, height);
+	this.horizontalMovementStep = width / this.maximumCellsInRow;
+	this.verticalMovementStep = height / this.maximumCellsInColumn;
+	this.setNextPosition(this.playerNextPos);
+	this.playerPos = playerNextPos;
+	this.repaint();
+    }
+
     public void setPlayerImage(Icon img) {
 	this.player.setIcon(img);
     }
@@ -66,35 +85,48 @@ public class PlayerPanel extends JPanel {
 
     public void animatedMove(Direction dir, boolean canMove) {
 	// face the next step direction
-	int diff = dir.isVertical() ? playerPos.getSecond() - playerNextPos.getSecond()
-		: playerPos.getFirst() - playerNextPos.getFirst();
-	JLabel player = (JLabel) this.getComponent(0);
 	player.setIcon(new ImageIcon(imgLoader.getPlayerImages(dir, player_gender).get(0)));
 	this.paintImmediately(this.getBounds());
-	sleepMillisec(100);
-	if (canMove) {
-	    // starts moving
-	    player.setIcon(new ImageIcon(imgLoader.getPlayerImages(dir, player_gender).get(leftLeg ? 1 : 2)));
-	    this.paintImmediately(this.getBounds());
-	    while (diff != 0) {
-		int x = playerPos.getFirst();
-		int y = playerPos.getSecond();
-		if (dir.isVertical()) {
-		    y += dir == Direction.DOWN ? CHARACTER_STEP : -CHARACTER_STEP;
-		} else {
-		    x += dir == Direction.RIGHT ? CHARACTER_STEP : -CHARACTER_STEP;
-		}
-		playerPos = new Pair<>(x, y);
-		diff = dir.isVertical() ? playerPos.getSecond() - playerNextPos.getSecond()
-			: playerPos.getFirst() - playerNextPos.getFirst();
-		sleepMillisec(20);
-	    }
-	} else {
+	sleepMillisec(CHARACTER_TURN_TIME / speed);
 
+	// starts moving
+	player.setIcon(new ImageIcon(imgLoader.getPlayerImages(dir, player_gender).get(leftLeg ? 1 : 2)));
+	this.paintImmediately(this.getBounds());
+
+	// change position
+	if (canMove) {
+	    if (dir.isVertical()) {
+		verticalMove(dir);
+	    } else {
+		horizontalMove(dir);
+	    }
 	}
+
 	// end movement
 	player.setIcon(new ImageIcon(imgLoader.getPlayerImages(dir, player_gender).get(0)));
 	leftLeg = !leftLeg;
+    }
+
+    private void horizontalMove(Direction dir) {
+	int diff = playerPos.getFirst() - playerNextPos.getFirst();
+	while (Math.abs(diff) >= CHARACTER_STEP) {
+	    int step = dir == Direction.RIGHT ? CHARACTER_STEP : -CHARACTER_STEP;
+	    this.playerPos = new Pair<>(this.playerPos.getFirst() + step, this.playerPos.getSecond());
+	    diff = playerPos.getFirst() - playerNextPos.getFirst();
+	    this.paintImmediately(this.getBounds());
+	    sleepMillisec(STEP_TIME / (speed * this.horizontalMovementStep));
+	}
+    }
+
+    private void verticalMove(Direction dir) {
+	int diff = playerPos.getSecond() - playerNextPos.getSecond();
+	while (Math.abs(diff) >= CHARACTER_STEP) {
+	    int step = dir == Direction.DOWN ? CHARACTER_STEP : -CHARACTER_STEP;
+	    this.playerPos = new Pair<>(this.playerPos.getFirst(), this.playerPos.getSecond() + step);
+	    diff = playerPos.getSecond() - playerNextPos.getSecond();
+	    this.paintImmediately(this.getBounds());
+	    sleepMillisec(STEP_TIME / (speed * this.verticalMovementStep));
+	}
     }
 
     public void staticMove() {
@@ -102,9 +134,10 @@ public class PlayerPanel extends JPanel {
 	this.paintImmediately(this.getBounds());
     }
 
-    // TODO analyze good ratio logic move/view move/steps
     public void setNextPosition(Pair<Integer, Integer> nextPos) {
-	this.playerNextPos = new Pair<>(nextPos.getFirst() * size, nextPos.getSecond() * size);
+	int targetX = nextPos.getFirst() * this.horizontalMovementStep + (this.horizontalMovementStep / 2);
+	int targetY = nextPos.getSecond() * this.verticalMovementStep + (this.verticalMovementStep / 2);
+	this.playerNextPos = new Pair<>(targetX, targetY);
     }
 
     public void showText(String text) {

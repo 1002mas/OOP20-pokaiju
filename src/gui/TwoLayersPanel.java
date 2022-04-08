@@ -20,7 +20,8 @@ public class TwoLayersPanel extends JPanel {
 	super();
 	//TODO use String getGender of Controller
 	//TODO use playerController.getPlayerPosition()
-	topPanel = new PlayerPanel(new Pair<>(0, 0), imgLoad, "male");
+	//TODO use playerController.getMaximumBlockNumbers()
+	topPanel = new PlayerPanel(new Pair<>(0, 0), imgLoad, "male", 30, 30);
 	topPanel.setPlayerImage(new ImageIcon(imgLoad.getPlayerImages(Direction.DOWN, "male").get(0)));
 
 	bottomPanel = new JPanel();
