@@ -29,8 +29,8 @@ public class PlayerPanel extends JPanel {
 
     private Pair<Integer, Integer> playerNextPos;
     private Pair<Integer, Integer> playerPos;
-    private int horizontalMovementStep;
-    private int verticalMovementStep;
+    private Pair<Integer, Integer> movementStep;
+    private Pair<Integer, Integer> cellRelativePos;
     private int speed = 1;
     private boolean leftLeg = false;
 
@@ -68,8 +68,15 @@ public class PlayerPanel extends JPanel {
     @Override
     public void setBounds(int x, int y, int width, int height) {
 	super.setBounds(x, y, width, height);
-	this.horizontalMovementStep = width / this.maximumCellsInRow;
-	this.verticalMovementStep = height / this.maximumCellsInColumn;
+
+	int horizontalMovementStep = width / this.maximumCellsInRow;
+	int verticalMovementStep = height / this.maximumCellsInColumn;
+	int cellRelativePosX = horizontalMovementStep / 2 - player.getIcon().getIconWidth() / 2;
+	int cellRelativePosY = verticalMovementStep / 2 - player.getIcon().getIconHeight();
+
+	this.movementStep = new Pair<>(horizontalMovementStep, verticalMovementStep);
+	this.cellRelativePos = new Pair<>(cellRelativePosX, cellRelativePosY);
+
 	this.setNextPosition(this.playerNextPos);
 	this.playerPos = playerNextPos;
 	this.repaint();
@@ -114,7 +121,7 @@ public class PlayerPanel extends JPanel {
 	    this.playerPos = new Pair<>(this.playerPos.getFirst() + step, this.playerPos.getSecond());
 	    diff = playerPos.getFirst() - playerNextPos.getFirst();
 	    this.paintImmediately(this.getBounds());
-	    sleepMillisec(STEP_TIME / (speed * this.horizontalMovementStep));
+	    sleepMillisec(STEP_TIME / (speed * this.movementStep.getFirst()));
 	}
     }
 
@@ -125,7 +132,7 @@ public class PlayerPanel extends JPanel {
 	    this.playerPos = new Pair<>(this.playerPos.getFirst(), this.playerPos.getSecond() + step);
 	    diff = playerPos.getSecond() - playerNextPos.getSecond();
 	    this.paintImmediately(this.getBounds());
-	    sleepMillisec(STEP_TIME / (speed * this.verticalMovementStep));
+	    sleepMillisec(STEP_TIME / (speed * this.movementStep.getSecond()));
 	}
     }
 
@@ -135,8 +142,8 @@ public class PlayerPanel extends JPanel {
     }
 
     public void setNextPosition(Pair<Integer, Integer> nextPos) {
-	int targetX = nextPos.getFirst() * this.horizontalMovementStep + (this.horizontalMovementStep / 2);
-	int targetY = nextPos.getSecond() * this.verticalMovementStep + (this.verticalMovementStep / 2);
+	int targetX = nextPos.getFirst() * this.movementStep.getFirst() + cellRelativePos.getFirst();
+	int targetY = nextPos.getSecond() * this.movementStep.getSecond() + cellRelativePos.getSecond();
 	this.playerNextPos = new Pair<>(targetX, targetY);
     }
 
