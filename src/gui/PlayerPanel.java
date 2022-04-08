@@ -1,11 +1,15 @@
 package gui;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
+import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+import javax.swing.border.Border;
 
 import controller.ImagesLoader;
 import model.Pair;
@@ -18,6 +22,7 @@ public class PlayerPanel extends JPanel {
     private final JLabel player = new JLabel();
     private final String player_gender;
     private final int size = 10;
+    private final JLabel textLabel = new JLabel();
 
     private Pair<Integer, Integer> playerNextPos;
     private Pair<Integer, Integer> playerPos;
@@ -31,6 +36,13 @@ public class PlayerPanel extends JPanel {
 	this.player_gender = player_gender;
 	this.add(player);
 	this.setOpaque(false);
+
+	textLabel.setOpaque(true);
+	textLabel.setBackground(Color.WHITE);
+	Border labelBorder = BorderFactory.createLineBorder(Color.BLACK, 5);
+	textLabel.setBorder(labelBorder);
+	textLabel.setVerticalAlignment(SwingUtilities.TOP);
+	textLabel.setVisible(false);
     }
 
     @Override
@@ -39,6 +51,9 @@ public class PlayerPanel extends JPanel {
 	if (this.getComponentCount() > 0 && this.getComponent(0) != null) {
 	    this.getComponent(0).setLocation(playerPos.getFirst(), playerPos.getSecond());
 	}
+
+	int textLabelHeight = (int) (this.getHeight() * 0.1);
+	textLabel.setBounds(0, this.getHeight() - textLabelHeight, this.getWidth(), textLabelHeight);
     }
 
     public void setPlayerImage(Icon img) {
@@ -90,6 +105,15 @@ public class PlayerPanel extends JPanel {
     // TODO analyze good ratio logic move/view move/steps
     public void setNextPosition(Pair<Integer, Integer> nextPos) {
 	this.playerNextPos = new Pair<>(nextPos.getFirst() * size, nextPos.getSecond() * size);
+    }
+
+    public void showText(String text) {
+	textLabel.setText(text);
+	textLabel.setVisible(true);
+    }
+
+    public void hideText() {
+	textLabel.setVisible(false);
     }
 
     private void sleepMillisec(long millisec) {

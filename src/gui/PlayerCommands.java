@@ -9,11 +9,14 @@ public class PlayerCommands implements KeyListener {
     private final char moveLeft = 'a';
     private final char moveRight = 'd';
     private final char menuCommand = 'x';
+    private final char interactionCommand = 'z';
     private final GameFrame gui;
+    
     private long lastPressProcessed = 0;
+    private boolean canMove = true;
 
     public PlayerCommands(GameFrame gui) {
-    this.gui = gui;
+	this.gui = gui;
     }
 
     @Override
@@ -23,29 +26,37 @@ public class PlayerCommands implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-    if (System.currentTimeMillis() - lastPressProcessed > 80) {
-        switch (e.getKeyChar()) {
-        case moveUp:
-        gui.movePlayer(Direction.UP);
-        break;
-        case moveDown:
-        gui.movePlayer(Direction.DOWN);
-        break;
-        case moveLeft:
-        gui.movePlayer(Direction.LEFT);
-        break;
-        case moveRight:
-        gui.movePlayer(Direction.RIGHT);
-        break;
-        case menuCommand:
-        gui.changePanel(GameFrame.MENU_PANEL);
-        break;
+	if (System.currentTimeMillis() - lastPressProcessed > 80) {
+	    if (canMove) {
+		switch (e.getKeyChar()) {
+		case moveUp:
+		    gui.movePlayer(Direction.UP);
+		    break;
+		case moveDown:
+		    gui.movePlayer(Direction.DOWN);
+		    break;
+		case moveLeft:
+		    gui.movePlayer(Direction.LEFT);
+		    break;
+		case moveRight:
+		    gui.movePlayer(Direction.RIGHT);
+		    break;
+		case menuCommand:
+		    gui.changePanel("menu");
+		    break;
+		case interactionCommand:
+		    this.canMove = gui.playerInteraction();
+		    break;
 
-        default:
-        break;
-        }
-        lastPressProcessed = System.currentTimeMillis();
-    }
+		default:
+		    break;
+		}
+	    } else if (e.getKeyChar() == interactionCommand) {
+		gui.endPlayerInteraction();
+		this.canMove = true;
+	    }
+	    lastPressProcessed = System.currentTimeMillis();
+	}
     }
 
     @Override
@@ -54,6 +65,3 @@ public class PlayerCommands implements KeyListener {
     }
 
 }
-
-
-
