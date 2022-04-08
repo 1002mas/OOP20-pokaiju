@@ -12,34 +12,35 @@ import java.util.Map;
 import javax.imageio.ImageIO;
 
 import gui.Direction;
+import model.Pair;
 
 public class ImagesLoader {
     static final private int PLAYER_SEQUENCE_LENGTH = 3;
     static final String BASE_PATH = "res" + File.separator + "textures" + File.separator;
     static final String MONSTER_PATH = "res" + File.separator + "monster" + File.separator;
 
-    final int height;
-    final int width;
+    private final int height;
+    private final int width;
+    private final Pair<Integer, Integer> cellSize;
 
     private BufferedImage terrain;
     private Map<Direction, List<BufferedImage>> player = new HashMap<>();
     private Map<String, BufferedImage> monsters = new HashMap<>();
 
-    public ImagesLoader(int height, int width) {
+    public ImagesLoader(int height, int width, int maximumCellsInRow, int maximumCellsInHeight) {
 	super();
 	this.height = height;
 	this.width = width;
+
+	this.cellSize = new Pair<>(width / maximumCellsInRow, height / maximumCellsInHeight);
     }
 
     public BufferedImage getTerrainImage() {
-	final double percWidth = 0.1;
-	final double percHeight = 0.1;
-	System.out.println(percWidth*width +" "+percHeight*height);
 	if (terrain == null) {
 	    final String imgPath = BASE_PATH + "wild_grass.png";
 	    try {
-		terrain = resizeImage(ImageIO.read(new File(imgPath)), (int) (percWidth*width), (int) (percHeight*height));
-	    } catch (IOException e) {
+		terrain = resizeImage(ImageIO.read(new File(imgPath)), this.cellSize.getFirst(), this.cellSize.getSecond());
+		   } catch (IOException e) {
 		e.printStackTrace();
 	    }
 	}
@@ -47,9 +48,8 @@ public class ImagesLoader {
     }
 
     public List<BufferedImage> getPlayerImages(Direction dir, String gender) {
-	final double percWidth = 0.1;
-	final double percHeight = 0.1;
 	if (!player.containsKey(dir)) {
+	    final double dimMultiplier = 1.3;
 	    final String basePath = BASE_PATH + "player" + File.separator + gender + File.separator + "player_"
 		    + dir.toString() + "_";
 	    final String fileType = ".png";
@@ -57,7 +57,8 @@ public class ImagesLoader {
 	    try {
 		for (int i = 1; i <= PLAYER_SEQUENCE_LENGTH; i++) {
 		    String imgPath = basePath + i + fileType;
-		    imageSequence.add(resizeImage(ImageIO.read(new File(imgPath)), (int) (percWidth*width), (int) (percHeight*height)));
+		    imageSequence.add(resizeImage(ImageIO.read(new File(imgPath)), (int) (dimMultiplier * this.cellSize.getFirst()),
+			    (int) (dimMultiplier * this.cellSize.getSecond())));
 		}
 	    } catch (IOException e) {
 		e.printStackTrace();
