@@ -74,7 +74,6 @@ import controller.PlayerController;
 public class MonsterPanel extends JPanel {
 
     private final CardLayout cardlayout = new CardLayout();
-    private JPanel mainPanel;
 
     public MonsterPanel(JPanel mainPanel) {
 	init();
@@ -123,5 +122,8 @@ public class MonsterPanel extends JPanel {
 	    this.add(p, Integer.toString(index));
 	}
 
+    }
+    void changePanel(String panelName){
+	cardlayout.show(this, panelName);
     }
 }

@@ -10,8 +10,9 @@ public class EvolutionItem extends GameItemImpl {
 
     @Override
     public boolean use(Monster m) {
-	if (m.getSpecies().getEvolutionType() == EvolutionType.ITEM) {
-	    return m.evolveByItem(this);
+	if (m.getSpecies().getEvolutionType() == EvolutionType.ITEM && m.canEvolveByItem(this)) {
+	    m.evolve();
+	    return true;
 	}
 	return false;
 
