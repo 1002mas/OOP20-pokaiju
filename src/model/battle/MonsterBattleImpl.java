@@ -165,7 +165,7 @@ public class MonsterBattleImpl implements MonsterBattle {
 		this.battleStatus = false;
 		this.trainer.setMoney(trainer.getMoney() - MONEY_LOST);
 	    } else {
-		enemy.setHealth(enemy.getHealth() - damage);
+		enemy.setHealth(enemy.getStats().getHealth() - damage);
 		if (!enemy.isAlive()) {
 		    
 		    playerCurrentMonster.incExp(enemy.getLevel() * EXP_MULTIPLER);
@@ -185,7 +185,7 @@ public class MonsterBattleImpl implements MonsterBattle {
 	    }
 
 	} else {
-	    enemy.setHealth(enemy.getHealth() - damage);
+	    enemy.setHealth(enemy.getStats().getHealth() - damage);
 	    // System.out.println(playerCurrentMonster.getName() + " usa " + att.getName() +
 	    // " infliggendo "
 	    // + att.getDamage(enemy.getType()) + " danni");
@@ -221,7 +221,7 @@ public class MonsterBattleImpl implements MonsterBattle {
 	Moves att = this.enemyAttack();
 	int damage = att.getDamage(playerCurrentMonster.getType()) + enemyStats.getAttack() - playerStats.getDefense();
 	att.decPP();
-	playerCurrentMonster.setHealth(playerCurrentMonster.getHealth() - damage);
+	playerCurrentMonster.setHealth(playerCurrentMonster.getStats().getHealth() - damage);
 	System.out.println(enemy.getName() + " usa " + att.getName() + " infliggendo "
 		+ att.getDamage(playerCurrentMonster.getType()) + " danni");
     }
