@@ -44,13 +44,21 @@ public interface Player {
     void removeItem(GameItems i);
 
     /**
+     * This function uses a GameItems 
+     * 
+     * @param GameItems
+     * 
+     */
+    void useItem(GameItems i);
+
+    /**
      * This function applies a GameItems on Monster
      * 
      * @param GameItems, Monster
      * 
      */
-    void useItem(GameItems i, Monster m);
-
+    void useItemOnMonster(GameItems i, Monster m);
+    
     /**
      * This function returns if buy GameItems is successfully or not
      * 

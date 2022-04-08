@@ -6,9 +6,6 @@ import java.util.List;
 
 import model.Pair;
 import model.gameitem.GameItems;
-/*import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.*;*/
 import model.monster.Monster;
 
 public class PlayerImpl implements Player {
@@ -70,19 +67,19 @@ public class PlayerImpl implements Player {
 	if (this.gameItems.contains(i)) {
 	    int numberOfItem = this.gameItems.stream().filter(x -> x.getNameItem().equals(i.getNameItem())).findFirst()
 		    .get().getNumber();
-	    if (--numberOfItem > 0) {
+	    numberOfItem--;
+	    if (numberOfItem > 0) {
 		this.gameItems.stream().filter(x -> x.getNameItem().equals(i.getNameItem())).findFirst().get()
 			.setNumber(numberOfItem);
 	    } else {
 		this.gameItems.remove(i);
 	    }
 	}
-
     }
 
     @Override
-    public void useItem(GameItems i, Monster m) {
-	if (allItems().contains(i) && i.use(m)) {
+    public void useItem(GameItems i) {
+	if (allItems().contains(i) && i.use(null)) {
 	    removeItem(i);
 	}
     }
@@ -171,6 +168,13 @@ public class PlayerImpl implements Player {
 	    return this.monster.remove(m);
 	}
 	return false;
+    }
+
+    @Override
+    public void useItemOnMonster(GameItems i, Monster m) {
+	if (allItems().contains(i) && i.use(m)) {
+	    removeItem(i);
+	}
     }
 
 }

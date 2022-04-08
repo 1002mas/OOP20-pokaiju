@@ -50,10 +50,9 @@ public class SelectMosterPanel extends JPanel {
 
 	    JButton checkButton = new JButton("USE ON THIS MONSTER");
 	    checkButton.addActionListener(e -> {
-		// this.playerController.useItem(this.itemName, singleMonsterLabel.getText());
+		this.playerController.useItem(this.itemName, singleMonsterLabel.getText());
 		System.out.println(singleMonsterLabel.getText());
-		
-		c1.show(this.parentPanel, "ITEMS");
+		this.repaint();
 		
 	    });
 	    allMonsterPanel.add(singleMonsterLabel);
