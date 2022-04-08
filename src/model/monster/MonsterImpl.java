@@ -103,10 +103,6 @@ public class MonsterImpl implements Monster {
 		this.stats.getDefense() + new Random().nextInt(MAX_STAT_STEP - MIN_STAT_STEP) + MIN_STAT_STEP);
 	this.stats
 		.setSpeed(this.stats.getSpeed() + new Random().nextInt(MAX_STAT_STEP - MIN_STAT_STEP) + MIN_STAT_STEP);
-	if (species.getEvolutionType() == EvolutionType.LEVEL
-		&& this.level >= ((MonsterSpeciesByLevel) species).getEvolutionLevel()) {
-	    evolveByLevel();
-	}
 	for (; incLevel > 0; incLevel--) {
 	    Optional<Moves> moves = species.learnNewMove(this.level - incLevel + 1);
 	    if(moves.isPresent() && !movesList.contains(moves.get())) {
@@ -172,7 +168,7 @@ public class MonsterImpl implements Monster {
 	return this.species.getType();
     }
 
-    private boolean evolveByLevel() {
+    public boolean evolveByLevel() {
 	if (species.getEvolution().isPresent() && this.species.getEvolutionType() == EvolutionType.LEVEL
 		&& this.level >= ((MonsterSpeciesByLevel) species).getEvolutionLevel()) {
 	    species = species.getEvolution().get();
