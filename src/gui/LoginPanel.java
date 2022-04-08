@@ -49,6 +49,6 @@ public class LoginPanel extends JPanel {
     }
 
     private boolean continueButtonVisibility() {
-	return true;// controllare se ce il salvataggio
+	return this.playerController.dataExist();
     }
 }

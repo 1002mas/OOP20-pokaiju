@@ -75,7 +75,7 @@ public class MonsterPanel extends JPanel {
 
     private final CardLayout cardlayout = new CardLayout();
 
-    public MonsterPanel(JPanel mainPanel) {
+    public MonsterPanel() {
 	init();
     }
 
