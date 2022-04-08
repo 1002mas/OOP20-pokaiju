@@ -14,6 +14,7 @@ import model.gameitem.EvolutionItem;
 import model.gameitem.GameItems;
 import model.monster.Monster;
 import model.monster.MonsterBuilderImpl;
+import model.monster.MonsterImpl;
 import model.monster.MonsterSpecies;
 import model.monster.MonsterSpeciesByItem;
 import model.monster.MonsterSpeciesByLevel;
@@ -26,8 +27,6 @@ public class TestMonster {
 
     private static final int FIRST_EVOLUTION_LEVEL = 14;
     private static final int SECOND_EVOLUTION_LEVEL = 30;
-    private static final int EXP_CAP = 1000;
-    private static final int MAX_LVL = 100;
     private static final int HEALTH = 50;
 
     private Monster monster;
@@ -61,7 +60,7 @@ public class TestMonster {
 		SECOND_EVOLUTION_LEVEL, allMoves);
 	species = new MonsterSpeciesByLevel("Pippo", "Info", MonsterType.FIRE, stats, firstEvolution,
 		FIRST_EVOLUTION_LEVEL, allMoves);
-	this.monster = new MonsterBuilderImpl().stats(stats).exp(0).level(1).isWild(false).species(species)
+	this.monster = new MonsterBuilderImpl().health(50).attack(50).defense(50).speed(50).exp(0).level(1).isWild(false).species(species)
 		.movesList(listOfMoves).build();
 	
 	// Item test initialization
@@ -69,7 +68,7 @@ public class TestMonster {
 	firstEvolutionByItem = new MonsterSpeciesImpl("Paperino2", "Info2", MonsterType.WATER, stats, allMoves);
 	speciesByItem = new MonsterSpeciesByItem("Paperino", "Info", MonsterType.WATER, stats, firstEvolutionByItem,
 		neededItem, allMoves);
-	monsterByItem = new MonsterBuilderImpl().stats(stats).exp(0).level(1).isWild(false).species(speciesByItem)
+	monsterByItem = new MonsterBuilderImpl().health(50).attack(50).defense(50).speed(50).exp(0).level(1).isWild(false).species(speciesByItem)
 		.movesList(listOfMoves).build();
 	
 	// Level -> Item initialization
@@ -78,7 +77,7 @@ public class TestMonster {
 		neededItem, allMoves);
 	MonsterSpecies speciesByLevelAndItem = new MonsterSpeciesByLevel("Topolino", "Info", MonsterType.GRASS, stats, firstEvolutionByLevelAndItem,
 		FIRST_EVOLUTION_LEVEL, allMoves);
-	this.monsterByLevelAndItem = new MonsterBuilderImpl().stats(stats).exp(0).level(1).isWild(false).species(speciesByLevelAndItem)
+	this.monsterByLevelAndItem = new MonsterBuilderImpl().health(50).attack(50).defense(50).speed(50).exp(0).level(1).isWild(false).species(speciesByLevelAndItem)
 		.movesList(listOfMoves).build();
     }
 
@@ -86,22 +85,22 @@ public class TestMonster {
     public void firstStats() {
 	assertEquals(1, monster.getLevel());
 	assertEquals(0, monster.getExp());
-	assertEquals(HEALTH, monster.getHealth());
+	assertEquals(HEALTH, monster.getStats().getHealth());
     }
 
     @org.junit.Test
     public void evolvingByLevel() {
-	monster.incExp((FIRST_EVOLUTION_LEVEL - 2) * EXP_CAP);
+	monster.incExp((FIRST_EVOLUTION_LEVEL - 2) * MonsterImpl.EXP_CAP);
 	assertEquals("Pippo", monster.getName());
-	monster.incExp(EXP_CAP);
+	monster.incExp(MonsterImpl.EXP_CAP);
 	assertEquals("Pippo2", monster.getName());
-	monster.incExp(((SECOND_EVOLUTION_LEVEL - monster.getLevel() - 1) * EXP_CAP));
-	monster.incExp(EXP_CAP);
+	monster.incExp(((SECOND_EVOLUTION_LEVEL - monster.getLevel() - 1) * MonsterImpl.EXP_CAP));
+	monster.incExp(MonsterImpl.EXP_CAP);
 	assertEquals("Pippo3", monster.getName());
 	assertEquals(30, monster.getLevel());
 	assertEquals(0, monster.getExp());
 	monster.incExp(5863655);
-	assertEquals(MAX_LVL, monster.getLevel());
+	assertEquals(MonsterImpl.MAX_LVL, monster.getLevel());
 	assertEquals(0, monster.getExp());
     }
 
@@ -109,7 +108,7 @@ public class TestMonster {
     public void evolutionByRightItem() {
 	GameItems holdedItemRight = new EvolutionItem("PietraPaperino", 1, "desc");
 	assertEquals("Paperino", monsterByItem.getName());
-	assertTrue(this.monsterByItem.evolveByItem(holdedItemRight));
+	assertTrue(this.monsterByItem.canEvolveByItem(holdedItemRight));
 	assertEquals("Paperino2", monsterByItem.getName());
     }
 
@@ -117,7 +116,7 @@ public class TestMonster {
     public void evolutionByWrongItem() {
 	GameItems holdedItemWrong = new EvolutionItem("PietraPippo", 1, "desc");
 	assertEquals("Paperino", monsterByItem.getName());
-	assertFalse(this.monsterByItem.evolveByItem(holdedItemWrong));
+	assertFalse(this.monsterByItem.canEvolveByItem(holdedItemWrong));
 	assertNotEquals("Paperino2", monsterByItem.getName());
 	assertEquals("Paperino", monsterByItem.getName());
     }
@@ -125,19 +124,19 @@ public class TestMonster {
     @org.junit.Test
     public void evolveByLevelAndItem() {
 	GameItems holdedItem = new EvolutionItem("PietraPaperino", 1, "desc");
-	monsterByLevelAndItem.incExp((FIRST_EVOLUTION_LEVEL - 2) * EXP_CAP);
+	monsterByLevelAndItem.incExp((FIRST_EVOLUTION_LEVEL - 2) * MonsterImpl.EXP_CAP);
 	assertEquals("Topolino", monsterByLevelAndItem.getName());
-	monsterByLevelAndItem.incExp(EXP_CAP);
+	monsterByLevelAndItem.incExp(MonsterImpl.EXP_CAP);
 	assertEquals("Topolino2", monsterByLevelAndItem.getName());
-	monsterByLevelAndItem.incExp(((SECOND_EVOLUTION_LEVEL - monsterByLevelAndItem.getLevel() - 1) * EXP_CAP));
-	monsterByLevelAndItem.incExp(EXP_CAP);
+	monsterByLevelAndItem.incExp(((SECOND_EVOLUTION_LEVEL - monsterByLevelAndItem.getLevel() - 1) * MonsterImpl.EXP_CAP));
+	monsterByLevelAndItem.incExp(MonsterImpl.EXP_CAP);
 	assertEquals("Topolino2", monsterByLevelAndItem.getName());
 	assertEquals(30, monsterByLevelAndItem.getLevel());
 	assertEquals(0, monsterByLevelAndItem.getExp());
 	monsterByLevelAndItem.incExp(5863655);
-	assertEquals(MAX_LVL, monsterByLevelAndItem.getLevel());
+	assertEquals(MonsterImpl.MAX_LVL, monsterByLevelAndItem.getLevel());
 	assertEquals(0, monsterByLevelAndItem.getExp());
-	monsterByLevelAndItem.evolveByItem(holdedItem);
+	monsterByLevelAndItem.canEvolveByItem(holdedItem);
 	assertEquals("Topolino3", monsterByLevelAndItem.getName());
     }
 

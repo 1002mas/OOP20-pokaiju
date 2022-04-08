@@ -14,13 +14,12 @@ public class MonsterBuilderImpl implements MonsterBuilder {
     private MonsterSpecies species;
     private MonsterStats stats = new MonsterStatsImpl(-1, -1, -1, -1);
 
-    public int getId() {
+    public static int getId() {
 	return id;
     }
 
     public void setId(int id) {
-	//TODO: check warning 
-	MonsterBuilder.id = id;
+	MonsterBuilderImpl.id = id;
     }
 
     @Override

@@ -19,10 +19,7 @@ public interface MonsterBuilder {
      * 
      * @param id
      */
-    static void setId(int monsterId) {
-	//TODO:
-	//id = monsterId;
-    }
+    void setId(int monsterId);
 
     /**
      * Build monster's level

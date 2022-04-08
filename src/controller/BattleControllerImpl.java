@@ -30,7 +30,7 @@ public class BattleControllerImpl implements BattleController {
 
     @Override
     public int getPlayerCurrentMonsterHp() {
-	return monsterBattle.getCurrentPlayerMonster().getHealth();
+	return monsterBattle.getCurrentPlayerMonster().getStats().getHealth();
     }
 
     @Override
@@ -65,7 +65,7 @@ public class BattleControllerImpl implements BattleController {
 
     @Override
     public int getEnemyCurrentMonsterHp() {
-	return monsterBattle.getCurrentEnemyMonster().getHealth();
+	return monsterBattle.getCurrentEnemyMonster().getStats().getHealth();
     }
 
     @Override
