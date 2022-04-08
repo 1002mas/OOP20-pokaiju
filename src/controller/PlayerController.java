@@ -16,12 +16,11 @@ public interface PlayerController {
      */
     public Pair<Integer, Integer> movePlayer(Direction direction);
 
-    // TODO how to manage battle, npcs,... (consequences of interaction)
     /**
      * Interacts with the object at coord position. If there is a trainer, it starts
      * the battle. If there is a npc, some text appears.
      */
-    Optional<String> interact(Pair<Integer, Integer> coord);
+    Optional<String> interact(Direction direction);
 
     /**
      * @return player position
@@ -115,6 +114,10 @@ public interface PlayerController {
     public boolean dataExist();
 
     public boolean usableItem(String item);
+    
+    int getMaximumBlocksInRow();
+    
+    int getMaximumBlocksInColumn();
     
 
 }

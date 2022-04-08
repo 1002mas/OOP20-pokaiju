@@ -35,7 +35,8 @@ public class PlayerControllerImpl implements PlayerController {
 
 	// --PLAYER--
 	@Override
-	public Optional<String> interact(Pair<Integer, Integer> coord) { // ----Problema battaglia-----
+	public Optional<String> interact(Direction direction) { // ----Problema battaglia-----
+		Pair<Integer, Integer> coord = generateCoordinates(direction);
 		if (dataController.getGameMap().getNpcAt(coord).isPresent()) {
 			Optional<String> result = dataController.getGameMap().getNpcAt(coord).get().interactWith();
 			return result;
@@ -332,5 +333,15 @@ public class PlayerControllerImpl implements PlayerController {
 	@Override
 	public boolean usableItem(String item) { // --
 		return getItem(item).getType().equals(GameItemTypes.MONSTERBALL);
+	}
+
+	@Override
+	public int getMaximumBlocksInRow() {
+		return dataController.getMaximumBlocksInRow();
+	}
+
+	@Override
+	public int getMaximumBlocksInColumn() {
+		return dataController.getMaximumBlocksInColumn();
 	}
 }
