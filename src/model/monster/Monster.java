@@ -130,6 +130,12 @@ public interface Monster {
      * @return
      */
     MonsterType getType();
+    
+    /**
+     * 
+     * @return
+     */
+    public boolean evolveByLevel();
 
     /**
      * This function returns if the monster is evolving by item
