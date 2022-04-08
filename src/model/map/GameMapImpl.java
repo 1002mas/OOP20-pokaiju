@@ -84,8 +84,12 @@ public class GameMapImpl implements GameMap {
 	int monsterLevel = new Random()
 		.nextInt(map.getWildMonsterLevelRange().getSecond() - map.getWildMonsterLevelRange().getFirst())
 		+ map.getWildMonsterLevelRange().getFirst();
-	Monster m = new MonsterBuilderImpl().monsterId(1).species(species).isWild(true)
-		.level(map.getWildMonsterLevelRange().getFirst()).exp(0)
+	Monster m = new MonsterBuilderImpl()
+		.species(species)
+		.isWild(true)
+		.level(map.getWildMonsterLevelRange()
+		.getFirst())
+		.exp(0)
 		.movesList(getRandomListMoves(species, monsterLevel))
 		.build();
 	return Optional.of(m);
