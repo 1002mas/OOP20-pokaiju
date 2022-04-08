@@ -135,7 +135,7 @@ public interface Monster {
      * 
      * @return
      */
-    public boolean evolveByLevel();
+    boolean canEvolveByLevel();
 
     /**
      * This function returns if the monster is evolving by item
@@ -143,7 +143,12 @@ public interface Monster {
      * @param item
      * @return if monster evolves by item
      */
-    boolean evolveByItem(GameItems item);
+    boolean canEvolveByItem(GameItems item);
+    
+    /**
+     * 
+     */
+    void evolve();
 
     /**
      * This function returns monster's species

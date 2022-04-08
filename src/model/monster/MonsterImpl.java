@@ -43,11 +43,11 @@ public class MonsterImpl implements Monster {
 	this.movesList = new ArrayList<>(movesList);
 	this.movesToLearn = new HashSet<>();
     }
-    
+
     public int getId() {
 	return this.id;
     }
-    
+
     @Override
     public String getName() {
 	return this.species.getName();
@@ -105,7 +105,7 @@ public class MonsterImpl implements Monster {
 		.setSpeed(this.stats.getSpeed() + new Random().nextInt(MAX_STAT_STEP - MIN_STAT_STEP) + MIN_STAT_STEP);
 	for (; incLevel > 0; incLevel--) {
 	    Optional<Moves> moves = species.learnNewMove(this.level - incLevel + 1);
-	    if(moves.isPresent() && !movesList.contains(moves.get())) {
+	    if (moves.isPresent() && !movesList.contains(moves.get())) {
 		this.movesToLearn.add(moves.get());
 	    }
 	}
@@ -168,24 +168,22 @@ public class MonsterImpl implements Monster {
 	return this.species.getType();
     }
 
-    public boolean evolveByLevel() {
-	if (species.getEvolution().isPresent() && this.species.getEvolutionType() == EvolutionType.LEVEL
-		&& this.level >= ((MonsterSpeciesByLevel) species).getEvolutionLevel()) {
-	    species = species.getEvolution().get();
-	    return true;
-	}
-	return false;
+    @Override
+    public boolean canEvolveByLevel() {
+	return species.getEvolution().isPresent() && this.species.getEvolutionType() == EvolutionType.LEVEL
+		&& this.level >= ((MonsterSpeciesByLevel) species).getEvolutionLevel();
     }
 
     @Override
-    public boolean evolveByItem(GameItems item) {
-	if (species.getEvolution().isPresent() && this.species.getEvolutionType() == EvolutionType.ITEM
+    public boolean canEvolveByItem(GameItems item) {
+	return species.getEvolution().isPresent() && this.species.getEvolutionType() == EvolutionType.ITEM
 		&& item.equals(((MonsterSpeciesByItem) species).getItem())
-		&& item.getType() == GameItemTypes.EVOLUTIONTOOL) {
-	    species = species.getEvolution().get();
-	    return true;
-	}
-	return false;
+		&& item.getType() == GameItemTypes.EVOLUTIONTOOL;
+    }
+    
+    @Override
+    public void evolve() {
+	this.species = this.species.getEvolution().get();
     }
 
     @Override
