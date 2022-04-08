@@ -3,12 +3,15 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.GridLayout;
+import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -20,6 +23,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
 import controller.BattleController;
+import controller.ImagesLoader;
 import model.battle.Moves;
 import model.battle.MovesData;
 import model.gameitem.GameItems;
@@ -54,19 +58,28 @@ public class BattleFrame {
     private JButton secondItemsButton;
     private JButton thirdItemsButton;
     private JButton fourthItemsButton;
-    private JLabel backgroundLabel;
+    //private JLabel backgroundLabel;
     private BufferedImage background;
     private BattleController ctrl;
-    private List<Moves> moves;
-    private List<Monster> playerTeam;
-    private List<GameItems> playerItems;
-    private GameItems item;
-    private Moves move;
-    private Monster monster;
+    private ImagesLoader img;
+    private List<String> moves;
+    private List<Integer> playerTeam;
+    private List<String> playerItems;
+    private String item;
+    private String move;
+    private String monsterName;
     private CardLayout cLayout;
+    private boolean itemsFlag;
+    private String itemUsed;
+    private Map<JButton,Integer> monsterMap;
+    private Map<JButton,String> itemMap;
+    private Map<JButton,String> movesMap;
+    private JLabel playerMonsterImg = new JLabel();
+    private JLabel enemyMonsterImg = new JLabel();
     
-    public BattleFrame(BattleController ctrl) {
+    public BattleFrame(BattleController ctrl, ImagesLoader img) {
 	this.ctrl = ctrl;
+	this.img = img;
 	start();
     }
     
@@ -77,36 +90,48 @@ public class BattleFrame {
     String getCurrentEnemyMonsterData() {
 	return " " + ctrl.getEnemyCurrentMonsterName() + " " +  ctrl.getEnemyCurrentMonsterHp() + "/" + ctrl.getEnemyCurrentMonsterMaxHealth() + " HP " + "LVL." +ctrl.getEnemyCurrentMonsterLevel();
     }
+    
+    void setImg() {
+	playerMonsterImg.setIcon(new ImageIcon(img.getMonster(ctrl.getPlayerCurrentMonsterName())));
+	this.centerPanel.add(playerMonsterImg, BorderLayout.WEST);
+	enemyMonsterImg.setIcon(new ImageIcon(img.getMonster(ctrl.getEnemyCurrentMonsterName())));
+	this.centerPanel.add(enemyMonsterImg, BorderLayout.EAST);
+	this.centerPanel.repaint();
+    }
     void setMoves() {
 	this.moves = ctrl.getMoves();
-	
+	this.movesMap = new HashMap<>();
 	this.move = this.moves.get(0);
-	this.firstAttButton.setText("" + move.getData().getName() + " " + move.getCurrentPP() + " PP");
-	if(!this.move.checkPP()) {
+	this.firstAttButton.setText("" + move + " " + ctrl.getCurrentPP(move) + " PP");
+	this.movesMap.put(firstAttButton, move);
+	if(!this.ctrl.checkPP(move)) {
 	    this.firstAttButton.setEnabled(false);
 	}
 	else {
 	    this.firstAttButton.setEnabled(true);
 	}
 	this.move = this.moves.get(1);
-	this.secondAttButton.setText("" + move.getData().getName() + " " + move.getCurrentPP() + " PP");
-	if(!this.move.checkPP()) {
+	this.secondAttButton.setText("" + move + " " + ctrl.getCurrentPP(move) + " PP");
+	this.movesMap.put(secondAttButton, move);
+	if(!this.ctrl.checkPP(move)) {
 	    this.secondAttButton.setEnabled(false);
 	}
 	else {
 	    this.secondAttButton.setEnabled(true);
 	}
 	this.move = this.moves.get(2);
-	this.thirdAttButton.setText("" + move.getData().getName() + " " + move.getCurrentPP() + " PP");
-	if(!this.move.checkPP()) {
+	this.thirdAttButton.setText("" + move+ " " + ctrl.getCurrentPP(move) + " PP");
+	this.movesMap.put(thirdAttButton, move);
+	if(!this.ctrl.checkPP(move)) {
 	    this.thirdAttButton.setEnabled(false);
 	}
 	else {
 	    this.thirdAttButton.setEnabled(true);
 	}
 	this.move = this.moves.get(3);
-	this.fourthAttButton.setText("" + move.getData().getName() + " " + move.getCurrentPP() + " PP");
-	if(!this.move.checkPP()) {
+	this.fourthAttButton.setText("" + move + " " + ctrl.getCurrentPP(move) + " PP");
+	this.movesMap.put(fourthAttButton, move);
+	if(!this.ctrl.checkPP(move)) {
 	    this.fourthAttButton.setEnabled(false);
 	}
 	else {
@@ -115,52 +140,57 @@ public class BattleFrame {
 	
     }
     void setMonster() {
+	monsterMap=new HashMap<>();
   	this.playerTeam = ctrl.getPlayerTeam();
-  	this.monster = this.playerTeam.get(0);
-  	this.firstMonButton.setText("" + monster.getName());
-  	if(!this.monster.isAlive()) {
+  	this.monsterName = ctrl.getMonsterName(this.playerTeam.get(0));
+  	this.firstMonButton.setText("" + monsterName);
+  	this.monsterMap.put(firstMonButton,this.playerTeam.get(0));
+  	System.out.println(monsterName+"-->"+this.playerTeam.get(0));
+  	if(!this.ctrl.isAlive(this.playerTeam.get(0))) { 
   	    this.firstMonButton.setEnabled(false);
   	}
   	
-  	this.monster = this.playerTeam.get(1);
-  	this.secondMonButton.setText("" + monster.getName());
-  	if(!this.monster.isAlive()) {
+  	this.monsterName = ctrl.getMonsterName(this.playerTeam.get(1));
+  	this.secondMonButton.setText("" + monsterName);
+  	this.monsterMap.put(secondMonButton,this.playerTeam.get(1));
+  	System.out.println(monsterName+"-->"+this.playerTeam.get(1));
+  	if(!this.ctrl.isAlive(this.playerTeam.get(1))) {
   	    this.secondMonButton.setEnabled(false);
   	}
-  	this.monster = this.playerTeam.get(2);
-  	this.thirdMonButton.setText("" + monster.getName());
-  	if(!this.monster.isAlive()) {
+  	this.monsterName = ctrl.getMonsterName(this.playerTeam.get(2));
+  	this.thirdMonButton.setText("" + monsterName);
+  	this.monsterMap.put(thirdMonButton,this.playerTeam.get(2));
+  	System.out.println(monsterName+"-->"+this.playerTeam.get(2));
+  	if(!this.ctrl.isAlive(this.playerTeam.get(2))) {
   	    this.thirdMonButton.setEnabled(false);
   	}
-  	this.monster = this.playerTeam.get(3);
-  	this.fourthMonButton.setText("" + monster.getName());
-  	if(!this.monster.isAlive()) {
+  	this.monsterName = ctrl.getMonsterName(this.playerTeam.get(3));
+  	this.fourthMonButton.setText("" + monsterName);
+  	this.monsterMap.put(fourthMonButton,this.playerTeam.get(3));
+  	System.out.println(monsterName+"-->"+this.playerTeam.get(3));
+  	if(!this.ctrl.isAlive(this.playerTeam.get(3))) {
   	    this.fourthMonButton.setEnabled(false);
   	}
   	
     }
     void setItems() {
+	itemMap = new HashMap<>();
    	this.playerItems = ctrl.getAllPlayerItems();
    	this.item = this.playerItems.get(0);
-   	this.firstItemsButton.setText("" + item.getNameItem() + " " + item.getNumber());
-   	if(this.item.getNumber() <= 0) {
-   	    this.firstItemsButton.setEnabled(false);
-   	}
+   	itemMap.put(firstItemsButton,item);
+   	this.firstItemsButton.setText("" + item+ " " + ctrl.getItemNumber(item));  	
    	this.item = this.playerItems.get(1);
-   	this.secondItemsButton.setText("" + item.getNameItem() + " " + item.getNumber());
-   	if(this.item.getNumber() <= 0) {
-   	    this.secondItemsButton.setEnabled(false);
-   	}
+   	itemMap.put(secondItemsButton,item);
+   	this.secondItemsButton.setText("" + item+ " " + ctrl.getItemNumber(item));
+   	
    	this.item = this.playerItems.get(2);
-   	this.thirdItemsButton.setText("" + item.getNameItem() + " " + item.getNumber());
-   	if(this.item.getNumber() <= 0) {
-   	    this.thirdItemsButton.setEnabled(false);
-   	}
+   	itemMap.put(thirdItemsButton,item);
+   	this.thirdItemsButton.setText("" + item + " " + ctrl.getItemNumber(item));
+   	
    	this.item = this.playerItems.get(3);
-   	this.fourthItemsButton.setText("" + item.getNameItem() + " " + item.getNumber());
-   	if(this.item.getNumber() <= 0) {
-   	    this.fourthItemsButton.setEnabled(false);
-   	}
+   	itemMap.put(fourthItemsButton,item);
+   	this.fourthItemsButton.setText("" + item + " " + ctrl.getItemNumber(item));
+   	
    	
      }
     void refresh() {
@@ -216,12 +246,12 @@ public class BattleFrame {
 	    // TODO Auto-generated catch block
 	    e.printStackTrace();
 	}
-	this.backgroundLabel = new JLabel(new ImageIcon(background));
+	//this.backgroundLabel = new JLabel(new ImageIcon(background));
 	this.actionText = new JTextField("What do you want to do?...");
 	this.actionText.setEditable(false);
-	this.centerPanel.add(backgroundLabel, BorderLayout.CENTER);
+	//this.centerPanel.add(backgroundLabel, BorderLayout.CENTER);
 	this.centerPanel.add(actionText, BorderLayout.SOUTH);
-	
+	this.setImg();
 	this.leftNorthButton = new JButton("Attack");
 	this.leftNorthButton.addActionListener(new ActionListener() {
 
@@ -240,6 +270,7 @@ public class BattleFrame {
 	    @Override
 	    public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
+		itemsFlag = false;
 		setMonster();
 		actionText.setText("What monster do u choose?");
 		cLayout.show(southPanel, "monsters");
@@ -276,17 +307,16 @@ public class BattleFrame {
 	});
 	
 	this.firstAttButton = new JButton();
-	this.firstAttButton.addActionListener(new ActionListener() {
+	this.firstAttButton.addActionListener(e-> {
 
-	    @Override
-	    public void actionPerformed(ActionEvent e) {
+	   
 		//actionText.setText("" + ctrl.getPlayerCurrentMonsterName() + " usa " + ctrl.getMoves().get(0).getName());
 		
 		
 		
-		ctrl.chooseMove(0);
-		System.out.println("VIVO: "+ctrl.getPlayerCurrentMonster().isAlive());
-		if(!ctrl.getPlayerCurrentMonster().isAlive()) {
+		ctrl.chooseMove(this.movesMap.get(e.getSource()));
+		
+		if(!ctrl.isAlive(ctrl.getPlayerCurrentMonsterId())) {
 		    actionText.setText(ctrl.getPlayerCurrentMonsterName() + " is dead");
 		    playerMonster.setText(getCurrentPlayerMonsterData());
 		    System.out.println("STATO BATTLE:"+ctrl.isOver());
@@ -311,28 +341,32 @@ public class BattleFrame {
 		
 		
 		
-	    }
+	    
 	    
 	});
 	this.secondAttButton = new JButton();
-	this.secondAttButton.addActionListener(new ActionListener() {
+	this.secondAttButton.addActionListener(e-> {
 
-	    @Override
-	    public void actionPerformed(ActionEvent e) {
+		   
+		//actionText.setText("" + ctrl.getPlayerCurrentMonsterName() + " usa " + ctrl.getMoves().get(0).getName());
 		
-		ctrl.chooseMove(1);
-		if(!ctrl.getPlayerCurrentMonster().isAlive()) {
+		
+		
+	    	ctrl.chooseMove(this.movesMap.get(e.getSource()));
+		
+		if(!ctrl.isAlive(ctrl.getPlayerCurrentMonsterId())) {
 		    actionText.setText(ctrl.getPlayerCurrentMonsterName() + " is dead");
 		    playerMonster.setText(getCurrentPlayerMonsterData());
-		    System.out.println(ctrl.isOver());
+		    System.out.println("STATO BATTLE:"+ctrl.isOver());
 		    if(ctrl.isOver()) {
 			//ENDING BATTLE player team dead
 		    }else {
 			setMonster();
 			cLayout.show(southPanel, "monsters");
 		    }
-		   
-		} 
+		    
+		    
+		}
 		else {
 		    if(ctrl.isOver()) {
 			//ENDING BATTLE enemy team dead
@@ -343,20 +377,25 @@ public class BattleFrame {
 		    }
 		}
 		
-	    }
+		
+		
+	    
 	    
 	});
 	this.thirdAttButton = new JButton();
-	this.thirdAttButton.addActionListener(new ActionListener() {
+	this.thirdAttButton.addActionListener(e-> {
 
-	    @Override
-	    public void actionPerformed(ActionEvent e) {
+		   
+		//actionText.setText("" + ctrl.getPlayerCurrentMonsterName() + " usa " + ctrl.getMoves().get(0).getName());
 		
-		ctrl.chooseMove(2);
-		if(!ctrl.getPlayerCurrentMonster().isAlive()) {
+		
+		
+	    	ctrl.chooseMove(this.movesMap.get(e.getSource()));
+		
+		if(!ctrl.isAlive(ctrl.getPlayerCurrentMonsterId())) {
 		    actionText.setText(ctrl.getPlayerCurrentMonsterName() + " is dead");
 		    playerMonster.setText(getCurrentPlayerMonsterData());
-		    System.out.println(ctrl.isOver());
+		    System.out.println("STATO BATTLE:"+ctrl.isOver());
 		    if(ctrl.isOver()) {
 			//ENDING BATTLE player team dead
 		    }else {
@@ -376,28 +415,34 @@ public class BattleFrame {
 		    }
 		}
 		
-	    }
+		
+		
+	    
 	    
 	});
 	this.fourthAttButton = new JButton();
-	this.fourthAttButton.addActionListener(new ActionListener() {
+	this.fourthAttButton.addActionListener(e-> {
 
-	    @Override
-	    public void actionPerformed(ActionEvent e) {
+		   
+		//actionText.setText("" + ctrl.getPlayerCurrentMonsterName() + " usa " + ctrl.getMoves().get(0).getName());
 		
-		ctrl.chooseMove(3);
-		if(!ctrl.getPlayerCurrentMonster().isAlive()) {
+		
+		
+	    	ctrl.chooseMove(this.movesMap.get(e.getSource()));
+		
+		if(!ctrl.isAlive(ctrl.getPlayerCurrentMonsterId())) {
 		    actionText.setText(ctrl.getPlayerCurrentMonsterName() + " is dead");
 		    playerMonster.setText(getCurrentPlayerMonsterData());
-		    System.out.println(ctrl.isOver());
+		    System.out.println("STATO BATTLE:"+ctrl.isOver());
 		    if(ctrl.isOver()) {
 			//ENDING BATTLE player team dead
 		    }else {
 			setMonster();
 			cLayout.show(southPanel, "monsters");
 		    }
-		     
-		} 
+		    
+		    
+		}
 		else {
 		    if(ctrl.isOver()) {
 			//ENDING BATTLE enemy team dead
@@ -407,126 +452,135 @@ public class BattleFrame {
 			refresh();  
 		    }
 		}
-	    }
+		
+		
+		
+	    
 	    
 	});
 	this.firstMonButton = new JButton();
-	this.firstMonButton.addActionListener(new ActionListener() {
+	this.firstMonButton.addActionListener(e-> {
 
-	    @Override
-	    public void actionPerformed(ActionEvent e) {
+	   
+		if(itemsFlag) {
+		    
+		    ctrl.useItem(itemUsed, monsterMap.get(e.getSource()) );
+		    this.itemsFlag =false;
+		}
+		else {
+		    ctrl.changeMonster(monsterMap.get(e.getSource()));
+		    System.out.println(ctrl.getPlayerCurrentMonsterName());
+		    this.setImg();
+		}
 		
-		ctrl.changeMonster(0);
-		System.out.println(ctrl.getPlayerCurrentMonsterName());
 		refresh();
-	    }
+	    
 	    
 	});
 	this.secondMonButton = new JButton();
-	this.secondMonButton.addActionListener(new ActionListener() {
+	this.secondMonButton.addActionListener(e-> {
 
-	    @Override
-	    public void actionPerformed(ActionEvent e) {
+		   
+		if(itemsFlag) {
+		    
+		    ctrl.useItem(itemUsed, monsterMap.get(e.getSource()) );
+		    System.out.println(this.monsterMap.get(e.getSource()));
+		    this.itemsFlag =false;
+		}
+		else { System.out.println(this.monsterMap.get(e.getSource()));
+			ctrl.changeMonster(monsterMap.get(e.getSource()));
+			this.setImg();
 		
-		ctrl.changeMonster(1);
-		System.out.println(ctrl.getPlayerCurrentMonsterName());
+		   
+		}
+		
 		refresh();
-	    }
+	    
 	    
 	});
 	this.thirdMonButton = new JButton();
-	this.thirdMonButton.addActionListener(new ActionListener() {
+	this.thirdMonButton.addActionListener(e-> {
 
-	    @Override
-	    public void actionPerformed(ActionEvent e) {
+		   
+		if(itemsFlag) {
+		    
+		    ctrl.useItem(itemUsed, monsterMap.get(e.getSource()) );
+		    this.itemsFlag =false;
+		}
+		else {
+		    ctrl.changeMonster(monsterMap.get(e.getSource()));
+		    System.out.println(ctrl.getPlayerCurrentMonsterName());
+		}
 		
-		ctrl.changeMonster(2);
-		System.out.println(ctrl.getPlayerCurrentMonsterName());
 		refresh();
-	    }
+	    
 	    
 	});
 	this.fourthMonButton = new JButton();
-	this.fourthMonButton.addActionListener(new ActionListener() {
+	this.fourthMonButton.addActionListener(e-> {
 
-	    @Override
-	    public void actionPerformed(ActionEvent e) {
+		   
+		if(itemsFlag) {
+		    
+		    ctrl.useItem(itemUsed, monsterMap.get(e.getSource()) );
+		    this.itemsFlag =false;
+		}
+		else {
+		    ctrl.changeMonster(monsterMap.get(e.getSource()));
+		    System.out.println(ctrl.getPlayerCurrentMonsterName());
+		}
 		
-		ctrl.changeMonster(3);
-		System.out.println(ctrl.getPlayerCurrentMonsterName());
 		refresh();
-	    }
+	    
 	    
 	});
 	
 	this.firstItemsButton = new JButton();
-	this.firstItemsButton.addActionListener(new ActionListener() {
-
-	    @Override
-	    public void actionPerformed(ActionEvent e) {
-		
-		ctrl.useItem(ctrl.getAllPlayerItems().get(0),ctrl.getPlayerTeam().indexOf(ctrl.getPlayerCurrentMonster()));
-		if(ctrl.isOver()) {
-		    //ENDING BY CAPTURE
-		    System.out.println("Catturato");
-		}
-		else {
-		   refresh(); 
-		   System.out.println("Non catturato");
-		}
-		
-	    }
-	    
+	this.firstItemsButton.addActionListener(e -> {
+	    	this.itemUsed = this.itemMap.get(e.getSource());
+	    	this.itemsFlag=true;
+	    	setMonster();
+		actionText.setText("What monster do u choose?");
+		cLayout.show(southPanel, "monsters");
+   
 	});
 	this.secondItemsButton = new JButton();
-	this.secondItemsButton.addActionListener(new ActionListener() {
+	this.secondItemsButton.addActionListener(e -> {
+	    	this.itemUsed = this.itemMap.get(e.getSource());
+	    	this.itemsFlag=true;
+	    	setMonster();
+		actionText.setText("What monster do u choose?");
+		cLayout.show(southPanel, "monsters");
 
-	    @Override
-	    public void actionPerformed(ActionEvent e) {
-		
-		ctrl.useItem(ctrl.getAllPlayerItems().get(1), ctrl.getPlayerTeam().indexOf(ctrl.getPlayerCurrentMonster()));
-		if(ctrl.isOver()) {
-		    //ENDING BY CAPTURE
-		}
-		else {
-		   refresh(); 
-		}
-	    }
-	    
 	});
 	this.thirdItemsButton = new JButton();
-	this.thirdItemsButton.addActionListener(new ActionListener() {
+	this.thirdItemsButton.addActionListener(e -> {
+	    	this.itemUsed = this.itemMap.get(e.getSource());
+	    	this.itemsFlag=true;
+	    	setMonster();
+		actionText.setText("What monster do u choose?");
+		cLayout.show(southPanel, "monsters");
 
-	    @Override
-	    public void actionPerformed(ActionEvent e) {
-		
-		ctrl.useItem(ctrl.getAllPlayerItems().get(2),ctrl.getPlayerTeam().indexOf(ctrl.getPlayerCurrentMonster()));
-		if(ctrl.isOver()) {
-		    //ENDING BY CAPTURE
-		}
-		else {
-		   refresh(); 
-		}
-	    }
-	    
 	});
 	this.fourthItemsButton = new JButton();
-	this.fourthItemsButton.addActionListener(new ActionListener() {
+	this.fourthItemsButton.addActionListener(e -> {
+	    	this.itemUsed = this.itemMap.get(e.getSource());
+	    	if(this.ctrl.isCaptureItem(itemUsed)) {
+	    	    this.ctrl.useItem(itemUsed, 0);
+	    	    if(ctrl.isEnemyCaught()) {
+	    		//ENDING BATTLE
+	    	    }else {
+	    		refresh();
+	    	    }
+	    	    
+	    	}else {
+	    	    this.itemsFlag=true;
+	    	    setMonster();
+	    	    actionText.setText("What monster do u choose?");
+	    	    cLayout.show(southPanel, "monsters");
+	    	}
+	    	
 
-	    @Override
-	    public void actionPerformed(ActionEvent e) {
-		
-		ctrl.useItem(ctrl.getAllPlayerItems().get(3),ctrl.getPlayerTeam().indexOf(ctrl.getPlayerCurrentMonster()));
-		if(ctrl.isOver()) {
-		    //ENDING BY CAPTURE
-		    System.out.println("Catturato");
-		}
-		else {
-		   refresh(); 
-		   System.out.println("Non Catturato");
-		}
-	    }
-	    
 	});
 	
 	this.itemsPanel.add(firstItemsButton);

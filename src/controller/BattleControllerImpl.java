@@ -134,9 +134,11 @@ public class BattleControllerImpl implements BattleController {
     public void useItem(String gameItemName, int monsterId) {
 	GameItems gameItem = monsterBattle.getPlayer().allItems().stream()
 		.filter(i -> i.getNameItem().equals(gameItemName)).findAny().get();
-	monsterBattle.getPlayer().useItem(gameItem, monsterBattle.getPlayer().allMonster().stream().filter(i -> i.getId() == monsterId).findAny().get());
 	if (gameItem.getType() == GameItemTypes.MONSTERBALL) {
+	    monsterBattle.getPlayer().useItem(gameItem, null);
 	    this.enemyCaptured = monsterBattle.capture();
+	}else {
+	    monsterBattle.getPlayer().useItem(gameItem, monsterBattle.getPlayer().allMonster().stream().filter(i -> i.getId() == monsterId).findAny().get());
 	}
     }
 
@@ -151,6 +153,11 @@ public class BattleControllerImpl implements BattleController {
 	return monsterBattle.getPlayer().allItems().stream()
 		.filter(gameItem -> gameItem.getType() != GameItemTypes.EVOLUTIONTOOL)
 		.map(gameItem -> gameItem.getNameItem()).collect(Collectors.toList());
+    }
+    
+    @Override
+    public boolean isCaptureItem(String gameItemName) {
+	return monsterBattle.getPlayer().allItems().stream().filter(i -> i.getNameItem().equals(gameItemName) && i.getType() == GameItemTypes.MONSTERBALL).findAny().isPresent();
     }
 
     @Override
@@ -173,4 +180,6 @@ public class BattleControllerImpl implements BattleController {
     public boolean isOver() {
 	return monsterBattle.isOver();
     }
+
+   
 }
