@@ -32,6 +32,7 @@ public class SelectMosterPanel extends JPanel {
     private void init() {
 	CardLayout c1 = (CardLayout) this.parentPanel.getLayout();
 	this.setLayout(c1);
+	JPanel containerPanel = new JPanel(new BorderLayout());
 	List<String> monsterNames = new ArrayList<String>();
 	monsterNames.add("AA");
 	monsterNames.add("BB");
@@ -42,33 +43,40 @@ public class SelectMosterPanel extends JPanel {
 	JPanel allMonsterPanel = new JPanel(new GridLayout(6, 2));
 	for (String name : monsterNames) {// nome lv vita , img , stats
 	    JLabel singleMonsterLabel = new JLabel();
-	    singleMonsterLabel.setLayout(new BorderLayout());
 	    singleMonsterLabel.setText(name);
-	    singleMonsterLabel.setHorizontalAlignment(SwingConstants.CENTER);
-	    singleMonsterLabel.setVerticalAlignment(SwingConstants.CENTER);
-	    singleMonsterLabel.setBorder(BorderFactory.createLineBorder(Color.blue));
+	    setLabelProp(singleMonsterLabel);
 
 	    JButton checkButton = new JButton("USE ON THIS MONSTER");
 	    checkButton.addActionListener(e -> {
-		this.playerController.useItem(this.itemName, singleMonsterLabel.getText());
+		// TODO usare l'item this.playerController.useItem(this.itemName,
+		// singleMonsterLabel.getText());
 		System.out.println(singleMonsterLabel.getText());
 		this.repaint();
-		
+		//TODO update
 	    });
+
 	    allMonsterPanel.add(singleMonsterLabel);
 	    allMonsterPanel.add(checkButton);
-
 	}
 
 	JButton backButton = new JButton("BACK");
 	backButton.addActionListener(e -> c1.show(this.parentPanel, "ITEMS"));
-	// allMonsterPanel.add(backButton);
-	this.add(allMonsterPanel);
+
+	containerPanel.add(allMonsterPanel, BorderLayout.CENTER);
+	containerPanel.add(backButton, BorderLayout.SOUTH);
+	this.add(containerPanel);
 
     }
 
     public void SetItemName(String ItemName) {
 	this.itemName = ItemName;
+    }
+
+    private void setLabelProp(JLabel label) {
+	label.setLayout(new BorderLayout());
+	label.setBorder(BorderFactory.createLineBorder(Color.blue));
+	label.setHorizontalAlignment(SwingConstants.CENTER);
+	label.setVerticalAlignment(SwingConstants.CENTER);
     }
 
 }

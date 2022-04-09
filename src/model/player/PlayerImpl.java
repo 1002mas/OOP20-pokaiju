@@ -9,6 +9,7 @@ import model.gameitem.GameItems;
 import model.monster.Monster;
 
 public class PlayerImpl implements Player {
+    private static final int STARTMONEY=1000;
     private String name;
     private Gender gender;
     private int trainerNumber;
@@ -24,7 +25,7 @@ public class PlayerImpl implements Player {
 	this.position = startingPosition;
 	this.monster = new ArrayList<Monster>();
 	this.gameItems = new ArrayList<GameItems>();
-	this.money = 500;
+	this.money = STARTMONEY;
 
     }
 

@@ -26,17 +26,17 @@ import model.map.*;
 import model.player.*;
 
 public class NewGamePanel extends JPanel {
-    private JPanel mainPanel;
+    private JPanel parentPanel;
     private PlayerController playerController;
 
     public NewGamePanel(PlayerController playerController, JPanel mainPanel) {
 	this.playerController = playerController;
-	this.mainPanel = mainPanel;
+	this.parentPanel = mainPanel;
 	init();
     }
 
     private void init() {
-	CardLayout c1 = (CardLayout) this.mainPanel.getLayout();
+	CardLayout c1 = (CardLayout) this.parentPanel.getLayout();
 	this.setLayout(new BorderLayout());
 	this.setBorder(BorderFactory.createLineBorder(Color.green));
 
@@ -71,14 +71,13 @@ public class NewGamePanel extends JPanel {
 		    JOptionPane.showMessageDialog(null, "name can't be null", "alert", JOptionPane.WARNING_MESSAGE);
 		} else {
 		    playerController.createNewPlayer(nameField.getText(), (Gender) gender.getSelectedItem(), a);
-		    System.out.println(playerController.getPlayer().toString());
-
 		}
+		 c1.show(parentPanel, GameFrame.MAP_PANEL);
 	    }
 	});
 
 	JButton quitButton = new JButton("BACK TO MENU");
-	quitButton.addActionListener(e -> c1.show(this.mainPanel, GameFrame.LOGIN_PANEL));
+	quitButton.addActionListener(e -> c1.show(this.parentPanel, GameFrame.LOGIN_PANEL));
 
 	JPanel topPanel = new JPanel(new FlowLayout());
 	topPanel.add(quitButton, FlowLayout.LEFT);
