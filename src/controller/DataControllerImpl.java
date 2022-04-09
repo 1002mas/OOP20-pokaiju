@@ -34,6 +34,9 @@ import model.player.PlayerImpl;
 
 public class DataControllerImpl implements DataController {				
 											
+	private final int MAXIMUM_BLOCK_IN_ROW = 20;
+	private final int MAXIMU_BLOCK_IN_COLUMN = 20;
+	
 	private GameMapData gameMapData;			
 	private GameMap gameMap;			
 	private GsonBuilder gsonBuilder;
@@ -221,6 +224,24 @@ public class DataControllerImpl implements DataController {
 			}
 		}
 		
+	}
+
+	@Override
+	public int getMaximumBlocksInRow() {
+		return this.MAXIMUM_BLOCK_IN_ROW;
+	}
+
+	@Override
+	public int getMaximumBlocksInColumn() {
+		return this.MAXIMU_BLOCK_IN_COLUMN;
+	}
+
+	@Override
+	public void deleteNpcData() {
+		File file = new File(NpcsDataPath);
+		if(file.exists()) {
+			file.delete();
+		}
 	}
 
 	

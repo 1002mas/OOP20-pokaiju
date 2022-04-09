@@ -51,4 +51,10 @@ public interface DataController {
     List<Monster> loadMonsters();
     
     List<GameItems> loadItems();
+    
+    int getMaximumBlocksInRow();
+    
+    int getMaximumBlocksInColumn();
+    
+    void deleteNpcData();
 }
