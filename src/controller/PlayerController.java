@@ -47,7 +47,7 @@ public interface PlayerController {
 	
 	public boolean canChangeMap();
 	
-	public void useItem(String item, String m);
+	public void useItem(String item, int idMonster);
 
 	//public ArrayList<Monster> getPlayerMonstrers();
 	
@@ -57,7 +57,7 @@ public interface PlayerController {
 	
 	public boolean buyItem(String i, int price);
 	
-	public boolean addMonster(String m);
+	public boolean addMonster(int idMonster);
 	
 	public String getPlayerName();
 	
@@ -73,31 +73,33 @@ public interface PlayerController {
 	
 	//public void addNpcTrainer(NpcTrainer npc);
      
-	public List<String> getMonstersNames();
+	public String getMonsterNameById(int monsterId);
+	
+	public List<Integer> getMonstersId();
 	
 	public List<String> getPlayerItemsName();
 	
-	public void removeMonster(String monster);
+	public void removeMonster(int monsterId);
 	
-	public int getMonsterExp(String monster);	
+	public int getMonsterExp(int monsterId);	
 
-    public int getMonsterLevel(String monster);
+    public int getMonsterLevel(int monsterId);
 
-    public boolean getMonsterIsWild(String monster);
+    public boolean getMonsterIsWild(int monsterId);
 
-    public int getMonsterMaxHealth(String monster);
+    public int getMonsterMaxHealth(int monsterId);
 
-    public String getMonsterType(String monster);
+    public String getMonsterType(int monsterId);
 
-    public List<String> getMovesNames(String monster);
+    public List<String> getMovesNames(int monsterId);	//??
     
-    public int getMonsterHealth(String monster);
+    public int getMonsterHealth(int monsterId);
     
-    public int getMonsterAttack(String monster);
+    public int getMonsterAttack(int monsterId);
     
-    public int getMonsterDefense(String monster);
+    public int getMonsterDefense(int monsterId);
     
-    public int getMonsterSpeed(String monster);
+    public int getMonsterSpeed(int monsterId);
 
     public int getItemQuantity(String item);
 
@@ -107,7 +109,7 @@ public interface PlayerController {
 
     public void addItem(String item);
     
-    public void save(Player player);
+    public void save();
     
     public boolean load();
     
@@ -115,9 +117,12 @@ public interface PlayerController {
 
     public boolean usableItem(String item);
     
-    int getMaximumBlocksInRow();
+    public int getMaximumBlocksInRow();
     
-    int getMaximumBlocksInColumn();
+    public int getMaximumBlocksInColumn();
     
+    public boolean canEvolveByItem(String nameItem, int monsterId);
+    
+    public Optional<Pair<String, String>> evolveByItem(String nameItem, int monsterId);
 
 }

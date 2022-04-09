@@ -236,6 +236,14 @@ public class DataControllerImpl implements DataController {
 		return this.MAXIMU_BLOCK_IN_COLUMN;
 	}
 
+	@Override
+	public void deleteNpcData() {
+		File file = new File(NpcsDataPath);
+		if(file.exists()) {
+			file.delete();
+		}
+	}
+
 	
 	
 	

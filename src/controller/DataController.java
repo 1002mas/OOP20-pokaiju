@@ -55,4 +55,6 @@ public interface DataController {
     int getMaximumBlocksInRow();
     
     int getMaximumBlocksInColumn();
+    
+    void deleteNpcData();
 }

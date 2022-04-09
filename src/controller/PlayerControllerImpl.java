@@ -14,7 +14,7 @@ import model.player.Player;
 import model.player.PlayerImpl;
 
 public class PlayerControllerImpl implements PlayerController {
-
+	
 	private Player player;
 	private boolean hasPlayerMoved;
 	private List<Monster> gameMonster;
@@ -127,10 +127,12 @@ public class PlayerControllerImpl implements PlayerController {
 		return player.getGender().name();
 	}
 
+	
 	@Override
 	public void createNewPlayer(String name, Gender gender, int trainerNumber) { // --
 		this.player = new PlayerImpl(name, gender, trainerNumber, new Pair<Integer, Integer>(0, 0));
 		this.hasPlayerMoved = false;
+		dataController.deleteNpcData();
 	}
 
 	/*
@@ -142,17 +144,22 @@ public class PlayerControllerImpl implements PlayerController {
 	// --MONSTERS--
 
 	@Override
-	public List<String> getMonstersNames() { // --
-		List<String> playerMonster = new ArrayList<String>();
+	public String getMonsterNameById(int monsterId) { // --
+		return getMonster(monsterId).getName();
+	}
+	
+	public List<Integer> getMonstersId() {
+		List<Integer> playerMonster = new ArrayList<Integer>();
 		for (Monster monster : player.allMonster()) {
-			playerMonster.add(monster.getName());
+			playerMonster.add(monster.getId());
 		}
 		return playerMonster;
 	}
+	
 
-	private Monster getMonster(String name) { // --
+	private Monster getMonster(int monsterId) { // --
 		for (Monster monster : player.allMonster()) {
-			if (monster.getName().equals(name)) {
+			if (monster.getId() == monsterId) {
 				return monster;
 			}
 		}
@@ -160,11 +167,11 @@ public class PlayerControllerImpl implements PlayerController {
 	}
 
 	@Override
-	public boolean addMonster(String m) { // --
+	public boolean addMonster(int monsterId) { // --
 
 		if (!player.isTeamFull()) {
 			for (Monster monster : gameMonster) {
-				if (monster.getName().equals(m)) {
+				if (monster.getId() == monsterId) {
 					player.addMonster(monster);
 				}
 				return true;
@@ -179,38 +186,38 @@ public class PlayerControllerImpl implements PlayerController {
 	}
 
 	@Override
-	public void removeMonster(String monster) { // --
-		player.removeMonster(getMonster(monster));
+	public void removeMonster(int monsterId) { // --
+		player.removeMonster(getMonster(monsterId));
 	}
 
 	@Override
-	public int getMonsterExp(String monster) { // --
-		return getMonster(monster).getExp();
+	public int getMonsterExp(int monsterId) { // --
+		return getMonster(monsterId).getExp();
 	}
 
 	@Override
-	public int getMonsterLevel(String monster) { // --
-		return getMonster(monster).getLevel();
+	public int getMonsterLevel(int monsterId) { // --
+		return getMonster(monsterId).getLevel();
 	}
 
 	@Override
-	public boolean getMonsterIsWild(String monster) { // --
-		return getMonster(monster).getWild();
+	public boolean getMonsterIsWild(int monsterId) { // --
+		return getMonster(monsterId).getWild();
 	}
 
 	@Override
-	public int getMonsterMaxHealth(String monster) { // --
-		return getMonster(monster).getMaxHealth();
+	public int getMonsterMaxHealth(int monsterId) { // --
+		return getMonster(monsterId).getMaxHealth();
 	}
 
 	@Override
-	public String getMonsterType(String monster) { // --
-		return getMonster(monster).getSpecies().getType().toString();
+	public String getMonsterType(int monsterId) { // --
+		return getMonster(monsterId).getSpecies().getType().toString();
 	}
 
 	@Override
-	public List<String> getMovesNames(String monster) { // --
-		Monster m = getMonster(monster);
+	public List<String> getMovesNames(int monsterId) { // --
+		Monster m = getMonster(monsterId);
 		List<String> moves = new ArrayList<>();
 		for (Moves mov : m.getAllMoves()) {
 			moves.add(mov.getName());
@@ -220,32 +227,32 @@ public class PlayerControllerImpl implements PlayerController {
 	}
 
 	@Override
-	public int getMonsterHealth(String monster) { // --
-		return getMonster(monster).getStats().getHealth();
+	public int getMonsterHealth(int monsterId) { // --
+		return getMonster(monsterId).getStats().getHealth();
 	}
 
 	@Override
-	public int getMonsterAttack(String monster) { // --
-		return getMonster(monster).getStats().getAttack();
+	public int getMonsterAttack(int monsterId) { // --
+		return getMonster(monsterId).getStats().getAttack();
 	}
 
 	@Override
-	public int getMonsterDefense(String monster) { // --
-		return getMonster(monster).getStats().getDefense();
+	public int getMonsterDefense(int monsterId) { // --
+		return getMonster(monsterId).getStats().getDefense();
 	}
 
 	@Override
-	public int getMonsterSpeed(String monster) { // --
-		return getMonster(monster).getStats().getSpeed();
+	public int getMonsterSpeed(int monsterId) { // --
+		return getMonster(monsterId).getStats().getSpeed();
 	}
 
 	// --ITEMS--
 
 	@Override
-	public void useItem(String i, String m) { // --
+	public void useItem(String i, int monsterId) { // --
 		Monster monster;
 		GameItems item;
-		if ((monster = getMonster(m)) != null && (item = getItem(i)) != null) {
+		if ((monster = getMonster(monsterId)) != null && (item = getItem(i)) != null) {
 			player.useItem(item, monster);
 		}
 
@@ -316,7 +323,7 @@ public class PlayerControllerImpl implements PlayerController {
 	}
 
 	@Override
-	public void save(Player player) { // --
+	public void save() { // --
 		dataController.saveData(player);
 	}
 
@@ -344,4 +351,23 @@ public class PlayerControllerImpl implements PlayerController {
 	public int getMaximumBlocksInColumn() {
 		return dataController.getMaximumBlocksInColumn();
 	}
+	
+	 @Override
+	public boolean canEvolveByItem(String nameItem, int monsterId) {
+	return player.allMonster().stream().filter(i -> i.getId() == monsterId).findAny().get().canEvolveByItem(
+			player.allItems().stream().filter(i -> i.getNameItem().equals(nameItem)).findAny().get());
+	    }
+
+	    @Override
+	    public Optional<Pair<String, String>> evolveByItem(String nameItem, int monsterId) {
+		if(canEvolveByItem(nameItem, monsterId)) {
+		    Monster monster = player.allMonster().stream().filter(i -> i.getId() == monsterId).findAny().get();
+		    String monsterName = monster.getName();
+		    monster.evolve();
+		    return Optional.of(new Pair<>(monsterName, monster.getName()));
+		}
+		return Optional.empty();
+	    
+		
+	    }
 }
