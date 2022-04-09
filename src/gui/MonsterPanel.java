@@ -3,11 +3,7 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,58 +17,6 @@ import javax.swing.SwingConstants;
 import controller.ImagesLoader;
 import controller.PlayerController;
 
-/*public class MonsterPanel extends JPanel {
-
-    private final CardLayout cardlayout = new CardLayout();
-    private final PlayerController playerController;
-
-    public MonsterPanel(PlayerController playerController) {
-	this.playerController = playerController;
-	init();
-    }
-
-    private void init() {
-	this.setLayout(cardlayout);
-	JPanel allMonsterPanel = new JPanel(new GridLayout(1, 6));
-	List<JPanel> monsterStatsPanel = new ArrayList<>();
-	List<JLabel> listMonsterLabel = new ArrayList<>();
-	List<String> monsterNames = this.playerController.getMonstersNames();
-
-	for (String name : monsterNames) {//  stats
-	    MonsterInfoPanel singleMonsterPanel = new MonsterInfoPanel(this.playerController, this, name);
-	    monsterStatsPanel.add(singleMonsterPanel);
-	}
-	for (String name : monsterNames) {// nome lv vita , img , stats
-	    int index = 1;
-	    JLabel singleMonsterLabel = new JLabel();
-	    singleMonsterLabel.setLayout(new BorderLayout());
-	    singleMonsterLabel.setText("name :" + name + " level: " + this.playerController.getMonsterLevel(name)
-		    + " Hp: " + this.playerController.getHealth(name) + "/"
-		    + this.playerController.getMonsterMaxHealth(name));
-	    singleMonsterLabel.setHorizontalAlignment(SwingConstants.CENTER);
-	    singleMonsterLabel.setVerticalAlignment(SwingConstants.CENTER);
-	    singleMonsterLabel.setBorder(BorderFactory.createLineBorder(Color.blue));
-
-	    JButton statsButton = new JButton("STATS");
-	    statsButton.addActionListener(e -> cardlayout.show(this, Integer.toString(index)));
-
-	    singleMonsterLabel.add(statsButton, BorderLayout.SOUTH);
-	    listMonsterLabel.add(singleMonsterLabel);
-	}
-	for (JLabel singleMonsterLabel : listMonsterLabel) {
-	    allMonsterPanel.add(singleMonsterLabel);
-	}
-
-	this.add(allMonsterPanel, Integer.toString(0));
-
-	for (JPanel p : monsterStatsPanel) {
-	    int index = 1;
-	    this.add(p, Integer.toString(index));
-	}
-
-    }
-}*/
-//codice di prova
 public class MonsterPanel extends JPanel {
 
     private final CardLayout cardlayout = new CardLayout();
@@ -89,23 +33,16 @@ public class MonsterPanel extends JPanel {
 	this.setLayout(cardlayout);
 	JPanel allMonsterPanel = new JPanel(new GridLayout(2, 3));
 	List<JPanel> monsterStatsPanel = new ArrayList<>();
-	// List<JLabel> listMonsterLabel = new ArrayList<>();
-	List<String> monsterNames = new ArrayList<String>();
-	monsterNames.add("AA");
-	monsterNames.add("BB");
-	monsterNames.add("CC");
-	monsterNames.add("DD");
-	monsterNames.add("EE");
-	monsterNames.add("FF");
+	List<Integer> monsterIds = this.playerController.getMonstersId();
 
-	for (String name : monsterNames) {// stats
-	    MonsterInfoPanel monsterInfoPanel = new MonsterInfoPanel(this);
+	for (Integer id : monsterIds) {// stats
+	    MonsterInfoPanel monsterInfoPanel = new MonsterInfoPanel(this, id, playerController, imgLoad);
 	    monsterStatsPanel.add(monsterInfoPanel);
 	}
 
 	int index = 1;
-	for (String name : monsterNames) {// nome lv vita , img , stats
-	    allMonsterPanel.add(setMonsterPanel(name, index));
+	for (Integer id : monsterIds) {// nome lv vita , img , stats
+	    allMonsterPanel.add(setMonsterPanel(id, index));
 	    index++;
 	}
 
@@ -123,17 +60,20 @@ public class MonsterPanel extends JPanel {
 	cardlayout.show(this, panelName);
     }
 
-    private JPanel setMonsterPanel(String monsterName, int index) {
+    private JPanel setMonsterPanel(int monsterId, int index) {
 	JPanel panel = new JPanel(new BorderLayout());
 	JLabel singleMonsterInfoLabel = new JLabel();
 	JLabel monsterImgLabel = new JLabel();
 	JButton statsButton = new JButton("STATS");
-	//ImageIcon iconLogo = new ImageIcon("res/monster/bibol.png");//TODO usare imagerloader
 
-	singleMonsterInfoLabel.setText("name :" + monsterName + " level: " + " Hp: ");
+	String stats = "<html>" + "name : " + this.playerController.getMonsterNameById(monsterId) + "<br/>" + "Level : "
+		+ playerController.getMonsterLevel(monsterId) + "<br/>" + "Hp : "
+		+ playerController.getMonsterHealth(monsterId) + "/" + playerController.getMonsterMaxHealth(monsterId)
+		+ "</html>";
+	singleMonsterInfoLabel.setText(stats);
 	setLabelProp(singleMonsterInfoLabel);
 
-	monsterImgLabel.setIcon(new ImageIcon(imgLoad.getMonster("bibol")));
+	monsterImgLabel.setIcon(new ImageIcon(imgLoad.getMonster(this.playerController.getMonsterNameById(monsterId))));
 	setLabelProp(monsterImgLabel);
 
 	statsButton.addActionListener(e -> cardlayout.show(this, Integer.toString(index)));

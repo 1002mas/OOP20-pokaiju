@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import controller.PlayerController;
 
 public class LoginPanel extends JPanel {
+    private static final long serialVersionUID = -7589477617567743318L;
     private final JButton continueGame = new JButton(" CONTINUE ");
     private final JButton newGame = new JButton(" NEW GAME ");
     private final JButton quitGame = new JButton(" QUIT GAME ");
@@ -22,7 +23,7 @@ public class LoginPanel extends JPanel {
 
     private void init() {
 	this.setLayout(new GridBagLayout());
-	//continueGame.setEnabled(continueButtonVisibility()); TODO
+	continueGame.setEnabled(continueButtonVisibility());
 	final GridBagConstraints cons = new GridBagConstraints();
 	cons.gridy = 0;
 	cons.fill = GridBagConstraints.HORIZONTAL;

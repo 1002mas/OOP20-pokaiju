@@ -22,7 +22,6 @@ import javax.swing.JTable;
 import controller.PlayerController;
 import model.gameitem.*;
 
-
 public class GameItemPanel extends JPanel {
     private final PlayerController playerController;
     private final CardLayout cardlayout = new CardLayout();
@@ -34,52 +33,41 @@ public class GameItemPanel extends JPanel {
 
     private void init() {
 
-	// List<GameItems> listGameItems = this.playerController.getItemList();
 	this.setLayout(cardlayout);
 
 	JPanel containerPanel = new JPanel(new BorderLayout());
-	List<GameItems> listGameItems = new ArrayList<>();
-	listGameItems.add(new GameItemImpl("Monsterball", 10, "catch 50%"));
-	listGameItems.add(new HealingItem("Heal3123", 5, "heal 10as0 hp", 50));
-	listGameItems.add(new HealingItem("Heal123", 1, "heal 10sda0 hp", 20));
-	listGameItems.add(new GameItemImpl("Masterball", 2, "catch 100%"));
-	listGameItems.add(new HealingItem("Heal", 10, "heal 100 hp"));
-	listGameItems.add(new GameItemImpl("Monsterball", 10, "catch 50%"));
-	listGameItems.add(new HealingItem("Heal3123", 5, "heal 10as0 hp", 50));
-	listGameItems.add(new HealingItem("Heal123", 1, "heal 10sda0 hp", 20));
-	listGameItems.add(new GameItemImpl("Masterball", 2, "catch 100%"));
-	listGameItems.add(new HealingItem("Heal", 10, "heal 100 hp"));
+	List<String> listItemsName = this.playerController.getPlayerItemsName();
 
 	JPanel topPanel = new JPanel(new GridLayout(1, 5));
 	setTopPanel(topPanel);
 
 	// boxlayout version
 
-	/*JPanel subPanel = new JPanel();
-	BoxLayout jbL = new BoxLayout(subPanel, BoxLayout.PAGE_AXIS);
-	subPanel.setLayout(jbL);
-
-	SelectMosterPanel selection = new SelectMosterPanel(playerController, this);
-
-	for (GameItems item : listGameItems) {
-	    subPanel.add(rowPanel(item, selection));
-	}*/
+	/*
+	 * JPanel subPanel = new JPanel(); BoxLayout jbL = new BoxLayout(subPanel,
+	 * BoxLayout.PAGE_AXIS); subPanel.setLayout(jbL);
+	 * 
+	 * SelectMosterPanel selection = new SelectMosterPanel(playerController, this);
+	 * 
+	 * for (GameItems item : listGameItems) { subPanel.add(rowPanel(item,
+	 * selection)); }
+	 */
 
 	// gridlayout version
 	JPanel subPanel = new JPanel(new GridLayout(0, 5));
 	SelectMosterPanel selection = new SelectMosterPanel(playerController, this);
 
-	for (GameItems item : listGameItems) {
+	for (String itemName : listItemsName) {
 	    JLabel nameItem = new JLabel();
 	    JLabel quantity = new JLabel();
 	    JLabel description = new JLabel();
 	    JLabel type = new JLabel();
 	    JButton useItemButton = new JButton("USE THIS ITEM");
-	    setButtonProp(useItemButton, item);
-	    nameItem.setText(item.getNameItem());
-	    quantity.setText(Integer.toString(item.getNumber()));
-	    description.setText(item.getDescription());
-	    type.setText(item.getType().toString());
+	    setButtonProp(useItemButton, itemName);
+	    nameItem.setText(itemName);
+	    quantity.setText(Integer.toString(this.playerController.getItemQuantity(itemName)));
+	    description.setText(this.playerController.getItemDescription(itemName));
+	    type.setText(this.playerController.getItemtype(itemName).toString());
 	    useItemButton.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 		    selection.SetItemName(nameItem.getText());
@@ -108,8 +96,8 @@ public class GameItemPanel extends JPanel {
 	init();
     }
 
-    private void setButtonProp(JButton button, GameItems item) {
-	if (item.getType() == GameItemTypes.MONSTERBALL) {
+    private void setButtonProp(JButton button, String itemName) {
+	if (this.playerController.getItemtype(itemName) == GameItemTypes.MONSTERBALL.name()) {
 	    button.setEnabled(false);
 	}
     }
@@ -132,36 +120,25 @@ public class GameItemPanel extends JPanel {
 	topPanel.add(useLabel);
     }
 
-    private JPanel rowPanel(GameItems item, SelectMosterPanel selection) {
-	// create here columns
-	JPanel panel = new JPanel();
-	panel.setLayout(new BoxLayout(panel, BoxLayout.LINE_AXIS));
-	panel.setBorder(BorderFactory.createLineBorder(Color.blue));
-	JLabel nameItem = new JLabel();
-	JLabel quantity = new JLabel();
-	JLabel description = new JLabel();
-	JLabel type = new JLabel();
-	JButton useItemButton = new JButton("USE THIS ITEM");
-	setButtonProp(useItemButton, item);
-	nameItem.setText(item.getNameItem());
-	quantity.setText(Integer.toString(item.getNumber()));
-	description.setText(item.getDescription());
-	type.setText(item.getType().toString());
-	useItemButton.addActionListener(new ActionListener() {
-	    public void actionPerformed(ActionEvent e) {
-		selection.SetItemName(nameItem.getText());
-		changePanel("SELECTIONPANEL");
-	    }
-	});
-	panel.add(nameItem);
-	panel.add(quantity);
-	panel.add(description);
-	panel.add(type);
-	panel.add(useItemButton);
-	//panel.add(Box.createRigidArea(new Dimension(0, 20)));// horizontal span
-	return panel;
-    }
-    
+    /*
+     * private JPanel rowPanel(GameItems item, SelectMosterPanel selection) { //
+     * create here columns JPanel panel = new JPanel(); panel.setLayout(new
+     * BoxLayout(panel, BoxLayout.LINE_AXIS));
+     * panel.setBorder(BorderFactory.createLineBorder(Color.blue)); JLabel nameItem
+     * = new JLabel(); JLabel quantity = new JLabel(); JLabel description = new
+     * JLabel(); JLabel type = new JLabel(); JButton useItemButton = new
+     * JButton("USE THIS ITEM"); setButtonProp(useItemButton, item);
+     * nameItem.setText(item.getNameItem());
+     * quantity.setText(Integer.toString(item.getNumber()));
+     * description.setText(item.getDescription());
+     * type.setText(item.getType().toString()); useItemButton.addActionListener(new
+     * ActionListener() { public void actionPerformed(ActionEvent e) {
+     * selection.SetItemName(nameItem.getText()); changePanel("SELECTIONPANEL"); }
+     * }); panel.add(nameItem); panel.add(quantity); panel.add(description);
+     * panel.add(type); panel.add(useItemButton);
+     * //panel.add(Box.createRigidArea(new Dimension(0, 20)));// horizontal span
+     * return panel; }
+     */
 
 }
 

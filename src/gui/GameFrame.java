@@ -24,8 +24,6 @@ import controller.PlayerController;
 import model.Pair;
 
 public class GameFrame extends JFrame {
-    // private static final int HEIGHT = 1280;
-    // private static final int WIDTH = 720;
     private static final long serialVersionUID = -7927156597267134363L;
     static final String NEW_GAME_PANEL = "new game";
     static final String MAP_PANEL = "map game";
@@ -43,7 +41,7 @@ public class GameFrame extends JFrame {
 	this.playerController = playerController;
 	this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	this.setResizable(false);
-	
+
 	size = getMainPanelSize();
 	// TODO get cells number from controller
 	imgLoad = new ImagesLoader(size, size, 20, 20);
@@ -56,7 +54,7 @@ public class GameFrame extends JFrame {
 
 	// Pannello di quando clicco continua gioco
 	loginPanel.getContinue().addActionListener(e -> {
-	    // TODO caricare i dati 读取存档 this.playerController.load();
+	    this.playerController.load();
 	    if (!subPanels.containsKey(MAP_PANEL)) {
 		JPanel gamePanel = buildMapPanel();
 		mainPanel.add(gamePanel, MAP_PANEL);
@@ -222,11 +220,9 @@ public class GameFrame extends JFrame {
 
 	save.addActionListener(new ActionListener() {
 	    public void actionPerformed(ActionEvent e) {
-		// TODO salvataggio
-
+		playerController.save();
 	    }
 	});
-	// this.playerController.save(null); TODO
 	backToMainMenu.addActionListener(new ActionListener() {
 	    public void actionPerformed(ActionEvent e) {
 		int result = JOptionPane.showConfirmDialog(null, "Sure? You want to exit?", "Warning",
@@ -234,9 +230,6 @@ public class GameFrame extends JFrame {
 		if (result == JOptionPane.YES_OPTION) {
 		    changePanel(LOGIN_PANEL);
 		} else if (result == JOptionPane.NO_OPTION) {
-
-		} else {
-
 		}
 	    }
 

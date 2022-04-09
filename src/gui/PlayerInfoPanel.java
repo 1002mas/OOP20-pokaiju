@@ -2,17 +2,16 @@ package gui;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.GridLayout;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.Border;
 
 import controller.PlayerController;
 
-/*public class PlayerInfoPanel extends JPanel {
+public class PlayerInfoPanel extends JPanel {
+    private static final long serialVersionUID = 8776923375870422485L;
     private final PlayerController playerController;
 
     public PlayerInfoPanel(PlayerController playerController) {
@@ -26,27 +25,6 @@ import controller.PlayerController;
 	JLabel trainerNumber = new JLabel("Trainer number : " + this.playerController.getTrainerNumber());
 	JLabel gender = new JLabel("Gender : " + this.playerController.getGender());
 	JLabel money = new JLabel("Money : " + this.playerController.getMoney() + " $ ");
-	this.add(playerName);
-	this.add(trainerNumber);
-	this.add(gender);
-	this.add(money);
-    }
-}*/
-//codice di prova
-public class PlayerInfoPanel extends JPanel {
-    private final PlayerController playerController;
-
-    public PlayerInfoPanel(PlayerController playerController) {
-	this.playerController = playerController;
-	init();
-    }
-
-    private void init() {
-	this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-	JLabel playerName = new JLabel("Name : ");
-	JLabel trainerNumber = new JLabel("Trainer number : ");
-	JLabel gender = new JLabel("Gender : ");
-	JLabel money = new JLabel("Money : ");
 	setLabelProperties(playerName);
 	setLabelProperties(trainerNumber);
 	setLabelProperties(gender);
