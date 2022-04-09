@@ -8,7 +8,7 @@ public class GuiTest {
     public static void main(String[] args) {
 
 	
-	GameFrame newGame = new GameFrame(new PlayerControllerImpl(null));
+	GameFrame newGame = new GameFrame(/*new PlayerControllerImpl(null)*/null);
 	
     }
 

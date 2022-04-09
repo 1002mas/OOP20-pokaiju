@@ -22,7 +22,7 @@ public class LoginPanel extends JPanel {
 
     private void init() {
 	this.setLayout(new GridBagLayout());
-	continueGame.setEnabled(continueButtonVisibility());
+	//continueGame.setEnabled(continueButtonVisibility()); TODO
 	final GridBagConstraints cons = new GridBagConstraints();
 	cons.gridy = 0;
 	cons.fill = GridBagConstraints.HORIZONTAL;

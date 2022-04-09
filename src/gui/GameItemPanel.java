@@ -22,7 +22,7 @@ import javax.swing.JTable;
 import controller.PlayerController;
 import model.gameitem.*;
 
-//codice di prova
+
 public class GameItemPanel extends JPanel {
     private final PlayerController playerController;
     private final CardLayout cardlayout = new CardLayout();
@@ -32,9 +32,6 @@ public class GameItemPanel extends JPanel {
 	init();
     }
 
-    /**
-     * 
-     */
     private void init() {
 
 	// List<GameItems> listGameItems = this.playerController.getItemList();
@@ -117,7 +114,7 @@ public class GameItemPanel extends JPanel {
 	}
     }
 
-    private void changePanel(String panelName) {
+    public void changePanel(String panelName) {
 	cardlayout.show(this, panelName);
     }
 
@@ -163,8 +160,8 @@ public class GameItemPanel extends JPanel {
 	panel.add(useItemButton);
 	//panel.add(Box.createRigidArea(new Dimension(0, 20)));// horizontal span
 	return panel;
-
     }
+    
 
 }
 

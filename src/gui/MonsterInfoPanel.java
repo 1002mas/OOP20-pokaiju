@@ -8,12 +8,14 @@ import java.awt.GridLayout;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import controller.PlayerController;
+
 //codice di giusto(teoricamente)
 /*public class MonsterInfoPanel extends JPanel {
 
@@ -69,29 +71,41 @@ public class MonsterInfoPanel extends JPanel {
     private void init() {
 	CardLayout c1 = (CardLayout) this.mainPanel.getLayout();
 	this.setLayout(c1);
+	JPanel containerPanel = new JPanel(new BorderLayout());
+
 	JPanel singleMonsterPanel = new JPanel(new GridLayout(1, 3));
 
 	JLabel infoLabel = new JLabel();
 	String stats = "<html> hello <br/> ciao </br/> hola </html>";
 	infoLabel.setText(stats);
-	infoLabel.setHorizontalAlignment(SwingConstants.CENTER);
-	infoLabel.setVerticalAlignment(SwingConstants.CENTER);
-	infoLabel.setBorder(BorderFactory.createLineBorder(Color.red));
+	setLabelProp(infoLabel);
+	
+	JLabel monsterImgLabel = new JLabel();
+	ImageIcon iconLogo = new ImageIcon("res/monster/bibol.png");
+	monsterImgLabel.setIcon(iconLogo);
+	setLabelProp(monsterImgLabel);
 
 	JLabel movesLabel = new JLabel();
 	String moves = "<html>" + "Moves Learned <br/>" + "fireball" + "<br/>" + "waterball" + "</html>";
 	movesLabel.setText(moves);
-	movesLabel.setHorizontalAlignment(SwingConstants.CENTER);
-	movesLabel.setVerticalAlignment(SwingConstants.CENTER);
-	movesLabel.setBorder(BorderFactory.createLineBorder(Color.red));
+	setLabelProp(movesLabel);
 
 	JButton backButton = new JButton("Back");
 	backButton.addActionListener(e -> c1.show(this.mainPanel, Integer.toString(0)));
 
-	singleMonsterPanel.add(backButton);
 	singleMonsterPanel.add(infoLabel);
+	singleMonsterPanel.add(monsterImgLabel);
 	singleMonsterPanel.add(movesLabel);
-	this.add(singleMonsterPanel);
+	
+	containerPanel.add(backButton,BorderLayout.SOUTH); 
+	containerPanel.add(singleMonsterPanel,BorderLayout.CENTER);
+	this.add(containerPanel);
 
+    }
+
+    private void setLabelProp(JLabel label) {
+	label.setHorizontalAlignment(SwingConstants.CENTER);
+	label.setVerticalAlignment(SwingConstants.CENTER);
+	label.setBorder(BorderFactory.createLineBorder(Color.red));
     }
 }
