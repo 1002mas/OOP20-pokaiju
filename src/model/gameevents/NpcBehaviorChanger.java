@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 
 import model.Pair;
-import model.map.GameMapData;
 import model.npc.NpcSimple;
 
 public class NpcBehaviorChanger extends AbstractGameEvent {
@@ -36,6 +35,11 @@ public class NpcBehaviorChanger extends AbstractGameEvent {
 
     }
 
+    /**
+     * This function is used to logically delete a npc from the map
+     * @param npc 
+     * @param visibility true to make it visible, false to hide it
+     */
     public void addNpcVisibilityChange(NpcSimple npc, boolean visibility) {
 	addNpc(npc, Optional.empty(), Optional.empty(), Optional.of(visibility));
     }
@@ -45,16 +49,16 @@ public class NpcBehaviorChanger extends AbstractGameEvent {
 	for (int i = 0; i < npcs.size(); i++) {
 	    // position change
 	    if (npcsPositions.get(i).isPresent()) {
-		this.npcs.get(i).changeNpcPosition(npcsPositions.get(i).get());
+		npcs.get(i).changeNpcPosition(npcsPositions.get(i).get());
 	    }
 	    // dialog change
 	    if (npcsText.get(i).isPresent()) {
-		// TODO set dialog
+		npcs.get(i).setDialogueText(npcsText.get(i).get());
 	    }
 	    // visibilty change
 	    if (npcsShow.get(i).isPresent()) {
-		// TODO set visibility and canInteract(add these functions to npc)
-
+		npcs.get(i).setEnabled(npcsShow.get(i).get());
+		npcs.get(i).setVisible(npcsShow.get(i).get());
 	    }
 	}
     }
