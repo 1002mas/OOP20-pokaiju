@@ -17,6 +17,7 @@ import controller.PlayerController;
 import controller.PlayerControllerImpl;
 
 public class SelectMosterPanel extends JPanel {
+    private static final long serialVersionUID = 8185263432699574937L;
     private final PlayerController playerController;
     private final JPanel parentPanel;
     private String itemName;
@@ -45,9 +46,9 @@ public class SelectMosterPanel extends JPanel {
 
 	    JButton checkButton = new JButton("USE ON THIS MONSTER");
 	    checkButton.addActionListener(e -> {
-		// TODO usare l'item this.playerController.useItem(this.itemName,
+		this.playerController.useItem(this.itemName, monsterId);
 		this.repaint();
-		// TODO update
+		update();
 	    });
 
 	    allMonsterPanel.add(singleMonsterLabel);
@@ -63,8 +64,13 @@ public class SelectMosterPanel extends JPanel {
 
     }
 
-    public void SetItemName(String ItemName) {
+    public void setItemName(String ItemName) {
 	this.itemName = ItemName;
+    }
+
+    private void update() {
+	this.removeAll();
+	init();
     }
 
     private void setLabelProp(JLabel label) {

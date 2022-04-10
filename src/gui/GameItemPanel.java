@@ -23,6 +23,7 @@ import controller.PlayerController;
 import model.gameitem.*;
 
 public class GameItemPanel extends JPanel {
+    private static final long serialVersionUID = -5473716174748395743L;
     private final PlayerController playerController;
     private final CardLayout cardlayout = new CardLayout();
 
@@ -70,7 +71,7 @@ public class GameItemPanel extends JPanel {
 	    type.setText(this.playerController.getItemtype(itemName).toString());
 	    useItemButton.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
-		    selection.SetItemName(nameItem.getText());
+		    selection.setItemName(nameItem.getText());
 		    changePanel("SELECTIONPANEL");
 		}
 	    });
