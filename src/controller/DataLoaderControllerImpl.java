@@ -306,6 +306,7 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 		if (this.monsters == null) {
 			monsters = new ArrayList<>();
 			loadMonsters();
+			
 
 		}
 		return this.monsters;

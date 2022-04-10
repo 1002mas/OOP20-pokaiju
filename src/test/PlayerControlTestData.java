@@ -162,7 +162,7 @@ public class PlayerControlTestData {
 	        }
 		 	*/
 		 
-		 dlc.loadMoves();	//ritornare lista
+		 dlc.getMoves();	//ritornare lista
 		 
 	       /* 
 	      //---RREADIG---
