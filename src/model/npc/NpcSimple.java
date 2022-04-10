@@ -1,8 +1,10 @@
 package model.npc;
 
+import java.util.List;
 import java.util.Optional;
 
 import model.Pair;
+import model.gameevents.GameEvent;
 
 public interface NpcSimple {
 
@@ -17,6 +19,14 @@ public interface NpcSimple {
      * @return npc statement if it is a talking one
      */
     Optional<String> interactWith();
+
+    /**
+     * After calling the function {@ #interactWith() interactWith} an event may have been triggered.
+     * This function returns the triggered event. 
+     * 
+     * @return the event if any is triggered, Optional.empty otherwise
+     */
+    Optional<GameEvent> getTriggeredEvent();
 
     /**
      * 
@@ -70,4 +80,18 @@ public interface NpcSimple {
      * @param enabled
      */
     void setEnabled(boolean enabled);
+
+    /**
+     * Add an event that may trigger interacting with the player.
+     * 
+     * @param gameEvent the game event
+     */
+    void addGameEvent(GameEvent gameEvent);
+
+    /**
+     * 
+     * @return a list of game events triggered by interacting with the npc
+     */
+    List<GameEvent> getGameEvents();
+
 }

@@ -1,6 +1,5 @@
 package model.npc;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import model.Pair;
@@ -11,7 +10,7 @@ public class NpcTrainerImpl extends NpcSimpleImpl implements NpcTrainer {
     private List<Monster> monstersOwned;
     private boolean isDefeated;
 
-    public NpcTrainerImpl(String name, TypeOfNpc typeOfNpc, ArrayList<String> sentences,
+    public NpcTrainerImpl(String name, TypeOfNpc typeOfNpc, List<String> sentences,
 	    Pair<Integer, Integer> position, boolean isVisible, boolean isEnabled, List<Monster> monstersOwned,
 	    boolean isDefeated) {
 	super(name, typeOfNpc, sentences, position, isVisible, isEnabled);

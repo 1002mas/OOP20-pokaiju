@@ -1,6 +1,6 @@
 package model.npc;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import model.Pair;
@@ -10,7 +10,7 @@ public class NpcMerchantImpl extends NpcSimpleImpl implements NpcMerchant {
 
     private Map<GameItem, Integer> inventory;
 
-    public NpcMerchantImpl(String name, TypeOfNpc typeOfNpc, ArrayList<String> sentences,
+    public NpcMerchantImpl(String name, TypeOfNpc typeOfNpc, List<String> sentences,
 	    Pair<Integer, Integer> position, boolean isVisible, boolean isEnabled, Map<GameItem, Integer> inventory) {
 	super(name, typeOfNpc, sentences, position, isVisible, isEnabled);
 	this.inventory = inventory;
