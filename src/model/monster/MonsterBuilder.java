@@ -8,41 +8,45 @@ import model.battle.Moves;
 public interface MonsterBuilder {
 
     /**
-     * Build monster's level
+     * Build monster level
      * 
-     * @param lvl
+     * @param monster level
      * @throws IllegalArgumentException if level is under min level or over max level
      * @return a MonsterBuilder
      */
-    MonsterBuilder level(int lvl);
+    MonsterBuilder level(int level);
 
     /**
+     * Build monster health
      * 
-     * @param health
-     * @return
+     * @param monster health
+     * @return a MonsterBuilder
      */
     MonsterBuilder health(int health);
     
     /**
+     * Build monster attack
      * 
-     * @param atk
-     * @return
+     * @param monster attack
+     * @return a MonsterBuilder
      */
-    MonsterBuilder attack(int atk);    
+    MonsterBuilder attack(int attack);    
    
     /**
+     * Build monster defense
      * 
-     * @param dfs
-     * @return
+     * @param monster defense
+     * @return a MonsterBuilder
      */
-    MonsterBuilder defense(int dfs);
+    MonsterBuilder defense(int defense);
     
     /**
+     * Build monster speed
      * 
-     * @param spd
-     * @return
+     * @param monster speed
+     * @return a MonsterBuilder
      */
-    MonsterBuilder speed(int spd);
+    MonsterBuilder speed(int speed);
     
     /**
      * Build monster's experience
@@ -78,6 +82,8 @@ public interface MonsterBuilder {
     MonsterBuilder species(MonsterSpecies species);
 
     /**
+     * Build monster
+     * 
      * @throws IllegalStateException when obligatory parameters are missing
      * @return monster builded
      */

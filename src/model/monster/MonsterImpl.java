@@ -174,6 +174,21 @@ public class MonsterImpl implements Monster {
     }
 
     @Override
+    public void restoreMovePP(Moves move) {
+	int index = getIndexOfMove(move);
+	Pair<Moves, Integer> p = movesList.get(index);
+	movesList.remove(index);
+	movesList.add(index, new Pair<>(p.getFirst(), p.getFirst().getPP()));
+    }
+
+    @Override
+    public void restoreAllMovesPP() {
+	for(var p : movesList) {
+	    restoreMovePP(p.getFirst());
+	}
+    }
+
+    @Override
     public void decMovePP(Moves move) {
 	int index = getIndexOfMove(move);
 	Pair<Moves, Integer> p = movesList.get(index);

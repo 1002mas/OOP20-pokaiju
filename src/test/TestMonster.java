@@ -47,13 +47,13 @@ public class TestMonster {
 
 	// LEVEL TEST INITIALIZATION
 	MonsterSpecies secondEvolution = new MonsterSpeciesBuilderImpl().name("Pippo3").info("Info3")
-		.type(MonsterType.FIRE).health(50).attack(10).defense(10).speed(10).allMoves(allMoves).build();
+		.monsterType(MonsterType.FIRE).health(50).attack(10).defense(10).speed(10).allMoves(allMoves).build();
 
 	MonsterSpecies firstEvolution = new MonsterSpeciesBuilderImpl().name("Pippo2").info("Info2")
-		.type(MonsterType.FIRE).health(50).attack(10).defense(10).speed(10).evolution(secondEvolution)
+		.monsterType(MonsterType.FIRE).health(50).attack(10).defense(10).speed(10).evolution(secondEvolution)
 		.evolutionLevel(SECOND_EVOLUTION_LEVEL).allMoves(allMoves).build();
 
-	MonsterSpecies species = new MonsterSpeciesBuilderImpl().name("Pippo").info("Info").type(MonsterType.FIRE)
+	MonsterSpecies species = new MonsterSpeciesBuilderImpl().name("Pippo").info("Info").monsterType(MonsterType.FIRE)
 		.health(50).attack(10).defense(10).speed(10).evolution(firstEvolution)
 		.evolutionLevel(FIRST_EVOLUTION_LEVEL).allMoves(allMoves).build();
 
@@ -64,10 +64,10 @@ public class TestMonster {
 	GameItem neededItem = new EvolutionItem("PietraPaperino", 1, "desc");
 
 	MonsterSpecies firstEvolutionByItem = new MonsterSpeciesBuilderImpl().name("Paperino2").info("Info2")
-		.type(MonsterType.WATER).health(50).attack(10).defense(10).speed(10).allMoves(allMoves).build();
+		.monsterType(MonsterType.WATER).health(50).attack(10).defense(10).speed(10).allMoves(allMoves).build();
 
 	MonsterSpecies speciesByItem = new MonsterSpeciesBuilderImpl().name("Paperino").info("Info")
-		.type(MonsterType.WATER).health(50).attack(10).defense(10).speed(10).evolution(firstEvolutionByItem)
+		.monsterType(MonsterType.WATER).health(50).attack(10).defense(10).speed(10).evolution(firstEvolutionByItem)
 		.gameItem(neededItem).allMoves(allMoves).build();
 
 	monsterByItem = new MonsterBuilderImpl().health(50).attack(50).defense(50).speed(50).exp(0).level(1)
@@ -76,14 +76,14 @@ public class TestMonster {
 	// FIRST EVOLUTION WITH LEVEL, SECOND WITH ITEM INITIALIZATION
 
 	MonsterSpecies secondEvolutionByLevelAndItem = new MonsterSpeciesBuilderImpl().name("Topolino3").info("Info3")
-		.type(MonsterType.GRASS).health(50).attack(10).defense(10).speed(10).allMoves(allMoves).build();
+		.monsterType(MonsterType.GRASS).health(50).attack(10).defense(10).speed(10).allMoves(allMoves).build();
 
 	MonsterSpecies firstEvolutionByLevelAndItem = new MonsterSpeciesBuilderImpl().name("Topolino2").info("Info2")
-		.type(MonsterType.GRASS).health(50).attack(10).defense(10).speed(10)
+		.monsterType(MonsterType.GRASS).health(50).attack(10).defense(10).speed(10)
 		.evolution(secondEvolutionByLevelAndItem).gameItem(neededItem).allMoves(allMoves).build();
 
 	MonsterSpecies speciesByLevelAndItem = new MonsterSpeciesBuilderImpl().name("Topolino").info("Info")
-		.type(MonsterType.GRASS).health(50).attack(10).defense(10).speed(10)
+		.monsterType(MonsterType.GRASS).health(50).attack(10).defense(10).speed(10)
 		.evolution(firstEvolutionByLevelAndItem).evolutionLevel(FIRST_EVOLUTION_LEVEL).allMoves(allMoves)
 		.build();
 
