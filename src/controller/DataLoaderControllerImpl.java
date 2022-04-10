@@ -11,7 +11,6 @@ import java.util.Optional;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import model.Pair;
 import model.battle.MovesData;
 import model.battle.MovesDataImpl;
 import model.gameitem.EvolutionItem;
@@ -82,7 +81,7 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 				MovesData m = gson.fromJson(stringRead, MovesDataImpl.class);
 				this.movesData.add(m);
 			} catch (IOException e) {
-				 e.printStackTrace();
+				e.printStackTrace();
 			}
 		}
 
@@ -109,7 +108,7 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 				this.npcs.add(npc);
 
 			} catch (IOException e) {
-				 e.printStackTrace();
+				e.printStackTrace();
 			}
 
 		}
@@ -124,7 +123,7 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 						n.getTranslatedMonsterList(monsters), n.getPosition());
 				this.npcs.add(npc);
 			} catch (IOException e) {
-				 e.printStackTrace();
+				e.printStackTrace();
 			}
 
 		}
@@ -134,11 +133,12 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 
 			try (final BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
 				String stringRead = reader.readLine();
-				NpcMerchant npc = gson.fromJson(stringRead, NpcMerchantImpl.class);
+				NpcMerchantSupport n = gson.fromJson(stringRead, NpcMerchantSupport.class);
+				NpcMerchant npc = new NpcMerchantImpl(n.getName(), n.getTypeOfNpc(), n.getSentences(), 
+										n.getPosition(), n.getTranslatedGameItem(gameItems));
 				this.npcs.add(npc);
-				// TODO translate
 			} catch (IOException e) {
-				 e.printStackTrace();
+				e.printStackTrace();
 			}
 
 		}
@@ -150,8 +150,6 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 		if (this.npcs == null) {
 			npcs = new ArrayList<>();
 			loadNpcs();
-
-			// TODO npcMerchant and ncpTrainer
 		}
 		return this.npcs;
 	}
@@ -168,7 +166,7 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 				MonsterSpeciesSupport mss = gson.fromJson(stringRead, MonsterSpeciesSupport.class);
 				mssList.add(mss);
 			} catch (IOException e) {
-				 e.printStackTrace();
+				e.printStackTrace();
 			}
 
 		}
@@ -270,7 +268,7 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 
 				this.gameItems.add(gameItem);
 			} catch (IOException e) {
-				 e.printStackTrace();
+				e.printStackTrace();
 			}
 		}
 	}
@@ -299,7 +297,7 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 				// TODO use MonsterBuildier ?
 				this.monsters.add(monster);
 			} catch (IOException e) {
-				 e.printStackTrace();
+				e.printStackTrace();
 			}
 		}
 	}

@@ -46,6 +46,7 @@ public class NpcTrainerSupport {
 			for (Monster md : list) {
 				if (md.getId() == id) {
 					monster.add(md);
+					break;
 				}
 			}
 		}
