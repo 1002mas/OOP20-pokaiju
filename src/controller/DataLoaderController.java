@@ -16,7 +16,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import model.battle.Moves;
-import model.battle.MovesData;
+import model.battle.Moves;
 import model.battle.MovesImpl;
 import model.gameitem.GameItemImpl;
 import model.gameitem.GameItems;
@@ -37,7 +37,7 @@ import model.player.PlayerImpl;
 
 public interface DataLoaderController {
 
-	List<MovesData> getMoves();
+	List<Moves> getMoves();
 	
 	List<NpcSimple> getNpcSimple();
 	

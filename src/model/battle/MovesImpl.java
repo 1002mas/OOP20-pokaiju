@@ -5,66 +5,40 @@ import java.util.Objects;
 import model.monster.MonsterType;
 
 public class MovesImpl implements Moves {
-
-    private MovesData movesData;
-    private int pp;
+    private String name;
+    private int base;
+    private MonsterType type;
+    private int maxPP;
     
 
     public MovesImpl(String name, int base, MonsterType type, int pp) {
-	this.movesData = new MovesDataImpl(name, base, type, pp);
-	this.pp = pp;
+
+	this.name = name;
+	this.base = base;
+	this.type = type;
+	this.maxPP = pp;
 	
-
     }
 
-    @Override
-    public boolean checkPP() {
-	// TODO Auto-generated method stub
-	if (this.pp <= 0) {
-	    return false;
-	}
-	return true;
-    }
-
-    @Override
     public String getName() {
-	// TODO Auto-generated method stub
-	return this.movesData.getName();
+	return name;
     }
 
-    @Override
-    public int getDamage(MonsterType enemytype) {
-	// TODO Auto-generated method stub
-	return (int) (this.movesData.getBase() * this.movesData.getType().damageTo(enemytype));
+    public int getBase() {
+	return base;
     }
 
-    @Override
-    public void decPP() {
-	// TODO Auto-generated method stub
-	this.pp--;
+    public MonsterType getType() {
+	return type;
     }
 
-    @Override
-    public String toString() {
-	return "MovesImpl [name=" + this.movesData.getName() + ", base=" + this.movesData.getBase() + ", type="
-		+ this.movesData.getType() + "]";
-    }
-
-    @Override
-    public MovesData getData() {
-	// TODO Auto-generated method stub
-	return this.movesData;
-    }
-
-    @Override
-    public int getCurrentPP() {
-	// TODO Auto-generated method stub
-	return this.pp;
+    public int getPP() {
+	return maxPP;
     }
 
     @Override
     public int hashCode() {
-	return Objects.hash(movesData);
+	return Objects.hash(name);
     }
 
     @Override
@@ -76,7 +50,15 @@ public class MovesImpl implements Moves {
 	if (getClass() != obj.getClass())
 	    return false;
 	MovesImpl other = (MovesImpl) obj;
-	return Objects.equals(movesData, other.movesData);
+	return Objects.equals(name, other.name);
+    }
+
+    @Override
+    public int getDamage(MonsterType type) {
+	// TODO Auto-generated method stub
+	return (int) this.type.damageTo(type);
     }
     
+    
+
 }

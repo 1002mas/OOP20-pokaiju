@@ -13,8 +13,8 @@ import com.google.gson.GsonBuilder;
 
 import model.Pair;
 import model.battle.Moves;
-import model.battle.MovesData;
-import model.battle.MovesDataImpl;
+import model.battle.Moves;
+import model.battle.MovesImpl;
 import model.gameitem.EvolutionItem;
 import model.gameitem.GameItemImpl;
 import model.gameitem.GameItems;
@@ -47,7 +47,7 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 	private GsonBuilder gsonBuilder;
 	private Gson gson;
 
-	private List<MovesData> movesd;
+	private List<Moves> movesd;
 	private List<Monster> monster;// = new ArrayList<>();
 	private List<MonsterSpecies> monsterSpecies;
 	private List<NpcSimple> npc;
@@ -78,7 +78,7 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 
 			try (final BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
 				String stringRead = reader.readLine();
-				MovesData m = gson.fromJson(stringRead, MovesDataImpl.class);
+				Moves m = gson.fromJson(stringRead, MovesImpl.class);
 				this.movesd.add(m);
 			} catch (IOException e) {
 				// e.printStackTrace();
@@ -88,7 +88,7 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 	}
 
 	@Override
-	public List<MovesData> getMoves() {
+	public List<Moves> getMoves() {
 		if (this.movesd == null) {
 			movesd = new ArrayList<>();
 			loadMoves();

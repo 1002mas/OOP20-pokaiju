@@ -16,8 +16,8 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import model.battle.Moves;
-import model.battle.MovesData;
-import model.battle.MovesDataImpl;
+import model.battle.Moves;
+import model.battle.MovesImpl;
 import model.battle.MovesImpl;
 import model.gameitem.GameItemImpl;
 import model.gameitem.GameItems;

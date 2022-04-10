@@ -6,7 +6,7 @@ import java.util.Optional;
 
 import model.Pair;
 import model.battle.Moves;
-import model.battle.MovesData;
+import model.battle.Moves;
 import model.gameitem.GameItems;
 import model.monster.EvolutionType;
 import model.monster.MonsterStats;
@@ -64,7 +64,7 @@ public class MonsterSpeciesSupport {
 		return this.stats;
 	}
 		
-	public List<Pair<Moves, Integer>> getAllMoves(List<MovesData> movesd) {
+	public List<Pair<Moves, Integer>> getAllMoves(List<Moves> movesd) {
 		List<Pair<Moves, Integer>> moves = new ArrayList<>();
 		
 		//TODO translate
