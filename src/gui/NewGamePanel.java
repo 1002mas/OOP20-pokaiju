@@ -26,6 +26,8 @@ import model.map.*;
 import model.player.*;
 
 public class NewGamePanel extends JPanel {
+    private static final long serialVersionUID = -5002323628263687923L;
+    private static final int SPACE = 50;
     private JPanel parentPanel;
     private PlayerController playerController;
 
@@ -87,7 +89,7 @@ public class NewGamePanel extends JPanel {
 	GridBagConstraints rows = new GridBagConstraints();
 	rows.gridy = 1;
 	underPanel.add(nameLabel, rows);
-	rows.insets = new Insets(0, 0, 50, 0);
+	rows.insets = new Insets(0, 0, SPACE, 0);
 	rows.fill = GridBagConstraints.HORIZONTAL;
 	underPanel.add(nameLabel, rows);
 	underPanel.add(nameField, rows);

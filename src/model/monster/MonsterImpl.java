@@ -174,11 +174,26 @@ public class MonsterImpl implements Monster {
     }
 
     @Override
+    public void restoreMovePP(Moves move) {
+	int index = getIndexOfMove(move);
+	Pair<Moves, Integer> p = movesList.get(index);
+	movesList.remove(index);
+	movesList.add(index, new Pair<>(p.getFirst(), p.getFirst().getPP()));
+    }
+
+    @Override
+    public void restoreAllMovesPP() {
+	for(var p : movesList) {
+	    restoreMovePP(p.getFirst());
+	}
+    }
+
+    @Override
     public void decMovePP(Moves move) {
 	int index = getIndexOfMove(move);
 	Pair<Moves, Integer> p = movesList.get(index);
 	movesList.remove(index);
-	movesList.add(index, new Pair<>(p.getFirst(), p.getSecond()-1));
+	movesList.add(index, new Pair<>(p.getFirst(), p.getSecond() - 1));
     }
 
     @Override
@@ -201,7 +216,7 @@ public class MonsterImpl implements Monster {
 	if (isMoveSetFull()) {
 	    throw new IllegalStateException();
 	}
-	this.movesList.add(new Pair<>(move, move.getCurrentPP()));
+	this.movesList.add(new Pair<>(move, move.getPP()));
     }
 
     @Override
@@ -211,7 +226,7 @@ public class MonsterImpl implements Monster {
 	}
 	int index = getIndexOfMove(oldMove);
 	this.movesList.remove(index);
-	this.movesList.add(index, new Pair<>(newMove, newMove.getCurrentPP()));
+	this.movesList.add(index, new Pair<>(newMove, newMove.getPP()));
     }
 
     private int getIndexOfMove(Moves move) {

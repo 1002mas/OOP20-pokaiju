@@ -11,8 +11,8 @@ import java.util.Optional;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import model.battle.MovesData;
-import model.battle.MovesDataImpl;
+import model.battle.Moves;
+import model.battle.MovesImpl;
 import model.gameitem.EvolutionItem;
 import model.gameitem.GameItem;
 import model.gameitem.GameItemImpl;
@@ -33,7 +33,6 @@ import model.npc.NpcTrainerImpl;
 public class DataLoaderControllerImpl implements DataLoaderController {
 
 	private static final String BASE_PATH = "res" + File.separator + "data" + File.separator;
-
 	private static final String MOVES_PATH = BASE_PATH + "moves" + File.separator;
 	private static final String NPC_BASE_PATH = BASE_PATH + File.separator + "npc" + File.separator;
 	private static final String NPC_SIMPLE_PATH = NPC_BASE_PATH + "npcSimple" + File.separator;
@@ -47,8 +46,9 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 	private GsonBuilder gsonBuilder;
 	private Gson gson;
 
-	private List<MovesData> movesData;
-	private List<Monster> monsters;
+
+	private List<Moves> movesd;
+	private List<Monster> monster;
 	private List<MonsterSpecies> monsterSpecies;
 	private List<NpcSimple> npcs;
 	private List<GameItem> gameItems;
@@ -78,8 +78,8 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 
 			try (final BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
 				String stringRead = reader.readLine();
-				MovesData m = gson.fromJson(stringRead, MovesDataImpl.class);
-				this.movesData.add(m);
+				Moves m = gson.fromJson(stringRead, MovesImpl.class);
+				this.movesd.add(m);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -88,12 +88,12 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 	}
 
 	@Override
-	public List<MovesData> getMoves() {
-		if (this.movesData == null) {
-			movesData = new ArrayList<>();
+	public List<Moves> getMoves() {
+		if (this.movesd == null) {
+			movesd = new ArrayList<>();
 			loadMoves();
 		}
-		return this.movesData;
+		return this.movesd;
 	}
 
 	private void loadNpcs() {
@@ -120,7 +120,7 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 				String stringRead = reader.readLine();
 				NpcTrainerSupport n = gson.fromJson(stringRead, NpcTrainerSupport.class);
 				NpcTrainer npc = new NpcTrainerImpl(n.getName(), n.getTypeOfNpc(), n.getSentences(), n.getPosition(),
-						n.getIsVisible(), n.getIsEnabled(), n.getTranslatedMonsterList(monsters), n.getIsVisible());
+						n.getIsVisible(), n.getIsEnabled(), n.getTranslatedMonsterList(monster), n.getIsVisible());
 				this.npcs.add(npc);
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -221,7 +221,7 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 		for (MonsterSpeciesSupport ms : mssList) {
 			if (ms.getEvolutionType().equals(EvolutionType.NONE)) {
 				MonsterSpecies m = new MonsterSpeciesImpl(ms.getName(), ms.getInfo(), ms.getMonsterType(),
-						ms.getMonsterStats(), ms.getAllMoves(this.movesData));
+						ms.getMonsterStats(), ms.getAllMoves(this.movesd));
 
 				this.monsterSpecies.add(m);
 				removedMonsters.add(ms);
@@ -295,7 +295,7 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 						m.getTranslatedMonsterSpecies(this.monsterSpecies), null);
 				// TODO use movesData ASAP is usable instead of null
 				// TODO use MonsterBuildier ?
-				this.monsters.add(monster);
+				this.monster.add(monster);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -303,12 +303,12 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 	}
 
 	public List<Monster> getMonsters() {
-		if (this.monsters == null) {
-			monsters = new ArrayList<>();
+		if (this.monster == null) {
+			monster = new ArrayList<>();
 			loadMonsters();
 
 		}
-		return this.monsters;
+		return this.monster;
 	}
 
 }

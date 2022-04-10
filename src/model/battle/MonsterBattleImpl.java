@@ -3,6 +3,7 @@ package model.battle;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 import model.gameitem.GameItem;
 import model.monster.Monster;
 import model.monster.MonsterStats;
@@ -57,7 +58,7 @@ public class MonsterBattleImpl implements MonsterBattle {
     @Override
     public Moves enemyAttack() {
 	int x = (int) (Math.random() * this.enemy.getNumberOfMoves());
-	while (!enemy.getMoves(x).checkPP()) {
+	while (enemy.isOutOfPP(enemy.getMoves(x))) {
 	    x = (x + 1) % this.enemy.getNumberOfMoves();
 	}
 	;
@@ -132,7 +133,7 @@ public class MonsterBattleImpl implements MonsterBattle {
     public boolean movesSelection(int moveIndex) {
 	 
 	for (int c = 0; c < this.playerCurrentMonster.getNumberOfMoves(); c++) {
-	    if (this.playerCurrentMonster.getMoves(c).checkPP()) {
+	    if (!this.playerCurrentMonster.isOutOfPP(playerCurrentMonster.getMoves(c))) {
 		this.areEndPP = false;
 	    }
 	}
@@ -140,10 +141,9 @@ public class MonsterBattleImpl implements MonsterBattle {
 	    this.turn(extraMoves);
 	    return true;
 	}
-	if (this.playerCurrentMonster.getMoves(moveIndex).checkPP() && this.battleStatus
-		&& this.playerCurrentMonster.isAlive()) {
+	if (!this.playerCurrentMonster.isOutOfPP(playerCurrentMonster.getMoves(moveIndex)) && this.battleStatus && this.playerCurrentMonster.isAlive()) {
 	   
-	    this.playerCurrentMonster.getMoves(moveIndex).decPP();
+	    this.playerCurrentMonster.decMovePP(playerCurrentMonster.getMoves(moveIndex));
 	    this.turn(this.playerCurrentMonster.getMoves(moveIndex));
 	   
 	    return true;
@@ -226,7 +226,7 @@ public class MonsterBattleImpl implements MonsterBattle {
 	if(damage < 1) {
 	    damage = 1;
 	}
-	att.decPP();
+	enemy.decMovePP(att);
 	playerCurrentMonster.getStats().setHealth(playerCurrentMonster.getStats().getHealth() - damage);
 	System.out.println(enemy.getName() + " usa " + att.getName() + " infliggendo "
 		+ damage + " danni");

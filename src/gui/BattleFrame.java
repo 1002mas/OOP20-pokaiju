@@ -25,7 +25,7 @@ import javax.swing.SwingUtilities;
 import controller.BattleController;
 import controller.ImagesLoader;
 import model.battle.Moves;
-import model.battle.MovesData;
+import model.battle.Moves;
 import model.gameitem.GameItem;
 import model.monster.Monster;
 

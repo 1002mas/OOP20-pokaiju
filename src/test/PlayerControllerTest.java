@@ -21,7 +21,7 @@ import com.google.gson.stream.JsonToken;
 
 import model.Pair;
 import model.battle.Moves;
-import model.battle.MovesData;
+import model.battle.Moves;
 import model.battle.MovesImpl;
 import model.map.GameMapData;
 import model.map.GameMapDataImpl;
@@ -138,7 +138,7 @@ public class PlayerControllerTest {
 		GsonBuilder builder = new GsonBuilder();
 		builder.registerTypeAdapter(MonsterSpecies.class, new InterfaceAdapter());
 		builder.registerTypeAdapter(Moves.class, new InterfaceAdapter());
-		builder.registerTypeAdapter(MovesData.class, new InterfaceAdapter());
+		builder.registerTypeAdapter(Moves.class, new InterfaceAdapter());
 		builder.registerTypeAdapter(MonsterStats.class, new InterfaceAdapter());
 		builder.registerTypeAdapter(MonsterStats.class, new InterfaceAdapter());
 		builder.registerTypeAdapter(Monster.class, new InterfaceAdapter());

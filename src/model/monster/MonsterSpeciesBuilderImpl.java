@@ -31,7 +31,7 @@ public class MonsterSpeciesBuilderImpl implements MonsterSpeciesBuilder {
     }
 
     @Override
-    public MonsterSpeciesBuilder type(MonsterType type) {
+    public MonsterSpeciesBuilder monsterType(MonsterType type) {
 	this.type = type;
 	return this;
     }

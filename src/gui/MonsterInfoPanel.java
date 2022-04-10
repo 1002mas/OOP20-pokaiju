@@ -14,7 +14,6 @@ import controller.ImagesLoader;
 import controller.PlayerController;
 
 public class MonsterInfoPanel extends JPanel {
-
     private static final long serialVersionUID = -5191191420756038008L;
     private JPanel mainPanel;
     private final int monsterId;
@@ -34,8 +33,23 @@ public class MonsterInfoPanel extends JPanel {
 	this.setLayout(c1);
 	JPanel containerPanel = new JPanel(new BorderLayout());
 
-	JPanel singleMonsterPanel = new JPanel(new GridLayout(1, 3));
+	JButton backButton = new JButton("Back");
+	backButton.addActionListener(e -> c1.show(this.mainPanel, Integer.toString(0)));
 
+	containerPanel.add(backButton, BorderLayout.SOUTH);
+	containerPanel.add(setContentPanel(), BorderLayout.CENTER);
+	this.add(containerPanel);
+
+    }
+
+    private void setLabelProp(JLabel label) {
+	label.setHorizontalAlignment(SwingConstants.CENTER);
+	label.setVerticalAlignment(SwingConstants.CENTER);
+	label.setBorder(BorderFactory.createLineBorder(Color.red));
+    }
+
+    private JPanel setContentPanel() {
+	JPanel monsterInfoPanel = new JPanel(new GridLayout(1, 3));
 	JLabel infoLabel = new JLabel();
 	String stats = "<html>" + "name : " + this.playerController.getMonsterNameById(monsterId) + "<br/>" + "Level : "
 		+ playerController.getMonsterLevel(monsterId) + "<br/>" + "Hp : "
@@ -55,23 +69,9 @@ public class MonsterInfoPanel extends JPanel {
 	String moves = "<html>" + "Moves Learned <br/>" + playerController.getMovesNames(monsterId) + "</html>";
 	movesLabel.setText(moves);
 	setLabelProp(movesLabel);
-
-	JButton backButton = new JButton("Back");
-	backButton.addActionListener(e -> c1.show(this.mainPanel, Integer.toString(0)));
-
-	singleMonsterPanel.add(infoLabel);
-	singleMonsterPanel.add(monsterImgLabel);
-	singleMonsterPanel.add(movesLabel);
-
-	containerPanel.add(backButton, BorderLayout.SOUTH);
-	containerPanel.add(singleMonsterPanel, BorderLayout.CENTER);
-	this.add(containerPanel);
-
-    }
-
-    private void setLabelProp(JLabel label) {
-	label.setHorizontalAlignment(SwingConstants.CENTER);
-	label.setVerticalAlignment(SwingConstants.CENTER);
-	label.setBorder(BorderFactory.createLineBorder(Color.red));
+	monsterInfoPanel.add(infoLabel);
+	monsterInfoPanel.add(monsterImgLabel);
+	monsterInfoPanel.add(movesLabel);
+	return monsterInfoPanel;
     }
 }

@@ -3,15 +3,16 @@ package model.battle;
 import model.monster.MonsterType;
 
 public interface Moves {
-    public void decPP();
 
-    public boolean checkPP();
+    String getName();
 
-    public String getName();
+    int getBase();
+
+    MonsterType getType();
+
+    int getPP();
     
-    public int getCurrentPP();
-
-    public int getDamage(MonsterType enemytype);
+    int getDamage(MonsterType type);
     
-    public MovesData getData();
+    
 }

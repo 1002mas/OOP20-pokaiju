@@ -22,8 +22,8 @@ import controller.DataLoaderController;
 import controller.DataLoaderControllerImpl;
 import model.Pair;
 import model.battle.Moves;
-import model.battle.MovesData;
-import model.battle.MovesDataImpl;
+import model.battle.Moves;
+import model.battle.MovesImpl;
 import model.battle.MovesImpl;
 import model.map.GameMapData;
 import model.map.GameMapDataImpl;
@@ -62,7 +62,7 @@ public class PlayerControlTestData {
 		Moves m1 = new MovesImpl("uno", 23, MonsterType.FIRE, 2);
 		Moves m2 = new MovesImpl("due", 12, MonsterType.NONE, 3);
 		
-		MovesData m3 = new MovesDataImpl("tre", 11, MonsterType.WATER, 55);
+		Moves m3 = new MovesImpl("tre", 11, MonsterType.WATER, 55);
 		
 		/*
 		PlayerImpl p = new PlayerImpl("Luca",Gender.MAN, 6969669, pos); 

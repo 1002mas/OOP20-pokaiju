@@ -50,16 +50,18 @@ public interface MonsterSpecies {
     Optional<MonsterSpecies> getEvolution();
     
     /**
+     * This function returns a list of all learnable moves
      * 
      * @param level
-     * @return
+     * @return a list of all learnable moves
      */
     List<Moves> getAllLearnableMoves(int level);
     
     /**
+     * This function returns a move that can be learned in this level
      * 
      * @param level
-     * @return
+     * @return move that can be learned in this level
      */
     Optional<Moves> learnNewMove(int level);
 }

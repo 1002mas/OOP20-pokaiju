@@ -9,85 +9,98 @@ import model.gameitem.GameItem;
 public interface MonsterSpeciesBuilder {
 
     /**
+     * Build species level
      * 
      * @param name
-     * @return
+     * @return a MonsterSpeciesBuilder
      */
     MonsterSpeciesBuilder name(String name);
 
     /**
+     * Build species info
      * 
      * @param info
-     * @return
+     * @return a MonsterSpeciesBuilder
      */
     MonsterSpeciesBuilder info(String info);
     
     /**
+     * Build species type
      * 
      * @param type
-     * @return
+     * @return a MonsterSpeciesBuilder
      */
-    MonsterSpeciesBuilder type(MonsterType type);    
+    MonsterSpeciesBuilder monsterType(MonsterType type);    
     
     /**
+     * Build species evolution
      * 
      * @param evolution
-     * @return
+     * @return a MonsterSpeciesBuilder
      */
     MonsterSpeciesBuilder evolution(MonsterSpecies evolution);
     
     /**
+     * Build species evolutionLevel for evolving by level
      * 
      * @param level
-     * @return
+     * @return a MonsterSpeciesBuilder
      */
     MonsterSpeciesBuilder evolutionLevel(int level);
     
     /**
+     * Build species health
      * 
      * @param health
-     * @return
+     * @return a MonsterSpeciesBuilder
      */
     MonsterSpeciesBuilder health(int health);
     
     /**
+     * Build species attack
      * 
      * @param attack
-     * @return
+     * @return a MonsterSpeciesBuilder
      */
     MonsterSpeciesBuilder attack(int attack);
 
     /**
+     * Build species defense
      * 
      * @param defense
-     * @return
+     * @return a MonsterSpeciesBuilder
      */
     MonsterSpeciesBuilder defense(int defense);
 
     /**
+     * Build species speed
      * 
      * @param speed
-     * @return
+     * @return a MonsterSpeciesBuilder
      */
     MonsterSpeciesBuilder speed(int speed);
 
     /**
+     * Build species moves
      * 
      * @param allMoves
-     * @return
+     * @return a  MonsterSpeciesBuilder
      */
     MonsterSpeciesBuilder allMoves(List<Pair<Moves, Integer>> allMoves);
     
     /**
+     * Build species item for evolving by level
      * 
      * @param gameItem
-     * @return
+     * @return a MonsterSpeciesBuilder
      */
     MonsterSpeciesBuilder gameItem(GameItem gameItem);
     
     /**
+     * Build MonsterSpecies
      * 
-     * @return
+     * @throws IllegalStateException if the obligatory fields are missing
+     * @return a MonsterSpecies builded
      */
     MonsterSpecies build();
     
