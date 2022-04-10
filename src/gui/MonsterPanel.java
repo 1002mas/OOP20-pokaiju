@@ -18,7 +18,7 @@ import controller.ImagesLoader;
 import controller.PlayerController;
 
 public class MonsterPanel extends JPanel {
-
+    private static final long serialVersionUID = 4370703393805503452L;
     private final CardLayout cardlayout = new CardLayout();
     private final PlayerController playerController;
     private final ImagesLoader imgLoad;
@@ -35,13 +35,13 @@ public class MonsterPanel extends JPanel {
 	List<JPanel> monsterStatsPanel = new ArrayList<>();
 	List<Integer> monsterIds = this.playerController.getMonstersId();
 
-	for (Integer id : monsterIds) {// stats
+	for (Integer id : monsterIds) {
 	    MonsterInfoPanel monsterInfoPanel = new MonsterInfoPanel(this, id, playerController, imgLoad);
 	    monsterStatsPanel.add(monsterInfoPanel);
 	}
 
 	int index = 1;
-	for (Integer id : monsterIds) {// nome lv vita , img , stats
+	for (Integer id : monsterIds) {
 	    allMonsterPanel.add(setMonsterPanel(id, index));
 	    index++;
 	}
