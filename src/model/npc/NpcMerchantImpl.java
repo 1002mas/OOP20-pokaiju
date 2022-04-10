@@ -1,33 +1,24 @@
 package model.npc;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import model.Pair;
-import model.gameitem.GameItems;
+import model.gameitem.GameItem;
 
-public class NpcMerchantImpl extends NpcSimpleImpl implements NpcMerchant{
+public class NpcMerchantImpl extends NpcSimpleImpl implements NpcMerchant {
 
-	Map<GameItems, Integer>inventary;
-	
-	
-	public NpcMerchantImpl(String name, TypeOfNpc typeOfNpc, List<String> sentences, Pair<Integer,Integer> position, Map<GameItems,Integer> inventary) {
-		super(name, typeOfNpc, sentences, position);
-		this.inventary = inventary;
-	}
+    private Map<GameItem, Integer> inventory;
 
-	public Optional<String> interactWith() {
-		Optional<String> result = Optional.of(this.sentences.get(0));   
-		return result;
-	}
-	
-	@Override
-	public Map<GameItems, Integer> getInventory() {
-		return this.inventary;
-	}
+    public NpcMerchantImpl(String name, TypeOfNpc typeOfNpc, ArrayList<String> sentences,
+	    Pair<Integer, Integer> position, boolean isVisible, boolean isEnabled, Map<GameItem, Integer> inventory) {
+	super(name, typeOfNpc, sentences, position, isVisible, isEnabled);
+	this.inventory = inventory;
+    }
 
-	
+    @Override
+    public Map<GameItem, Integer> getInventory() {
+	return this.inventory;
+    }
+
 }
