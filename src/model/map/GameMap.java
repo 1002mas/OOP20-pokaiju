@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import model.Pair;
+import model.gameevents.GameEvent;
 import model.monster.Monster;
 import model.npc.NpcSimple;
 
@@ -50,6 +51,12 @@ public interface GameMap {
      * @return npc at the given position if it is present, Optional.empty otherwise
      */
     Optional<NpcSimple> getNpcAt(Pair<Integer, Integer> position);
+
+    /**
+     * @return GameEvent at the given position if it is present, Optional.empty
+     *         otherwise
+     */
+    Optional<GameEvent> getEventAt(Pair<Integer, Integer> position);
 
     /**
      * @return all npcs in the current map

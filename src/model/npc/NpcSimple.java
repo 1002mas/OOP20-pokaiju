@@ -5,15 +5,33 @@ import java.util.Optional;
 import model.Pair;
 
 public interface NpcSimple {
-	Optional<String> interactWith();
-	//int battle();
-	TypeOfNpc getTypeOfNpc();	//diventa un enum <---
-	String  getName(); 
-	Pair<Integer,Integer> getPosition();
-	//public enum nome {s, t, m};
-	//ArrayList<Monster> getMonstersOwned();
-	//ArrayList<String> setPhrases(String speechFileName);
-	//public boolean isDefeated();
-	//public void setDefeated();
-	
+
+    /**
+     * 
+     * @return npc Name
+     */
+    String getName();
+    /**
+     * 
+     * @return npc statement if it is a talking one
+     */
+    Optional<String> interactWith();
+
+    /**
+     * 
+     * @return npc type (for more info look at @{TypeOfNpc})
+     */
+    TypeOfNpc getTypeOfNpc();
+
+    /**
+     * 
+     * @return NpcPosition
+     */
+    Pair<Integer, Integer> getPosition();
+
+    /**
+     * change the npc position in the map
+     * @param newPosition new position in the map
+     */
+    void changeNpcPosition(Pair<Integer, Integer> newPosition);
 }

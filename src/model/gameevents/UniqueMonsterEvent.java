@@ -8,7 +8,7 @@ import model.battle.MonsterBattleImpl;
 import model.monster.Monster;
 import model.player.Player;
 
-public class UniqueMonsterEvent extends AbstractGameEvent {// the map needs events field
+public class UniqueMonsterEvent extends AbstractGameEvent {
     private final Monster monster;
     private final Player player;
     private Optional<MonsterBattle> monsterBattle = Optional.empty();

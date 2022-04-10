@@ -7,40 +7,42 @@ import model.Pair;
 
 public class NpcSimpleImpl implements NpcSimple {
 
-	String name;
-	TypeOfNpc typeOfNpc;
-	ArrayList<String> sentences;
-	Pair<Integer,Integer> position;
-	
-	public NpcSimpleImpl(String name,TypeOfNpc typeOfNpc,ArrayList<String> sentences,Pair<Integer,Integer> position) {
-	
-		this.name = name;
-		this.typeOfNpc = typeOfNpc;
-		this.sentences = sentences;
-		this.position = position;
-	}
-	
-	
-	public Optional<String> interactWith() {
-		Optional<String> result = Optional.of(sentences.get(0));
-		return result;
-	}
+    private final String name;
+    private TypeOfNpc typeOfNpc;
+    private ArrayList<String> sentences;
+    private Pair<Integer, Integer> position;
 
-	@Override
-	public TypeOfNpc getTypeOfNpc() {
-		return this.typeOfNpc;
-	}
+    public NpcSimpleImpl(String name, TypeOfNpc typeOfNpc, ArrayList<String> sentences,
+	    Pair<Integer, Integer> position) {
+	this.name = name;
+	this.typeOfNpc = typeOfNpc;
+	this.sentences = sentences;
+	this.position = position;
+    }
 
-	
-	@Override
-	public String getName() {
-		return this.name;
-	}
+    @Override
+    public String getName() {
+	return this.name;
+    }
 
+    public Optional<String> interactWith() {
+	Optional<String> result = Optional.of(sentences.get(0));
+	return result;
+    }
 
-	@Override
-	public Pair<Integer, Integer> getPosition() {
-		return this.position;
-	}
-	
+    @Override
+    public TypeOfNpc getTypeOfNpc() {
+	return this.typeOfNpc;
+    }
+
+    @Override
+    public Pair<Integer, Integer> getPosition() {
+	return this.position;
+    }
+
+    @Override
+    public void changeNpcPosition(Pair<Integer, Integer> newPosition) {
+	this.position = newPosition;
+    }
+
 }

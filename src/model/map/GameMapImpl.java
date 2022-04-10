@@ -7,6 +7,7 @@ import java.util.Random;
 
 import model.Pair;
 import model.battle.Moves;
+import model.gameevents.GameEvent;
 import model.monster.Monster;
 import model.monster.MonsterBuilderImpl;
 import model.monster.MonsterImpl;
@@ -26,7 +27,7 @@ public class GameMapImpl implements GameMap {
 
     @Override
     public boolean canPassThrough(Pair<Integer, Integer> block) {
-	return map.getBlockType(block).canPassThrough() && map.getNPC(block).isEmpty();
+	return map.getBlockType(block).canPassThrough() && map.getNpc(block).isEmpty();
     }
 
     @Override
@@ -84,14 +85,9 @@ public class GameMapImpl implements GameMap {
 	int monsterLevel = new Random()
 		.nextInt(map.getWildMonsterLevelRange().getSecond() - map.getWildMonsterLevelRange().getFirst())
 		+ map.getWildMonsterLevelRange().getFirst();
-	Monster m = new MonsterBuilderImpl()
-		.species(species)
-		.isWild(true)
-		.level(map.getWildMonsterLevelRange()
-		.getFirst())
-		.exp(0)
-		.movesList(getRandomListMoves(species, monsterLevel))
-		.build();
+	Monster m = new MonsterBuilderImpl().species(species).isWild(true)
+		.level(map.getWildMonsterLevelRange().getFirst()).exp(0)
+		.movesList(getRandomListMoves(species, monsterLevel)).build();
 	return Optional.of(m);
     }
 
@@ -102,7 +98,12 @@ public class GameMapImpl implements GameMap {
 
     @Override
     public Optional<NpcSimple> getNpcAt(Pair<Integer, Integer> position) {
-	return map.getNPC(position);
+	return map.getNpc(position);
+    }
+
+    @Override
+    public Optional<GameEvent> getEventAt(Pair<Integer, Integer> position) {
+	return this.map.getEvent(position);
     }
 
     @Override
