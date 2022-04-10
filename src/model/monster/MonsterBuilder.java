@@ -6,12 +6,6 @@ import model.battle.Moves;
 public interface MonsterBuilder {
 
     /**
-     * 
-     * @return
-     */
-    MonsterBuilder monsterId(int id);
-
-    /**
      * Build monster's level
      * 
      * @param lvl

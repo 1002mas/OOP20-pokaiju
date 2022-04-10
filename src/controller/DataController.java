@@ -2,7 +2,7 @@ package controller;
 
 import java.util.List;
 
-import model.gameitem.GameItems;
+import model.gameitem.GameItem;
 import model.map.GameMap;
 import model.map.GameMapData;
 import model.monster.Monster;
@@ -50,7 +50,7 @@ public interface DataController {
     
     List<Monster> loadMonsters();
     
-    List<GameItems> loadItems();
+    List<GameItem> loadItems();
     
     int getMaximumBlocksInRow();
     

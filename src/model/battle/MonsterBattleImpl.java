@@ -3,7 +3,7 @@ package model.battle;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import model.gameitem.GameItems;
+import model.gameitem.GameItem;
 import model.monster.Monster;
 import model.monster.MonsterStats;
 import model.monster.MonsterType;
@@ -261,7 +261,7 @@ public class MonsterBattleImpl implements MonsterBattle {
     }
 
     @Override
-    public boolean useItem(GameItems item) {
+    public boolean useItem(GameItem item) {
 	return item.use(playerCurrentMonster);
     }
 

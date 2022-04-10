@@ -26,23 +26,28 @@ public class GameMapDataImpl implements GameMapData {
 
     public GameMapDataImpl(int id, int minimumMonsterLevel, int maximumMonsterLevel, String name,
 	    Map<Pair<Integer, Integer>, MapBlockType> blocks, Map<Pair<Integer, Integer>, NpcSimple> npcs,
-	    Map<Pair<Integer, Integer>, GameMapData> linkedMaps,
-	    Map<GameMapData, Pair<Integer, Integer>> linkedMapsStartingPosition, List<MonsterSpecies> wildMonsters) {
+	    List<MonsterSpecies> wildMonsters) {
 	this.id = id;
 	this.minimumMonsterLevel = minimumMonsterLevel;
 	this.maximumMonsterLevel = maximumMonsterLevel;
 	this.name = name;
 	this.blocks = blocks;
 	this.npcs = npcs == null ? new HashMap<>() : npcs;
-	this.linkedMaps = linkedMaps == null ? new HashMap<>() : linkedMaps;
-	this.linkedMapsStartingPosition = linkedMapsStartingPosition == null ? new HashMap<>()
-		: linkedMapsStartingPosition;
+	this.linkedMaps = new HashMap<>();
+	this.linkedMapsStartingPosition = new HashMap<>();
 	this.wildMonsters = wildMonsters == null ? new ArrayList<>() : wildMonsters;
     }
 
     @Override
     public int getMapId() {
 	return this.id;
+    }
+
+    @Override
+    public void addMapLink(GameMapData map, Pair<Integer, Integer> mapLinkPosition,
+	    Pair<Integer, Integer> characterSpawn) {
+	this.linkedMaps.put(mapLinkPosition, map);
+	this.linkedMapsStartingPosition.put(map, characterSpawn);
     }
 
     @Override

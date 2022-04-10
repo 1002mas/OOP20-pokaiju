@@ -3,10 +3,10 @@ package model.gameitem;
 import model.monster.*;
 
 public class HealingItem extends GameItemImpl {
-    private int healedHp = 100;// default Hp healed
-
+    private static final int DEFAULTHEALINGPOINT = 50;// default Hp healed
+    private int healedHp;
     public HealingItem(String nameItem, int quantity, String description) {
-	this(nameItem, quantity, description, 100);
+	this(nameItem, quantity, description, DEFAULTHEALINGPOINT);
     }
 
     public HealingItem(String nameItem, int quantity, String description, int healedHp)
@@ -19,10 +19,10 @@ public class HealingItem extends GameItemImpl {
 
     @Override
     public boolean use(Monster m) {
-	if (m.getHealth() == m.getMaxHealth()) {
+	if (m.getStats().getHealth() == m.getMaxHealth()) {
 	    return false;
 	}
-	m.setHealth(healedHp + m.getHealth());
+	m.setHealth(healedHp + m.getStats().getHealth());
 	return true;
     }
 

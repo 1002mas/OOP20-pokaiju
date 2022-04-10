@@ -18,7 +18,16 @@ public interface GameMapData {
     int getMapId();
 
     /**
-     * @return a pair containing the minimum and maximum level for monsters in the area 
+     * links a map to this map. If you want a bidirectional link, you need to link this to the other one as well
+     * @param map the linked map
+     * @param mapLinkPosition the position in the current map to reach the given map
+     * @param characterSpawn the player position when the map is changed to map 
+     */
+    void addMapLink(GameMapData map, Pair<Integer, Integer> mapLinkPosition, Pair<Integer, Integer> characterSpawn);
+
+    /**
+     * @return a pair containing the minimum and maximum level for monsters in the
+     *         area
      */
     Pair<Integer, Integer> getWildMonsterLevelRange();
 

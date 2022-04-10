@@ -19,9 +19,7 @@ import controller.PlayerControllerImpl;
 public class SelectMosterPanel extends JPanel {
     private final PlayerController playerController;
     private final JPanel parentPanel;
-    private final CardLayout cardlayout = new CardLayout();
     private String itemName;
-    // private final List<String> monsterNames;
 
     public SelectMosterPanel(PlayerController playerController, JPanel parentPanel) {
 	this.playerController = playerController;
@@ -32,43 +30,48 @@ public class SelectMosterPanel extends JPanel {
     private void init() {
 	CardLayout c1 = (CardLayout) this.parentPanel.getLayout();
 	this.setLayout(c1);
-	List<String> monsterNames = new ArrayList<String>();
-	monsterNames.add("AA");
-	monsterNames.add("BB");
-	monsterNames.add("CC");
-	monsterNames.add("DD");
-	monsterNames.add("EE");
-	monsterNames.add("FF");
+	JPanel containerPanel = new JPanel(new BorderLayout());
+	List<Integer> monsterIds = this.playerController.getMonstersId();
+
 	JPanel allMonsterPanel = new JPanel(new GridLayout(6, 2));
-	for (String name : monsterNames) {// nome lv vita , img , stats
+	for (int monsterId : monsterIds) {// nome lv vita , img , stats
 	    JLabel singleMonsterLabel = new JLabel();
-	    singleMonsterLabel.setLayout(new BorderLayout());
-	    singleMonsterLabel.setText(name);
-	    singleMonsterLabel.setHorizontalAlignment(SwingConstants.CENTER);
-	    singleMonsterLabel.setVerticalAlignment(SwingConstants.CENTER);
-	    singleMonsterLabel.setBorder(BorderFactory.createLineBorder(Color.blue));
+	    String stats = "<html>" + "name : " + this.playerController.getMonsterNameById(monsterId) + "<br/>"
+		    + "Level : " + playerController.getMonsterLevel(monsterId) + "<br/>" + "Hp : "
+		    + playerController.getMonsterHealth(monsterId) + "/"
+		    + playerController.getMonsterMaxHealth(monsterId) + "</html>";
+	    singleMonsterLabel.setText(stats);
+	    setLabelProp(singleMonsterLabel);
 
 	    JButton checkButton = new JButton("USE ON THIS MONSTER");
 	    checkButton.addActionListener(e -> {
-		this.playerController.useItem(this.itemName, singleMonsterLabel.getText());
-		System.out.println(singleMonsterLabel.getText());
+		// TODO usare l'item this.playerController.useItem(this.itemName,
 		this.repaint();
-		
+		// TODO update
 	    });
+
 	    allMonsterPanel.add(singleMonsterLabel);
 	    allMonsterPanel.add(checkButton);
-
 	}
 
 	JButton backButton = new JButton("BACK");
 	backButton.addActionListener(e -> c1.show(this.parentPanel, "ITEMS"));
-	// allMonsterPanel.add(backButton);
-	this.add(allMonsterPanel);
+
+	containerPanel.add(allMonsterPanel, BorderLayout.CENTER);
+	containerPanel.add(backButton, BorderLayout.SOUTH);
+	this.add(containerPanel);
 
     }
 
     public void SetItemName(String ItemName) {
 	this.itemName = ItemName;
+    }
+
+    private void setLabelProp(JLabel label) {
+	label.setLayout(new BorderLayout());
+	label.setBorder(BorderFactory.createLineBorder(Color.blue));
+	label.setHorizontalAlignment(SwingConstants.CENTER);
+	label.setVerticalAlignment(SwingConstants.CENTER);
     }
 
 }

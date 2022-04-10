@@ -24,8 +24,6 @@ import controller.PlayerController;
 import model.Pair;
 
 public class GameFrame extends JFrame {
-    // private static final int HEIGHT = 1280;
-    // private static final int WIDTH = 720;
     private static final long serialVersionUID = -7927156597267134363L;
     static final String NEW_GAME_PANEL = "new game";
     static final String MAP_PANEL = "map game";
@@ -44,13 +42,19 @@ public class GameFrame extends JFrame {
 	this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	this.setResizable(false);
 
+	size = getMainPanelSize();
+	// TODO get cells number from controller
+	imgLoad = new ImagesLoader(size, size, 20, 20);
+	mainPanel.setPreferredSize(new Dimension(size, size));
+	mainPanel.setBounds(0, 0, size, size);
+
 	mainPanel.setLayout(cLayout);
 
 	LoginPanel loginPanel = new LoginPanel(this.playerController);
 
 	// Pannello di quando clicco continua gioco
 	loginPanel.getContinue().addActionListener(e -> {
-	    //TODO caricare i dati 读取存档 this.playerController.load();
+	    this.playerController.load();
 	    if (!subPanels.containsKey(MAP_PANEL)) {
 		JPanel gamePanel = buildMapPanel();
 		mainPanel.add(gamePanel, MAP_PANEL);
@@ -75,12 +79,6 @@ public class GameFrame extends JFrame {
 	subPanels.put(LOGIN_PANEL, loginPanel);
 	subPanels.put(NEW_GAME_PANEL, newGamePanel);
 	subPanels.put(MENU_PANEL, menuPanel);
-
-	size = getMainPanelSize();
-	// TODO get cells number from controller
-	imgLoad = new ImagesLoader(size, size, 20, 20);
-	mainPanel.setPreferredSize(new Dimension(size, size));
-	mainPanel.setBounds(0, 0, size, size);
 
 	this.setContentPane(mainPanel);
 	this.pack();
@@ -188,7 +186,7 @@ public class GameFrame extends JFrame {
 	bottomPanel.setBorder(BorderFactory.createLineBorder(Color.red));
 	bottomPanel.setLayout(cLayout);
 
-	MonsterPanel monsterPanel = new MonsterPanel();
+	MonsterPanel monsterPanel = new MonsterPanel(this.playerController, this.imgLoad);
 
 	JPanel boxPanel = new JPanel();
 	JLabel boxLabel = new JLabel();
@@ -203,7 +201,10 @@ public class GameFrame extends JFrame {
 	bottomPanel.add(gameItemPanel);
 	bottomPanel.add(playerInfoPanel);
 
-	monster.addActionListener(e -> cLayout.show(bottomPanel, MONSTERPANEL));
+	monster.addActionListener(e -> {
+	    monsterPanel.update();
+	    cLayout.show(bottomPanel, MONSTERPANEL);
+	});
 	box.addActionListener(e -> cLayout.show(bottomPanel, BOXPANEL));
 	gameItems.addActionListener(e -> {
 	    gameItemPanel.update();
@@ -213,16 +214,15 @@ public class GameFrame extends JFrame {
 	playerInfo.addActionListener(e -> cLayout.show(bottomPanel, PLAYERINFOPANEL));
 	quit.addActionListener(e -> {
 	    monsterPanel.changePanel(Integer.toString(0));
+	    gameItemPanel.changePanel(GAMEITEMSPANEL);
 	    changePanel(MAP_PANEL);
 	});
 
 	save.addActionListener(new ActionListener() {
 	    public void actionPerformed(ActionEvent e) {
-		// TODO salvataggio
-		
+		playerController.save();
 	    }
 	});
-	this.playerController.save(null);
 	backToMainMenu.addActionListener(new ActionListener() {
 	    public void actionPerformed(ActionEvent e) {
 		int result = JOptionPane.showConfirmDialog(null, "Sure? You want to exit?", "Warning",
@@ -230,9 +230,6 @@ public class GameFrame extends JFrame {
 		if (result == JOptionPane.YES_OPTION) {
 		    changePanel(LOGIN_PANEL);
 		} else if (result == JOptionPane.NO_OPTION) {
-
-		} else {
-
 		}
 	    }
 

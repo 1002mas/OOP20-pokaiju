@@ -2,7 +2,7 @@ package model.gameitem;
 
 import model.monster.Monster;
 
-public interface GameItems {
+public interface GameItem {
     /**
      * This function returns the name of GameItem
      * 

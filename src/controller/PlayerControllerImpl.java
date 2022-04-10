@@ -7,7 +7,7 @@ import gui.Direction;
 import model.Pair;
 import model.battle.Moves;
 import model.gameitem.GameItemTypes;
-import model.gameitem.GameItems;
+import model.gameitem.GameItem;
 import model.monster.EvolutionType;
 import model.monster.Monster;
 import model.monster.MonsterSpeciesByItem;
@@ -20,7 +20,7 @@ public class PlayerControllerImpl implements PlayerController {
 	private Player player;
 	private boolean hasPlayerMoved;
 	private List<Monster> gameMonster;
-	private List<GameItems> gameItems;
+	private List<GameItem> gameItems;
 	private DataController dataController;
 
 	public PlayerControllerImpl(DataController dataController) {
@@ -252,7 +252,7 @@ public class PlayerControllerImpl implements PlayerController {
 
 	@Override
 	public void useItem(String i) { 
-		GameItems item = getItem(i) ;
+		GameItem item = getItem(i) ;
 		if (item != null) {
 			player.useItem(item);
 		}
@@ -268,8 +268,8 @@ public class PlayerControllerImpl implements PlayerController {
 	}
 	*/
 
-	private GameItems getItem(String name) { // --
-		for (GameItems item : player.allItems()) {
+	private GameItem getItem(String name) { // --
+		for (GameItem item : player.allItems()) {
 			if (item.getNameItem().equals(name)) {
 				return item;
 			}
@@ -290,7 +290,7 @@ public class PlayerControllerImpl implements PlayerController {
 	@Override
 	public List<String> getPlayerItemsName() { // --
 		List<String> items = new ArrayList<>();
-		for (GameItems i : player.allItems()) {
+		for (GameItem i : player.allItems()) {
 			items.add(i.getNameItem());
 		}
 		return items;
@@ -324,7 +324,7 @@ public class PlayerControllerImpl implements PlayerController {
 	@Override
 	public void addItem(String item) { // --
 
-		for (GameItems i : gameItems) {
+		for (GameItem i : gameItems) {
 			if (i.getNameItem().equals(item)) {
 				player.addItem(i);
 			}

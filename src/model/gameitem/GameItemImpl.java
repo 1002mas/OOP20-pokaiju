@@ -4,7 +4,7 @@ import java.util.Objects;
 
 import model.monster.Monster;
 
-public class GameItemImpl implements GameItems {
+public class GameItemImpl implements GameItem {
     private String nameItem;
     private int quantity;
     private String description;

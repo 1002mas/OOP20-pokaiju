@@ -11,7 +11,7 @@ import java.util.Set;
 
 import model.battle.Moves;
 import model.gameitem.GameItemTypes;
-import model.gameitem.GameItems;
+import model.gameitem.GameItem;
 
 public class MonsterImpl implements Monster {
 
@@ -213,7 +213,7 @@ public class MonsterImpl implements Monster {
     }
 
     @Override
-    public boolean canEvolveByItem(GameItems item) {
+    public boolean canEvolveByItem(GameItem item) {
 	return species.getEvolution().isPresent() && this.species.getEvolutionType() == EvolutionType.ITEM
 		&& item.equals(((MonsterSpeciesByItem) species).getItem())
 		&& item.getType() == GameItemTypes.EVOLUTIONTOOL;

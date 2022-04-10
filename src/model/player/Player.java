@@ -27,29 +27,29 @@ public interface Player {
      * 
      * @return Player's list of GameItem
      */
-    List<GameItems> allItems();
+    List<GameItem> allItems();
 
     /**
      * This function adds new GameItems to player's bag
      * 
      * @param new GameItems
      */
-    void addItem(GameItems i);
+    void addItem(GameItem i);
 
     /**
      * This function removes GameItems from player's bag
      * 
-     * @param GameItems
+     * @param GameItem
      */
-    void removeItem(GameItems i);
+    void removeItem(GameItem i);
 
     /**
      * This function uses a GameItems 
      * 
-     * @param GameItems
+     * @param GameItem
      * 
      */
-    void useItem(GameItems i);
+    void useItem(GameItem i);
 
     /**
      * This function applies a GameItems on Monster
@@ -57,7 +57,7 @@ public interface Player {
      * @param GameItems, Monster
      * 
      */
-    void useItemOnMonster(GameItems i, Monster m);
+    void useItemOnMonster(GameItem i, Monster m);
     
     /**
      * This function returns if buy GameItems is successfully or not
@@ -65,7 +65,7 @@ public interface Player {
      * @param Gameitems, price
      * @return true if player has enought money
      */
-    boolean buyItem(GameItems i, int price);
+    boolean buyItem(GameItem i, int price);
 
     /**
      * This function returns if add Monster is successfully or not

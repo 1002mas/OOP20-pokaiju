@@ -5,16 +5,17 @@ import java.util.Collections;
 import java.util.List;
 
 import model.Pair;
-import model.gameitem.GameItems;
+import model.gameitem.GameItem;
 import model.monster.Monster;
 
 public class PlayerImpl implements Player {
+    private static final int STARTMONEY=1000;
     private String name;
     private Gender gender;
     private int trainerNumber;
     private Pair<Integer, Integer> position;
     private List<Monster> monster;
-    private List<GameItems> gameItems;
+    private List<GameItem> gameItems;
     private int money;
 
     public PlayerImpl(String name, Gender gender, int trainerNumber, Pair<Integer, Integer> startingPosition) {
@@ -23,8 +24,8 @@ public class PlayerImpl implements Player {
 	this.trainerNumber = trainerNumber;
 	this.position = startingPosition;
 	this.monster = new ArrayList<Monster>();
-	this.gameItems = new ArrayList<GameItems>();
-	this.money = 500;
+	this.gameItems = new ArrayList<GameItem>();
+	this.money = STARTMONEY;
 
     }
 
@@ -46,12 +47,12 @@ public class PlayerImpl implements Player {
     }
 
     @Override
-    public List<GameItems> allItems() {
+    public List<GameItem> allItems() {
 	return new ArrayList<>(this.gameItems);
     }
 
     @Override
-    public void addItem(GameItems i) {
+    public void addItem(GameItem i) {
 	if (this.gameItems.contains(i)) {
 	    int numberOfItem = this.gameItems.stream().filter(x -> x.getNameItem().equals(i.getNameItem())).findFirst()
 		    .get().getNumber();
@@ -63,7 +64,7 @@ public class PlayerImpl implements Player {
     }
 
     @Override
-    public void removeItem(GameItems i) {
+    public void removeItem(GameItem i) {
 	if (this.gameItems.contains(i)) {
 	    int numberOfItem = this.gameItems.stream().filter(x -> x.getNameItem().equals(i.getNameItem())).findFirst()
 		    .get().getNumber();
@@ -78,14 +79,14 @@ public class PlayerImpl implements Player {
     }
 
     @Override
-    public void useItem(GameItems i) {
+    public void useItem(GameItem i) {
 	if (allItems().contains(i) && i.use(null)) {
 	    removeItem(i);
 	}
     }
 
     @Override
-    public boolean buyItem(GameItems i, int price) {
+    public boolean buyItem(GameItem i, int price) {
 	if (getMoney() - price >= 0) {
 	    addItem(i);
 	    setMoney(getMoney() - price);
@@ -119,11 +120,11 @@ public class PlayerImpl implements Player {
 	this.monster = monster;
     }
 
-    public List<GameItems> getItems() {
+    public List<GameItem> getItems() {
 	return this.gameItems;
     }
 
-    public void setItems(ArrayList<GameItems> items) {
+    public void setItems(ArrayList<GameItem> items) {
 	this.gameItems = items;
     }
 
@@ -171,7 +172,7 @@ public class PlayerImpl implements Player {
     }
 
     @Override
-    public void useItemOnMonster(GameItems i, Monster m) {
+    public void useItemOnMonster(GameItem i, Monster m) {
 	if (allItems().contains(i) && i.use(m)) {
 	    removeItem(i);
 	}
