@@ -5,13 +5,11 @@ import java.util.List;
 import java.util.Optional;
 
 import model.Pair;
-import model.map.GameMapData;
 import model.npc.NpcSimple;
 
 public class NpcBehaviorChanger extends AbstractGameEvent {
 
     private List<NpcSimple> npcs = new ArrayList<>();
-    private List<Optional<GameMapData>> npcsMap = new ArrayList<>();
     private List<Optional<Pair<Integer, Integer>>> npcsPositions = new ArrayList<>();
     private List<Optional<Integer>> npcsText = new ArrayList<>();
     private List<Optional<Boolean>> npcsShow = new ArrayList<>();
@@ -20,43 +18,47 @@ public class NpcBehaviorChanger extends AbstractGameEvent {
 	super(id, isActive, isDeactivable, true, events);
     }
 
-    private void addNpc(NpcSimple npc, Optional<GameMapData> map, Optional<Pair<Integer, Integer>> newPosition,
-	    Optional<Integer> nextText, Optional<Boolean> visibility) {
+    private void addNpc(NpcSimple npc, Optional<Pair<Integer, Integer>> newPosition, Optional<Integer> nextText,
+	    Optional<Boolean> visibility) {
 	this.npcs.add(npc);
-	this.npcsMap.add(map);
 	this.npcsPositions.add(newPosition);
 	this.npcsText.add(nextText);
 	this.npcsShow.add(visibility);
     }
 
-    public void addNpcPositionChange(NpcSimple npc, GameMapData map, Pair<Integer, Integer> newPosition) {
-	addNpc(npc, Optional.of(map), Optional.of(newPosition), Optional.empty(), Optional.empty());
+    public void addNpcPositionChange(NpcSimple npc, Pair<Integer, Integer> newPosition) {
+	addNpc(npc, Optional.of(newPosition), Optional.empty(), Optional.empty());
     }
 
     public void addNpcDialogChange(NpcSimple npc, int dialogID) {
-	addNpc(npc, Optional.empty(), Optional.empty(), Optional.of(dialogID), Optional.empty());
+	addNpc(npc, Optional.empty(), Optional.of(dialogID), Optional.empty());
 
     }
 
+    /**
+     * This function is used to logically delete a npc from the map
+     * @param npc 
+     * @param visibility true to make it visible, false to hide it
+     */
     public void addNpcVisibilityChange(NpcSimple npc, boolean visibility) {
-	addNpc(npc, Optional.empty(), Optional.empty(), Optional.empty(), Optional.of(visibility));
+	addNpc(npc, Optional.empty(), Optional.empty(), Optional.of(visibility));
     }
 
     @Override
     public void activateEvent() {
 	for (int i = 0; i < npcs.size(); i++) {
 	    // position change
-	    if (npcsMap.get(i).isPresent()) {
-		// TODO change position in map
+	    if (npcsPositions.get(i).isPresent()) {
+		npcs.get(i).changeNpcPosition(npcsPositions.get(i).get());
 	    }
 	    // dialog change
 	    if (npcsText.get(i).isPresent()) {
-		// TODO set dialog
+		npcs.get(i).setDialogueText(npcsText.get(i).get());
 	    }
 	    // visibilty change
 	    if (npcsShow.get(i).isPresent()) {
-		// TODO set visibility and canInteract(add these functions to npc)
-
+		npcs.get(i).setEnabled(npcsShow.get(i).get());
+		npcs.get(i).setVisible(npcsShow.get(i).get());
 	    }
 	}
     }
