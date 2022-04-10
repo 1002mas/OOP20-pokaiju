@@ -119,8 +119,8 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 			try (final BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
 				String stringRead = reader.readLine();
 				NpcTrainerSupport n = gson.fromJson(stringRead, NpcTrainerSupport.class);
-				NpcTrainer npc = new NpcTrainerImpl(n.getName(), n.getTypeOfNpc(), n.getSentences(),
-						n.getTranslatedMonsterList(monsters), n.getPosition());
+				NpcTrainer npc = new NpcTrainerImpl(n.getName(), n.getTypeOfNpc(), n.getSentences(), n.getPosition(),
+						n.getIsVisible(), n.getIsEnabled(), n.getTranslatedMonsterList(monsters), n.getIsVisible());
 				this.npcs.add(npc);
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -134,8 +134,8 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 			try (final BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
 				String stringRead = reader.readLine();
 				NpcMerchantSupport n = gson.fromJson(stringRead, NpcMerchantSupport.class);
-				NpcMerchant npc = new NpcMerchantImpl(n.getName(), n.getTypeOfNpc(), n.getSentences(), 
-										n.getPosition(), n.getTranslatedGameItem(gameItems));
+				NpcMerchant npc = new NpcMerchantImpl(n.getName(), n.getTypeOfNpc(), n.getSentences(), n.getPosition(),
+						n.getIsVisible(), n.getisEnabled(), n.getTranslatedGameItem(gameItems));
 				this.npcs.add(npc);
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -306,7 +306,6 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 		if (this.monsters == null) {
 			monsters = new ArrayList<>();
 			loadMonsters();
-			
 
 		}
 		return this.monsters;

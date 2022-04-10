@@ -14,30 +14,49 @@ public class NpcTrainerSupport {
 	private List<String> sentences;
 	private List<Integer> monstersOwned;
 	private Pair<Integer, Integer> position;
+	private boolean isVisible;
+	private boolean isEnabled;
+	private boolean isDefeated;
 
 	public NpcTrainerSupport(String name, TypeOfNpc typeOfNpc, List<String> sentences, List<Integer> monstersOwned,
-			Pair<Integer, Integer> position) {
+			boolean isVisible, boolean isEnabled, boolean isDefeated, Pair<Integer, Integer> position) {
 		this.name = name;
 		this.typeOfNpc = typeOfNpc;
 		this.sentences = sentences;
 		this.monstersOwned = monstersOwned;
 		this.position = position;
+		this.isVisible = isVisible;
+		this.isDefeated = isDefeated;
+		this.isEnabled = isEnabled;
+
 	}
 
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	public TypeOfNpc getTypeOfNpc() {
-		return typeOfNpc;
+		return this.typeOfNpc;
 	}
 
 	public List<String> getSentences() {
-		return sentences;
+		return this.sentences;
 	}
 
 	public Pair<Integer, Integer> getPosition() {
-		return position;
+		return this.position;
+	}
+	
+	public boolean getIsVisible() {
+		return this.isVisible;
+	}
+
+	public boolean getIsEnabled() {
+		return this.isEnabled;
+	}
+
+	public boolean getIsDefeated() {
+		return this.isDefeated;
 	}
 
 	public List<Monster> getTranslatedMonsterList(List<Monster> list) {
