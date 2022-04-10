@@ -116,14 +116,14 @@ public class BattleControllerImpl implements BattleController {
 
     @Override
     public int getCurrentPP(String moveName) {
-	return monsterBattle.getCurrentPlayerMonster().getAllMoves().stream().filter(m -> m.getName().equals(moveName))
-		.findAny().get().getCurrentPP();
+	return monsterBattle.getCurrentPlayerMonster().getCurrentPPByMove(monsterBattle.getCurrentPlayerMonster()
+		.getAllMoves().stream().filter(m -> m.getName().equals(moveName)).findAny().get());
     }
 
     @Override
     public boolean checkPP(String moveName) {
-	return monsterBattle.getCurrentPlayerMonster().getAllMoves().stream().filter(m -> m.getName().equals(moveName))
-		.findAny().get().checkPP();
+	return monsterBattle.getCurrentPlayerMonster().isOutOfPP(monsterBattle.getCurrentPlayerMonster()
+		.getAllMoves().stream().filter(m -> m.getName().equals(moveName)).findAny().get());
     }
 
     @Override
@@ -170,7 +170,8 @@ public class BattleControllerImpl implements BattleController {
     }
 
     public Optional<Pair<String, String>> evolveByLevel(int monsterId) {
-	Optional<Monster> monster = monsterBattle.getPlayer().allMonster().stream().filter(i -> i.getId() == monsterId).findAny();
+	Optional<Monster> monster = monsterBattle.getPlayer().allMonster().stream().filter(i -> i.getId() == monsterId)
+		.findAny();
 	if (monster.isPresent() && monster.get().canEvolveByLevel()) {
 	    String monsterName = monster.get().getName();
 	    monster.get().evolve();

@@ -201,7 +201,7 @@ public class MonsterImpl implements Monster {
 	if (isMoveSetFull()) {
 	    throw new IllegalStateException();
 	}
-	this.movesList.add(new Pair<>(move, move.getCurrentPP()));
+	this.movesList.add(new Pair<>(move, move.getPP()));
     }
 
     @Override
@@ -211,7 +211,7 @@ public class MonsterImpl implements Monster {
 	}
 	int index = getIndexOfMove(oldMove);
 	this.movesList.remove(index);
-	this.movesList.add(index, new Pair<>(newMove, newMove.getCurrentPP()));
+	this.movesList.add(index, new Pair<>(newMove, newMove.getPP()));
     }
 
     private int getIndexOfMove(Moves move) {
