@@ -11,6 +11,7 @@ public interface MonsterBuilder {
      * Build monster's level
      * 
      * @param lvl
+     * @throws IllegalArgumentException if level is under min level or over max level
      * @return a MonsterBuilder
      */
     MonsterBuilder level(int lvl);
@@ -47,6 +48,7 @@ public interface MonsterBuilder {
      * Build monster's experience
      * 
      * @param exp
+     * @throws IllegalArgumentException if exp is under zero or over exp cap
      * @return a MonsterBuilder
      */
     MonsterBuilder exp(int exp);
@@ -77,7 +79,7 @@ public interface MonsterBuilder {
 
     /**
      * @throws IllegalStateException when obligatory parameters are missing
-     * @return
+     * @return monster builded
      */
     Monster build();
 }
