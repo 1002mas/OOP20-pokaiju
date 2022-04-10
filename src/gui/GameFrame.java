@@ -50,7 +50,7 @@ public class GameFrame extends JFrame {
 
 	// Pannello di quando clicco continua gioco
 	loginPanel.getContinue().addActionListener(e -> {
-	    //TODO caricare i dati 读取存档 this.playerController.load();
+	    //TODO caricare i dati è¯»å�–å­˜æ¡£ this.playerController.load();
 	    if (!subPanels.containsKey(MAP_PANEL)) {
 		JPanel gamePanel = buildMapPanel();
 		mainPanel.add(gamePanel, MAP_PANEL);

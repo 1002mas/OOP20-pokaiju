@@ -18,28 +18,28 @@ public interface MonsterBuilder {
      * @param health
      * @return
      */
-    public MonsterBuilder health(int health);
+    MonsterBuilder health(int health);
     
     /**
      * 
      * @param atk
      * @return
      */
-    public MonsterBuilder attack(int atk);    
+    MonsterBuilder attack(int atk);    
    
     /**
      * 
      * @param dfs
      * @return
      */
-    public MonsterBuilder defense(int dfs);
+    MonsterBuilder defense(int dfs);
     
     /**
      * 
      * @param spd
      * @return
      */
-    public MonsterBuilder speed(int spd);
+    MonsterBuilder speed(int spd);
     
     /**
      * Build monster's experience
