@@ -178,7 +178,7 @@ public class MonsterImpl implements Monster {
 	int index = getIndexOfMove(move);
 	Pair<Moves, Integer> p = movesList.get(index);
 	movesList.remove(index);
-	movesList.add(index, new Pair<>(p.getFirst(), p.getSecond()-1));
+	movesList.add(index, new Pair<>(p.getFirst(), p.getSecond() - 1));
     }
 
     @Override

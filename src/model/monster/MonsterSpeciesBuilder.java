@@ -86,7 +86,7 @@ public interface MonsterSpeciesBuilder {
     MonsterSpeciesBuilder gameItem(GameItem gameItem);
     
     /**
-     * 
+     * @throws IllegalStateException if the obligatory fields are missing
      * @return
      */
     MonsterSpecies build();

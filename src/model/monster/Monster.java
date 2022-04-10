@@ -98,6 +98,7 @@ public interface Monster {
      * This function returns a move from a list of moves
      * 
      * @param index of the moves
+     * @throws IllegalArgumentException if index is below zero or over max number of moves
      * @return a move
      */
     Moves getMoves(int index);
@@ -140,6 +141,7 @@ public interface Monster {
     /**
      * 
      * @param move
+     * @throws IllegalStateException is list of moves is full
      */
     void learnNewMove(Moves move);
     
@@ -147,6 +149,7 @@ public interface Monster {
      * 
      * @param oldMove
      * @param newMove
+     * @throws IllegalArgumentException if oldMove does not exist
      */
     void learnNewMove(Moves oldMove, Moves newMove);
     
