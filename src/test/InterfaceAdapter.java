@@ -17,7 +17,8 @@ public class InterfaceAdapter  implements JsonSerializer, JsonDeserializer {
 	@Override
 	public Object deserialize(JsonElement jsonElement, Type type,
 	        JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
-		
+			
+				System.out.println("cuao");
 		        JsonObject jsonObject = jsonElement.getAsJsonObject();
 		        System.out.println("jsonObject--> " + jsonObject);
 		        JsonPrimitive prim = (JsonPrimitive) jsonObject.get(CLASSNAME);
@@ -31,7 +32,7 @@ public class InterfaceAdapter  implements JsonSerializer, JsonDeserializer {
 	}
 	
 	public JsonElement serialize(Object jsonElement, Type type, JsonSerializationContext jsonSerializationContext) {
-		System.out.println("lavora stronzo");
+		System.out.println("lavora ");
 		JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty(CLASSNAME, jsonElement.getClass().getName());
         jsonObject.add(DATA, jsonSerializationContext.serialize(jsonElement));

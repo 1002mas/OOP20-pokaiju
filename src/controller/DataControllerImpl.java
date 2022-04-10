@@ -48,8 +48,7 @@ public class DataControllerImpl implements DataController {
 	private final String gameItemsPath = "res"+File.separator+"Data"+File.separator+"ItemsData.json";	
 	private List<NpcTrainer> npcsDefeated = new ArrayList<>();
 	
-	
-	
+		
 	public DataControllerImpl() {
 		this.gsonBuilder = new GsonBuilder();
 		gsonBuilder.registerTypeAdapter(MonsterSpecies.class, new TypeAdapterController());

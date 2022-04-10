@@ -21,6 +21,7 @@ import com.google.gson.stream.JsonToken;
 
 import model.Pair;
 import model.battle.Moves;
+import model.battle.MovesData;
 import model.battle.MovesImpl;
 import model.map.GameMapData;
 import model.map.GameMapDataImpl;
@@ -28,6 +29,7 @@ import model.map.MapBlockType;
 import model.monster.Monster;
 import model.monster.MonsterImpl;
 import model.monster.MonsterSpecies;
+import model.monster.MonsterSpeciesImpl;
 import model.monster.MonsterStats;
 import model.monster.MonsterStatsImpl;
 import model.monster.MonsterType;
@@ -87,7 +89,7 @@ public class PlayerControllerTest {
 		List<NpcSimple> lista = new ArrayList<>();
 		
 		
-		
+		PlayerImpl p = new PlayerImpl("Luca",Gender.MAN, 6969669, pos);
 		//lista.add(nt); lista.add(ns1); lista.add(nt);
 		
 		//Map
@@ -107,16 +109,17 @@ public class PlayerControllerTest {
 		GameMapData gmd = new GameMapDataImpl("Saro", n, npcs, linkedmaps, links);
 		//System.out.println("gmd syso--> "+gmd);
 		
-		PlayerImpl p = new PlayerImpl("Luca",Gender.MAN, 6969669, pos);
+		
 		//System.out.println(p);
 		//MonsterStats stats, int exp, int level, boolean isWild, MonsterSpecies species, List<Moves> movesList
+		*/
 		MonsterStats stats = new MonsterStatsImpl(300, 50, 220, 320); 
 		
-		MonsterSpecies species = new MonsterSpeciesSimple("Specie Viteddu", "Info vitello", MonsterType.WATER);
+		MonsterSpecies species = new MonsterSpeciesImpl("Specie Viteddu", "Info vitello", MonsterType.WATER, stats, null);
 		List<Moves> listOfMoves =  List.of(new MovesImpl("Braciere", 50, MonsterType.FIRE, 10),
 				new MovesImpl("Attacco", 10, MonsterType.FIRE, 10), new MovesImpl("Volo", 50, MonsterType.FIRE, 10),
 				new MovesImpl("Fossa", 50, MonsterType.FIRE, 10));
-		Monster m = new MonsterImpl(stats, 300, 6, false, species, listOfMoves); 
+		Monster m = new MonsterImpl( 300, stats, 6, 10, false, species, listOfMoves); 
 		
 		p.addMonster(m);
 		p.addMonster(m);
@@ -135,14 +138,16 @@ public class PlayerControllerTest {
 		GsonBuilder builder = new GsonBuilder();
 		builder.registerTypeAdapter(MonsterSpecies.class, new InterfaceAdapter());
 		builder.registerTypeAdapter(Moves.class, new InterfaceAdapter());
+		builder.registerTypeAdapter(MovesData.class, new InterfaceAdapter());
 		builder.registerTypeAdapter(MonsterStats.class, new InterfaceAdapter());
 		builder.registerTypeAdapter(MonsterStats.class, new InterfaceAdapter());
+		builder.registerTypeAdapter(Monster.class, new InterfaceAdapter());
 		builder.registerTypeAdapter(NpcSimple.class, new InterfaceAdapter());
 		Gson g = builder.create();
 		System.out.println("Fine gson");
 		
 		String listajson = g.toJson(lista);
-
+		
 		Gson g1 = new Gson();
 		/*
 		String s =g.toJson(ns);
@@ -163,10 +168,10 @@ public class PlayerControllerTest {
 		String linkssp = g.toJson(links);
 		System.out.println(linkssp);
 		*/
-		
+		String playerJson = g.toJson(p);
 		//Player
 		/*
-		String playerJson = g.toJson(p);
+		
 		System.out.println(playerJson);
 		
 		
@@ -238,7 +243,7 @@ public class PlayerControllerTest {
         	bf.write(itemsp);bf.newLine();bf.write("---");bf.newLine();bf.flush();
         	*/
         	
-        	//bf.write(playerJson);
+        	bf.write(playerJson);
         	//bf.write(listagay);
         	
         	//bf.write(listajson);;
@@ -284,13 +289,15 @@ public class PlayerControllerTest {
         			
         				//List<NpcSimple> lista2 = g.fromJson(temp, List.class);
         				
-        			
+        			Player p2 = g.fromJson(temp, PlayerImpl.class);
+    				System.out.println(p2.getName());
+        			/*
         			Type userListType = new TypeToken<ArrayList<NpcSimpleImpl>>(){}.getType();
         			 
         			ArrayList<NpcSimpleImpl> lista2 = g.fromJson(temp, userListType);  
         			
         			System.out.println(lista2);
-        			
+        			*/
         			while ((first=r.readLine()) != null) {
         			
         				 // NpcSimple np2 =  g.fromJson(first, NpcSimpleImpl.class);   
@@ -298,7 +305,7 @@ public class PlayerControllerTest {
         				//sum=sum+first;
         				//GameMapData gmd2  = g.fromJson(first, GameMapDataImpl.class);
         				
-        				//Player p2 = g.fromJson(first, PlayerImpl.class);
+        				
         			/*
     	   			String stu;
     	   			
