@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import model.Pair;
 import model.battle.Moves;
-import model.gameitem.GameItems;
+import model.gameitem.GameItem;
 
 public class MonsterSpeciesBuilderImpl implements MonsterSpeciesBuilder {
 
@@ -16,7 +16,7 @@ public class MonsterSpeciesBuilderImpl implements MonsterSpeciesBuilder {
     private MonsterStats stats = new MonsterStatsImpl(1, 1, 1, 1);
     private List<Pair<Moves, Integer>> allMoves;
     private MonsterSpecies evolution;
-    private Optional<GameItems> gameItem = Optional.empty();
+    private Optional<GameItem> gameItem = Optional.empty();
 
     @Override
     public MonsterSpeciesBuilder name(String name) {
@@ -80,7 +80,7 @@ public class MonsterSpeciesBuilderImpl implements MonsterSpeciesBuilder {
     
 
     @Override
-    public MonsterSpeciesBuilder gameItem(GameItems gameItem) {
+    public MonsterSpeciesBuilder gameItem(GameItem gameItem) {
 	this.gameItem = Optional.of(gameItem);
 	return this;
     }

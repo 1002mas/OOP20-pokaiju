@@ -4,7 +4,7 @@ import java.util.List;
 
 import model.Pair;
 import model.battle.Moves;
-import model.gameitem.GameItems;
+import model.gameitem.GameItem;
 
 public interface MonsterSpeciesBuilder {
 
@@ -78,7 +78,12 @@ public interface MonsterSpeciesBuilder {
      */
     MonsterSpeciesBuilder allMoves(List<Pair<Moves, Integer>> allMoves);
     
-    MonsterSpeciesBuilder gameItem(GameItems gameItem);
+    /**
+     * 
+     * @param gameItem
+     * @return
+     */
+    MonsterSpeciesBuilder gameItem(GameItem gameItem);
     
     /**
      * 
