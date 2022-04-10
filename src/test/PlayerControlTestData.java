@@ -48,7 +48,7 @@ public class PlayerControlTestData {
 		
 		//---DATA---
 		
-		final String movesPath = "res"+File.separator+"Data"+File.separator+"Moves"+File.separator;
+		final String movesPath = "res"+File.separator+"data"+File.separator+"Moves"+File.separator;
 		
 		ArrayList<String> a = new ArrayList();
 		a.add("Sciao bello");
@@ -162,7 +162,7 @@ public class PlayerControlTestData {
 	        }
 		 	*/
 		 
-		 dlc.loadMoves();
+		 dlc.loadMoves();	//ritornare lista
 		 
 	       /* 
 	      //---RREADIG---

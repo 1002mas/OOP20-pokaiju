@@ -1,6 +1,7 @@
 package model.npc;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import model.Pair;
@@ -9,10 +10,10 @@ public class NpcSimpleImpl implements NpcSimple {
 
 	String name;
 	TypeOfNpc typeOfNpc;
-	ArrayList<String> sentences;
+	List<String> sentences;
 	Pair<Integer,Integer> position;
 	
-	public NpcSimpleImpl(String name,TypeOfNpc typeOfNpc,ArrayList<String> sentences,Pair<Integer,Integer> position) {
+	public NpcSimpleImpl(String name,TypeOfNpc typeOfNpc,List<String> sentences,Pair<Integer,Integer> position) {
 	
 		this.name = name;
 		this.typeOfNpc = typeOfNpc;

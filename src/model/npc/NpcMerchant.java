@@ -1,7 +1,8 @@
 package model.npc;
 
-import java.util.HashMap;
+import java.util.Map;
+import model.gameitem.GameItem;
 
 public interface NpcMerchant extends NpcSimple{
-	HashMap<Object,Integer> getInventory();
+	Map<GameItem,Integer> getInventory();
 }

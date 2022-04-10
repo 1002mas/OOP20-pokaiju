@@ -1,6 +1,5 @@
 package model.npc;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,7 +11,7 @@ public class NpcTrainerImpl extends NpcSimpleImpl implements NpcTrainer{
 	List<Monster> monstersOwned;
 	boolean isDefated = false;
 	
-	public NpcTrainerImpl(String name, TypeOfNpc typeOfNpc, ArrayList<String> sentences, ArrayList<Monster> monstersOwned, Pair<Integer,Integer> position) {
+	public NpcTrainerImpl(String name, TypeOfNpc typeOfNpc, List<String> sentences, List<Monster> monstersOwned, Pair<Integer,Integer> position) {
 		super(name, typeOfNpc, sentences,position);
 		this.monstersOwned = monstersOwned;
 	}
@@ -32,14 +31,14 @@ public class NpcTrainerImpl extends NpcSimpleImpl implements NpcTrainer{
 		this.isDefated = true;
 	}
 	
-	int battle() {										//----- DA IMPLEMENTARE -----
+	int battle() {										//TODO impl
 		return 0;
 	}
 	
 	public Optional<String> interactWith() {
 		if(!this.isDefated){
 			int battleResult = battle();
-			if(battleResult == 1) {					//----- FIXARE battleResult -----, Restituisce a prescidere cose
+			if(battleResult == 1) {					//TODO fix result
 				setDefeated();	
 			}
 			return Optional.of("Bel combattimento");
