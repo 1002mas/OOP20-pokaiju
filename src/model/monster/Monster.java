@@ -110,6 +110,23 @@ public interface Monster {
     
     /**
      * 
+     * @param move
+     * @return
+     */
+    int getCurrentPPByMove(Moves move);
+    
+    /**
+     * 
+     */
+    boolean isOutOfPP(Moves move);
+    
+    /**
+     * 
+     */
+    void decMovePP(Moves move);
+    
+    /**
+     * 
      * @return
      */
     boolean canLearnNewMove();
