@@ -160,8 +160,25 @@ public class MonsterImpl implements Monster {
 
     @Override
     public List<Moves> getAllMoves() {
-	//TODO: talk with Michael :)
 	return Collections.unmodifiableList(movesList.stream().map(i -> i.getFirst()).collect(Collectors.toList()));
+    }
+
+    @Override
+    public int getCurrentPPByMove(Moves move) {
+	return movesList.stream().filter(i -> i.getFirst().equals(move)).findAny().get().getSecond();
+    }
+
+    @Override
+    public boolean isOutOfPP(Moves move) {
+	return movesList.stream().filter(i -> i.getFirst().equals(move)).findAny().get().getSecond() <= 0;
+    }
+
+    @Override
+    public void decMovePP(Moves move) {
+	int index = getIndexOfMove(move);
+	Pair<Moves, Integer> p = movesList.get(index);
+	movesList.remove(index);
+	movesList.add(index, new Pair<>(p.getFirst(), p.getSecond()-1));
     }
 
     @Override
@@ -196,10 +213,10 @@ public class MonsterImpl implements Monster {
 	this.movesList.remove(index);
 	this.movesList.add(index, new Pair<>(newMove, newMove.getCurrentPP()));
     }
-    
+
     private int getIndexOfMove(Moves move) {
-	for(int i = 0; i < this.movesList.size(); i++) {
-	    if(this.movesList.get(i).getFirst().equals(move)) {
+	for (int i = 0; i < this.movesList.size(); i++) {
+	    if (this.movesList.get(i).getFirst().equals(move)) {
 		return i;
 	    }
 	}
