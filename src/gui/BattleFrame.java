@@ -104,7 +104,7 @@ public class BattleFrame {
 	this.move = this.moves.get(0);
 	this.firstAttButton.setText("" + move + " " + ctrl.getCurrentPP(move) + " PP");
 	this.movesMap.put(firstAttButton, move);
-	if(!this.ctrl.checkPP(move)) {
+	if(this.ctrl.checkPP(move)) {
 	    this.firstAttButton.setEnabled(false);
 	}
 	else {
@@ -113,7 +113,7 @@ public class BattleFrame {
 	this.move = this.moves.get(1);
 	this.secondAttButton.setText("" + move + " " + ctrl.getCurrentPP(move) + " PP");
 	this.movesMap.put(secondAttButton, move);
-	if(!this.ctrl.checkPP(move)) {
+	if(this.ctrl.checkPP(move)) {
 	    this.secondAttButton.setEnabled(false);
 	}
 	else {
@@ -122,7 +122,7 @@ public class BattleFrame {
 	this.move = this.moves.get(2);
 	this.thirdAttButton.setText("" + move+ " " + ctrl.getCurrentPP(move) + " PP");
 	this.movesMap.put(thirdAttButton, move);
-	if(!this.ctrl.checkPP(move)) {
+	if(this.ctrl.checkPP(move)) {
 	    this.thirdAttButton.setEnabled(false);
 	}
 	else {
@@ -131,7 +131,7 @@ public class BattleFrame {
 	this.move = this.moves.get(3);
 	this.fourthAttButton.setText("" + move + " " + ctrl.getCurrentPP(move) + " PP");
 	this.movesMap.put(fourthAttButton, move);
-	if(!this.ctrl.checkPP(move)) {
+	if(this.ctrl.checkPP(move)) {
 	    this.fourthAttButton.setEnabled(false);
 	}
 	else {
