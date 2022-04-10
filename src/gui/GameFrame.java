@@ -56,7 +56,7 @@ public class GameFrame extends JFrame {
 	loginPanel.getContinue().addActionListener(e -> {
 
 	    this.playerController.load();
-	    //TODO caricare i dati è¯»å�–å­˜æ¡£ this.playerController.load();
+	    // TODO caricare i dati è¯»å�–å­˜æ¡£ this.playerController.load();
 
 	    if (!subPanels.containsKey(MAP_PANEL)) {
 		JPanel gamePanel = buildMapPanel();
@@ -195,7 +195,7 @@ public class GameFrame extends JFrame {
 	JLabel boxLabel = new JLabel();
 	boxPanel.add(boxLabel);
 
-	final GameItemPanel gameItemPanel = new GameItemPanel(this.playerController);
+	GameItemPanel gameItemPanel = new GameItemPanel(this.playerController);
 
 	PlayerInfoPanel playerInfoPanel = new PlayerInfoPanel(this.playerController);
 
