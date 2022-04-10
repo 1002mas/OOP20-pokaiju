@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+
+import model.Pair;
 import model.battle.Moves;
 
 public class MonsterBuilderImpl implements MonsterBuilder {
@@ -13,7 +15,7 @@ public class MonsterBuilderImpl implements MonsterBuilder {
     private static final int MIN_LEVEL = 1;
     private static int id;
     private int exp;
-    private List<Moves> movesList;
+    private List<Pair<Moves, Integer>> movesList;
     private boolean isWild;
     private int level = MIN_LEVEL;
     private MonsterSpecies species;
@@ -83,7 +85,7 @@ public class MonsterBuilderImpl implements MonsterBuilder {
     }
 
     @Override
-    public MonsterBuilder movesList(List<Moves> movesList) {
+    public MonsterBuilder movesList(List<Pair<Moves, Integer>> movesList) {
 	this.movesList = movesList.subList(0, MonsterImpl.NUM_MAX_MOVES);
 	return this;
     }
@@ -96,7 +98,7 @@ public class MonsterBuilderImpl implements MonsterBuilder {
 	Monster monster = new MonsterImpl(id, this.species.getBaseStats(), 0, MIN_LEVEL, this.isWild, this.species,
 		this.movesList);
 	id++;
-	for (int i = MIN_LEVEL; i <= this.level; i++) {
+	for (int i = MIN_LEVEL; i < this.level; i++) {
 	    monster.levelUp();
 	    monster.getMoveToLearn();
 	}

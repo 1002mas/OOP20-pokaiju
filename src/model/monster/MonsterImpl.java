@@ -8,10 +8,12 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
+import java.util.stream.Collectors;
 
+import model.Pair;
 import model.battle.Moves;
-import model.gameitem.GameItemTypes;
 import model.gameitem.GameItem;
+import model.gameitem.GameItemTypes;
 
 public class MonsterImpl implements Monster {
 
@@ -29,16 +31,18 @@ public class MonsterImpl implements Monster {
     private int level;
     private boolean isWild;
     private MonsterSpecies species;
-    private List<Moves> movesList;
+    private List<Pair<Moves, Integer>> movesList;
     private MonsterStats stats;
     private MonsterStats maxStats;
     private Set<Moves> movesToLearn;
 
     public MonsterImpl(int id, MonsterStats stats, int exp, int level, boolean isWild, MonsterSpecies species,
-	    List<Moves> movesList) {
+	    List<Pair<Moves, Integer>> movesList) {
 	this.id = id;
-	this.maxStats = new MonsterStatsImpl(stats.getHealth(), stats.getAttack(), stats.getDefense(), stats.getSpeed());
-	this.stats = new MonsterStatsImpl(maxStats.getHealth(), maxStats.getAttack(), maxStats.getDefense(), maxStats.getSpeed());
+	this.maxStats = new MonsterStatsImpl(stats.getHealth(), stats.getAttack(), stats.getDefense(),
+		stats.getSpeed());
+	this.stats = new MonsterStatsImpl(maxStats.getHealth(), maxStats.getAttack(), maxStats.getDefense(),
+		maxStats.getSpeed());
 	this.exp = exp;
 	this.level = level;
 	this.isWild = isWild;
@@ -118,7 +122,8 @@ public class MonsterImpl implements Monster {
 		this.maxStats.getSpeed() + new Random().nextInt(MAX_STAT_STEP - MIN_STAT_STEP) + MIN_STAT_STEP);
 	for (; incLevel > 0; incLevel--) {
 	    Optional<Moves> moves = species.learnNewMove(this.level - incLevel + 1);
-	    if (moves.isPresent() && !movesList.contains(moves.get())) {
+	    if (moves.isPresent()
+		    && movesList.stream().filter(i -> i.getFirst().equals(moves.get())).findAny().isEmpty()) {
 		this.movesToLearn.add(moves.get());
 	    }
 	}
@@ -150,12 +155,30 @@ public class MonsterImpl implements Monster {
 	if (index < 0 || index > getNumberOfMoves()) {
 	    throw new IllegalArgumentException();
 	}
-	return this.movesList.get(index);
+	return this.movesList.get(index).getFirst();
     }
 
     @Override
     public List<Moves> getAllMoves() {
-	return Collections.unmodifiableList(movesList);
+	return Collections.unmodifiableList(movesList.stream().map(i -> i.getFirst()).collect(Collectors.toList()));
+    }
+
+    @Override
+    public int getCurrentPPByMove(Moves move) {
+	return movesList.stream().filter(i -> i.getFirst().equals(move)).findAny().get().getSecond();
+    }
+
+    @Override
+    public boolean isOutOfPP(Moves move) {
+	return movesList.stream().filter(i -> i.getFirst().equals(move)).findAny().get().getSecond() <= 0;
+    }
+
+    @Override
+    public void decMovePP(Moves move) {
+	int index = getIndexOfMove(move);
+	Pair<Moves, Integer> p = movesList.get(index);
+	movesList.remove(index);
+	movesList.add(index, new Pair<>(p.getFirst(), p.getSecond()-1));
     }
 
     @Override
@@ -178,17 +201,26 @@ public class MonsterImpl implements Monster {
 	if (isMoveSetFull()) {
 	    throw new IllegalStateException();
 	}
-	this.movesList.add(move);
+	this.movesList.add(new Pair<>(move, move.getCurrentPP()));
     }
 
     @Override
     public void learnNewMove(Moves oldMove, Moves newMove) {
-	if (!this.movesList.contains(oldMove)) {
+	if (this.movesList.stream().filter(i -> i.getFirst().equals(oldMove)).findAny().isEmpty()) {
 	    throw new IllegalArgumentException();
 	}
-	int index = this.movesList.indexOf(oldMove);
+	int index = getIndexOfMove(oldMove);
 	this.movesList.remove(index);
-	this.movesList.add(index, newMove);
+	this.movesList.add(index, new Pair<>(newMove, newMove.getCurrentPP()));
+    }
+
+    private int getIndexOfMove(Moves move) {
+	for (int i = 0; i < this.movesList.size(); i++) {
+	    if (this.movesList.get(i).getFirst().equals(move)) {
+		return i;
+	    }
+	}
+	return -1;
     }
 
     @Override
@@ -235,7 +267,7 @@ public class MonsterImpl implements Monster {
     public MonsterStats getStats() {
 	return this.stats;
     }
-    
+
     @Override
     public MonsterStats getMaxStats() {
 	return this.maxStats;

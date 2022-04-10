@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import model.Pair;
+import model.gameevents.GameEvent;
 import model.monster.MonsterSpecies;
 import model.npc.NpcSimple;
 
@@ -18,10 +19,12 @@ public interface GameMapData {
     int getMapId();
 
     /**
-     * links a map to this map. If you want a bidirectional link, you need to link this to the other one as well
-     * @param map the linked map
+     * links a map to this map. If you want a bidirectional link, you need to link
+     * this to the other one as well
+     * 
+     * @param map             the linked map
      * @param mapLinkPosition the position in the current map to reach the given map
-     * @param characterSpawn the player position when the map is changed to map 
+     * @param characterSpawn  the player position when the map is changed to map
      */
     void addMapLink(GameMapData map, Pair<Integer, Integer> mapLinkPosition, Pair<Integer, Integer> characterSpawn);
 
@@ -44,7 +47,15 @@ public interface GameMapData {
     /**
      * @return a npc if there is in block position, otherwise Optional.empty
      */
-    Optional<NpcSimple> getNPC(Pair<Integer, Integer> block);
+    Optional<NpcSimple> getNpc(Pair<Integer, Integer> block);
+
+    /**
+     * 
+     * @param block place where the event may happens
+     * @return if there is an event it is returned, otherwise Optional.empty is
+     *         returned
+     */
+    Optional<GameEvent> getEvent(Pair<Integer, Integer> block);
 
     /**
      * @return get the near map linked to the position PlayerPosition and the place

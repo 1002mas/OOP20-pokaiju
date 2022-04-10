@@ -3,13 +3,16 @@ package model.map;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import model.Pair;
+import model.gameevents.GameEvent;
 import model.monster.MonsterSpecies;
 import model.npc.NpcSimple;
 
@@ -19,23 +22,24 @@ public class GameMapDataImpl implements GameMapData {
     private final int maximumMonsterLevel;
     private final String name;
     private final Map<Pair<Integer, Integer>, MapBlockType> blocks;
-    private final Map<Pair<Integer, Integer>, NpcSimple> npcs;
+    private final Set<NpcSimple> npcs;
     private final Map<Pair<Integer, Integer>, GameMapData> linkedMaps;
+    private final Map<Pair<Integer, Integer>, GameEvent> eventLocation;
     private final Map<GameMapData, Pair<Integer, Integer>> linkedMapsStartingPosition;
     private final List<MonsterSpecies> wildMonsters;
 
     public GameMapDataImpl(int id, int minimumMonsterLevel, int maximumMonsterLevel, String name,
-	    Map<Pair<Integer, Integer>, MapBlockType> blocks, Map<Pair<Integer, Integer>, NpcSimple> npcs,
-	    List<MonsterSpecies> wildMonsters) {
+	    Map<Pair<Integer, Integer>, MapBlockType> blocks, Set<NpcSimple> npcs, List<MonsterSpecies> wildMonsters) {
 	this.id = id;
 	this.minimumMonsterLevel = minimumMonsterLevel;
 	this.maximumMonsterLevel = maximumMonsterLevel;
 	this.name = name;
 	this.blocks = blocks;
-	this.npcs = npcs == null ? new HashMap<>() : npcs;
+	this.npcs = npcs == null ? new HashSet<>() : npcs;
+	this.wildMonsters = wildMonsters == null ? new ArrayList<>() : wildMonsters;
 	this.linkedMaps = new HashMap<>();
 	this.linkedMapsStartingPosition = new HashMap<>();
-	this.wildMonsters = wildMonsters == null ? new ArrayList<>() : wildMonsters;
+	this.eventLocation = new HashMap<>();
     }
 
     @Override
@@ -61,8 +65,13 @@ public class GameMapDataImpl implements GameMapData {
     }
 
     @Override
-    public Optional<NpcSimple> getNPC(Pair<Integer, Integer> block) {
-	return npcs.containsKey(block) ? Optional.of(npcs.get(block)) : Optional.empty();
+    public Optional<NpcSimple> getNpc(Pair<Integer, Integer> block) {
+	return npcs.stream().filter(npc -> npc.getPosition().equals(block)).findFirst();
+    }
+
+    @Override
+    public Optional<GameEvent> getEvent(Pair<Integer, Integer> block) {
+	return eventLocation.containsKey(block) ? Optional.of(eventLocation.get(block)) : Optional.empty();
     }
 
     @Override
@@ -82,6 +91,11 @@ public class GameMapDataImpl implements GameMapData {
     }
 
     @Override
+    public List<NpcSimple> getAllNpcs() {
+	return new ArrayList<NpcSimple>(npcs);
+    }
+
+    @Override
     public int hashCode() {
 	return Objects.hash(id);
     }
@@ -96,11 +110,6 @@ public class GameMapDataImpl implements GameMapData {
 	    return false;
 	GameMapDataImpl other = (GameMapDataImpl) obj;
 	return id == other.id;
-    }
-
-    @Override
-    public List<NpcSimple> getAllNpcs() {
-	return Collections.unmodifiableList(this.npcs.values().stream().collect(Collectors.toList()));
     }
 
 }

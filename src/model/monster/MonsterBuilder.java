@@ -1,6 +1,8 @@
 package model.monster;
 
 import java.util.List;
+
+import model.Pair;
 import model.battle.Moves;
 
 public interface MonsterBuilder {
@@ -18,28 +20,28 @@ public interface MonsterBuilder {
      * @param health
      * @return
      */
-    public MonsterBuilder health(int health);
+    MonsterBuilder health(int health);
     
     /**
      * 
      * @param atk
      * @return
      */
-    public MonsterBuilder attack(int atk);    
+    MonsterBuilder attack(int atk);    
    
     /**
      * 
      * @param dfs
      * @return
      */
-    public MonsterBuilder defense(int dfs);
+    MonsterBuilder defense(int dfs);
     
     /**
      * 
      * @param spd
      * @return
      */
-    public MonsterBuilder speed(int spd);
+    MonsterBuilder speed(int spd);
     
     /**
      * Build monster's experience
@@ -63,7 +65,7 @@ public interface MonsterBuilder {
      * @param a list of moves
      * @return a MonsterBuilder
      */
-    MonsterBuilder movesList(List<Moves> movesList);
+    MonsterBuilder movesList(List<Pair<Moves, Integer>> movesList);
 
     /**
      * Build monster's species
@@ -74,9 +76,8 @@ public interface MonsterBuilder {
     MonsterBuilder species(MonsterSpecies species);
 
     /**
-     * Build the monster
-     * 
-     * @return new Monster
+     * @throws IllegalStateException when obligatory parameters are missing
+     * @return
      */
     Monster build();
 }
