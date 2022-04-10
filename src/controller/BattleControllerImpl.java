@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 import model.Pair;
 import model.battle.MonsterBattle;
 import model.gameitem.GameItemTypes;
-import model.gameitem.GameItems;
+import model.gameitem.GameItem;
 import model.monster.Monster;
 
 public class BattleControllerImpl implements BattleController {
@@ -134,7 +134,7 @@ public class BattleControllerImpl implements BattleController {
 
     @Override
     public void useItem(String gameItemName, int monsterId) {
-	GameItems gameItem = monsterBattle.getPlayer().allItems().stream()
+	GameItem gameItem = monsterBattle.getPlayer().allItems().stream()
 		.filter(i -> i.getNameItem().equals(gameItemName)).findAny().get();
 	if (gameItem.getType() == GameItemTypes.MONSTERBALL) {
 	    monsterBattle.getPlayer().useItem(gameItem);

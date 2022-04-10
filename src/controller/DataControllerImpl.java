@@ -16,7 +16,7 @@ import com.google.gson.reflect.TypeToken;
 
 import model.battle.Moves;
 import model.gameitem.GameItemImpl;
-import model.gameitem.GameItems;
+import model.gameitem.GameItem;
 import model.map.GameMap;
 import model.map.GameMapData;
 import model.map.GameMapDataImpl;
@@ -57,7 +57,7 @@ public class DataControllerImpl implements DataController {
 		gsonBuilder.registerTypeAdapter(MonsterStats.class, new TypeAdapterController());
 		gsonBuilder.registerTypeAdapter(Monster.class, new TypeAdapterController());
 		gsonBuilder.registerTypeAdapter(GameMapData.class, new TypeAdapterController());
-		gsonBuilder.registerTypeAdapter(GameItems.class,new TypeAdapterController());
+		gsonBuilder.registerTypeAdapter(GameItem.class,new TypeAdapterController());
 		this.gson = gsonBuilder.create();
 		loadMapData();
 		gameMap = new GameMapImpl(gameMapData);
@@ -165,8 +165,8 @@ public class DataControllerImpl implements DataController {
 	}
 
 	@Override
-	public List<GameItems> loadItems() {	//--
-		List<GameItems> i = new ArrayList<>();
+	public List<GameItem> loadItems() {	//--
+		List<GameItem> i = new ArrayList<>();
 		File dataFile = new File(gameItemsPath);
 		if(dataFile.exists()) {
 			try (final BufferedReader reader = new BufferedReader ( new FileReader ( gameItemsPath))){

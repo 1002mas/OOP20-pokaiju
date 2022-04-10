@@ -165,7 +165,7 @@ public interface Monster {
      * @param item
      * @return if monster evolves by item
      */
-    boolean canEvolveByItem(GameItems item);
+    boolean canEvolveByItem(GameItem item);
     
     /**
      * 

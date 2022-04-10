@@ -11,7 +11,7 @@ import model.Pair;
 import model.battle.Moves;
 import model.battle.MovesImpl;
 import model.gameitem.EvolutionItem;
-import model.gameitem.GameItems;
+import model.gameitem.GameItem;
 import model.monster.Monster;
 import model.monster.MonsterBuilderImpl;
 import model.monster.MonsterImpl;
@@ -36,7 +36,7 @@ public class TestMonster {
     @org.junit.Before
     public void initFactory() {
 	List<Pair<Moves, Integer>> allMoves;
-	GameItems neededItem;
+	GameItem neededItem;
 	List<Moves> listOfMoves;
 	MonsterSpecies species;
 	MonsterSpecies firstEvolution;
@@ -112,7 +112,7 @@ public class TestMonster {
 
     @org.junit.Test
     public void evolutionByRightItem() {
-	GameItems holdedItemRight = new EvolutionItem("PietraPaperino", 1, "desc");
+	GameItem holdedItemRight = new EvolutionItem("PietraPaperino", 1, "desc");
 	assertEquals("Paperino", monsterByItem.getName());
 	assertTrue(this.monsterByItem.canEvolveByItem(holdedItemRight));
 	if(monsterByItem.canEvolveByItem(holdedItemRight)) {
@@ -123,7 +123,7 @@ public class TestMonster {
 
     @org.junit.Test
     public void evolutionByWrongItem() {
-	GameItems holdedItemWrong = new EvolutionItem("PietraPippo", 1, "desc");
+	GameItem holdedItemWrong = new EvolutionItem("PietraPippo", 1, "desc");
 	assertEquals("Paperino", monsterByItem.getName());
 	assertFalse(this.monsterByItem.canEvolveByItem(holdedItemWrong));
 	if(monsterByItem.canEvolveByItem(holdedItemWrong)) {
@@ -135,7 +135,7 @@ public class TestMonster {
     
     @org.junit.Test
     public void evolveByLevelAndItem() {
-	GameItems holdedItem = new EvolutionItem("PietraPaperino", 1, "desc");
+	GameItem holdedItem = new EvolutionItem("PietraPaperino", 1, "desc");
 	monsterByLevelAndItem.incExp((FIRST_EVOLUTION_LEVEL - 2) * MonsterImpl.EXP_CAP);
 	assertEquals("Topolino", monsterByLevelAndItem.getName());
 	monsterByLevelAndItem.incExp(MonsterImpl.EXP_CAP);

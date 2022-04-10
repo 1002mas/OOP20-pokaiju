@@ -2,7 +2,7 @@ package model.battle;
 
 import java.util.Optional;
 
-import model.gameitem.GameItems;
+import model.gameitem.GameItem;
 import model.monster.Monster;
 import model.npc.NpcTrainer;
 import model.player.Player;
@@ -23,7 +23,7 @@ public interface MonsterBattle {
 
 	boolean isCurrentMonsterAlive();
 
-	boolean useItem(GameItems item);
+	boolean useItem(GameItem item);
 	
 	Monster getCurrentPlayerMonster();
 	

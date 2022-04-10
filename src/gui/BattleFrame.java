@@ -26,7 +26,7 @@ import controller.BattleController;
 import controller.ImagesLoader;
 import model.battle.Moves;
 import model.battle.MovesData;
-import model.gameitem.GameItems;
+import model.gameitem.GameItem;
 import model.monster.Monster;
 
 public class BattleFrame {
