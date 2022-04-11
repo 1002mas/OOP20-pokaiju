@@ -6,23 +6,33 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import model.Pair;
 import model.battle.Moves;
 import model.battle.MovesImpl;
 import model.gameitem.EvolutionItem;
 import model.gameitem.GameItem;
 import model.gameitem.GameItemImpl;
 import model.gameitem.HealingItem;
+import model.map.GameMapData;
+import model.map.GameMapDataImpl;
+import model.map.MapBlockType;
 import model.monster.EvolutionType;
 import model.monster.Monster;
 import model.monster.MonsterImpl;
 import model.monster.MonsterSpecies;
+import model.monster.MonsterSpeciesBuilderImpl;
 import model.monster.MonsterSpeciesByItem;
+import model.monster.MonsterSpeciesByLevel;
 import model.monster.MonsterSpeciesImpl;
+import model.monster.MonsterStats;
+import model.monster.MonsterType;
 import model.npc.NpcMerchant;
 import model.npc.NpcMerchantImpl;
 import model.npc.NpcSimple;
@@ -42,16 +52,19 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 	private static final String GAME_ITEM_PATH = BASE_PATH + File.separator + "gameItem" + File.separator + "evolution"
 			+ File.separator;
 	private static final String MONSTER_PATH = BASE_PATH + "monster" + File.separator;
+	private static final String GAME_MAP_DATA_PATH = BASE_PATH + "gameMapData" + File.separator;
 
+	// TODO check if set this.x
+	// TODO check ==/equals()
+	// TODO do tests
 	private GsonBuilder gsonBuilder;
 	private Gson gson;
-
-
 	private List<Moves> movesd;
 	private List<Monster> monster;
 	private List<MonsterSpecies> monsterSpecies;
 	private List<NpcSimple> npcs;
 	private List<GameItem> gameItems;
+	private List<GameMapData> gameMapData;
 
 	public DataLoaderControllerImpl() {
 		this.gsonBuilder = new GsonBuilder();
@@ -91,7 +104,7 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 	public List<Moves> getMoves() {
 		if (this.movesd == null) {
 			movesd = new ArrayList<>();
-			loadMoves();
+			this.loadMoves();
 		}
 		return this.movesd;
 	}
@@ -149,7 +162,7 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 	public List<NpcSimple> getNpcs() {
 		if (this.npcs == null) {
 			npcs = new ArrayList<>();
-			loadNpcs();
+			this.loadNpcs();
 		}
 		return this.npcs;
 	}
@@ -193,14 +206,23 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 
 				switch (ms.getEvolutionType()) {
 				case ITEM:
-					m = new MonsterSpeciesByItem(ms.getName(), ms.getInfo(), ms.getMonsterType(), ms.getMonsterStats(),
-							evolution.get(), ms.getEvolutionGameItem().get(), null);
-					// TODO use movesData ASAP is usable instead of null
+					m = new MonsterSpeciesBuilderImpl().name(ms.getName()).info(ms.getInfo())
+							.monsterType(ms.getMonsterType()).health(ms.getMonsterStats().getHealth())
+							.attack(ms.getMonsterStats().getAttack()).defense(ms.getMonsterStats().getDefense())
+							.speed(ms.getMonsterStats().getSpeed()).evolution(evolution.get())
+							.gameItem(ms.getEvolutionGameItem(gameItems).get()).allMoves(ms.getAllMoves(movesd))
+							.build();
 					break;
 				case LEVEL:
-					m = new MonsterSpeciesByItem(ms.getName(), ms.getInfo(), ms.getMonsterType(), ms.getMonsterStats(),
-							evolution.get(), ms.getEvolutionGameItem().get(), null);
-					// TODO use movesData ASAP is usable instead of null
+					m = new MonsterSpeciesBuilderImpl().name(ms.getName()).info(ms.getInfo())
+					.monsterType(ms.getMonsterType()).health(ms.getMonsterStats().getHealth())
+					.attack(ms.getMonsterStats().getAttack()).defense(ms.getMonsterStats().getDefense())
+					.speed(ms.getMonsterStats().getSpeed()).evolution(evolution.get())
+					.gameItem(ms.getEvolutionGameItem(gameItems).get()).allMoves(ms.getAllMoves(movesd))
+					.build();
+					
+					m = new MonsterSpeciesByLevel(ms.getName(), ms.getInfo(), ms.getMonsterType(), ms.getMonsterStats(),
+							evolution.get(), ms.getEvolutionLevel().get(), ms.getAllMoves(movesd));
 					break;
 				default:
 					throw new IllegalStateException();
@@ -216,13 +238,12 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 
 	}
 
-	private void loadSimpleMonsters(List<MonsterSpeciesSupport> mssList) { // --
+	private void loadSimpleMonsters(List<MonsterSpeciesSupport> mssList) {
 		List<MonsterSpeciesSupport> removedMonsters = new ArrayList<>();
 		for (MonsterSpeciesSupport ms : mssList) {
 			if (ms.getEvolutionType().equals(EvolutionType.NONE)) {
 				MonsterSpecies m = new MonsterSpeciesImpl(ms.getName(), ms.getInfo(), ms.getMonsterType(),
 						ms.getMonsterStats(), ms.getAllMoves(this.movesd));
-
 				this.monsterSpecies.add(m);
 				removedMonsters.add(ms);
 			}
@@ -273,9 +294,10 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 		}
 	}
 
-	public List<GameItem> getGameEvolution() {
+	@Override
+	public List<GameItem> getGameItems() {
 		if (this.gameItems == null) {
-			gameItems = new ArrayList<>();
+			this.gameItems = new ArrayList<>();
 			loadGameItems();
 
 		}
@@ -292,8 +314,7 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 
 				MonsterSupport m = gson.fromJson(stringRead, MonsterSupport.class);
 				Monster monster = new MonsterImpl(m.getId(), m.getStats(), m.getExp(), m.getLevel(), false,
-						m.getTranslatedMonsterSpecies(this.monsterSpecies), null);
-				// TODO use movesData ASAP is usable instead of null
+						m.getTranslatedMonsterSpecies(this.monsterSpecies), m.getTranslatedMoves(movesd));
 				// TODO use MonsterBuildier ?
 				this.monster.add(monster);
 			} catch (IOException e) {
@@ -302,13 +323,43 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 		}
 	}
 
+	@Override
 	public List<Monster> getMonsters() {
 		if (this.monster == null) {
-			monster = new ArrayList<>();
+			this.monster = new ArrayList<>();
 			loadMonsters();
 
 		}
 		return this.monster;
+	}
+
+	private void loadGameMapData() {
+		File folder = new File(GAME_MAP_DATA_PATH);
+		for (File file : folder.listFiles()) {
+			String filePath = file.getPath();
+
+			try (final BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+				String stringRead = reader.readLine();
+
+				GameMapDataSupport m = gson.fromJson(stringRead, GameMapDataSupport.class);
+				GameMapData map = new GameMapDataImpl(m.getId(), m.getMinimumMonsterLevel(), m.getMaximumMonsterLevel(),
+						m.getName(), m.getBlocks(), m.getTranslatedNpcs(npcs),
+						m.getTranslatedtWildMonsters(monsterSpecies));
+
+				this.gameMapData.add(map);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	@Override
+	public List<GameMapData> getGameMapData() {
+		if (this.gameMapData == null) {
+			this.gameMapData = new ArrayList<>();
+			loadGameMapData();
+		}
+		return this.gameMapData;
 	}
 
 }

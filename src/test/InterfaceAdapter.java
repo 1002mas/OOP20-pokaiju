@@ -18,21 +18,21 @@ public class InterfaceAdapter  implements JsonSerializer, JsonDeserializer {
 	public Object deserialize(JsonElement jsonElement, Type type,
 	        JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
 			
-				System.out.println("cuao");
+				
 		        JsonObject jsonObject = jsonElement.getAsJsonObject();
-		        System.out.println("jsonObject--> " + jsonObject);
+		        //System.out.println("jsonObject--> " + jsonObject);
 		        JsonPrimitive prim = (JsonPrimitive) jsonObject.get(CLASSNAME);
 		       
-		        System.out.println("prima di classname--> "+prim);
+		    
 		        String className = prim.getAsString();
-		        System.out.println("dopo classmame--> "+ className);
+		        
 		        System.out.println(jsonObject.get(DATA));
 		        Class klass = getObjectClass(className);
 		            return jsonDeserializationContext.deserialize(jsonObject.get(DATA), klass);
 	}
 	
 	public JsonElement serialize(Object jsonElement, Type type, JsonSerializationContext jsonSerializationContext) {
-		System.out.println("lavora ");
+		
 		JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty(CLASSNAME, jsonElement.getClass().getName());
         jsonObject.add(DATA, jsonSerializationContext.serialize(jsonElement));
