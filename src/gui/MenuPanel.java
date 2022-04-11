@@ -17,25 +17,26 @@ import controller.ImagesLoader;
 import controller.PlayerController;
 
 public class MenuPanel extends JPanel {
-    private final JPanel parentPanel;
+    private static final long serialVersionUID = 5503139907518499045L;
     private final ImagesLoader imgLoad;
     private int size;
+    private final GameFrame gui;
     private final PlayerController playerController;
     private static final String MONSTERPANEL = "MONSTER";
     private static final String BOXPANEL = "BOX";
     private static final String GAMEITEMSPANEL = "ITEMS";
     private static final String PLAYERINFOPANEL = "INFO";
 
-    public MenuPanel(JPanel parentPanel, PlayerController playerController, ImagesLoader imgLoad, int size) {
-	this.parentPanel = parentPanel;
+    public MenuPanel(PlayerController playerController, ImagesLoader imgLoad, int size, GameFrame gui) {
 	this.playerController = playerController;
 	this.imgLoad = imgLoad;
 	this.size = size;
+	this.gui = gui;
 	init();
     }
 
     private void init() {
-	CardLayout cLayout = (CardLayout) this.parentPanel.getLayout();
+	CardLayout cLayout = (CardLayout) this.gui.getContentPane().getLayout();
 
 	this.setLayout(new BorderLayout());
 
@@ -87,34 +88,32 @@ public class MenuPanel extends JPanel {
 	    cLayout.show(bottomPanel, GAMEITEMSPANEL);
 
 	});
-	playerInfo.addActionListener(e -> cLayout.show(bottomPanel, PLAYERINFOPANEL));
+	playerInfo.addActionListener(e -> {
+	    playerInfoPanel.update();
+	    cLayout.show(bottomPanel, PLAYERINFOPANEL);
+	});
 	quit.addActionListener(e -> {
 	    monsterPanel.changePanel(Integer.toString(0));
 	    gameItemPanel.changePanel(GAMEITEMSPANEL);
-	    this.update();
-	    cLayout.show(parentPanel, GameFrame.MAP_PANEL);
+	    gui.changePanel(GameFrame.MAP_PANEL);
 	});
 
 	save.addActionListener(new ActionListener() {
 	    public void actionPerformed(ActionEvent e) {
-		// TODO salvataggio
+		playerController.save();
 
 	    }
 	});
-	// this.playerController.save(null); TODO
 	backToMainMenu.addActionListener(new ActionListener() {
 	    public void actionPerformed(ActionEvent e) {
 		int result = JOptionPane.showConfirmDialog(null, "Sure? You want to exit?", "Warning",
 			JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 		if (result == JOptionPane.YES_OPTION) {
-		    cLayout.show(parentPanel, GameFrame.LOGIN_PANEL);
+		    gui.changePanel(GameFrame.LOGIN_PANEL);
 		} else if (result == JOptionPane.NO_OPTION) {
-
-		} else {
 
 		}
 	    }
-
 	});
 
 	bottomPanel.add(monsterPanel, MONSTERPANEL);
@@ -126,10 +125,4 @@ public class MenuPanel extends JPanel {
 	this.add(bottomPanel, BorderLayout.CENTER);
 
     }
-
-    public void update() {
-	this.removeAll();
-	init();
-    }
-
 }

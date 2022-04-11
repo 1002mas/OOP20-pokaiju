@@ -31,7 +31,6 @@ public class GameItemPanel extends JPanel {
     }
 
     private void init() {
-
 	this.setLayout(cardlayout);
 
 	JPanel containerPanel = new JPanel(new BorderLayout());
@@ -61,14 +60,13 @@ public class GameItemPanel extends JPanel {
 		    changePanel("SELECTIONPANEL");
 		}
 	    });
-	    setShowProp(listItemsName, subPanel);
 	    subPanel.add(nameItem);
 	    subPanel.add(quantity);
 	    subPanel.add(description);
 	    subPanel.add(type);
 	    subPanel.add(useItemButton);
 	}
-
+	setShowProp(listItemsName, subPanel);
 	JScrollPane scrollPane = new JScrollPane(subPanel);
 	scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 

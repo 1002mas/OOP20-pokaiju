@@ -28,11 +28,12 @@ public class SelectMosterPanel extends JPanel {
     private void init() {
 	CardLayout c1 = (CardLayout) this.parentPanel.getLayout();
 	this.setLayout(c1);
+	
 	JPanel containerPanel = new JPanel(new BorderLayout());
 	List<Integer> monsterIds = this.playerController.getMonstersId();
 
 	JPanel allMonsterPanel = new JPanel(new GridLayout(6, 2));
-	for (int monsterId : monsterIds) {// nome lv vita , img , stats
+	for (int monsterId : monsterIds) {
 	    JLabel singleMonsterLabel = new JLabel();
 	    String stats = "<html>" + "name : " + this.playerController.getMonsterNameById(monsterId) + "<br/>"
 		    + "Level : " + playerController.getMonsterLevel(monsterId) + "<br/>" + "Hp : "

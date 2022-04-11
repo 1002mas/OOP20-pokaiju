@@ -41,4 +41,9 @@ public class PlayerInfoPanel extends JPanel {
 	label.setBorder(BorderFactory.createLineBorder(Color.black));
 	label.setAlignmentX(JLabel.CENTER_ALIGNMENT);
     }
+
+    public void update() {
+	this.removeAll();
+	this.init();
+    };
 }
