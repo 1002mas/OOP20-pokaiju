@@ -14,8 +14,8 @@ public class NpcBehaviorChanger extends AbstractGameEvent {
     private List<Optional<Integer>> npcsText = new ArrayList<>();
     private List<Optional<Boolean>> npcsShow = new ArrayList<>();
 
-    public NpcBehaviorChanger(int id, boolean isActive, boolean isDeactivable, List<GameEvent> events) {
-	super(id, isActive, isDeactivable, true, events);
+    public NpcBehaviorChanger(int id, boolean isActive, boolean isDeactivable, boolean isToActiveImmediatly) {
+	super(id, isActive, isDeactivable, isToActiveImmediatly);
     }
 
     private void addNpc(NpcSimple npc, Optional<Pair<Integer, Integer>> newPosition, Optional<Integer> nextText,
@@ -37,7 +37,8 @@ public class NpcBehaviorChanger extends AbstractGameEvent {
 
     /**
      * This function is used to logically delete a npc from the map
-     * @param npc 
+     * 
+     * @param npc
      * @param visibility true to make it visible, false to hide it
      */
     public void addNpcVisibilityChange(NpcSimple npc, boolean visibility) {
