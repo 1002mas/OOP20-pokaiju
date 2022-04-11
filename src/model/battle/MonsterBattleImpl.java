@@ -36,7 +36,7 @@ public class MonsterBattleImpl implements MonsterBattle {
 	this.trainer = trainer;
 	this.battleStatus = true;
 	this.enemyTrainer = Optional.empty();
-	this.playerTeam = trainer.allMonster();
+	this.playerTeam = trainer.getAllMonsters();
 	this.playerCurrentMonster = playerTeam.get(0);
 	this.enemyTeam = new ArrayList<>(enemyTeam);
 	this.enemy = enemyTeam.get(0);

@@ -71,6 +71,7 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 	private List<GameItem> gameItems;
 	private List<GameMapData> gameMapData;
 
+
 	public DataLoaderControllerImpl() {
 		this.gsonBuilder = new GsonBuilder();
 		/*
@@ -137,7 +138,7 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 			try (final BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
 				String stringRead = reader.readLine();
 				NpcTrainerSupport n = gson.fromJson(stringRead, NpcTrainerSupport.class);
-				NpcTrainer npc = new NpcTrainerImpl(n.getName(), n.getTypeOfNpc(), n.getSentences(), n.getPosition(),
+				NpcTrainer npc = new NpcTrainerImpl(n.getName(),  n.getSentences(), n.getPosition(),
 						n.getIsVisible(), n.getIsEnabled(), n.getTranslatedMonsterList(monster), n.getIsVisible());
 				this.npcs.add(npc);
 			} catch (IOException e) {
@@ -152,7 +153,7 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 			try (final BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
 				String stringRead = reader.readLine();
 				NpcMerchantSupport n = gson.fromJson(stringRead, NpcMerchantSupport.class);
-				NpcMerchant npc = new NpcMerchantImpl(n.getName(), n.getTypeOfNpc(), n.getSentences(), n.getPosition(),
+				NpcMerchant npc = new NpcMerchantImpl(n.getName(), n.getSentences(), n.getPosition(),
 						n.getIsVisible(), n.getisEnabled(), n.getTranslatedGameItem(gameItems));
 				this.npcs.add(npc);
 			} catch (IOException e) {
@@ -272,6 +273,7 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 				GameItem gameItem;
 				switch (gis.getType()) {
 
+
 				case EVOLUTIONTOOL:
 					gameItem = new EvolutionItem(gis.getNameItem(), gis.getQuantity(), gis.getDescription());
 					break;
@@ -297,6 +299,7 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 
 	@Override
 	public List<GameItem> getGameItems() {
+
 		if (this.gameItems == null) {
 			this.gameItems = new ArrayList<>();
 			loadGameItems();

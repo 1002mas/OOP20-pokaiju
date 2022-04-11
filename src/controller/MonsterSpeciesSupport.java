@@ -99,6 +99,7 @@ public class MonsterSpeciesSupport {
 				return Optional.of(gi);
 			}
 		}
+
 		return Optional.empty();
 	}
 

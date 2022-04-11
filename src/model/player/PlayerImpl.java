@@ -35,19 +35,19 @@ public class PlayerImpl implements Player {
     }
 
     @Override
-    public List<Monster> allMonster() {
+    public List<Monster> getAllMonsters() {
 	List<Monster> list = new ArrayList<>(Collections.unmodifiableList(this.monster));
 	return list;
     }
 
     public String toString() {
-	return this.name + ", " + this.trainerNumber + ", " + this.gender + ", " + allMonster().toString() + ", "
+	return this.name + ", " + this.trainerNumber + ", " + this.gender + ", " + getAllMonsters().toString() + ", "
 		+ this.gameItems.toString() + ", " + this.position.getFirst() + ", " + this.position.getSecond();
 
     }
 
     @Override
-    public List<GameItem> allItems() {
+    public List<GameItem> getAllItems() {
 	return new ArrayList<>(this.gameItems);
     }
 
@@ -80,7 +80,7 @@ public class PlayerImpl implements Player {
 
     @Override
     public void useItem(GameItem i) {
-	if (allItems().contains(i) && i.use(null)) {
+	if (getAllItems().contains(i) && i.use(null)) {
 	    removeItem(i);
 	}
     }
@@ -160,12 +160,12 @@ public class PlayerImpl implements Player {
 
     @Override
     public boolean isTeamFull() {
-	return this.allMonster().stream().count() >= 6 ? true : false;
+	return this.getAllMonsters().stream().count() >= 6 ? true : false;
     }
 
     @Override
     public boolean removeMonster(Monster m) {
-	if (this.allMonster().contains(m)) {
+	if (this.getAllMonsters().contains(m)) {
 	    return this.monster.remove(m);
 	}
 	return false;
@@ -173,7 +173,7 @@ public class PlayerImpl implements Player {
 
     @Override
     public void useItemOnMonster(GameItem i, Monster m) {
-	if (allItems().contains(i) && i.use(m)) {
+	if (getAllItems().contains(i) && i.use(m)) {
 	    removeItem(i);
 	}
     }
