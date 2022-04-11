@@ -13,9 +13,8 @@ public class UniqueMonsterEvent extends AbstractGameEvent {
     private final Player player;
     private Optional<MonsterBattle> monsterBattle = Optional.empty();
 
-    public UniqueMonsterEvent(int id, boolean isActive, boolean isToActiveImmediatly, List<GameEvent> events,
-	    Monster monster, Player player) {
-	super(id, isActive, true, false, events);
+    public UniqueMonsterEvent(int id, boolean isActive, boolean isToActiveImmediatly, Monster monster, Player player) {
+	super(id, isActive, true, isToActiveImmediatly);
 	this.monster = monster;
 	this.player = player;
     }
@@ -27,7 +26,8 @@ public class UniqueMonsterEvent extends AbstractGameEvent {
 
     /**
      * 
-     * @return The battle against a monster if the event has been activated. Optional.empty otherwise
+     * @return The battle against a monster if the event has been activated.
+     *         Optional.empty otherwise
      */
     public Optional<MonsterBattle> getMonsterBattle() {
 	return this.monsterBattle;

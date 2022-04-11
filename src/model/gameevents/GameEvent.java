@@ -1,11 +1,25 @@
 package model.gameevents;
 
-public interface GameEvent {//npcs needs events field
+public interface GameEvent {// npcs needs events field
     /**
      * 
      * @return event ID
      */
     int getEventID();
+
+    /**
+     * Add an event that has to deactivate after this one is triggered.
+     * 
+     * @param e the event
+     */
+    void addDependentGameEvent(GameEvent e);
+
+    /**
+     * Add an event that has to be set active after this one is triggered.
+     * 
+     * @param e the event
+     */
+    void addSuccessiveGameEvent(GameEvent e);
 
     /**
      * 
@@ -36,7 +50,8 @@ public interface GameEvent {//npcs needs events field
 
     /**
      * This function make the event happens. If the event is not active nothing will
-     * happen. If the event is not permanent, it will be automatically deactivated after calling this function.
+     * happen. If the event is not permanent, it will be automatically deactivated
+     * after calling this function.
      */
     void activate();
 }

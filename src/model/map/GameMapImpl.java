@@ -58,18 +58,20 @@ public class GameMapImpl implements GameMap {
 	return temp;
     }
 
-    private List<Moves> getRandomListMoves(MonsterSpecies species, int level) {
-	List<Moves> movesList = new ArrayList<>();
+    private List<Pair<Moves, Integer>> getRandomListMoves(MonsterSpecies species, int level) {
+	final int maxProb = 10;
+	final int prob = 5;
+	List<Pair<Moves, Integer>> movesList = new ArrayList<>();
 	List<Moves> learnableMoves = species.getAllLearnableMoves(level);
 	for (Moves m : learnableMoves) {
-	    if (movesList.size() < MonsterImpl.NUM_MAX_MOVES) {
-		movesList.add(m);
+	    if (movesList.size() < MonsterImpl.NUM_MAX_MOVES && new Random().nextInt(maxProb) < prob) {
+		movesList.add(new Pair<>(m, m.getPP()));
 	    } else {
 		break;
 	    }
 	}
 	if (movesList.size() == 0 && learnableMoves.size() > 0) {
-	    movesList.add(learnableMoves.get(0));
+	    movesList.add(new Pair<>(learnableMoves.get(0), learnableMoves.get(0).getPP()));
 	}
 	return movesList;
     }
