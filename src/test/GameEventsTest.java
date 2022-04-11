@@ -50,13 +50,13 @@ public class GameEventsTest {
     @org.junit.Test
     public void starterMonsterSelection() {
 	List<String> teacherSentences = List.of("Choose a monster", "Congrats");
-	NpcSimple teacher = new NpcSimpleImpl("Doc", TypeOfNpc.SIMPLE, teacherSentences, new Pair<>(0, 0), true, true);
-	NpcSimple item1 = new NpcSimpleImpl("monsterAnpc", TypeOfNpc.SIMPLE, List.of("You choose monsterA"),
-		new Pair<>(0, 1), true, true);
-	NpcSimple item2 = new NpcSimpleImpl("monsterBnpc", TypeOfNpc.SIMPLE, List.of("You choose monsterB"),
-		new Pair<>(0, 2), true, true);
-	NpcSimple item3 = new NpcSimpleImpl("monsterCnpc", TypeOfNpc.SIMPLE, List.of("You choose monsterC"),
-		new Pair<>(0, 3), true, true);
+	NpcSimple teacher = new NpcSimpleImpl("Doc", teacherSentences, new Pair<>(0, 0), true, true);
+	NpcSimple item1 = new NpcSimpleImpl("monsterAnpc", List.of("You choose monsterA"), new Pair<>(0, 1), true,
+		true);
+	NpcSimple item2 = new NpcSimpleImpl("monsterBnpc", List.of("You choose monsterB"), new Pair<>(0, 2), true,
+		true);
+	NpcSimple item3 = new NpcSimpleImpl("monsterCnpc", List.of("You choose monsterC"), new Pair<>(0, 3), true,
+		true);
 
 	NpcBehaviorChanger npcDisappearingEvent = new NpcBehaviorChanger(0, false, true, true);
 	npcDisappearingEvent.addNpcDialogChange(teacher, 1);
@@ -108,10 +108,8 @@ public class GameEventsTest {
     public void npcChangePosition() {
 	Pair<Integer, Integer> startingPosition = new Pair<>(10, 10);
 	Pair<Integer, Integer> newPosition = new Pair<>(2, 0);
-	NpcSimple mario = new NpcSimpleImpl("Mario", TypeOfNpc.SIMPLE, List.of("Licia? She is behind you"),
-		new Pair<>(0, 0), true, true);
-	NpcSimple licia = new NpcSimpleImpl("Licia", TypeOfNpc.SIMPLE, List.of("BOO! Scared, aren't you?"),
-		startingPosition, true, true);
+	NpcSimple mario = new NpcSimpleImpl("Mario", List.of("Licia? She is behind you"), new Pair<>(0, 0), true, true);
+	NpcSimple licia = new NpcSimpleImpl("Licia", List.of("BOO! Scared, aren't you?"), startingPosition, true, true);
 
 	NpcBehaviorChanger npcEvent = new NpcBehaviorChanger(0, true, true, false);
 	npcEvent.addNpcPositionChange(licia, newPosition);
