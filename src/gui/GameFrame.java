@@ -8,7 +8,9 @@ import java.awt.FlowLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -43,11 +45,10 @@ public class GameFrame extends JFrame {
 	this.setResizable(false);
 
 	size = getMainPanelSize();
-	// TODO get cells number from controller
-	imgLoad = new ImagesLoader(size, size, 20, 20);
+	imgLoad = new ImagesLoader(size, size, playerController.getMaximumBlocksInRow(),
+		playerController.getMaximumBlocksInColumn());
 	mainPanel.setPreferredSize(new Dimension(size, size));
 	mainPanel.setBounds(0, 0, size, size);
-
 	mainPanel.setLayout(cLayout);
 
 	LoginPanel loginPanel = new LoginPanel(this.playerController);
@@ -56,7 +57,7 @@ public class GameFrame extends JFrame {
 	loginPanel.getContinue().addActionListener(e -> {
 
 	    this.playerController.load();
-	    //TODO caricare i dati è¯»å�–å­˜æ¡£ this.playerController.load();
+	    // TODO caricare i dati è¯»å�–å­˜æ¡£ this.playerController.load();
 
 	    if (!subPanels.containsKey(MAP_PANEL)) {
 		JPanel gamePanel = buildMapPanel();
@@ -64,7 +65,6 @@ public class GameFrame extends JFrame {
 		subPanels.put(MAP_PANEL, gamePanel);
 	    }
 	    changePanel(MAP_PANEL);
-	    // mapPanel.requestFocusInWindow();
 	});
 
 	// Pannello di quando inizio un nuovo gioco
@@ -112,8 +112,8 @@ public class GameFrame extends JFrame {
 	    newPosition = playerController.movePlayer(dir);
 	    topPanel.setNextPosition(newPosition);
 	    if (playerController.canChangeMap()) {// hasMapChanged...
-		// TODO get Map id
-		// TODO load map image by id
+		List<BufferedImage> mapImageSequence = imgLoad.getMapByID(this.playerController.getCurrentMapID());
+		// TODO change bottom layout image
 		animationOn = false;
 	    }
 	}
@@ -150,11 +150,6 @@ public class GameFrame extends JFrame {
 	TwoLayersPanel p = (TwoLayersPanel) subPanels.get(MAP_PANEL);
 	PlayerPanel topPanel = p.getTopPanel();
 	topPanel.hideText();
-    }
-
-    // TODO create battle scene (panel 3)
-    private JPanel buildBattlePanel() {
-	return new JPanel();
     }
 
     // TODO create menu (panel 4)

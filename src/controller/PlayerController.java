@@ -6,7 +6,6 @@ import java.util.Optional;
 import gui.Direction;
 import model.Pair;
 import model.player.Gender;
-import model.player.Player;
 
 public interface PlayerController {
     /**
@@ -32,56 +31,50 @@ public interface PlayerController {
      * 
      * @param new name, gender, trainerNumber
      */
-    public void createNewPlayer(String name, Gender gender, int trainerNumber);
-
-    /**
-     * get Player
-     * 
-     * @return Player
-     */
-    public Player getPlayer();
 
     public boolean hasPlayerMoved();
-	
-	public boolean canPassThrough(Direction direction);
-	
-	public boolean canChangeMap();
-	
-	public void useItem(String item);
 
-	//public ArrayList<Monster> getPlayerMonstrers();
-	
-	//public ArrayList<GameItems> getPlayerItems();
-	
-	public void removeItem(String i);
-	
-	public boolean buyItem(String i, int price);
-	
-	public boolean addMonster(int idMonster);
-	
-	public String getPlayerName();
-	
-	public int getTrainerNumber();
-	
-	public String getGender();
-	
-	public int getMoney();
-	
-	public boolean isTeamFull();
-	
-	public void setMoney(int money);
-	
-	//public void addNpcTrainer(NpcTrainer npc);
-     
-	public String getMonsterNameById(int monsterId);
-	
-	public List<Integer> getMonstersId();
-	
-	public List<String> getPlayerItemsName();
-	
-	public void removeMonster(int monsterId);
-	
-	public int getMonsterExp(int monsterId);	
+    public boolean canPassThrough(Direction direction);
+
+    public boolean canChangeMap();
+
+    /**
+     * 
+     * @return current map id
+     */
+    public int getCurrentMapID();
+
+    public void useItem(String item);
+
+    public void removeItem(String i);
+
+    public boolean buyItem(String i, int price);
+
+    public boolean addMonster(int idMonster);
+
+    public void createNewPlayer(String name, Gender gender, int trainerNumber);
+
+    public String getPlayerName();
+
+    public int getTrainerNumber();
+
+    public String getGender();
+
+    public int getMoney();
+
+    public boolean isTeamFull();
+
+    public void setMoney(int money);
+
+    public String getMonsterNameById(int monsterId);
+
+    public List<Integer> getMonstersId();
+
+    public List<String> getPlayerItemsName();
+
+    public void removeMonster(int monsterId);
+
+    public int getMonsterExp(int monsterId);
 
     public int getMonsterLevel(int monsterId);
 
@@ -91,14 +84,14 @@ public interface PlayerController {
 
     public String getMonsterType(int monsterId);
 
-    public List<String> getMovesNames(int monsterId);	//??
-    
+    public List<String> getMovesNames(int monsterId); // ??
+
     public int getMonsterHealth(int monsterId);
-    
+
     public int getMonsterAttack(int monsterId);
-    
+
     public int getMonsterDefense(int monsterId);
-    
+
     public int getMonsterSpeed(int monsterId);
 
     public int getItemQuantity(String item);
@@ -108,22 +101,21 @@ public interface PlayerController {
     public String getItemtype(String item);
 
     public void addItem(String item);
-    
+
     public void save();
-    
+
     public boolean load();
-    
+
     public boolean dataExist();
 
     public boolean usableItem(String item);
-  
-    public int getMaximumBlocksInRow();
-    
-    public int getMaximumBlocksInColumn();
-    
-    public boolean canEvolveByItem(String nameItem, int monsterId);
-    
-    public Optional<Pair<String, String>> evolveByItem(String nameItem, int monsterId);
 
+    public int getMaximumBlocksInRow();
+
+    public int getMaximumBlocksInColumn();
+
+    public boolean canEvolveByItem(String nameItem, int monsterId);
+
+    public Optional<Pair<String, String>> evolveByItem(String nameItem, int monsterId);
 
 }
