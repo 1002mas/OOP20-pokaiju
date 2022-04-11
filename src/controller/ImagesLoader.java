@@ -2,12 +2,16 @@ package controller;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
 
 import javax.imageio.ImageIO;
 
@@ -15,36 +19,53 @@ import gui.Direction;
 import model.Pair;
 
 public class ImagesLoader {
-    static final private int PLAYER_SEQUENCE_LENGTH = 3;
-    static final String BASE_PATH = "res" + File.separator + "textures" + File.separator;
-    static final String MONSTER_PATH = "res" + File.separator + "monster" + File.separator;
+    private static final int PLAYER_SEQUENCE_LENGTH = 3;
+    private static final String BASE_PATH = "res" + File.separator + "textures" + File.separator;
+    private static final String MONSTER_PATH = "res" + File.separator + "monster" + File.separator;
+    private static final String TEXTURE_DATA_PATH = "res" + File.separator + "data" + File.separator
+	    + "map_textures.dat";
 
     private final int height;
     private final int width;
     private final Pair<Integer, Integer> cellSize;
 
-    private BufferedImage terrain;
     private Map<Direction, List<BufferedImage>> player = new HashMap<>();
     private Map<String, BufferedImage> monsters = new HashMap<>();
+    private Map<Integer, BufferedImage> mapTextures = new HashMap<>();
+    private Map<Integer, List<BufferedImage>> maps = new HashMap<>();
 
     public ImagesLoader(int height, int width, int maximumCellsInRow, int maximumCellsInHeight) {
 	super();
 	this.height = height;
 	this.width = width;
-
 	this.cellSize = new Pair<>(width / maximumCellsInRow, height / maximumCellsInHeight);
+	loadMapTextures();
     }
 
-    public BufferedImage getTerrainImage() {
-	if (terrain == null) {
-	    final String imgPath = BASE_PATH + "wild_grass.png";
-	    try {
-		terrain = resizeImage(ImageIO.read(new File(imgPath)), this.cellSize.getFirst(), this.cellSize.getSecond());
-		   } catch (IOException e) {
-		e.printStackTrace();
+    private void loadMapTextures() {
+	File f = new File(TEXTURE_DATA_PATH);
+	try (BufferedReader in = new BufferedReader(new FileReader(f));) {
+	    boolean isNumber = true;
+	    int texturesID = 0;
+	    String line;
+	    while ((line = in.readLine()) != null) {
+		if (isNumber) {
+		    texturesID = Integer.parseInt(line);
+		} else {
+		    String texturePath = line.replaceAll("/", Matcher.quoteReplacement(File.separator));
+
+		    BufferedImage img = resizeImage(ImageIO.read(new File(texturePath)), cellSize.getFirst(),
+			    cellSize.getSecond());
+
+		    mapTextures.put(texturesID, img);
+		}
+		isNumber = !isNumber;
 	    }
+	} catch (FileNotFoundException e) {
+	    e.printStackTrace();
+	} catch (IOException e1) {
+	    e1.printStackTrace();
 	}
-	return terrain;
     }
 
     public List<BufferedImage> getPlayerImages(Direction dir, String gender) {
@@ -57,7 +78,8 @@ public class ImagesLoader {
 	    try {
 		for (int i = 1; i <= PLAYER_SEQUENCE_LENGTH; i++) {
 		    String imgPath = basePath + i + fileType;
-		    imageSequence.add(resizeImage(ImageIO.read(new File(imgPath)), (int) (dimMultiplier * this.cellSize.getFirst()),
+		    imageSequence.add(resizeImage(ImageIO.read(new File(imgPath)),
+			    (int) (dimMultiplier * this.cellSize.getFirst()),
 			    (int) (dimMultiplier * this.cellSize.getSecond())));
 		}
 	    } catch (IOException e) {
@@ -66,6 +88,29 @@ public class ImagesLoader {
 	    player.put(dir, imageSequence);
 	}
 	return player.get(dir);
+    }
+
+    public List<BufferedImage> getMapByID(int mapID) {
+	if (!maps.containsKey(mapID)) {
+	    List<BufferedImage> mapSequence = new ArrayList<>();
+	    String mapPath = "res" + File.separator + "data" + File.separator + "maps" + File.separator + "appearance"
+		    + File.separator + "map" + mapID + ".dat";
+
+	    File f = new File(mapPath);
+	    try (BufferedReader in = new BufferedReader(new FileReader(f));) {
+		String line = null;
+		while ((line = in.readLine()) != null) {
+		    int texturesID = Integer.parseInt(line);
+		    mapSequence.add(mapTextures.get(texturesID));
+		}
+		this.maps.put(mapID, mapSequence);
+	    } catch (FileNotFoundException e) {
+		e.printStackTrace();
+	    } catch (IOException e) {
+		e.printStackTrace();
+	    }
+	}
+	return this.maps.get(mapID);
     }
 
     public BufferedImage getMonster(String monsterName) {
