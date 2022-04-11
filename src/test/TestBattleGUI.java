@@ -6,7 +6,7 @@ import java.util.Optional;
 import controller.BattleController;
 import controller.BattleControllerImpl;
 import controller.ImagesLoader;
-import gui.BattleFrame;
+import gui.BattlePanel;
 import model.Pair;
 import model.battle.MonsterBattle;
 import model.battle.MonsterBattleImpl;
@@ -31,14 +31,14 @@ public class TestBattleGUI {
     private static Monster pgMonster;
     private static Monster enemyMonster;
     private static List<Pair<Moves, Integer>> listOfMoves;
-    private static BattleFrame GUI;
+    private static BattlePanel GUI;
     static MonsterStats  stats = new MonsterStatsImpl(50, 10, 10, 10);
     
     public static void main(String[] args) {
 	// TODO Auto-generated method stub
 	Moves m1 = new MovesImpl("Braciere", 50, MonsterType.FIRE, 10);
-	Moves m2 = new MovesImpl("Attacco", 10, MonsterType.FIRE, 10);
-	Moves m3 = new MovesImpl("Volo", 50, MonsterType.FIRE, 10);
+	Moves m2 = new MovesImpl("Attacco", 10, MonsterType.NONE, 10);
+	Moves m3 = new MovesImpl("Volo", 50, MonsterType.GRASS, 10);
 	Moves m4 = new MovesImpl("Fossa", 50, MonsterType.FIRE, 10);
 	Moves m5 = new MovesImpl("Surf", 50, MonsterType.WATER, 10);
 	Moves m6 = new MovesImpl("Idropompa", 50, MonsterType.WATER, 10);
@@ -65,7 +65,7 @@ public class TestBattleGUI {
 	firstEvolution = new MonsterSpeciesByLevel("Pippo2", "Info2", MonsterType.FIRE, null, secondEvolution,
 		SECOND_EVOLUTION_LEVEL, null);
 
-	species = new MonsterSpeciesByLevel("greyfish", "Info", MonsterType.FIRE, stats, firstEvolution,
+	species = new MonsterSpeciesByLevel("greyfish", "Info", MonsterType.WATER, stats, firstEvolution,
 		FIRST_EVOLUTION_LEVEL, allMoves);
 	enemyMonster = new MonsterBuilderImpl().health(500).attack(20).defense(10).speed(20).exp(0).level(1)
 		.isWild(true).species(species).movesList(listOfMoves).build();
@@ -90,7 +90,9 @@ public class TestBattleGUI {
 	
 	battle = new MonsterBattleImpl(pg, enemyMonster);
 	ctrl = new BattleControllerImpl(battle);
-	GUI = new BattleFrame(ctrl, new ImagesLoader(1,1,1,1));
+	GUI = new BattlePanel (new ImagesLoader(1024,1024,1,1));
+	GUI.setBattleController(ctrl);
+	GUI.start();
 
     }
 

@@ -122,9 +122,12 @@ public class ImagesLoader {
 	    try {
 
 		String imgPath = basePath + fileType;
-		System.out.println(imgPath);
 		monsterPng = ImageIO.read(new File(imgPath));
-
+		double imageRatio = monsterPng.getHeight()/monsterPng.getWidth();
+		int newWidth = (int) (this.width * 0.25) ;
+		int newHeight = (int) (imageRatio * newWidth) ;
+		monsterPng =resizeImage(monsterPng, newWidth,newHeight);
+		
 	    } catch (IOException e) {
 		e.printStackTrace();
 	    }

@@ -158,7 +158,8 @@ public class MonsterBattleImpl implements MonsterBattle {
     private void turn(Moves monsterMove) {
 	MonsterStats playerStats = this.playerCurrentMonster.getStats();
 	MonsterStats enemyStats = this.enemy.getStats();
-	int damage = monsterMove.getDamage(enemy.getType()) + playerStats.getAttack() - enemyStats.getDefense();
+	int damage = monsterMove.getDamage(enemy.getType()) * monsterMove.getBase()+playerStats.getAttack() - enemyStats.getDefense();
+	System.out.println("attacco partner" +monsterMove.getDamage(enemy.getType()) );
 	if (damage < 1) {
 	    damage = 1;
 	}
@@ -223,7 +224,8 @@ public class MonsterBattleImpl implements MonsterBattle {
 
     private void enemyTurn(MonsterStats playerStats, MonsterStats enemyStats) {
 	Moves att = this.enemyAttack();
-	int damage = att.getDamage(playerCurrentMonster.getType()) + enemyStats.getAttack() - playerStats.getDefense();
+	int damage = att.getDamage(playerCurrentMonster.getType()) * att.getBase()+ enemyStats.getAttack() - playerStats.getDefense();
+	System.out.println("esisto getDamage:" + att.getDamage(playerCurrentMonster.getType()));
 	if (damage < 1) {
 	    damage = 1;
 	}

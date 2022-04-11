@@ -16,7 +16,7 @@ import javax.swing.JTextField;
 import controller.BattleController;
 import controller.ImagesLoader;
 
-public class BattleFrame {
+public class BattlePanel {
     private JFrame frame;
     private JTextField actionText; 
     private JTextField playerMonster; 
@@ -44,28 +44,29 @@ public class BattleFrame {
     private JLabel playerMonsterImg = new JLabel();
     private JLabel enemyMonsterImg = new JLabel();
     
-    public BattleFrame(BattleController ctrl, ImagesLoader img) {
-	this.ctrl = ctrl;
+    public BattlePanel(ImagesLoader img) {
 	this.img = img;
-	start();
     }
-    
-    String getCurrentPlayerMonsterData() {
+    public void setBattleController(BattleController ctrl) {
+	this.ctrl =ctrl;
+    }
+    private String getCurrentPlayerMonsterData() {
 	return " " + ctrl.getPlayerCurrentMonsterName() + " " +  ctrl.getPlayerCurrentMonsterHp() + "/" + ctrl.getPlayerCurrentMonsterMaxHealth() + " HP " + "LVL." +ctrl.getPlayerCurrentMonsterLevel();
     }
     
-    String getCurrentEnemyMonsterData() {
+    private String getCurrentEnemyMonsterData() {
 	return " " + ctrl.getEnemyCurrentMonsterName() + " " +  ctrl.getEnemyCurrentMonsterHp() + "/" + ctrl.getEnemyCurrentMonsterMaxHealth() + " HP " + "LVL." +ctrl.getEnemyCurrentMonsterLevel();
     }
     
-    void setImg() {
+    private void setImg() {
 	playerMonsterImg.setIcon(new ImageIcon(img.getMonster(ctrl.getPlayerCurrentMonsterName())));
 	this.centerPanel.add(playerMonsterImg, BorderLayout.WEST);
 	enemyMonsterImg.setIcon(new ImageIcon(img.getMonster(ctrl.getEnemyCurrentMonsterName())));
 	this.centerPanel.add(enemyMonsterImg, BorderLayout.EAST);
 	this.centerPanel.repaint();
+	
     }
-    void setMoves() {
+    private void setMoves() {
 	this.movesMap = new HashMap<>();
 	movesPanel.removeAll();
 	for(var move :  ctrl.getMoves()) {
@@ -106,7 +107,7 @@ public class BattleFrame {
 	    movesPanel.add(button);
 	}
     }
-    void setMonster() {
+    private void setMonster() {
 	monsterPanel.removeAll();
 	monsterMap=new HashMap<>();
   	for(var monsterId : ctrl.getPlayerTeam()) {
@@ -133,7 +134,7 @@ public class BattleFrame {
   	    monsterPanel.add(button);
   	}
     }
-    void setItems() {
+    private void setItems() {
 	itemsPanel.removeAll();
 	itemMap = new HashMap<>();
    	for(var itemName :ctrl.getAllPlayerItems()) {
@@ -160,7 +161,7 @@ public class BattleFrame {
    	    itemsPanel.add(button);
    	}	
      }
-    void refresh() {
+    private void refresh() {
 	this.playerMonster.setText(getCurrentPlayerMonsterData());
 	this.enemyMonster.setText(getCurrentEnemyMonsterData());
 	this.setMoves();
@@ -168,7 +169,7 @@ public class BattleFrame {
 	this.actionText.setText("What do you want to do?...");
 
     }
-    void start() {
+    public void start() {
 	this.frame= new JFrame();
 	this.frame.setSize(1024, 792);
 	this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
