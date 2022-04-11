@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 
 import model.Pair;
@@ -86,7 +87,8 @@ public class MonsterBuilderImpl implements MonsterBuilder {
 
     @Override
     public MonsterBuilder movesList(List<Pair<Moves, Integer>> movesList) {
-	this.movesList = movesList.subList(0, MonsterImpl.NUM_MAX_MOVES);
+	this.movesList = new ArrayList<>(movesList);
+	movesList.subList(0, MonsterImpl.NUM_MAX_MOVES);
 	return this;
     }
 
