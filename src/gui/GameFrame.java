@@ -1,22 +1,15 @@
 package gui;
 
-import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Random;
+import java.util.Optional;
 
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import controller.ImagesLoader;
@@ -26,9 +19,10 @@ import model.Pair;
 public class GameFrame extends JFrame {
     private static final long serialVersionUID = -7927156597267134363L;
     static final String NEW_GAME_PANEL = "new game";
-    static final String MAP_PANEL = "map game";
-    static final String MENU_PANEL = "menu";
     static final String LOGIN_PANEL = "login panel";
+    static final String MENU_PANEL = "menu";
+    static final String MAP_PANEL = "map panel";
+    static final String BATTLE_PANEL = "battle panel";
 
     private final int size;
     private final CardLayout cLayout = new CardLayout();
@@ -46,8 +40,8 @@ public class GameFrame extends JFrame {
 	this.setVisible(true);
 
 	size = getMainPanelSize();
-	// TODO get cells number from controller
-	imgLoad = new ImagesLoader(size, size, 20, 20);
+	imgLoad = new ImagesLoader(size, size, playerController.getMaximumBlocksInRow(),
+		playerController.getMaximumBlocksInColumn());
 	mainPanel.setPreferredSize(new Dimension(size, size));
 	mainPanel.setBounds(0, 0, size, size);
 	mainPanel.setLayout(cLayout);
@@ -55,19 +49,22 @@ public class GameFrame extends JFrame {
 	LoginPanel loginPanel = new LoginPanel(this.playerController);
 	loginPanel.getContinue().addActionListener(e -> {
 	    this.playerController.load();
+	    // TODO load data this.playerController.load();
+
 	    if (!subPanels.containsKey(MAP_PANEL)) {
 		JPanel gamePanel = buildMapPanel();
 		mainPanel.add(gamePanel, MAP_PANEL);
 		subPanels.put(MAP_PANEL, gamePanel);
 	    }
 	    changePanel(MAP_PANEL);
-	    // mapPanel.requestFocusInWindow();
 	});
 
 	JPanel newGamePanel = newGamePanel();
 	loginPanel.getnewGame().addActionListener(e -> changePanel(NEW_GAME_PANEL));
 
+	// Pannello del menu di gioco
 	JPanel menuPanel = buildMenuPanel();
+//TODO add BattlePanel
 	loginPanel.getquitGame().addActionListener(e -> System.exit(0));
 
 	mainPanel.add(loginPanel, LOGIN_PANEL);
@@ -103,9 +100,9 @@ public class GameFrame extends JFrame {
 	if (playerController.canPassThrough(dir)) {
 	    newPosition = playerController.movePlayer(dir);
 	    topPanel.setNextPosition(newPosition);
-	    if (playerController.canChangeMap()) {// hasMapChanged...
-		// TODO get Map id
-		// TODO load map image by id
+	    if (playerController.canChangeMap()) {
+		List<BufferedImage> mapImageSequence = imgLoad.getMapByID(this.playerController.getCurrentMapID());
+		p.setMapImage(mapImageSequence);
 		animationOn = false;
 	    }
 	}
@@ -115,46 +112,34 @@ public class GameFrame extends JFrame {
 	} else {
 	    topPanel.staticMove();
 	}
+	if (playerController.hasBattleStarted()) {
+	    // TODO change to BattlePanel
+	}
 
     }
 
     public boolean playerInteraction() {
 	TwoLayersPanel p = (TwoLayersPanel) subPanels.get(MAP_PANEL);
 	PlayerPanel topPanel = p.getTopPanel();
-	// TODO get Text from controller
-	boolean res = new Random().nextBoolean();
-	if (!res) {
-	    String s = "<html>";
-	    for (int i = 1; i < 100; i++) {
-		s += "c";
-	    }
-	    s += "<br>";
-	    for (int i = 1; i < 100; i++) {
-		s += "a";
-	    }
-	    s += "</html>";
-	    topPanel.showText(s);
+	Optional<String> text = playerController.interact();
+	if (text.isPresent()) {
+	    topPanel.showText(text.get());
 	}
-	return res;
+	return text.isPresent();
     }
 
     public void endPlayerInteraction() {
 	TwoLayersPanel p = (TwoLayersPanel) subPanels.get(MAP_PANEL);
 	PlayerPanel topPanel = p.getTopPanel();
 	topPanel.hideText();
+	if (playerController.hasBattleStarted()) {
+	    // TODO change to BattlePanel
+	}
     }
 
-    // TODO create battle scene (panel 3)
-    private JPanel buildBattlePanel() {
-	return new JPanel();
-    }
-
-    // TODO create menu (panel 4)
     private JPanel buildMenuPanel() {
 	return new MenuPanel(playerController, imgLoad, size, this);
     }
-
-    // TODO create new game menu (panel 5)
 
     private JPanel newGamePanel() {
 	return new NewGamePanel(this.playerController, mainPanel);
