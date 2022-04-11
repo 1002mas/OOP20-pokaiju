@@ -88,7 +88,7 @@ public class MonsterBuilderImpl implements MonsterBuilder {
     @Override
     public MonsterBuilder movesList(List<Pair<Moves, Integer>> movesList) {
 	this.movesList = new ArrayList<>(movesList);
-	movesList.subList(0, MonsterImpl.NUM_MAX_MOVES);
+	this.movesList = this.movesList.subList(0, movesList.size() < MonsterImpl.NUM_MAX_MOVES ? movesList.size() : MonsterImpl.NUM_MAX_MOVES);
 	return this;
     }
 
