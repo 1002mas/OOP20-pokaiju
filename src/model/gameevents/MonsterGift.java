@@ -9,9 +9,9 @@ public class MonsterGift extends AbstractGameEvent {
     private final List<Monster> monsters;
     private final Player player;
 
-    public MonsterGift(int id, boolean isActive, boolean isDeactivable, List<GameEvent> events, List<Monster> monsters,
-	    Player player) {
-	super(id, isActive, isDeactivable, true, events);
+    public MonsterGift(int id, boolean isActive, boolean isDeactivable, boolean isToActiveImmediatly,
+	    List<Monster> monsters, Player player) {
+	super(id, isActive, isDeactivable, isToActiveImmediatly);
 	this.monsters = monsters;
 	this.player = player;
     }
