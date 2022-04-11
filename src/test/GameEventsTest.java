@@ -38,7 +38,6 @@ public class GameEventsTest {
 		.monsterType(MonsterType.FIRE).attack(5).speed(5).defense(5).health(5).info("Fire monsterA").build();
 	this.monsterA = new MonsterBuilderImpl().level(5).species(monsterSpeciesA).movesList(moves).build();
 
-	System.out.println(this.monsterA);
 	MonsterSpecies monsterSpeciesB = new MonsterSpeciesBuilderImpl().name("MonsterB").allMoves(moves)
 		.monsterType(MonsterType.WATER).attack(5).speed(5).defense(5).health(5).info("Water monsterB").build();
 	this.monsterB = new MonsterBuilderImpl().level(5).species(monsterSpeciesB).movesList(moves).build();
@@ -64,7 +63,7 @@ public class GameEventsTest {
 	npcDisappearingEvent.addNpcVisibilityChange(item1, false);
 	npcDisappearingEvent.addNpcVisibilityChange(item2, false);
 	npcDisappearingEvent.addNpcVisibilityChange(item3, false);
-	System.out.println("test"+ this.monsterA);
+
 	GameEvent eventA = new MonsterGift(1, true, true, false, List.of(this.monsterA), player);
 	eventA.addSuccessiveGameEvent(npcDisappearingEvent);
 
@@ -101,6 +100,30 @@ public class GameEventsTest {
 	assertFalse(eventB.isActive());
 	assertFalse(eventC.isActive());
 
+	assertEquals(teacherSentences.get(1), teacher.interactWith().get());
+
+    }
+
+    @org.junit.Test
+    public void npcChangePosition() {
+	Pair<Integer, Integer> startingPosition = new Pair<>(10, 10);
+	Pair<Integer, Integer> newPosition = new Pair<>(2, 0);
+	NpcSimple mario = new NpcSimpleImpl("Mario", TypeOfNpc.SIMPLE, List.of("Licia? She is behind you"),
+		new Pair<>(0, 0), true, true);
+	NpcSimple licia = new NpcSimpleImpl("Licia", TypeOfNpc.SIMPLE, List.of("BOO! Scared, aren't you?"),
+		startingPosition, true, true);
+
+	NpcBehaviorChanger npcEvent = new NpcBehaviorChanger(0, true, true, false);
+	npcEvent.addNpcPositionChange(licia, newPosition);
+
+	assertEquals(licia.getPosition(), startingPosition);
+
+	mario.addGameEvent(npcEvent);
+	mario.interactWith();
+
+	assertEquals(licia.getPosition(), newPosition);
+	assertFalse(npcEvent.isActive());
+	assertFalse(npcEvent.isPermanent());
     }
 
 }
