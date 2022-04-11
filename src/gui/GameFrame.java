@@ -12,7 +12,7 @@ import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
+import java.util.Optional;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -28,9 +28,10 @@ import model.Pair;
 public class GameFrame extends JFrame {
     private static final long serialVersionUID = -7927156597267134363L;
     static final String NEW_GAME_PANEL = "new game";
-    static final String MAP_PANEL = "map game";
-    static final String MENU_PANEL = "menu";
     static final String LOGIN_PANEL = "login panel";
+    static final String MENU_PANEL = "menu";
+    static final String MAP_PANEL = "map panel";
+    static final String BATTLE_PANEL = "battle panel";
 
     private final int size;
     private final CardLayout cLayout = new CardLayout();
@@ -72,7 +73,7 @@ public class GameFrame extends JFrame {
 	loginPanel.getnewGame().addActionListener(e -> changePanel(NEW_GAME_PANEL));
 	// Pannello del menu di gioco
 	JPanel menuPanel = buildMenuPanel();
-
+//TODO add BattlePanel
 	loginPanel.getquitGame().addActionListener(e -> System.exit(0));
 
 	mainPanel.add(loginPanel, LOGIN_PANEL);
@@ -111,9 +112,9 @@ public class GameFrame extends JFrame {
 	if (playerController.canPassThrough(dir)) {
 	    newPosition = playerController.movePlayer(dir);
 	    topPanel.setNextPosition(newPosition);
-	    if (playerController.canChangeMap()) {// hasMapChanged...
+	    if (playerController.canChangeMap()) {
 		List<BufferedImage> mapImageSequence = imgLoad.getMapByID(this.playerController.getCurrentMapID());
-		// TODO change bottom layout image
+		p.setMapImage(mapImageSequence);
 		animationOn = false;
 	    }
 	}
@@ -123,36 +124,31 @@ public class GameFrame extends JFrame {
 	} else {
 	    topPanel.staticMove();
 	}
+	if (playerController.hasBattleStarted()) {
+	    // TODO change to BattlePanel
+	}
 
     }
 
     public boolean playerInteraction() {
 	TwoLayersPanel p = (TwoLayersPanel) subPanels.get(MAP_PANEL);
 	PlayerPanel topPanel = p.getTopPanel();
-	// TODO get Text from controller
-	boolean res = new Random().nextBoolean();
-	if (!res) {
-	    String s = "<html>";
-	    for (int i = 1; i < 100; i++) {
-		s += "c";
-	    }
-	    s += "<br>";
-	    for (int i = 1; i < 100; i++) {
-		s += "a";
-	    }
-	    s += "</html>";
-	    topPanel.showText(s);
+	Optional<String> text = playerController.interact();
+	if (text.isPresent()) {
+	    topPanel.showText(text.get());
 	}
-	return res;
+	return text.isPresent();
     }
 
     public void endPlayerInteraction() {
 	TwoLayersPanel p = (TwoLayersPanel) subPanels.get(MAP_PANEL);
 	PlayerPanel topPanel = p.getTopPanel();
 	topPanel.hideText();
+	if (playerController.hasBattleStarted()) {
+	    // TODO change to BattlePanel
+	}
     }
 
-    // TODO create menu (panel 4)
     private JPanel buildMenuPanel() {
 	final String MONSTERPANEL = "MONSTER";
 	final String BOXPANEL = "BOX";
@@ -243,8 +239,6 @@ public class GameFrame extends JFrame {
 
 	return mainPanel;
     }
-
-    // TODO create new game menu (panel 5)
 
     private JPanel newGamePanel() {
 	return new NewGamePanel(this.playerController, mainPanel);

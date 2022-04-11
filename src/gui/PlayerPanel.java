@@ -2,6 +2,8 @@ package gui;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
@@ -27,6 +29,7 @@ public class PlayerPanel extends JPanel {
     private final int maximumCellsInColumn;
     private final String player_gender;
 
+    private List<JLabel> npcsLabels = new ArrayList<>();
     private Pair<Integer, Integer> playerNextPos;
     private Pair<Integer, Integer> playerPos;
     private Pair<Integer, Integer> movementStep;
@@ -57,12 +60,12 @@ public class PlayerPanel extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
 	super.paintComponent(g);
-	if (this.getComponentCount() > 0 && this.getComponent(0) != null) {
-	    this.getComponent(0).setLocation(playerPos.getFirst(), playerPos.getSecond());
-	}
-
+	player.setLocation(playerPos.getFirst(), playerPos.getSecond());
 	int textLabelHeight = (int) (this.getHeight() * 0.1);
 	textLabel.setBounds(0, this.getHeight() - textLabelHeight, this.getWidth(), textLabelHeight);
+	for(JLabel npc: npcsLabels) {
+	    
+	}
     }
 
     @Override
@@ -145,6 +148,18 @@ public class PlayerPanel extends JPanel {
 	int targetX = nextPos.getFirst() * this.movementStep.getFirst() + cellRelativePos.getFirst();
 	int targetY = nextPos.getSecond() * this.movementStep.getSecond() + cellRelativePos.getSecond();
 	this.playerNextPos = new Pair<>(targetX, targetY);
+    }
+
+    public void setNpcs(List<String> npcs) {
+	for (JLabel l : npcsLabels) {
+	    this.remove(l);
+	}
+	npcsLabels = new ArrayList<>();
+
+	for (String npcName : npcs) {
+	    JLabel npcLabel = new JLabel(/* TODO getNpcImage */);
+	}
+
     }
 
     public void showText(String text) {

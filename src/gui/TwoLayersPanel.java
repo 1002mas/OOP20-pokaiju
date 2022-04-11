@@ -12,8 +12,7 @@ import controller.ImagesLoader;
 import controller.PlayerController;
 
 public class TwoLayersPanel extends JPanel {
-//TODO draw npcs
-    // TODO change gender in getGender
+
     private static final long serialVersionUID = 403421258645641464L;
     private final PlayerPanel topPanel;
     private final JPanel bottomPanel;
@@ -24,9 +23,10 @@ public class TwoLayersPanel extends JPanel {
 	super();
 	this.rows = playerController.getMaximumBlocksInRow();
 	this.columns = playerController.getMaximumBlocksInColumn();
-	topPanel = new PlayerPanel(playerController.getPlayerPosition(), imgLoad, playerController.getGender(), rows,
-		columns);
+	topPanel = new PlayerPanel(playerController.getPlayerPosition(), imgLoad, playerController.getPlayerGender(),
+		rows, columns);
 	topPanel.setPlayerImage(new ImageIcon(imgLoad.getPlayerImages(Direction.DOWN, "male").get(0)));
+	topPanel.setNpcs(playerController.getAllNpcs());
 
 	bottomPanel = new JPanel();
 	bottomPanel.setOpaque(true);

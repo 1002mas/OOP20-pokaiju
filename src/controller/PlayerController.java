@@ -13,13 +13,19 @@ public interface PlayerController {
      * 
      * @return true if the player is moved, false otherwise.
      */
-    public Pair<Integer, Integer> movePlayer(Direction direction);
+    Pair<Integer, Integer> movePlayer(Direction direction);
 
     /**
      * Interacts with the object at coord position. If there is a trainer, it starts
      * the battle. If there is a npc, some text appears.
      */
-    Optional<String> interact(Direction direction);
+    Optional<String> interact();
+
+    /**
+     * 
+     * @return a list containing all visible npcs in the map
+     */
+    List<String> getAllNpcs();
 
     /**
      * @return player position
@@ -32,90 +38,104 @@ public interface PlayerController {
      * @param new name, gender, trainerNumber
      */
 
-    public boolean hasPlayerMoved();
+    boolean hasPlayerMoved();
 
-    public boolean canPassThrough(Direction direction);
+    boolean canPassThrough(Direction direction);
 
-    public boolean canChangeMap();
+    boolean canChangeMap();
+
+    /**
+     * It may be turn true after calling interact() or walking in wild monsters area
+     * 
+     * @return true if a battle began
+     */
+    boolean hasBattleStarted();
+
+    /**
+     * It returns a BattleController only if hasBattleStarted returns true
+     * 
+     * @return a BattleController for the battle moment
+     */
+    Optional<BattleController> getBattleController();
 
     /**
      * 
      * @return current map id
      */
-    public int getCurrentMapID();
+    int getCurrentMapID();
 
-    public void useItem(String item);
+    void useItem(String item);
 
-    public void removeItem(String i);
+    void removeItem(String i);
 
-    public boolean buyItem(String i, int price);
+    boolean buyItem(String i, int price);
 
-    public boolean addMonster(int idMonster);
+    boolean addMonster(int idMonster);
 
-    public void createNewPlayer(String name, Gender gender, int trainerNumber);
+    void createNewPlayer(String name, Gender gender, int trainerNumber);
 
-    public String getPlayerName();
+    String getPlayerName();
 
-    public int getTrainerNumber();
+    int getTrainerNumber();
 
-    public String getGender();
+    String getPlayerGender();
 
-    public int getMoney();
+    int getPlayerMoney();
 
-    public boolean isTeamFull();
+    List<String> getPlayerItemsName();
 
-    public void setMoney(int money);
+    boolean isTeamFull();
 
-    public String getMonsterNameById(int monsterId);
+    void setPlayerMoney(int money);
 
-    public List<Integer> getMonstersId();
+    String getMonsterNameById(int monsterId);
 
-    public List<String> getPlayerItemsName();
+    List<Integer> getMonstersId();
 
-    public void removeMonster(int monsterId);
+    void removeMonster(int monsterId);
 
-    public int getMonsterExp(int monsterId);
+    int getMonsterExp(int monsterId);
 
-    public int getMonsterLevel(int monsterId);
+    int getMonsterLevel(int monsterId);
 
-    public boolean getMonsterIsWild(int monsterId);
+    boolean getMonsterIsWild(int monsterId);
 
-    public int getMonsterMaxHealth(int monsterId);
+    int getMonsterMaxHealth(int monsterId);
 
-    public String getMonsterType(int monsterId);
+    String getMonsterType(int monsterId);
 
-    public List<String> getMovesNames(int monsterId); // ??
+    List<String> getMovesNames(int monsterId);
 
-    public int getMonsterHealth(int monsterId);
+    int getMonsterHealth(int monsterId);
 
-    public int getMonsterAttack(int monsterId);
+    int getMonsterAttack(int monsterId);
 
-    public int getMonsterDefense(int monsterId);
+    int getMonsterDefense(int monsterId);
 
-    public int getMonsterSpeed(int monsterId);
+    int getMonsterSpeed(int monsterId);
 
-    public int getItemQuantity(String item);
+    int getItemQuantity(String item);
 
-    public String getItemDescription(String item);
+    String getItemDescription(String item);
 
-    public String getItemtype(String item);
+    String getItemtype(String item);
 
-    public void addItem(String item);
+    void addItem(String item);
 
-    public void save();
+    void save();
 
-    public boolean load();
+    boolean load();
 
-    public boolean dataExist();
+    boolean dataExist();
 
-    public boolean usableItem(String item);
+    boolean canUseItem(String item);
 
-    public int getMaximumBlocksInRow();
+    int getMaximumBlocksInRow();
 
-    public int getMaximumBlocksInColumn();
+    int getMaximumBlocksInColumn();
 
-    public boolean canEvolveByItem(String nameItem, int monsterId);
+    boolean canEvolveByItem(String nameItem, int monsterId);
 
-    public Optional<Pair<String, String>> evolveByItem(String nameItem, int monsterId);
+    Optional<Pair<String, String>> evolveByItem(String nameItem, int monsterId);
 
 }

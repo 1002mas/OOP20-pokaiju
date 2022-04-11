@@ -3,14 +3,20 @@ package controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import gui.Direction;
 import model.Pair;
+import model.battle.MonsterBattle;
+import model.battle.MonsterBattleImpl;
 import model.battle.Moves;
 import model.gameitem.GameItem;
 import model.gameitem.GameItemTypes;
 import model.map.GameMap;
 import model.monster.Monster;
+import model.npc.NpcSimple;
+import model.npc.NpcTrainer;
+import model.npc.TypeOfNpc;
 import model.player.Gender;
 import model.player.Player;
 import model.player.PlayerImpl;
@@ -19,7 +25,9 @@ public class PlayerControllerImpl implements PlayerController {
 
     private Player player;
     private boolean hasPlayerMoved;
-    private GameMap map;//TODO initialize this field
+    private GameMap map;// TODO initialize this field
+    private Direction currentDirection;// TODO initialize this field
+    private Optional<MonsterBattle> battle = Optional.empty();
     private DataController dataController;
 
     public PlayerControllerImpl(DataController dataController) {
@@ -29,10 +37,17 @@ public class PlayerControllerImpl implements PlayerController {
 
     // --PLAYER--
     @Override
-    public Optional<String> interact(Direction direction) { // ----Problema battaglia-----
-	Pair<Integer, Integer> coord = generateCoordinates(direction);
-	if (dataController.getGameMap().getNpcAt(coord).isPresent()) {
-	    Optional<String> result = dataController.getGameMap().getNpcAt(coord).get().interactWith();
+    public Optional<String> interact() { // ----Problema battaglia-----
+	Pair<Integer, Integer> coord = generateCoordinates(this.currentDirection);
+	Optional<NpcSimple> npc = dataController.getGameMap().getNpcAt(coord);
+	if (npc.isPresent()) {
+	    Optional<String> result = npc.get().interactWith();
+	    if (npc.get().getTypeOfNpc() == TypeOfNpc.TRAINER) {
+		NpcTrainer trainer = (NpcTrainer) npc.get();
+		if (!trainer.isDefeated()) {
+		    this.battle = Optional.of(new MonsterBattleImpl(player, trainer));
+		}
+	    }
 	    return result;
 	}
 	return Optional.empty();
@@ -43,8 +58,10 @@ public class PlayerControllerImpl implements PlayerController {
 	return this.player.getPosition();
     }
 
+    // TODO improve this function
     @Override
     public Pair<Integer, Integer> movePlayer(Direction direction) { // --
+	this.currentDirection = direction;
 	if (canChangeMap()) {
 	    dataController.setNpcDefeatedFromMap();
 	    dataController.getGameMap().changeMap(getPlayerPosition());
@@ -55,6 +72,10 @@ public class PlayerControllerImpl implements PlayerController {
 	    Pair<Integer, Integer> newPosition = generateCoordinates(direction);
 	    player.setPosition(newPosition);
 	    setHasPlayerMoved(true);
+	    Optional<Monster> wildMonster = map.getWildMonster(newPosition);
+	    if (wildMonster.isPresent()) {
+		this.battle = Optional.of(new MonsterBattleImpl(player, wildMonster.get()));
+	    }
 	}
 	return getPlayerPosition();
     }
@@ -83,6 +104,12 @@ public class PlayerControllerImpl implements PlayerController {
 	return dataController.getGameMap().canChangeMap(getPlayerPosition());
     }
 
+    @Override
+    public List<String> getAllNpcs() {
+	return map.getAllNpcsInCurrentMap().stream().filter(npc -> npc.isEnabled() && npc.isVisible())
+		.map(npc -> npc.getName()).collect(Collectors.toList());
+    }
+
     private Pair<Integer, Integer> generateCoordinates(Direction direction) { // --
 
 	Pair<Integer, Integer> newPosition = null;
@@ -107,6 +134,21 @@ public class PlayerControllerImpl implements PlayerController {
     }
 
     @Override
+    public boolean hasBattleStarted() {
+	return this.battle.isPresent();
+    }
+
+    @Override
+    public Optional<BattleController> getBattleController() {
+	if (this.battle.isPresent()) {
+	    BattleController battleController = new BattleControllerImpl(this.battle.get());
+	    this.battle = Optional.empty();
+	    return Optional.of(battleController);
+	}
+	return Optional.empty();
+    }
+
+    @Override
     public void createNewPlayer(String name, Gender gender, int trainerNumber) { // --
 	this.player = new PlayerImpl(name, gender, trainerNumber, new Pair<Integer, Integer>(0, 0));
 	this.hasPlayerMoved = false;
@@ -124,7 +166,7 @@ public class PlayerControllerImpl implements PlayerController {
     }
 
     @Override
-    public String getGender() { // --
+    public String getPlayerGender() { // --
 	return player.getGender().name();
     }
 
@@ -268,12 +310,12 @@ public class PlayerControllerImpl implements PlayerController {
     }
 
     @Override
-    public int getMoney() { // --
+    public int getPlayerMoney() { // --
 	return player.getMoney();
     }
 
     @Override
-    public void setMoney(int money) { // --
+    public void setPlayerMoney(int money) { // --
 	player.setMoney(money);
     }
 
@@ -317,7 +359,7 @@ public class PlayerControllerImpl implements PlayerController {
     }
 
     @Override
-    public boolean usableItem(String item) { // --
+    public boolean canUseItem(String item) { // --
 	return getItem(item).getType().equals(GameItemTypes.MONSTERBALL);
     }
 
