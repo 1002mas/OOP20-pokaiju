@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import model.Pair;
 import model.gameevents.GameEvent;
@@ -93,6 +92,16 @@ public class GameMapDataImpl implements GameMapData {
     @Override
     public List<NpcSimple> getAllNpcs() {
 	return new ArrayList<NpcSimple>(npcs);
+    }
+
+    @Override
+    public void addEventAt(GameEvent e, Pair<Integer, Integer> block) {
+	this.eventLocation.put(block, e);
+    }
+
+    @Override
+    public String toString() {
+	return "MapID: " + id + ", name: " + name;
     }
 
     @Override

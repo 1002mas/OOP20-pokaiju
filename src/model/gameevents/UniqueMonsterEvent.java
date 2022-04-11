@@ -1,6 +1,5 @@
 package model.gameevents;
 
-import java.util.List;
 import java.util.Optional;
 
 import model.battle.MonsterBattle;
