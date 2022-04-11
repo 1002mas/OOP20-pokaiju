@@ -20,7 +20,7 @@ public class NpcSimpleImpl implements NpcSimple {
     private boolean isVisible;
     private boolean isEnabled;
 
-    public NpcSimpleImpl(String name, TypeOfNpc typeOfNpc, List<String> sentences, Pair<Integer, Integer> position,
+    protected NpcSimpleImpl(String name, TypeOfNpc typeOfNpc, List<String> sentences, Pair<Integer, Integer> position,
 	    boolean isVisible, boolean isEnabled) {
 	this.name = name;
 	this.typeOfNpc = typeOfNpc;
@@ -32,6 +32,10 @@ public class NpcSimpleImpl implements NpcSimple {
 	triggeredEvent = Optional.empty();
     }
 
+    public NpcSimpleImpl(String name, List<String> sentences, Pair<Integer, Integer> position,
+    	    boolean isVisible, boolean isEnabled) {
+    	this(name,TypeOfNpc.SIMPLE,sentences, position, isVisible, isEnabled);
+    }
     @Override
     public String getName() {
 	return this.name;

@@ -10,9 +10,9 @@ public class NpcMerchantImpl extends NpcSimpleImpl implements NpcMerchant {
 
     private Map<GameItem, Integer> inventory;
 
-    public NpcMerchantImpl(String name, TypeOfNpc typeOfNpc, List<String> sentences,
+    public NpcMerchantImpl(String name, List<String> sentences,
 	    Pair<Integer, Integer> position, boolean isVisible, boolean isEnabled, Map<GameItem, Integer> inventory) {
-	super(name, typeOfNpc, sentences, position, isVisible, isEnabled);
+	super(name, TypeOfNpc.MERCHANT, sentences, position, isVisible, isEnabled);
 	this.inventory = inventory;
     }
 

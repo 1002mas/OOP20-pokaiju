@@ -11,10 +11,10 @@ public class NpcTrainerImpl extends NpcSimpleImpl implements NpcTrainer {
     private List<Monster> monstersOwned;
     private boolean isDefeated;
 
-    public NpcTrainerImpl(String name, TypeOfNpc typeOfNpc, List<String> sentences,
+    public NpcTrainerImpl(String name, List<String> sentences,
 	    Pair<Integer, Integer> position, boolean isVisible, boolean isEnabled, List<Monster> monstersOwned,
 	    boolean isDefeated) {
-	super(name, typeOfNpc, sentences, position, isVisible, isEnabled);
+	super(name, TypeOfNpc.TRAINER, sentences, position, isVisible, isEnabled);
 	this.monstersOwned = monstersOwned;
 	this.isDefeated = isDefeated;
     }

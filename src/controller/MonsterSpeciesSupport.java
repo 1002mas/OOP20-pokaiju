@@ -60,6 +60,22 @@ public class MonsterSpeciesSupport {
 		return this.stats;
 	}
 
+	public int getAttack() {
+		return this.stats.getAttack();
+	}
+
+	public int getDefense() {
+		return this.stats.getDefense();
+	}
+
+	public int getHealth() {
+		return this.stats.getHealth();
+	}
+
+	public int getSpeed() {
+		return this.stats.getSpeed();
+	}
+
 	public List<Pair<Moves, Integer>> getAllMoves(List<Moves> movesd) {
 		List<Pair<Moves, Integer>> moves = new ArrayList<>();
 		for (Pair<String, Integer> n : this.allMoves) {
@@ -78,8 +94,8 @@ public class MonsterSpeciesSupport {
 	}
 
 	public Optional<GameItem> getEvolutionGameItem(List<GameItem> list) {
-		for(GameItem gi: list) {
-			if(gi.getNameItem().equals(this.evolutionItem.get())) {
+		for (GameItem gi : list) {
+			if (gi.getNameItem().equals(this.evolutionItem.get())) {
 				return Optional.of(gi);
 			}
 		}
