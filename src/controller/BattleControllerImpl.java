@@ -47,7 +47,7 @@ public class BattleControllerImpl implements BattleController {
 
     @Override
     public List<Integer> getPlayerTeam() {
-	return monsterBattle.getPlayer().allMonster().stream().map(i -> i.getId()).collect(Collectors.toList());
+	return monsterBattle.getPlayer().getAllMonsters().stream().map(i -> i.getId()).collect(Collectors.toList());
     }
 
     @Override
@@ -101,7 +101,7 @@ public class BattleControllerImpl implements BattleController {
     }
 
     private Optional<Monster> getMonsterById(int idMonster) {
-	return monsterBattle.getPlayer().allMonster().stream().filter(i -> i.getId() == idMonster).findAny();
+	return monsterBattle.getPlayer().getAllMonsters().stream().filter(i -> i.getId() == idMonster).findAny();
     }
 
     @Override
@@ -134,33 +134,33 @@ public class BattleControllerImpl implements BattleController {
 
     @Override
     public void useItem(String gameItemName, int monsterId) {
-	GameItem gameItem = monsterBattle.getPlayer().allItems().stream()
+	GameItem gameItem = monsterBattle.getPlayer().getAllItems().stream()
 		.filter(i -> i.getNameItem().equals(gameItemName)).findAny().get();
 	if (gameItem.getType() == GameItemTypes.MONSTERBALL) {
 	    monsterBattle.getPlayer().useItem(gameItem);
 	    this.enemyCaptured = monsterBattle.capture();
 	} else {
-	    monsterBattle.getPlayer().useItemOnMonster(gameItem, monsterBattle.getPlayer().allMonster().stream()
+	    monsterBattle.getPlayer().useItemOnMonster(gameItem, monsterBattle.getPlayer().getAllMonsters().stream()
 		    .filter(i -> i.getId() == monsterId).findAny().get());
 	}
     }
 
     @Override
     public int getItemNumber(String gameItemName) {
-	return monsterBattle.getPlayer().allItems().stream().filter(i -> i.getNameItem().equals(gameItemName)).findAny()
+	return monsterBattle.getPlayer().getAllItems().stream().filter(i -> i.getNameItem().equals(gameItemName)).findAny()
 		.get().getNumber();
     }
 
     @Override
     public List<String> getAllPlayerItems() {
-	return monsterBattle.getPlayer().allItems().stream()
+	return monsterBattle.getPlayer().getAllItems().stream()
 		.filter(gameItem -> gameItem.getType() != GameItemTypes.EVOLUTIONTOOL)
 		.map(gameItem -> gameItem.getNameItem()).collect(Collectors.toList());
     }
 
     @Override
     public boolean isCaptureItem(String gameItemName) {
-	return monsterBattle.getPlayer().allItems().stream()
+	return monsterBattle.getPlayer().getAllItems().stream()
 		.filter(i -> i.getNameItem().equals(gameItemName) && i.getType() == GameItemTypes.MONSTERBALL).findAny()
 		.isPresent();
     }
@@ -170,7 +170,7 @@ public class BattleControllerImpl implements BattleController {
     }
 
     public Optional<Pair<String, String>> evolveByLevel(int monsterId) {
-	Optional<Monster> monster = monsterBattle.getPlayer().allMonster().stream().filter(i -> i.getId() == monsterId)
+	Optional<Monster> monster = monsterBattle.getPlayer().getAllMonsters().stream().filter(i -> i.getId() == monsterId)
 		.findAny();
 	if (monster.isPresent() && monster.get().canEvolveByLevel()) {
 	    String monsterName = monster.get().getName();
@@ -181,7 +181,7 @@ public class BattleControllerImpl implements BattleController {
     }
 
     public Optional<Integer> getEvolutionSpeciesNames() {
-	Iterator<Monster> i = monsterBattle.getPlayer().allMonster().iterator();
+	Iterator<Monster> i = monsterBattle.getPlayer().getAllMonsters().iterator();
 	while (i.hasNext()) {
 	    Monster m = i.next();
 	    if (m.canEvolveByLevel()) {
@@ -193,7 +193,7 @@ public class BattleControllerImpl implements BattleController {
 
     @Override
     public boolean isAlive(int monsterId) {
-	return monsterBattle.getPlayer().allMonster().stream().filter(i -> i.getId() == monsterId).findAny().get()
+	return monsterBattle.getPlayer().getAllMonsters().stream().filter(i -> i.getId() == monsterId).findAny().get()
 		.isAlive();
     }
 

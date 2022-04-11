@@ -152,7 +152,7 @@ public class PlayerControllerImpl implements PlayerController {
 	
 	public List<Integer> getMonstersId() {
 		List<Integer> playerMonster = new ArrayList<Integer>();
-		for (Monster monster : player.allMonster()) {
+		for (Monster monster : player.getAllMonsters()) {
 			playerMonster.add(monster.getId());
 		}
 		return playerMonster;
@@ -160,7 +160,7 @@ public class PlayerControllerImpl implements PlayerController {
 	
 
 	private Monster getMonster(int monsterId) { // --
-		for (Monster monster : player.allMonster()) {
+		for (Monster monster : player.getAllMonsters()) {
 			if (monster.getId() == monsterId) {
 				return monster;
 			}
@@ -269,7 +269,7 @@ public class PlayerControllerImpl implements PlayerController {
 	*/
 
 	private GameItem getItem(String name) { // --
-		for (GameItem item : player.allItems()) {
+		for (GameItem item : player.getAllItems()) {
 			if (item.getNameItem().equals(name)) {
 				return item;
 			}
@@ -290,7 +290,7 @@ public class PlayerControllerImpl implements PlayerController {
 	@Override
 	public List<String> getPlayerItemsName() { // --
 		List<String> items = new ArrayList<>();
-		for (GameItem i : player.allItems()) {
+		for (GameItem i : player.getAllItems()) {
 			items.add(i.getNameItem());
 		}
 		return items;
@@ -364,14 +364,14 @@ public class PlayerControllerImpl implements PlayerController {
 	
 	 @Override
 	public boolean canEvolveByItem(String nameItem, int monsterId) {
-	return player.allMonster().stream().filter(i -> i.getId() == monsterId).findAny().get().canEvolveByItem(
-			player.allItems().stream().filter(i -> i.getNameItem().equals(nameItem)).findAny().get());
+	return player.getAllMonsters().stream().filter(i -> i.getId() == monsterId).findAny().get().canEvolveByItem(
+			player.getAllItems().stream().filter(i -> i.getNameItem().equals(nameItem)).findAny().get());
 	    }
 
 	    @Override
 	    public Optional<Pair<String, String>> evolveByItem(String nameItem, int monsterId) {
 		if(canEvolveByItem(nameItem, monsterId)) {
-		    Monster monster = player.allMonster().stream().filter(i -> i.getId() == monsterId).findAny().get();
+		    Monster monster = player.getAllMonsters().stream().filter(i -> i.getId() == monsterId).findAny().get();
 		    String monsterName = monster.getName();
 		    monster.evolve();
 		    return Optional.of(new Pair<>(monsterName, monster.getName()));

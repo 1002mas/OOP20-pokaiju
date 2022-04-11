@@ -7,7 +7,7 @@ import java.util.Optional;
 import model.Pair;
 import model.battle.Moves;
 import model.battle.Moves;
-import model.gameitem.GameItems;
+import model.gameitem.GameItem;
 import model.monster.EvolutionType;
 import model.monster.MonsterStats;
 import model.monster.MonsterType;
@@ -74,7 +74,7 @@ public class MonsterSpeciesSupport {
 	public Optional<String> getEvolution() {
 		return this.evolution;
 	}
-	public Optional<GameItems> getEvolutionGameItem(){
+	public Optional<GameItem> getEvolutionGameItem(){
 		//TODO translate
 		return Optional.empty();
 	}

@@ -17,7 +17,7 @@ import model.battle.Moves;
 import model.battle.MovesImpl;
 import model.gameitem.EvolutionItem;
 import model.gameitem.GameItemImpl;
-import model.gameitem.GameItems;
+import model.gameitem.*;
 import model.gameitem.HealingItem;
 import model.monster.EvolutionType;
 import model.monster.Monster;
@@ -51,7 +51,7 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 	private List<Monster> monster;// = new ArrayList<>();
 	private List<MonsterSpecies> monsterSpecies;
 	private List<NpcSimple> npc;
-	private List<GameItems> gameItems;
+	private List<GameItem> gameItems;
 
 	public DataLoaderControllerImpl() {
 		this.gsonBuilder = new GsonBuilder();
@@ -217,7 +217,7 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 			try (final BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
 				String stringRead = reader.readLine();
 				GameItemSupport gis = gson.fromJson(stringRead, GameItemSupport.class);
-				GameItems gameItem;
+				GameItem gameItem;
 				switch(gis.getType()) {
 				
 				case EVOLUTIONTOOL:
@@ -246,7 +246,7 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 		
 	}
 
-	public List<GameItems> getGameEvolution() {
+	public List<GameItem> getGameEvolution() {
 		if (this.gameItems == null) {
 			gameItems = new ArrayList<>();
 			loadGameItems();

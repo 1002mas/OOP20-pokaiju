@@ -195,7 +195,7 @@ public class GameFrame extends JFrame {
 	JLabel boxLabel = new JLabel();
 	boxPanel.add(boxLabel);
 
-	GameItemPanel gameItemPanel = new GameItemPanel(this.playerController);
+	GameItemPanel gameItemPanel = new GameItemPanel(this.playerController,this.size);
 
 	PlayerInfoPanel playerInfoPanel = new PlayerInfoPanel(this.playerController);
 

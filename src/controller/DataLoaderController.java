@@ -19,7 +19,7 @@ import model.battle.Moves;
 import model.battle.Moves;
 import model.battle.MovesImpl;
 import model.gameitem.GameItemImpl;
-import model.gameitem.GameItems;
+import model.gameitem.*;
 import model.map.GameMap;
 import model.map.GameMapData;
 import model.map.GameMapDataImpl;

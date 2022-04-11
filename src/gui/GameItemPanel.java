@@ -3,6 +3,7 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,9 +20,13 @@ public class GameItemPanel extends JPanel {
     private static final long serialVersionUID = -5473716174748395743L;
     private final PlayerController playerController;
     private final CardLayout cardlayout = new CardLayout();
+    private final static int NUMBEROFELEMENTS = 10;
+    private final static int WIDTH = 50;
+    private final int size;
 
-    public GameItemPanel(PlayerController playerController) {
+    public GameItemPanel(PlayerController playerController, int size) {
 	this.playerController = playerController;
+	this.size = size;
 	init();
     }
 
@@ -40,6 +45,7 @@ public class GameItemPanel extends JPanel {
 
 	for (String itemName : listItemsName) {
 	    JLabel nameItem = new JLabel();
+	    nameItem.setPreferredSize(new Dimension(WIDTH, size / NUMBEROFELEMENTS));
 	    JLabel quantity = new JLabel();
 	    JLabel description = new JLabel();
 	    JLabel type = new JLabel();
@@ -55,6 +61,7 @@ public class GameItemPanel extends JPanel {
 		    changePanel("SELECTIONPANEL");
 		}
 	    });
+	    setShowProp(listItemsName, subPanel);
 	    subPanel.add(nameItem);
 	    subPanel.add(quantity);
 	    subPanel.add(description);
@@ -70,6 +77,17 @@ public class GameItemPanel extends JPanel {
 	this.add(containerPanel, "ITEMS");
 	this.add(selection, "SELECTIONPANEL");
 
+    }
+
+    private void setShowProp(List<String> listItemsName, JPanel subPanel) {
+	if (NUMBEROFELEMENTS > listItemsName.size()) {
+	    int n = (NUMBEROFELEMENTS - listItemsName.size()) * 5;
+	    for (int q = 0; q < n; q++) {
+		JLabel label = new JLabel();
+		label.setPreferredSize(new Dimension(50, size / NUMBEROFELEMENTS));
+		subPanel.add(label);
+	    }
+	}
     }
 
     public void update() {
@@ -100,6 +118,5 @@ public class GameItemPanel extends JPanel {
 	topPanel.add(typeLabel);
 	topPanel.add(useLabel);
     }
-
 
 }

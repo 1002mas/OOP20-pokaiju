@@ -1,0 +1,135 @@
+package gui;
+
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
+import controller.ImagesLoader;
+import controller.PlayerController;
+
+public class MenuPanel extends JPanel {
+    private final JPanel parentPanel;
+    private final ImagesLoader imgLoad;
+    private int size;
+    private final PlayerController playerController;
+    private static final String MONSTERPANEL = "MONSTER";
+    private static final String BOXPANEL = "BOX";
+    private static final String GAMEITEMSPANEL = "ITEMS";
+    private static final String PLAYERINFOPANEL = "INFO";
+
+    public MenuPanel(JPanel parentPanel, PlayerController playerController, ImagesLoader imgLoad, int size) {
+	this.parentPanel = parentPanel;
+	this.playerController = playerController;
+	this.imgLoad = imgLoad;
+	this.size = size;
+	init();
+    }
+
+    private void init() {
+	CardLayout cLayout = (CardLayout) this.parentPanel.getLayout();
+
+	this.setLayout(new BorderLayout());
+
+	JPanel topPanel = new JPanel(new FlowLayout());
+	topPanel.setBorder(BorderFactory.createLineBorder(Color.blue));
+
+	final JButton monster = new JButton("MONSTER");
+	final JButton box = new JButton(" BOX ");
+	final JButton gameItems = new JButton(" BAG ");
+	final JButton playerInfo = new JButton(" PLAYERINFO ");
+	final JButton quit = new JButton(" QUIT MENU ");
+	final JButton backToMainMenu = new JButton(" BACK TO MAIN MENU ");
+	final JButton save = new JButton(" SAVE ");
+
+	topPanel.add(monster);
+	topPanel.add(box);
+	topPanel.add(gameItems);
+	topPanel.add(playerInfo);
+	topPanel.add(quit);
+	topPanel.add(save);
+	topPanel.add(backToMainMenu);
+
+	JPanel bottomPanel = new JPanel();
+	bottomPanel.setBorder(BorderFactory.createLineBorder(Color.red));
+	bottomPanel.setLayout(cLayout);
+
+	MonsterPanel monsterPanel = new MonsterPanel(this.playerController, this.imgLoad);
+
+	JPanel boxPanel = new JPanel();
+	JLabel boxLabel = new JLabel();
+	boxPanel.add(boxLabel);
+
+	GameItemPanel gameItemPanel = new GameItemPanel(this.playerController, size);
+
+	PlayerInfoPanel playerInfoPanel = new PlayerInfoPanel(this.playerController);
+
+	bottomPanel.add(monsterPanel);
+	bottomPanel.add(boxPanel);
+	bottomPanel.add(gameItemPanel);
+	bottomPanel.add(playerInfoPanel);
+
+	monster.addActionListener(e -> {
+	    monsterPanel.update();
+	    cLayout.show(bottomPanel, MONSTERPANEL);
+	});
+	box.addActionListener(e -> cLayout.show(bottomPanel, BOXPANEL));
+	gameItems.addActionListener(e -> {
+	    gameItemPanel.update();
+	    cLayout.show(bottomPanel, GAMEITEMSPANEL);
+
+	});
+	playerInfo.addActionListener(e -> cLayout.show(bottomPanel, PLAYERINFOPANEL));
+	quit.addActionListener(e -> {
+	    monsterPanel.changePanel(Integer.toString(0));
+	    gameItemPanel.changePanel(GAMEITEMSPANEL);
+	    this.update();
+	    cLayout.show(parentPanel, GameFrame.MAP_PANEL);
+	});
+
+	save.addActionListener(new ActionListener() {
+	    public void actionPerformed(ActionEvent e) {
+		// TODO salvataggio
+
+	    }
+	});
+	// this.playerController.save(null); TODO
+	backToMainMenu.addActionListener(new ActionListener() {
+	    public void actionPerformed(ActionEvent e) {
+		int result = JOptionPane.showConfirmDialog(null, "Sure? You want to exit?", "Warning",
+			JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+		if (result == JOptionPane.YES_OPTION) {
+		    cLayout.show(parentPanel, GameFrame.LOGIN_PANEL);
+		} else if (result == JOptionPane.NO_OPTION) {
+
+		} else {
+
+		}
+	    }
+
+	});
+
+	bottomPanel.add(monsterPanel, MONSTERPANEL);
+	bottomPanel.add(boxPanel, BOXPANEL);
+	bottomPanel.add(gameItemPanel, GAMEITEMSPANEL);
+	bottomPanel.add(playerInfoPanel, PLAYERINFOPANEL);
+
+	this.add(topPanel, BorderLayout.NORTH);
+	this.add(bottomPanel, BorderLayout.CENTER);
+
+    }
+
+    public void update() {
+	this.removeAll();
+	init();
+    }
+
+}
