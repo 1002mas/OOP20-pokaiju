@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
@@ -286,6 +287,23 @@ public class MonsterImpl implements Monster {
     @Override
     public MonsterStats getMaxStats() {
 	return this.maxStats;
+    }
+
+    @Override
+    public int hashCode() {
+	return Objects.hash(id);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+	if (this == obj)
+	    return true;
+	if (obj == null)
+	    return false;
+	if (getClass() != obj.getClass())
+	    return false;
+	MonsterImpl other = (MonsterImpl) obj;
+	return id == other.id;
     }
 
     @Override
