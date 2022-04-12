@@ -2,7 +2,6 @@ package model.map;
 
 import java.util.List;
 import java.util.Optional;
-
 import model.Pair;
 import model.gameevents.GameEvent;
 import model.monster.MonsterSpecies;
