@@ -113,14 +113,15 @@ public class MonsterImpl implements Monster {
     }
 
     private void onLevelUp(int incLevel) {
+	Random rand = new Random();
 	this.maxStats
-		.setHealth(this.maxStats.getHealth() + new Random().nextInt(MAX_HP_STEP - MIN_HP_STEP) + MIN_HP_STEP);
+		.setHealth(this.maxStats.getHealth() + rand.nextInt(MAX_HP_STEP - MIN_HP_STEP) + MIN_HP_STEP);
 	this.maxStats.setAttack(
-		this.maxStats.getAttack() + new Random().nextInt(MAX_STAT_STEP - MIN_STAT_STEP) + MIN_STAT_STEP);
+		this.maxStats.getAttack() + rand.nextInt(MAX_STAT_STEP - MIN_STAT_STEP) + MIN_STAT_STEP);
 	this.maxStats.setDefense(
-		this.maxStats.getDefense() + new Random().nextInt(MAX_STAT_STEP - MIN_STAT_STEP) + MIN_STAT_STEP);
+		this.maxStats.getDefense() + rand.nextInt(MAX_STAT_STEP - MIN_STAT_STEP) + MIN_STAT_STEP);
 	this.maxStats.setSpeed(
-		this.maxStats.getSpeed() + new Random().nextInt(MAX_STAT_STEP - MIN_STAT_STEP) + MIN_STAT_STEP);
+		this.maxStats.getSpeed() + rand.nextInt(MAX_STAT_STEP - MIN_STAT_STEP) + MIN_STAT_STEP);
 	for (; incLevel > 0; incLevel--) {
 	    Optional<Moves> moves = species.learnNewMove(this.level - incLevel + 1);
 	    if (moves.isPresent()
