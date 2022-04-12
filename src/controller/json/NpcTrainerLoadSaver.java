@@ -1,4 +1,4 @@
-package controller;
+package controller.json;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +7,7 @@ import model.Pair;
 import model.monster.Monster;
 import model.npc.TypeOfNpc;
 
-public class NpcTrainerSupport {
+public class NpcTrainerLoadSaver {
 
 	private String name;
 	private TypeOfNpc typeOfNpc;
@@ -18,7 +18,7 @@ public class NpcTrainerSupport {
 	private boolean isEnabled;
 	private boolean isDefeated;
 
-	public NpcTrainerSupport(String name, TypeOfNpc typeOfNpc, List<String> sentences, List<Integer> monstersOwned,
+	public NpcTrainerLoadSaver(String name, TypeOfNpc typeOfNpc, List<String> sentences, List<Integer> monstersOwned,
 			boolean isVisible, boolean isEnabled, boolean isDefeated, Pair<Integer, Integer> position) {
 		this.name = name;
 		this.typeOfNpc = typeOfNpc;
@@ -60,15 +60,15 @@ public class NpcTrainerSupport {
 	}
 
 	public List<Monster> getTranslatedMonsterList(List<Monster> list) {
-		List<Monster> monster = new ArrayList<>();
+		List<Monster> monsters = new ArrayList<>();
 		for (int id : this.monstersOwned) {
-			for (Monster md : list) {
-				if (md.getId() == id) {
-					monster.add(md);
+			for (Monster monster : list) {
+				if (monster.getId() == id) {
+					monsters.add(monster);
 					break;
 				}
 			}
 		}
-		return monster;
+		return monsters;
 	}
 }

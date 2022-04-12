@@ -1,4 +1,4 @@
-package controller;
+package controller.json;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,7 @@ import model.battle.Moves;
 import model.monster.MonsterSpecies;
 import model.monster.MonsterStats;
 
-public class MonsterSupport {
+public class MonsterLoadSaver {
 
 	private int id;
 	private int exp;
@@ -16,14 +16,12 @@ public class MonsterSupport {
 	private String species;
 	private List<Pair<String, Integer>> movesList;
 	private MonsterStats stats;
-	private MonsterStats maxStats;
 
-	public MonsterSupport(int id, int exp, int level, String species, List<Pair<String, Integer>> movesList,
-			MonsterStats stats, MonsterStats maxStats) {
+	public MonsterLoadSaver(int id, int exp, int level, String species, List<Pair<String, Integer>> movesList,
+			MonsterStats stats) {
 		this.id = id;
 		this.exp = exp;
 		this.level = level;
-		this.maxStats = maxStats;
 		this.stats = stats;
 		this.movesList = movesList;
 	}
@@ -38,14 +36,6 @@ public class MonsterSupport {
 
 	public int getLevel() {
 		return this.level;
-	}
-
-	public MonsterStats getStats() {
-		return this.stats;
-	}
-
-	public MonsterStats getMaxStats() {
-		return this.maxStats;
 	}
 
 	public int getAttack() {

@@ -1,4 +1,4 @@
-package controller;
+package controller.json;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +11,7 @@ import model.monster.EvolutionType;
 import model.monster.MonsterStats;
 import model.monster.MonsterType;
 
-public class MonsterSpeciesSupport {
+public class MonsterSpeciesLoadSaver {
 
 	private final Optional<String> evolution;
 	private final String name;
@@ -20,11 +20,10 @@ public class MonsterSpeciesSupport {
 	private final EvolutionType evolutionType;
 	private final MonsterStats stats;
 	private final List<Pair<String, Integer>> allMoves;
+	private Optional<String> evolutionItem;
+	private Optional<Integer> evolutionLevel;
 
-	Optional<String> evolutionItem;
-	Optional<Integer> evolutionLevel;
-
-	public MonsterSpeciesSupport(Optional<String> evolution, String name, String info, MonsterType type,
+	public MonsterSpeciesLoadSaver(Optional<String> evolution, String name, String info, MonsterType type,
 			EvolutionType evolutionType, MonsterStats stats, List<Pair<String, Integer>> allMoves,
 			Optional<String> evolutionItem, Optional<Integer> evolutionLevel) {
 
@@ -56,26 +55,21 @@ public class MonsterSpeciesSupport {
 		return this.type;
 	}
 
-	public MonsterStats getMonsterStats() {
-		return this.stats;
-	}
-
 	public int getAttack() {
 		return this.stats.getAttack();
 	}
-
+	
 	public int getDefense() {
 		return this.stats.getDefense();
 	}
-
+	
 	public int getHealth() {
 		return this.stats.getHealth();
 	}
-
+	
 	public int getSpeed() {
 		return this.stats.getSpeed();
 	}
-
 	public List<Pair<Moves, Integer>> getAllMoves(List<Moves> movesd) {
 		List<Pair<Moves, Integer>> moves = new ArrayList<>();
 		for (Pair<String, Integer> n : this.allMoves) {
@@ -94,8 +88,8 @@ public class MonsterSpeciesSupport {
 	}
 
 	public Optional<GameItem> getEvolutionGameItem(List<GameItem> list) {
-		for (GameItem gi : list) {
-			if (gi.getNameItem().equals(this.evolutionItem.get())) {
+		for(GameItem gi: list) {
+			if(gi.getNameItem().equals(this.evolutionItem.get())) {
 				return Optional.of(gi);
 			}
 		}

@@ -1,10 +1,10 @@
-package controller;
+package controller.json;
 
 import java.util.Optional;
 
 import model.gameitem.GameItemTypes;
 
-public class GameItemSupport {
+public class GameItemLoadSaver {
 
 	private String nameItem;
 	private int quantity;
@@ -12,7 +12,7 @@ public class GameItemSupport {
 	private GameItemTypes type;
 	private Optional<Integer> healing;
 
-	public GameItemSupport(String nameItem, int quantity, String description, GameItemTypes type,
+	public GameItemLoadSaver(String nameItem, int quantity, String description, GameItemTypes type,
 			Optional<Integer> healing) {
 		this.nameItem = nameItem;
 		this.quantity = quantity;
