@@ -14,6 +14,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
+import controller.json.DataLoaderController;
+import controller.json.DataLoaderControllerImpl;
 import model.battle.Moves;
 import model.gameitem.GameItemImpl;
 import model.gameitem.GameItem;
@@ -32,23 +34,29 @@ import model.npc.TypeOfNpc;
 import model.player.Player;
 import model.player.PlayerImpl;
 
-public class DataControllerImpl implements DataController {				
-											
+public class DataControllerImpl implements DataController {
+
 	private final int MAXIMUM_BLOCK_IN_ROW = 20;
 	private final int MAXIMU_BLOCK_IN_COLUMN = 20;
-	
-	private GameMapData gameMapData;			
-	private GameMap gameMap;			
+
+	private DataLoaderController dlc;
+
+	private GameMapData gameMapData;
+	private GameMap gameMap;
 	private GsonBuilder gsonBuilder;
 	private Gson gson;
-	private final String playerDataPath = "res"+File.separator+"Data"+File.separator+"PlayerData.json";	
-	private final String NpcsDataPath = "res"+File.separator+"Data"+File.separator+"NpcsData.json";
-	private final String mapDataPath = "res"+File.separator+"Data"+File.separator+"MapData.json";		
-	private final String gameMosterPath = "res"+File.separator+"Data"+File.separator+"MonstersData.json";	
-	private final String gameItemsPath = "res"+File.separator+"Data"+File.separator+"ItemsData.json";	
+
+	private final String playerDataPath = "res" + File.separator + "Data" + File.separator + "PlayerData.json";
+	private final String NpcsDataPath = "res" + File.separator + "Data" + File.separator + "NpcsData.json";
+	private final String mapDataPath = "res" + File.separator + "Data" + File.separator + "MapData.json";
+	private final String gameMosterPath = "res" + File.separator + "Data" + File.separator + "MonstersData.json";
+	private final String gameItemsPath = "res" + File.separator + "Data" + File.separator + "ItemsData.json";
+
+	private static final String PLAYER_PATH = "res" + File.separator + "data" + File.separator + "player"
+			+ File.separator + "player.json";
+
 	private List<NpcTrainer> npcsDefeated = new ArrayList<>();
-	
-		
+
 	public DataControllerImpl() {
 		this.gsonBuilder = new GsonBuilder();
 		gsonBuilder.registerTypeAdapter(MonsterSpecies.class, new TypeAdapterController());
@@ -56,173 +64,197 @@ public class DataControllerImpl implements DataController {
 		gsonBuilder.registerTypeAdapter(MonsterStats.class, new TypeAdapterController());
 		gsonBuilder.registerTypeAdapter(Monster.class, new TypeAdapterController());
 		gsonBuilder.registerTypeAdapter(GameMapData.class, new TypeAdapterController());
-		gsonBuilder.registerTypeAdapter(GameItem.class,new TypeAdapterController());
+		gsonBuilder.registerTypeAdapter(GameItem.class, new TypeAdapterController());
 		this.gson = gsonBuilder.create();
+
+		dlc = new DataLoaderControllerImpl();
+
 		loadMapData();
 		gameMap = new GameMapImpl(gameMapData);
 	}
-	
+
 	@Override
-	public void saveData(Player player) {	//--
-		
+	public void saveData(Player player) { // --
+
 		String playerJson = gson.toJson(player);
-		String npcsJson= gson.toJson(npcsDefeated);
-		
-		 try (BufferedWriter bf = new BufferedWriter( new FileWriter(playerDataPath))) {	
-	        	bf.write(playerJson);	
-	        } catch (IOException e) {
-	            //e.printStackTrace();
-	        }
-		 
-		 try (BufferedWriter bf = new BufferedWriter( new FileWriter(NpcsDataPath))) {	
-	        	bf.write(npcsJson);	
-	        } catch (IOException e) {
-	            //e.printStackTrace();
-	        }
-		
+		String npcsJson = gson.toJson(npcsDefeated);
+
+		try (BufferedWriter bf = new BufferedWriter(new FileWriter(playerDataPath))) {
+			bf.write(playerJson);
+		} catch (IOException e) {
+			// e.printStackTrace();
+		}
+
+		try (BufferedWriter bf = new BufferedWriter(new FileWriter(NpcsDataPath))) {
+			bf.write(npcsJson);
+		} catch (IOException e) {
+			// e.printStackTrace();
+		}
+
+	}
+
+	public void saveDatar(Player player) { // --
+
+		String playerJson = gson.toJson(player);
+		String npcsJson = gson.toJson(npcsDefeated);
+
+		try (BufferedWriter bf = new BufferedWriter(new FileWriter(playerDataPath))) {
+			bf.write(playerJson);
+		} catch (IOException e) {
+			// e.printStackTrace();
+		}
+
+		try (BufferedWriter bf = new BufferedWriter(new FileWriter(NpcsDataPath))) {
+			bf.write(npcsJson);
+		} catch (IOException e) {
+			// e.printStackTrace();
+		}
+
 	}
 
 	@Override
-	public boolean loadData(Player player) {	//--
+	public boolean loadData(Player player) { // --
 		File playerDataFile = new File(playerDataPath);
-		if(playerDataFile.exists()) {
-			try (final BufferedReader reader = new BufferedReader ( new FileReader ( playerDataPath ))){
-		        			String stringReadPlayer; 
-		        			while ((stringReadPlayer = reader.readLine()) != null) {
-		        				player = gson.fromJson(stringReadPlayer,PlayerImpl.class);	
-		    	   			  }
-		        			
-		    		    } catch (IOException e) {
-							//e.printStackTrace();
-							return false;
-						} 
-			
+		if (playerDataFile.exists()) {
+			try (final BufferedReader reader = new BufferedReader(new FileReader(playerDataPath))) {
+				String stringReadPlayer;
+				while ((stringReadPlayer = reader.readLine()) != null) {
+					player = gson.fromJson(stringReadPlayer, PlayerImpl.class);
+				}
+
+			} catch (IOException e) {
+				// e.printStackTrace();
+				return false;
+			}
+
 			File dataFile = new File(NpcsDataPath);
-			if(dataFile.exists()) {
-				try (final BufferedReader reader = new BufferedReader ( new FileReader ( dataFile))){
-			        			String stringRead; 
-			        			while ((stringRead= reader.readLine()) != null) {
-			        				Type type = new TypeToken<ArrayList<NpcSimpleImpl>>(){}.getType();
-			            			npcsDefeated = gson.fromJson(stringRead, type);  
-			            			
-			    	   			  }
-			        			
-			    		    } catch (IOException e) {
-								//e.printStackTrace();
-								return false;
-							} 
-			return true;
-			}	
+			if (dataFile.exists()) {
+				try (final BufferedReader reader = new BufferedReader(new FileReader(dataFile))) {
+					String stringRead;
+					while ((stringRead = reader.readLine()) != null) {
+						Type type = new TypeToken<ArrayList<NpcSimpleImpl>>() {
+						}.getType();
+						npcsDefeated = gson.fromJson(stringRead, type);
+
+					}
+
+				} catch (IOException e) {
+					// e.printStackTrace();
+					return false;
+				}
+				return true;
+			}
 		}
 		return false;
 	}
-	
+
 	@Override
-	public boolean dataExsist() {	//--
+	public boolean dataExsist() { // --
 		File playerDataFile = new File(playerDataPath);
 		return playerDataFile.exists();
 	}
 
 	@Override
-	public boolean loadMapData() {	//--
+	public boolean loadMapData() { // --
 		File mapDataFile = new File(mapDataPath);
-		if(mapDataFile.exists()) {
-			try (final BufferedReader reader = new BufferedReader ( new FileReader ( mapDataFile))){
-		        			String stringReadMap; 
-		        			while ((stringReadMap= reader.readLine()) != null) {
-		        				gameMapData = gson.fromJson(stringReadMap,GameMapDataImpl.class);	//sost. gameMapData
-		        				//set
-		        				setNpcDefeatedInMap();
-		    	   			  }
-		        			
-		    		    } catch (IOException e) {
-							//e.printStackTrace();
-							return false;
-						} 
-		return true;
+		if (mapDataFile.exists()) {
+			try (final BufferedReader reader = new BufferedReader(new FileReader(mapDataFile))) {
+				String stringReadMap;
+				while ((stringReadMap = reader.readLine()) != null) {
+					gameMapData = gson.fromJson(stringReadMap, GameMapDataImpl.class); // sost. gameMapData
+					// set
+					setNpcDefeatedInMap();
+				}
+
+			} catch (IOException e) {
+				// e.printStackTrace();
+				return false;
+			}
+			return true;
 		}
-	return false;
+		return false;
 	}
-	
+
 	@Override
-	public List<Monster> loadMonsters() {	//--
+	public List<Monster> loadMonsters() { // --
 		List<Monster> m = new ArrayList<>();
 		File dataFile = new File(gameMosterPath);
-		if(dataFile.exists()) {
-			try (final BufferedReader reader = new BufferedReader ( new FileReader ( gameMosterPath))){
-		        			String stringReadMonster; 
-		        			while ((stringReadMonster= reader.readLine()) != null) {
-		        				Type type = new TypeToken<ArrayList<MonsterImpl>>(){}.getType();		           			 
-		            			m = gson.fromJson(stringReadMonster, type);
-		    	   			  }
-		        			
-		    		    } catch (IOException e) {
-							//e.printStackTrace();
-						} 
+		if (dataFile.exists()) {
+			try (final BufferedReader reader = new BufferedReader(new FileReader(gameMosterPath))) {
+				String stringReadMonster;
+				while ((stringReadMonster = reader.readLine()) != null) {
+					Type type = new TypeToken<ArrayList<MonsterImpl>>() {
+					}.getType();
+					m = gson.fromJson(stringReadMonster, type);
+				}
+
+			} catch (IOException e) {
+				// e.printStackTrace();
+			}
 		}
 		return m;
 	}
 
 	@Override
-	public List<GameItem> loadItems() {	//--
+	public List<GameItem> loadItems() { // --
 		List<GameItem> i = new ArrayList<>();
 		File dataFile = new File(gameItemsPath);
-		if(dataFile.exists()) {
-			try (final BufferedReader reader = new BufferedReader ( new FileReader ( gameItemsPath))){
-		        			String stringReadItem; 
-		        			while ((stringReadItem= reader.readLine()) != null) {
-		        				Type type = new TypeToken<ArrayList<GameItemImpl>>(){}.getType();		           			 
-		            			i = gson.fromJson(stringReadItem, type);
-		    	   			  }
-		        			
-		    		    } catch (IOException e) {
-							//e.printStackTrace();
-						} 
+		if (dataFile.exists()) {
+			try (final BufferedReader reader = new BufferedReader(new FileReader(gameItemsPath))) {
+				String stringReadItem;
+				while ((stringReadItem = reader.readLine()) != null) {
+					Type type = new TypeToken<ArrayList<GameItemImpl>>() {
+					}.getType();
+					i = gson.fromJson(stringReadItem, type);
+				}
+
+			} catch (IOException e) {
+				// e.printStackTrace();
+			}
 		}
 		return i;
 	}
-	
 
 	@Override
-	public GameMapData getGameMapData() {	//--	
-		return this.gameMapData;				
+	public GameMapData getGameMapData() { // --
+		return this.gameMapData;
 	}
 
 	@Override
-	public GameMap getGameMap() {	//--			
+	public GameMap getGameMap() { // --
 		return this.gameMap;
 	}
-	
+
 	@Override
-	public void addNpcsDefeated(NpcTrainer npc) {	//--
-		this.npcsDefeated.add(npc);		
+	public void addNpcsDefeated(NpcTrainer npc) { // --
+		this.npcsDefeated.add(npc);
 	}
 
 	@Override
-	public void setNpcDefeatedInMap() {		//--
-		if(!npcsDefeated.isEmpty()) {
-			for (NpcSimple npc : gameMapData.getAllNpcs()) {		
-				for(NpcTrainer npcTrainer : npcsDefeated) {
-					if(npcTrainer.getName().equals(npc.getName())) {
+	public void setNpcDefeatedInMap() { // --
+		if (!npcsDefeated.isEmpty()) {
+			for (NpcSimple npc : gameMapData.getAllNpcs()) {
+				for (NpcTrainer npcTrainer : npcsDefeated) {
+					if (npcTrainer.getName().equals(npc.getName())) {
 						npc = npcTrainer;
-				 	}
+					}
 				}
 			}
 		}
 	}
 
 	@Override
-	public void setNpcDefeatedFromMap() {		//--
+	public void setNpcDefeatedFromMap() { // --
 		NpcTrainer temp;
-		for (NpcSimple npc : gameMapData.getAllNpcs()) {	
-			if(npc.getTypeOfNpc() == TypeOfNpc.TRAINER ) {
+		for (NpcSimple npc : gameMapData.getAllNpcs()) {
+			if (npc.getTypeOfNpc() == TypeOfNpc.TRAINER) {
 				temp = (NpcTrainer) npc;
-					if(!temp.isDefeated() && !npcsDefeated.contains(temp)) {
-						npcsDefeated.add(temp);
-					}
+				if (!temp.isDefeated() && !npcsDefeated.contains(temp)) {
+					npcsDefeated.add(temp);
+				}
 			}
 		}
-		
+
 	}
 
 	@Override
@@ -238,13 +270,9 @@ public class DataControllerImpl implements DataController {
 	@Override
 	public void deleteNpcData() {
 		File file = new File(NpcsDataPath);
-		if(file.exists()) {
+		if (file.exists()) {
 			file.delete();
 		}
 	}
-
-	
-	
-	
 
 }

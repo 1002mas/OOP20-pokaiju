@@ -1,4 +1,4 @@
-package controller;
+package controller.json;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -11,7 +11,7 @@ import model.map.MapBlockType;
 import model.monster.MonsterSpecies;
 import model.npc.NpcSimple;
 
-public class GameMapDataSupport {
+public class GameMapDataLoadSaver {
 
 	private int id;
 	private int minimumMonsterLevel;
@@ -20,8 +20,8 @@ public class GameMapDataSupport {
 	private Map<Pair<Integer, Integer>, MapBlockType> blocks;
 	private Set<String> npcs;
 	private List<String> wildMonsters;
-
-	public GameMapDataSupport(int id, int minimumMonsterLevel, int maximumMonsterLevel, String name,
+	//TODO add GameEvent
+	public GameMapDataLoadSaver(int id, int minimumMonsterLevel, int maximumMonsterLevel, String name,
 			Map<Pair<Integer, Integer>, MapBlockType> blocks, Set<String> npcs, List<String> wildMonsters) {
 
 		this.id = id;

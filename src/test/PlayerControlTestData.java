@@ -8,6 +8,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,8 +20,8 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 
-import controller.DataLoaderController;
-import controller.DataLoaderControllerImpl;
+import controller.json.DataLoaderController;
+import controller.json.DataLoaderControllerImpl;
 import model.Pair;
 import model.battle.Moves;
 import model.battle.Moves;
@@ -48,6 +50,8 @@ public class PlayerControlTestData {
 		
 		//---DATA---
 		
+		
+		
 		final String movesPath = "res"+File.separator+"data"+File.separator+"Moves"+File.separator;
 		
 		ArrayList<String> a = new ArrayList();
@@ -57,7 +61,7 @@ public class PlayerControlTestData {
 		Pair<Integer,Integer> pos =  new Pair<>(1,0);
 		Pair<Integer,Integer> pos2 =  new Pair<>(2,0);
 		
-		DataLoaderController dlc = new DataLoaderControllerImpl();
+		//DataLoaderController dlc = new DataLoaderControllerImpl();
 		
 		Moves m1 = new MovesImpl("uno", 23, MonsterType.FIRE, 2);
 		Moves m2 = new MovesImpl("due", 12, MonsterType.NONE, 3);
@@ -130,25 +134,26 @@ public class PlayerControlTestData {
 		*/
 		
 		//---WRITING---
-		
+		/*
 		String newName;
 		newName = movesPath+m1.getName()+".json";
 		 try (BufferedWriter bf = new BufferedWriter( new FileWriter( newName ))) {
 	          
 	        	
 	        	//bf.write(playerJson);
-			 	/*
+			 	
 			 	bf.write(m1name);bf.newLine();
 			 	bf.write(m1n1);bf.newLine();
 			 	bf.write(m1t);bf.newLine();
 			 	bf.write(m1n2);bf.newLine();
-			 	*/
-			 bf.write(m3s);
+			 	
+			// bf.write(m3s);
 			 	
 			 
 	        } catch (IOException e) {
 	            e.printStackTrace();
 	        }
+		 */
 		 /*
 		 newName = movesPath + m2.getName()+".json";
 		 try (BufferedWriter bf = new BufferedWriter( new FileWriter( newName ))) {
@@ -162,7 +167,7 @@ public class PlayerControlTestData {
 	        }
 		 	*/
 		 
-		 dlc.getMoves();	//ritornare lista
+		 //dlc.getMoves();	//ritornare lista
 		 
 	       /* 
 	      //---RREADIG---

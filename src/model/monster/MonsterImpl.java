@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
@@ -17,8 +18,19 @@ import model.gameitem.GameItemTypes;
 
 public class MonsterImpl implements Monster {
 
+    /**
+     * Monster's maximum experience
+     */
     public static final int EXP_CAP = 1000;
+    
+    /**
+     * Monster's maximum level
+     */
     public static final int MAX_LVL = 100;
+    
+    /**
+     * Maximum number of moves of a monster
+     */
     public static final int NUM_MAX_MOVES = 4;
 
     private static final int MAX_HP_STEP = 40;
@@ -112,14 +124,15 @@ public class MonsterImpl implements Monster {
     }
 
     private void onLevelUp(int incLevel) {
+	Random rand = new Random();
 	this.maxStats
-		.setHealth(this.maxStats.getHealth() + new Random().nextInt(MAX_HP_STEP - MIN_HP_STEP) + MIN_HP_STEP);
+		.setHealth(this.maxStats.getHealth() + rand.nextInt(MAX_HP_STEP - MIN_HP_STEP) + MIN_HP_STEP);
 	this.maxStats.setAttack(
-		this.maxStats.getAttack() + new Random().nextInt(MAX_STAT_STEP - MIN_STAT_STEP) + MIN_STAT_STEP);
+		this.maxStats.getAttack() + rand.nextInt(MAX_STAT_STEP - MIN_STAT_STEP) + MIN_STAT_STEP);
 	this.maxStats.setDefense(
-		this.maxStats.getDefense() + new Random().nextInt(MAX_STAT_STEP - MIN_STAT_STEP) + MIN_STAT_STEP);
+		this.maxStats.getDefense() + rand.nextInt(MAX_STAT_STEP - MIN_STAT_STEP) + MIN_STAT_STEP);
 	this.maxStats.setSpeed(
-		this.maxStats.getSpeed() + new Random().nextInt(MAX_STAT_STEP - MIN_STAT_STEP) + MIN_STAT_STEP);
+		this.maxStats.getSpeed() + rand.nextInt(MAX_STAT_STEP - MIN_STAT_STEP) + MIN_STAT_STEP);
 	for (; incLevel > 0; incLevel--) {
 	    Optional<Moves> moves = species.learnNewMove(this.level - incLevel + 1);
 	    if (moves.isPresent()
@@ -286,6 +299,23 @@ public class MonsterImpl implements Monster {
     @Override
     public MonsterStats getMaxStats() {
 	return this.maxStats;
+    }
+
+    @Override
+    public int hashCode() {
+	return Objects.hash(id);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+	if (this == obj)
+	    return true;
+	if (obj == null)
+	    return false;
+	if (getClass() != obj.getClass())
+	    return false;
+	MonsterImpl other = (MonsterImpl) obj;
+	return id == other.id;
     }
 
     @Override

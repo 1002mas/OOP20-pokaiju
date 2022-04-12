@@ -1,6 +1,5 @@
-package controller;
+package controller.json;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,7 +8,7 @@ import model.Pair;
 import model.gameitem.GameItem;
 import model.npc.TypeOfNpc;
 
-public class NpcMerchantSupport {
+public class NpcMerchantLoadSaver {
 
 	private String name;
 	private TypeOfNpc typeOfNpc;
@@ -19,7 +18,7 @@ public class NpcMerchantSupport {
     private boolean isVisible;
     private boolean isEnabled;
 
-	public NpcMerchantSupport(String name, TypeOfNpc typeOfNpc, List<String> sentences,
+	public NpcMerchantLoadSaver(String name, TypeOfNpc typeOfNpc, List<String> sentences,
 			Pair<Integer, Integer> position, boolean isVisible, boolean isEnabled, Map<String, Integer> inventary) {
 		this.name = name;
 		this.typeOfNpc = typeOfNpc;
