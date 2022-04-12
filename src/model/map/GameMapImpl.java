@@ -26,6 +26,11 @@ public class GameMapImpl implements GameMap {
     }
 
     @Override
+    public int getCurrentMapId() {
+	return map.getMapId();
+    }
+
+    @Override
     public boolean canPassThrough(Pair<Integer, Integer> block) {
 	return map.getBlockType(block).canPassThrough() && map.getNpc(block).isEmpty();
     }
@@ -100,17 +105,16 @@ public class GameMapImpl implements GameMap {
 
     @Override
     public Optional<NpcSimple> getNpcAt(Pair<Integer, Integer> position) {
-	return map.getNpc(position);
+	Optional<NpcSimple> npc = map.getNpc(position);
+	if (npc.isPresent() && !npc.get().isEnabled()) {
+	    return Optional.empty();
+	}
+	return npc;
     }
 
     @Override
     public Optional<GameEvent> getEventAt(Pair<Integer, Integer> position) {
 	return this.map.getEvent(position);
-    }
-
-    @Override
-    public int getCurrentMapId() {
-	return map.getMapId();
     }
 
 }

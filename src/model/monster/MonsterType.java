@@ -1,37 +1,47 @@
 package model.monster;
 
+import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+
+import javax.imageio.ImageIO;
 
 public enum MonsterType {
-   NONE("none"), FIRE("fire"), GRASS("grass"), WATER("water");
+    NONE("none"), FIRE("fire"), GRASS("grass"), WATER("water");
 
     private final String name;
     private final Map<String, Double> damageMultiplier = new HashMap<>();
+    private FileReader weaknessFile;
+    
+    
+    
 
     private MonsterType(String name) {
-	this.name = name;
 
-	switch (name) { 
-		case "fire": 
-		    damageMultiplier.put("grass", 2.0);
-		    damageMultiplier.put("fire", 1.0);
-		    damageMultiplier.put("water", 0.5); 
-		    break; 
-		case "water":
-		    damageMultiplier.put("fire", 2.0); 
-		    damageMultiplier.put("water", 1.0);
-		    damageMultiplier.put("grass", 0.5); 
-		    break;
-		case "grass": 
-		    damageMultiplier.put("water", 2.0);
-		    damageMultiplier.put("grass", 1.0);
-		    damageMultiplier.put("fire", 0.5); 
-		    break;
-  
-		default:
-		    break; 
+	this.name = name;
+	String path = "res" + File.separator + "data" + File.separator + "weakness" + File.separator + name + ".dat";
+	try (BufferedReader in = new BufferedReader(new FileReader(path))) {
+	    String line;
+	   
+	    String[] splittedLine;
+	    while ((line = in.readLine()) != null) {
+		
+		splittedLine = line.split(" ");
+		damageMultiplier.put(splittedLine[0], Double.parseDouble(splittedLine[1]));
+		
+	    }
+	} catch (FileNotFoundException e) {
+	    e.printStackTrace();
+	} catch (IOException e1) {
+	    e1.printStackTrace();
 	}
+	
     }
 
     public String getName() {

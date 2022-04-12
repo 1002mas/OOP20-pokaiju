@@ -20,14 +20,14 @@ public interface Player {
      * 
      * @return Player's list of monster
      */
-    List<Monster> allMonster();
+    List<Monster> getAllMonsters();
 
     /**
      * This function returns all player's GameItems
      * 
      * @return Player's list of GameItem
      */
-    List<GameItem> allItems();
+    List<GameItem> getAllItems();
 
     /**
      * This function adds new GameItems to player's bag

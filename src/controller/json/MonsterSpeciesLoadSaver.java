@@ -93,6 +93,7 @@ public class MonsterSpeciesLoadSaver {
 				return Optional.of(gi);
 			}
 		}
+
 		return Optional.empty();
 	}
 

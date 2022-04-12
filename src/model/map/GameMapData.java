@@ -73,4 +73,10 @@ public interface GameMapData {
      */
     List<NpcSimple> getAllNpcs();
 
+    /**
+     * 
+     * @param block position where the event starts
+     */
+    void addEventAt(GameEvent e, Pair<Integer, Integer> block);
+
 }

@@ -4,17 +4,14 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
-import java.util.ArrayList;
 import java.util.List;
-
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-
 import controller.PlayerController;
-import controller.PlayerControllerImpl;
+
 
 public class SelectMosterPanel extends JPanel {
     private static final long serialVersionUID = 8185263432699574937L;
@@ -31,11 +28,12 @@ public class SelectMosterPanel extends JPanel {
     private void init() {
 	CardLayout c1 = (CardLayout) this.parentPanel.getLayout();
 	this.setLayout(c1);
+	
 	JPanel containerPanel = new JPanel(new BorderLayout());
 	List<Integer> monsterIds = this.playerController.getMonstersId();
 
 	JPanel allMonsterPanel = new JPanel(new GridLayout(6, 2));
-	for (int monsterId : monsterIds) {// nome lv vita , img , stats
+	for (int monsterId : monsterIds) {
 	    JLabel singleMonsterLabel = new JLabel();
 	    String stats = "<html>" + "name : " + this.playerController.getMonsterNameById(monsterId) + "<br/>"
 		    + "Level : " + playerController.getMonsterLevel(monsterId) + "<br/>" + "Hp : "
@@ -46,7 +44,7 @@ public class SelectMosterPanel extends JPanel {
 
 	    JButton checkButton = new JButton("USE ON THIS MONSTER");
 	    checkButton.addActionListener(e -> {
-		this.playerController.useItem(this.itemName, monsterId);
+		//TODO this.playerController.useItem(this.itemName, monsterId);
 		this.repaint();
 		update();
 	    });

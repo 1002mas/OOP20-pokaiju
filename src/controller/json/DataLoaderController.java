@@ -4,6 +4,11 @@ import java.util.List;
 
 import model.battle.Moves;
 import model.gameitem.GameItem;
+import model.battle.Moves;
+import model.battle.MovesImpl;
+import model.gameitem.GameItemImpl;
+import model.gameitem.*;
+import model.map.GameMap;
 import model.map.GameMapData;
 import model.monster.Monster;
 import model.monster.MonsterSpecies;

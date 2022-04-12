@@ -23,8 +23,8 @@ public class PlayerInfoPanel extends JPanel {
 	this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 	JLabel playerName = new JLabel("Name : " + this.playerController.getPlayerName());
 	JLabel trainerNumber = new JLabel("Trainer number : " + this.playerController.getTrainerNumber());
-	JLabel gender = new JLabel("Gender : " + this.playerController.getGender());
-	JLabel money = new JLabel("Money : " + this.playerController.getMoney() + " $ ");
+	JLabel gender = new JLabel("Gender : " + this.playerController.getPlayerGender());
+	JLabel money = new JLabel("Money : " + this.playerController.getPlayerMoney() + " $ ");
 	setLabelProperties(playerName);
 	setLabelProperties(trainerNumber);
 	setLabelProperties(gender);
@@ -41,4 +41,9 @@ public class PlayerInfoPanel extends JPanel {
 	label.setBorder(BorderFactory.createLineBorder(Color.black));
 	label.setAlignmentX(JLabel.CENTER_ALIGNMENT);
     }
+
+    public void update() {
+	this.removeAll();
+	this.init();
+    };
 }

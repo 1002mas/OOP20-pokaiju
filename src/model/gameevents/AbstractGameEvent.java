@@ -58,14 +58,14 @@ public abstract class AbstractGameEvent implements GameEvent {
 	if (isActive()) {
 	    activateEvent();
 	    this.eventsToDeactivate.forEach(e -> e.setActivity(false));
-	    
+
 	    for (GameEvent e : eventsToActivate) {
 		e.setActivity(true);
 		if (e.isToActivateImmediatly()) {
 		    e.activate();
 		}
 	    }
-	    
+
 	    if (!isPermanent()) {
 		this.setActivity(false);
 	    }

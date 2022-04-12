@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Optional;
 import controller.BattleController;
 import controller.BattleControllerImpl;
-import controller.ImagesLoader;
-import gui.BattleFrame;
+import gui.BattlePanel;
+import gui.ImagesLoader;
 import model.Pair;
 import model.battle.MonsterBattle;
 import model.battle.MonsterBattleImpl;
@@ -31,24 +31,24 @@ public class TestBattleGUI {
     private static Monster pgMonster;
     private static Monster enemyMonster;
     private static List<Pair<Moves, Integer>> listOfMoves;
-    private static BattleFrame GUI;
+    private static BattlePanel GUI;
     static MonsterStats  stats = new MonsterStatsImpl(50, 10, 10, 10);
     
     public static void main(String[] args) {
 	// TODO Auto-generated method stub
 	Moves m1 = new MovesImpl("Braciere", 50, MonsterType.FIRE, 10);
-	Moves m2 = new MovesImpl("Attacco", 10, MonsterType.FIRE, 10);
-	Moves m3 = new MovesImpl("Volo", 50, MonsterType.FIRE, 10);
+	Moves m2 = new MovesImpl("Attacco", 10, MonsterType.NONE, 10);
+	Moves m3 = new MovesImpl("Volo", 50, MonsterType.GRASS, 10);
 	Moves m4 = new MovesImpl("Fossa", 50, MonsterType.FIRE, 10);
 	Moves m5 = new MovesImpl("Surf", 50, MonsterType.WATER, 10);
 	Moves m6 = new MovesImpl("Idropompa", 50, MonsterType.WATER, 10);
 	MonsterStats stats = new MonsterStatsImpl(50, 10, 10, 10);
 	
-	listOfMoves = List.of(new Pair<>(m1, 10), new Pair<>(m2, 10),new Pair<>(m3, 5),new Pair<>(m4, 5));
+	listOfMoves = List.of(new Pair<>(m1, 10), new Pair<>(m2, 10),new Pair<>(m3, 10),new Pair<>(m4, 10));
 	List<Pair<Moves, Integer>> allMoves = List.of(new Pair<>(m5, 10), new Pair<>(m6, 25));
 	List<Moves> listOfMoves2 = List.of(new MovesImpl("Lanciafiamme", 50, MonsterType.FIRE, 10),
 		new MovesImpl("Pugno", 10, MonsterType.FIRE, 10), new MovesImpl("Volo", 50, MonsterType.FIRE, 10),
-		new MovesImpl("Fossa", 50, MonsterType.FIRE, 10));
+		new MovesImpl("Fossa", 50, MonsterType.FIRE, 10),new MovesImpl("Calcio", 50, MonsterType.FIRE, 10));
 	
 	
 	MonsterSpeciesImpl secondEvolution = new MonsterSpeciesImpl("Pippo3", "Info3", MonsterType.FIRE, stats, allMoves);
@@ -65,7 +65,7 @@ public class TestBattleGUI {
 	firstEvolution = new MonsterSpeciesByLevel("Pippo2", "Info2", MonsterType.FIRE, null, secondEvolution,
 		SECOND_EVOLUTION_LEVEL, null);
 
-	species = new MonsterSpeciesByLevel("greyfish", "Info", MonsterType.FIRE, stats, firstEvolution,
+	species = new MonsterSpeciesByLevel("greyfish", "Info", MonsterType.WATER, stats, firstEvolution,
 		FIRST_EVOLUTION_LEVEL, allMoves);
 	enemyMonster = new MonsterBuilderImpl().health(500).attack(20).defense(10).speed(20).exp(0).level(1)
 		.isWild(true).species(species).movesList(listOfMoves).build();
@@ -78,17 +78,21 @@ public class TestBattleGUI {
 	Monster playerSecondMonster = new MonsterBuilderImpl().health(500).attack(20).defense(10).speed(20).exp(0)
 		.level(1).isWild(true).species(species).movesList(listOfMoves).build();
 	pg = new PlayerImpl("Luca", Gender.MAN, 0, null);
-	ArrayList<Monster> pgList = new ArrayList<>(List.of(pgMonster, playerSecondMonster, pgMonster, enemyMonster));
+	ArrayList<Monster> pgList = new ArrayList<>(List.of(pgMonster, playerSecondMonster,enemyMonster));
 	pg.setMonster(pgList);
 	pg.addItem(new HealingItem("Cura", 5, ""));
 	pg.addItem(new HealingItem("Life Jar", 10, ""));
 	pg.addItem(new HealingItem("Sapone", 10, ""));
+	pg.addItem(new HealingItem("Benda", 10, ""));
+	pg.addItem(new GameItemImpl("Ball", 5, ""));
 	pg.addItem(new GameItemImpl("Boooble", 5, ""));
-	enemyTrainer = new NpcTrainerImpl("luca",TypeOfNpc.TRAINER,null,null,true,true,new ArrayList<>(List.of(enemyMonster, enemySecondMonster)),false);
+	enemyTrainer = new NpcTrainerImpl("Luca", null, null, true, true, pgList, false);
 	
 	battle = new MonsterBattleImpl(pg, enemyMonster);
 	ctrl = new BattleControllerImpl(battle);
-	GUI = new BattleFrame(ctrl, new ImagesLoader(1,1,1,1));
+	GUI = new BattlePanel (new ImagesLoader(1024,1024,1,1));
+	GUI.setBattleController(ctrl);
+	GUI.start();
 
     }
 

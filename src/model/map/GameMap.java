@@ -8,9 +8,6 @@ import model.gameevents.GameEvent;
 import model.monster.Monster;
 import model.npc.NpcSimple;
 
-/*
- * GameMapData decorator
- * */
 public interface GameMap {
     /**
      * @return current map id

@@ -3,6 +3,8 @@ package gui;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import controller.Direction;
+
 public class PlayerCommands implements KeyListener {
     private static final int INPUT_RESPONSE_TIME = 40;// ms
 

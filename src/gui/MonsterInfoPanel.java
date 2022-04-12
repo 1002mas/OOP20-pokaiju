@@ -10,7 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import controller.ImagesLoader;
+
 import controller.PlayerController;
 
 public class MonsterInfoPanel extends JPanel {
