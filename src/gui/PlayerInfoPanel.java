@@ -2,9 +2,9 @@ package gui;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GridLayout;
 
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -20,7 +20,7 @@ public class PlayerInfoPanel extends JPanel {
     }
 
     private void init() {
-	this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+	this.setLayout(new GridLayout(4,0));
 	JLabel playerName = new JLabel("Name : " + this.playerController.getPlayerName());
 	JLabel trainerNumber = new JLabel("Trainer number : " + this.playerController.getTrainerNumber());
 	JLabel gender = new JLabel("Gender : " + this.playerController.getPlayerGender());
@@ -39,7 +39,7 @@ public class PlayerInfoPanel extends JPanel {
     private void setLabelProperties(JLabel label) {
 	label.setFont(new Font("SansSerif Bold Italic", Font.PLAIN, 22));
 	label.setBorder(BorderFactory.createLineBorder(Color.black));
-	label.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+	label.setHorizontalAlignment(JLabel.CENTER);
     }
 
     public void update() {

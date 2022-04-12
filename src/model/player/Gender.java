@@ -1,5 +1,9 @@
 package model.player;
-
+/**
+ * Gender of Player
+ * 
+ * @author Guo jiahao
+ */
 public enum Gender {
     MAN("Male"), WOMAN("Female");
 
