@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import gui.Direction;
 import model.Pair;
 import model.battle.MonsterBattle;
 import model.battle.MonsterBattleImpl;
@@ -25,8 +24,8 @@ public class PlayerControllerImpl implements PlayerController {
 
     private Player player;
     private boolean hasPlayerMoved;
-    private GameMap map;// TODO initialize this field
-    private Direction currentDirection;// TODO initialize this field
+    private GameMap map;// TODO initialize this field when you load saves
+    private Direction currentDirection = Direction.DOWN;
     private Optional<MonsterBattle> battle = Optional.empty();
     private DataController dataController;
 
@@ -151,6 +150,7 @@ public class PlayerControllerImpl implements PlayerController {
     @Override
     public void createNewPlayer(String name, Gender gender, int trainerNumber) { // --
 	this.player = new PlayerImpl(name, gender, trainerNumber, new Pair<Integer, Integer>(0, 0));
+	// this.map = new GameMapImpl(this.dataController.);//TODO get Map Data
 	this.hasPlayerMoved = false;
 	dataController.deleteNpcData();
     }

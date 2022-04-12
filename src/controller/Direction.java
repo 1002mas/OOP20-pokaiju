@@ -1,4 +1,4 @@
-package gui;
+package controller;
 
 public enum Direction {
     UP("up", true), DOWN("down", true), RIGHT("right", false), LEFT("left", false);

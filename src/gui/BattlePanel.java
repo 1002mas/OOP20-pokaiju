@@ -14,7 +14,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import controller.BattleController;
-import controller.ImagesLoader;
 
 public class BattlePanel {
     private JFrame frame;

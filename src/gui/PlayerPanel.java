@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 
-import controller.ImagesLoader;
+import controller.Direction;
 import model.Pair;
 
 public class PlayerPanel extends JPanel {

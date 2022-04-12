@@ -12,7 +12,7 @@ import java.util.Optional;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import controller.ImagesLoader;
+import controller.Direction;
 import controller.PlayerController;
 import model.Pair;
 
@@ -36,8 +36,6 @@ public class GameFrame extends JFrame {
 	this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	this.setResizable(false);
 	this.setContentPane(mainPanel);
-	this.pack();
-	this.setVisible(true);
 
 	size = getMainPanelSize();
 	imgLoad = new ImagesLoader(size, size, playerController.getMaximumBlocksInRow(),
@@ -61,26 +59,33 @@ public class GameFrame extends JFrame {
 
 	JPanel newGamePanel = newGamePanel();
 	loginPanel.getnewGame().addActionListener(e -> changePanel(NEW_GAME_PANEL));
+	loginPanel.getquitGame().addActionListener(e -> System.exit(0));
 
 	// Pannello del menu di gioco
 	JPanel menuPanel = buildMenuPanel();
-//TODO add BattlePanel
-	loginPanel.getquitGame().addActionListener(e -> System.exit(0));
+
+	JPanel battlePanel = new BattlePanel();
 
 	mainPanel.add(loginPanel, LOGIN_PANEL);
 	mainPanel.add(newGamePanel, NEW_GAME_PANEL);
 	mainPanel.add(menuPanel, MENU_PANEL);
+	mainPanel.add(battlePanel, BATTLE_PANEL);
 
 	subPanels.put(LOGIN_PANEL, loginPanel);
 	subPanels.put(NEW_GAME_PANEL, newGamePanel);
 	subPanels.put(MENU_PANEL, menuPanel);
+	mainPanel.add(BATTLE_PANEL, battlePanel);
+	
+	this.pack();
+	this.setVisible(true);
 
     }
 
     private int getMainPanelSize() {
+	double percScreen = 5 / 6;
 	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	int s = (int) (screenSize.getHeight() > screenSize.getWidth() ? screenSize.getWidth() : screenSize.getHeight());
-	s = (5 * s) / 6;
+	s = (int) (s * percScreen);
 	System.out.println(s);
 	return s;
     }
@@ -112,10 +117,15 @@ public class GameFrame extends JFrame {
 	} else {
 	    topPanel.staticMove();
 	}
-	if (playerController.hasBattleStarted()) {
-	    // TODO change to BattlePanel
-	}
+	changeToBattle();
+    }
 
+    private void changeToBattle() {
+	if (playerController.hasBattleStarted()) {
+	    BattlePanel b = (BattlePanel) (this.subPanels.get(BATTLE_PANEL));
+	    b.setBattleController(this.playerController.getBattleController().get());
+	    changePanel(BATTLE_PANEL);
+	}
     }
 
     public boolean playerInteraction() {
@@ -132,9 +142,7 @@ public class GameFrame extends JFrame {
 	TwoLayersPanel p = (TwoLayersPanel) subPanels.get(MAP_PANEL);
 	PlayerPanel topPanel = p.getTopPanel();
 	topPanel.hideText();
-	if (playerController.hasBattleStarted()) {
-	    // TODO change to BattlePanel
-	}
+	changeToBattle();
     }
 
     private JPanel buildMenuPanel() {

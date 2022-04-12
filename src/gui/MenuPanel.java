@@ -13,7 +13,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import controller.ImagesLoader;
 import controller.PlayerController;
 
 public class MenuPanel extends JPanel {

@@ -8,7 +8,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import controller.ImagesLoader;
+import controller.Direction;
 import controller.PlayerController;
 
 public class TwoLayersPanel extends JPanel {
@@ -25,7 +25,7 @@ public class TwoLayersPanel extends JPanel {
 	this.columns = playerController.getMaximumBlocksInColumn();
 	topPanel = new PlayerPanel(playerController.getPlayerPosition(), imgLoad, playerController.getPlayerGender(),
 		rows, columns);
-	topPanel.setPlayerImage(new ImageIcon(imgLoad.getPlayerImages(Direction.DOWN, "male").get(0)));
+	topPanel.setPlayerImage(new ImageIcon(imgLoad.getPlayerImages(Direction.DOWN, playerController.getPlayerGender()).get(0)));
 	topPanel.setNpcs(playerController.getAllNpcs());
 
 	bottomPanel = new JPanel();

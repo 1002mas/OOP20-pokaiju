@@ -3,7 +3,6 @@ package controller;
 import java.util.List;
 import java.util.Optional;
 
-import gui.Direction;
 import model.Pair;
 import model.player.Gender;
 

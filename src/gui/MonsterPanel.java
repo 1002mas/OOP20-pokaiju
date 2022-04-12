@@ -14,7 +14,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import controller.ImagesLoader;
 import controller.PlayerController;
 
 public class MonsterPanel extends JPanel {

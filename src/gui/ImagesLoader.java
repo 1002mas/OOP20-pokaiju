@@ -1,4 +1,4 @@
-package controller;
+package gui;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -15,7 +15,7 @@ import java.util.regex.Matcher;
 
 import javax.imageio.ImageIO;
 
-import gui.Direction;
+import controller.Direction;
 import model.Pair;
 
 public class ImagesLoader {
