@@ -18,8 +18,19 @@ import model.gameitem.GameItemTypes;
 
 public class MonsterImpl implements Monster {
 
+    /**
+     * Monster's maximum experience
+     */
     public static final int EXP_CAP = 1000;
+    
+    /**
+     * Monster's maximum level
+     */
     public static final int MAX_LVL = 100;
+    
+    /**
+     * Maximum number of moves of a monster
+     */
     public static final int NUM_MAX_MOVES = 4;
 
     private static final int MAX_HP_STEP = 40;
