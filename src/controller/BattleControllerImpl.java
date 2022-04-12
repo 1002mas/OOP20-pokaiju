@@ -166,21 +166,10 @@ public class BattleControllerImpl implements BattleController {
     }
 
     public boolean canOneMonsterEvolve() {
-	return getEvolutionSpeciesNames().isPresent();
+	return getIdOfEvolvingMonster().isPresent();
     }
 
-    public Optional<Pair<String, String>> evolveByLevel(int monsterId) {
-	Optional<Monster> monster = monsterBattle.getPlayer().getAllMonsters().stream().filter(i -> i.getId() == monsterId)
-		.findAny();
-	if (monster.isPresent() && monster.get().canEvolveByLevel()) {
-	    String monsterName = monster.get().getName();
-	    monster.get().evolve();
-	    return Optional.of(new Pair<>(monsterName, monster.get().getName()));
-	}
-	return Optional.empty();
-    }
-
-    public Optional<Integer> getEvolutionSpeciesNames() {
+    public Optional<Integer> getIdOfEvolvingMonster() {
 	Iterator<Monster> i = monsterBattle.getPlayer().getAllMonsters().iterator();
 	while (i.hasNext()) {
 	    Monster m = i.next();
@@ -211,5 +200,4 @@ public class BattleControllerImpl implements BattleController {
     public boolean isOver() {
 	return monsterBattle.isOver();
     }
-
 }
