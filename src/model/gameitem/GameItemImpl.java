@@ -6,32 +6,22 @@ import model.monster.Monster;
 
 public class GameItemImpl implements GameItem {
     private String nameItem;
-    private int quantity;
     private String description;
     private GameItemTypes type;
 
-    public GameItemImpl(String nameItem, int quantity, String description) {
-	this(nameItem, quantity, description, GameItemTypes.MONSTERBALL);
+    public GameItemImpl(String nameItem, String description) {
+	this(nameItem, description, GameItemTypes.MONSTERBALL);
     }
-    
-    protected GameItemImpl(String nameItem, int quantity, String description, GameItemTypes type) {
+
+    protected GameItemImpl(String nameItem, String description, GameItemTypes type) {
 	super();
 	this.nameItem = nameItem;
-	this.quantity = quantity;
 	this.description = description;
 	this.type = type;
     }
 
     public String getNameItem() {
 	return nameItem;
-    }
-
-    public int getNumber() {
-	return quantity;
-    }
-
-    public void setNumber(int number) {
-	this.quantity = number;
     }
 
     public String getDescription() {
@@ -48,7 +38,7 @@ public class GameItemImpl implements GameItem {
 
     @Override
     public String toString() {
-	return "nameItem=" + nameItem + ", quantity=" + quantity + ", description=" + description + ", type=" + type;
+	return "nameItem=" + nameItem + ", description=" + description + ", type=" + type;
     }
 
     @Override

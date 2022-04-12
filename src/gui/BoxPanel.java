@@ -22,7 +22,7 @@ import javax.swing.SwingConstants;
 import controller.PlayerController;
 
 public class BoxPanel extends JPanel {
-    private static final int NUMBEROFMONSTERPERPAGE = 5;
+    private static final int NUMBEROFMONSTERPERPAGE = 10;
     private final PlayerController playerController;
     private final CardLayout cardLayout = new CardLayout();
     private boolean boxPanelEventsEnabled = false;
@@ -73,8 +73,8 @@ public class BoxPanel extends JPanel {
 	}
 
 	JPanel bottomPanel = new JPanel(new GridLayout(1, 2));
-	JButton previusPage = new JButton("Previews Page");
-	JButton nextPage = new JButton("Next Page");
+	JButton previusPage = new JButton("Previews box");
+	JButton nextPage = new JButton("Next box");
 	bottomPanel.add(previusPage);
 	bottomPanel.add(nextPage);
 

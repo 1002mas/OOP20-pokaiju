@@ -2,20 +2,22 @@ package model.player;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import model.Pair;
 import model.gameitem.GameItem;
 import model.monster.Monster;
 
 public class PlayerImpl implements Player {
-    private static final int STARTMONEY=1000;
+    private static final int STARTMONEY = 1000;
     private String name;
     private Gender gender;
     private int trainerNumber;
     private Pair<Integer, Integer> position;
     private List<Monster> monster;
-    private List<GameItem> gameItems;
+    private Map<GameItem, Integer> gameItems;
     private int money;
 
     public PlayerImpl(String name, Gender gender, int trainerNumber, Pair<Integer, Integer> startingPosition) {
@@ -24,7 +26,7 @@ public class PlayerImpl implements Player {
 	this.trainerNumber = trainerNumber;
 	this.position = startingPosition;
 	this.monster = new ArrayList<Monster>();
-	this.gameItems = new ArrayList<GameItem>();
+	this.gameItems = new HashMap<GameItem, Integer>();
 	this.money = STARTMONEY;
 
     }
@@ -47,32 +49,23 @@ public class PlayerImpl implements Player {
     }
 
     @Override
-    public List<GameItem> getAllItems() {
-	return new ArrayList<>(this.gameItems);
+    public Map<GameItem, Integer> getAllItems() {
+	return new HashMap<GameItem, Integer>(this.gameItems);
     }
 
     @Override
     public void addItem(GameItem i) {
-	if (this.gameItems.contains(i)) {
-	    int numberOfItem = this.gameItems.stream().filter(x -> x.getNameItem().equals(i.getNameItem())).findFirst()
-		    .get().getNumber();
-	    this.gameItems.stream().filter(x -> x.getNameItem().equals(i.getNameItem())).findFirst().get()
-		    .setNumber(numberOfItem + i.getNumber());
-	} else {
-	    this.gameItems.add(i);
+	if (!this.gameItems.containsKey(i)) {
+	    this.gameItems.put(i, 0);
 	}
+	this.gameItems.put(i, this.gameItems.get(i) + 1);
     }
 
     @Override
     public void removeItem(GameItem i) {
-	if (this.gameItems.contains(i)) {
-	    int numberOfItem = this.gameItems.stream().filter(x -> x.getNameItem().equals(i.getNameItem())).findFirst()
-		    .get().getNumber();
-	    numberOfItem--;
-	    if (numberOfItem > 0) {
-		this.gameItems.stream().filter(x -> x.getNameItem().equals(i.getNameItem())).findFirst().get()
-			.setNumber(numberOfItem);
-	    } else {
+	if (this.gameItems.containsKey(i)) {
+	    this.gameItems.put(i, this.gameItems.get(i) - 1);
+	    if (this.gameItems.get(i) < 1) {
 		this.gameItems.remove(i);
 	    }
 	}
@@ -80,7 +73,7 @@ public class PlayerImpl implements Player {
 
     @Override
     public void useItem(GameItem i) {
-	if (getAllItems().contains(i) && i.use(null)) {
+	if (getAllItems().containsKey(i) && i.use(null)) {
 	    removeItem(i);
 	}
     }
@@ -121,11 +114,7 @@ public class PlayerImpl implements Player {
     }
 
     public List<GameItem> getItems() {
-	return this.gameItems;
-    }
-
-    public void setItems(ArrayList<GameItem> items) {
-	this.gameItems = items;
+	return new ArrayList<>(this.gameItems.keySet());
     }
 
     public void setName(String name) {
@@ -173,9 +162,21 @@ public class PlayerImpl implements Player {
 
     @Override
     public void useItemOnMonster(GameItem i, Monster m) {
-	if (getAllItems().contains(i) && i.use(m)) {
+	if (getAllItems().containsKey(i) && i.use(m)) {
 	    removeItem(i);
 	}
+    }
+
+    @Override
+    public void addItem(GameItem i, int quantity) {
+	if (quantity > 0) {
+	    this.gameItems.put(i, quantity);
+	}
+    }
+
+    @Override
+    public int getItemQuantity(GameItem i) {
+	return this.gameItems.get(i);
     }
 
 }
