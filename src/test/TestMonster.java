@@ -53,28 +53,27 @@ public class TestMonster {
 		.monsterType(MonsterType.FIRE).health(50).attack(10).defense(10).speed(10).evolution(secondEvolution)
 		.evolutionLevel(SECOND_EVOLUTION_LEVEL).allMoves(allMoves).build();
 
-	MonsterSpecies species = new MonsterSpeciesBuilderImpl().name("Pippo").info("Info").monsterType(MonsterType.FIRE)
-		.health(50).attack(10).defense(10).speed(10).evolution(firstEvolution)
+	MonsterSpecies species = new MonsterSpeciesBuilderImpl().name("Pippo").info("Info")
+		.monsterType(MonsterType.FIRE).health(50).attack(10).defense(10).speed(10).evolution(firstEvolution)
 		.evolutionLevel(FIRST_EVOLUTION_LEVEL).allMoves(allMoves).build();
 
 	this.monster = new MonsterBuilderImpl().health(50).attack(50).defense(50).speed(50).exp(0).level(1)
 		.isWild(false).species(species).movesList(listOfMoves).build();
 
 	// ITEM TEST INITIALIZATION
-	GameItem neededItem = new EvolutionItem("PietraPaperino", 1, "desc");
+	GameItem neededItem = new EvolutionItem("PietraPaperino", "desc");
 
 	MonsterSpecies firstEvolutionByItem = new MonsterSpeciesBuilderImpl().name("Paperino2").info("Info2")
 		.monsterType(MonsterType.WATER).health(50).attack(10).defense(10).speed(10).allMoves(allMoves).build();
 
 	MonsterSpecies speciesByItem = new MonsterSpeciesBuilderImpl().name("Paperino").info("Info")
-		.monsterType(MonsterType.WATER).health(50).attack(10).defense(10).speed(10).evolution(firstEvolutionByItem)
-		.gameItem(neededItem).allMoves(allMoves).build();
+		.monsterType(MonsterType.WATER).health(50).attack(10).defense(10).speed(10)
+		.evolution(firstEvolutionByItem).gameItem(neededItem).allMoves(allMoves).build();
 
 	monsterByItem = new MonsterBuilderImpl().health(50).attack(50).defense(50).speed(50).exp(0).level(1)
 		.isWild(false).species(speciesByItem).movesList(listOfMoves).build();
 
 	// FIRST EVOLUTION WITH LEVEL, SECOND WITH ITEM INITIALIZATION
-
 	MonsterSpecies secondEvolutionByLevelAndItem = new MonsterSpeciesBuilderImpl().name("Topolino3").info("Info3")
 		.monsterType(MonsterType.GRASS).health(50).attack(10).defense(10).speed(10).allMoves(allMoves).build();
 
@@ -122,7 +121,7 @@ public class TestMonster {
 
     @org.junit.Test
     public void evolutionByRightItem() {
-	GameItem holdedItemRight = new EvolutionItem("PietraPaperino", 1, "desc");
+	GameItem holdedItemRight = new EvolutionItem("PietraPaperino", "desc");
 	assertEquals("Paperino", monsterByItem.getName());
 	assertTrue(this.monsterByItem.canEvolveByItem(holdedItemRight));
 	if (monsterByItem.canEvolveByItem(holdedItemRight)) {
@@ -133,7 +132,7 @@ public class TestMonster {
 
     @org.junit.Test
     public void evolutionByWrongItem() {
-	GameItem holdedItemWrong = new EvolutionItem("PietraPippo", 1, "desc");
+	GameItem holdedItemWrong = new EvolutionItem("PietraPippo", "desc");
 	assertEquals("Paperino", monsterByItem.getName());
 	assertFalse(this.monsterByItem.canEvolveByItem(holdedItemWrong));
 	if (monsterByItem.canEvolveByItem(holdedItemWrong)) {
@@ -145,7 +144,7 @@ public class TestMonster {
 
     @org.junit.Test
     public void evolveByLevelAndItem() {
-	GameItem holdedItem = new EvolutionItem("PietraPaperino", 1, "desc");
+	GameItem holdedItem = new EvolutionItem("PietraPaperino", "desc");
 	monsterByLevelAndItem.incExp((FIRST_EVOLUTION_LEVEL - 2) * MonsterImpl.EXP_CAP);
 	assertEquals("Topolino", monsterByLevelAndItem.getName());
 	monsterByLevelAndItem.incExp(MonsterImpl.EXP_CAP);
@@ -167,7 +166,7 @@ public class TestMonster {
 	}
 	assertEquals("Topolino3", monsterByLevelAndItem.getName());
     }
-    
+
     @org.junit.Test
     public void speciesBuilderTest() {
 	assertEquals(this.monster.getSpecies().getName(), "Pippo");

@@ -3,18 +3,14 @@ package controller;
 import java.util.List;
 import java.util.Optional;
 
-import model.Pair;
-
 public interface BattleController {
 
-    
     /**
      * Choose the player move in the battle and starts the turn
      * 
      * @return true if you can choose the selected move
      */
-    //boolean chooseMove(int moveIndex);
-
+    // boolean chooseMove(int moveIndex);
 
     /**
      * Get the id of the current player monster
@@ -44,17 +40,15 @@ public interface BattleController {
      */
     int getPlayerCurrentMonsterMaxHealth();
 
-
     /**
      * Get current player's monster level
      * 
      * @return current monster level
      */
 
-    //void useItem(GameItems gameItem, int monsterIndex);
+    // void useItem(GameItems gameItem, int monsterIndex);
 
     int getPlayerCurrentMonsterLevel();
-
 
     /**
      * Get all the names of the player's monsters
@@ -180,19 +174,25 @@ public interface BattleController {
      * @return all player items
      */
     List<String> getAllPlayerItems();
-    
+
     /**
      * Returns if an item is a capture item
      * 
      * @return true if is a capture item, false otherwise
      */
     boolean isCaptureItem(String gameItemName);
-    
+
+    /**
+     * 
+     * @return
+     */
     boolean canOneMonsterEvolve();
-    
+
+    /**
+     * 
+     * @return
+     */
     Optional<Integer> getIdOfEvolvingMonster();
-    
-    Optional<Pair<String, String>> evolveByLevel(int monsterId);
 
     /**
      * Check the health of the monster

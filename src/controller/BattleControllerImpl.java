@@ -5,10 +5,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import model.Pair;
 import model.battle.MonsterBattle;
-import model.gameitem.GameItemTypes;
 import model.gameitem.GameItem;
+import model.gameitem.GameItemTypes;
 import model.monster.Monster;
 
 public class BattleControllerImpl implements BattleController {
@@ -134,7 +133,7 @@ public class BattleControllerImpl implements BattleController {
 
     @Override
     public void useItem(String gameItemName, int monsterId) {
-	GameItem gameItem = monsterBattle.getPlayer().getAllItems().stream()
+	GameItem gameItem = monsterBattle.getPlayer().getAllItems().keySet().stream()
 		.filter(i -> i.getNameItem().equals(gameItemName)).findAny().get();
 	if (gameItem.getType() == GameItemTypes.MONSTERBALL) {
 	    monsterBattle.getPlayer().useItem(gameItem);
@@ -147,20 +146,20 @@ public class BattleControllerImpl implements BattleController {
 
     @Override
     public int getItemNumber(String gameItemName) {
-	return monsterBattle.getPlayer().getAllItems().stream().filter(i -> i.getNameItem().equals(gameItemName)).findAny()
-		.get().getNumber();
+	return this.monsterBattle.getPlayer().getItemQuantity(monsterBattle.getPlayer().getAllItems().keySet().stream().filter(i -> i.getNameItem().equals(gameItemName)).findAny()
+		.get());
     }
 
     @Override
     public List<String> getAllPlayerItems() {
-	return monsterBattle.getPlayer().getAllItems().stream()
+	return monsterBattle.getPlayer().getAllItems().keySet().stream()
 		.filter(gameItem -> gameItem.getType() != GameItemTypes.EVOLUTIONTOOL)
 		.map(gameItem -> gameItem.getNameItem()).collect(Collectors.toList());
     }
 
     @Override
     public boolean isCaptureItem(String gameItemName) {
-	return monsterBattle.getPlayer().getAllItems().stream()
+	return monsterBattle.getPlayer().getAllItems().keySet().stream()
 		.filter(i -> i.getNameItem().equals(gameItemName) && i.getType() == GameItemTypes.MONSTERBALL).findAny()
 		.isPresent();
     }
