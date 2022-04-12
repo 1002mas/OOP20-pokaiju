@@ -22,7 +22,7 @@ import javax.swing.SwingConstants;
 import controller.PlayerController;
 
 public class BoxPanel extends JPanel {
-    private static final int NUMBEROFMONSTERPERPAGE = 10;
+    private static final int NUMBEROFMONSTERPERBOX = 10;
     private final PlayerController playerController;
     private final CardLayout cardLayout = new CardLayout();
     private boolean boxPanelEventsEnabled = false;
@@ -55,14 +55,14 @@ public class BoxPanel extends JPanel {
 
 	int remainelement = boxMonsterIdList.size();
 	for (int a = 0; a < numberOfPage(boxMonsterIdList); a++) {
-	    int moltiplicatore = NUMBEROFMONSTERPERPAGE * a;
-	    JPanel pagePanel = new JPanel(new GridLayout(NUMBEROFMONSTERPERPAGE, 1));
-	    for (int i = 0; i < (((remainelement - NUMBEROFMONSTERPERPAGE) > 0) ? NUMBEROFMONSTERPERPAGE
+	    int moltiplicatore = NUMBEROFMONSTERPERBOX * a;
+	    JPanel pagePanel = new JPanel(new GridLayout(NUMBEROFMONSTERPERBOX, 1));
+	    for (int i = 0; i < (((remainelement - NUMBEROFMONSTERPERBOX) > 0) ? NUMBEROFMONSTERPERBOX
 		    : remainelement); i++) {
 		int boxId = boxMonsterIdList.get(i + moltiplicatore);
 		pagePanel.add(setBoxmonsterLabel(boxId, boxPanel));
 	    }
-	    remainelement = Math.abs(remainelement - NUMBEROFMONSTERPERPAGE);
+	    remainelement = Math.abs(remainelement - NUMBEROFMONSTERPERBOX);
 	    contentPanel.add(pagePanel);
 	}
 
@@ -198,7 +198,7 @@ public class BoxPanel extends JPanel {
     }
 
     private int numberOfPage(List<Integer> boxIds) {
-	return ((int) boxIds.size() / NUMBEROFMONSTERPERPAGE) + 1;
+	return ((int) boxIds.size() / NUMBEROFMONSTERPERBOX) + 1;
     }
 
     public void update() {
