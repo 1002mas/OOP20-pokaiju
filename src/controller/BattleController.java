@@ -190,7 +190,7 @@ public interface BattleController {
     
     boolean canOneMonsterEvolve();
     
-    Optional<Integer> getEvolutionSpeciesNames();
+    Optional<Integer> getIdOfEvolvingMonster();
     
     Optional<Pair<String, String>> evolveByLevel(int monsterId);
 
@@ -222,5 +222,4 @@ public interface BattleController {
      * @return if the battle ends
      */
     boolean isOver();
-
 }
