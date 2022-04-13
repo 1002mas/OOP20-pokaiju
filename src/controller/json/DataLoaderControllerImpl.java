@@ -47,6 +47,7 @@ import model.monster.MonsterBuilderImpl;
 import model.monster.MonsterSpecies;
 import model.monster.MonsterSpeciesBuilder;
 import model.monster.MonsterSpeciesBuilderImpl;
+import model.npc.NpcHealerImpl;
 import model.npc.NpcMerchant;
 import model.npc.NpcMerchantImpl;
 import model.npc.NpcSimple;
@@ -69,6 +70,7 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 	private static final String MOVES_PATH = BASE_PATH + "moves" + File.separator;
 
 	private static final String NPC_SIMPLE_PATH = NPC_BASE_PATH + "npcSimple" + File.separator;
+	private static final String NPC_HEALER_PATH = NPC_BASE_PATH + "npcHealer" + File.separator;
 	private static final String NPC_TRAINER_PATH = NPC_BASE_PATH + "npcTrainer" + File.separator;
 	private static final String NPC_MERCHANT_PATH = NPC_BASE_PATH + "npcMerchant" + File.separator;
 	private static final String MONSTER_SPECIES_PATH = BASE_PATH + File.separator + "monsterSpecies" + File.separator;
@@ -147,6 +149,18 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 			try (final BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
 				String stringRead = reader.readLine();
 				NpcSimple npc = gson.fromJson(stringRead, NpcSimpleImpl.class);
+				this.npcs.add(npc);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+		}
+		folder = new File(NPC_HEALER_PATH);
+		for (File file : folder.listFiles()) {
+			String filePath = file.getPath();
+			try (final BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+				String stringRead = reader.readLine();
+				NpcSimple npc = gson.fromJson(stringRead, NpcHealerImpl.class);
 				this.npcs.add(npc);
 			} catch (IOException e) {
 				e.printStackTrace();

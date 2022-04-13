@@ -23,24 +23,36 @@ public class NpcMerchantImpl extends NpcSimpleImpl implements NpcMerchant {
 	}
 
 	@Override
-	public int getPrice(GameItem item) {
-		if (this.inventory.containsKey(item)) {
-			return inventory.get(item);
+	public int getPrice(Pair<GameItem,Integer> itemList) {
+		if (this.inventory.containsKey(itemList.getFirst())) {
+			return (inventory.get(itemList.getFirst()) * itemList.getSecond());
 		}
 		return 0;
 	}
 
-	public int getTotalPrice(List<GameItem> list) {
+	@Override
+	public int getTotalPrice(List<Pair<GameItem,Integer>> list) {
 		int sum = 0;
-		for (GameItem item : list) {
+		for (Pair<GameItem,Integer> item : list) {
 			sum = sum + getPrice(item);
 		}
 		return sum;
 	}
 
+	private void addItems(List<Pair<GameItem, Integer>> list, Player player) {
+		for (Pair<GameItem, Integer> item : list) {
+			for(int i=0; i< item.getSecond(); i++) {
+				player.addItem(item.getFirst());
+			}
+			
+		}
+	}
+
 	@Override
-	public boolean buyItem(Player player, List<GameItem> itemList) {
+	public boolean buyItem(List<Pair<GameItem,Integer>> itemList, Player player) {
 		if ((player.getMoney() - getTotalPrice(itemList)) >= 0) {
+			player.setMoney(player.getMoney() - getTotalPrice(itemList));
+			addItems(itemList, player);
 			return true;
 		}
 		return false;
