@@ -140,6 +140,7 @@ public interface PlayerController {
      * @param nameItem
      * @param monsterId
      * @return
+     * @author Luca Barattini
      */
     Optional<Pair<String, String>> evolveByItem(String nameItem, int monsterId);
     
@@ -147,6 +148,7 @@ public interface PlayerController {
      * 
      * @param monsterId
      * @return
+     * @author Luca Barattini
      */
     Optional<Pair<String, String>> evolveByLevel(int monsterId);
 
