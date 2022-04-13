@@ -68,7 +68,6 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 	private static final String SAVES_BASE_PATH = BASE_PATH + File.separator + "saves" + File.separator;
 	private static final String EVENTS_BASE_PATH = SAVES_BASE_PATH + File.separator + "event" + File.separator;
 	private static final String MOVES_PATH = BASE_PATH + "moves" + File.separator;
-
 	private static final String NPC_SIMPLE_PATH = NPC_BASE_PATH + "npcSimple" + File.separator;
 	private static final String NPC_HEALER_PATH = NPC_BASE_PATH + "npcHealer" + File.separator;
 	private static final String NPC_TRAINER_PATH = NPC_BASE_PATH + "npcTrainer" + File.separator;
