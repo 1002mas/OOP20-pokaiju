@@ -5,6 +5,7 @@ import java.util.Map;
 
 import model.Pair;
 import model.gameitem.GameItem;
+import model.player.Player;
 
 public class NpcMerchantImpl extends NpcSimpleImpl implements NpcMerchant {
 
@@ -35,5 +36,13 @@ public class NpcMerchantImpl extends NpcSimpleImpl implements NpcMerchant {
 			sum = sum + getPrice(item);
 		}
 		return sum;
+	}
+
+	@Override
+	public boolean buyItem(Player player, List<GameItem> itemList) {
+		if ((player.getMoney() - getTotalPrice(itemList)) >= 0) {
+			return true;
+		}
+		return false;
 	}
 }

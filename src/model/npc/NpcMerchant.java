@@ -2,7 +2,9 @@ package model.npc;
 
 import java.util.List;
 import java.util.Map;
+
 import model.gameitem.GameItem;
+import model.player.Player;
 
 public interface NpcMerchant extends NpcSimple {
 	/**
@@ -24,4 +26,12 @@ public interface NpcMerchant extends NpcSimple {
 	 * @return sum of items price
 	 */
 	public int getTotalPrice(List<GameItem> list);
+
+	/**
+	 * 
+	 * @param player
+	 * @param item   to buy
+	 * @return true if item is bought
+	 */
+	public boolean buyItem(Player player, List<GameItem> itemList);
 }
