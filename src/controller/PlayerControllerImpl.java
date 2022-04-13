@@ -2,6 +2,7 @@ package controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -13,6 +14,7 @@ import model.gameitem.GameItem;
 import model.gameitem.GameItemTypes;
 import model.map.GameMap;
 import model.monster.Monster;
+import model.npc.NpcMerchant;
 import model.npc.NpcSimple;
 import model.npc.NpcTrainer;
 import model.npc.TypeOfNpc;
@@ -27,6 +29,7 @@ public class PlayerControllerImpl implements PlayerController {
     private GameMap map;// TODO initialize this field when you load saves
     private Direction currentDirection = Direction.DOWN;
     private Optional<MonsterBattle> battle = Optional.empty();
+    private Optional<NpcMerchant> merchantInteraction = Optional.empty();
     private DataController dataController;
 
     public PlayerControllerImpl(DataController dataController) {
@@ -34,12 +37,16 @@ public class PlayerControllerImpl implements PlayerController {
 	this.dataController = dataController;
     }
 
+    private GameItem getGameItemByName(String name) {
+	return null;
+    }
+
     // --PLAYER--
     @Override
     public Optional<String> interact() { // ----Problema battaglia-----
 	Pair<Integer, Integer> coord = generateCoordinates(this.currentDirection);
 	Optional<NpcSimple> npc = dataController.getGameMap().getNpcAt(coord);
-	if (npc.isPresent()) {
+	if (npc.isPresent() && merchantInteraction.isEmpty()) {
 	    Optional<String> result = npc.get().interactWith();
 	    if (npc.get().getTypeOfNpc() == TypeOfNpc.TRAINER) {
 		NpcTrainer trainer = (NpcTrainer) npc.get();
@@ -47,9 +54,69 @@ public class PlayerControllerImpl implements PlayerController {
 		    this.battle = Optional.of(new MonsterBattleImpl(player, trainer));
 		}
 	    }
+	    if (npc.get().getTypeOfNpc() == TypeOfNpc.MERCHANT) {
+		merchantInteraction = Optional.of((NpcMerchant) (npc.get()));
+	    }
 	    return result;
 	}
 	return Optional.empty();
+    }
+
+    @Override
+    public boolean hasMerchantInteractionOccurred() {
+	return merchantInteraction.isPresent();
+    }
+
+    @Override
+    public Optional<String> getMerchantName() {
+	return merchantInteraction.isPresent() ? Optional.of(merchantInteraction.get().getName()) : Optional.empty();
+    }
+
+    @Override
+    public List<String> getMerchantItems() {
+	if (!hasMerchantInteractionOccurred()) {
+	    return new ArrayList<>();
+	}
+	return this.merchantInteraction.get().getInventory().entrySet().stream()
+		.map(listedItem -> listedItem.getKey().getNameItem()).collect(Collectors.toList());
+    }
+
+    @Override
+    public int getMerchantItemPrice(String itemName) {
+	if (!hasMerchantInteractionOccurred()) {
+	    return -1;
+	}
+
+	// return this.merchantInteraction.get().getInventory().;getSingleItemPrice
+	// TODO dataController.loadItems().stream().filter(i ->
+	// i.getNameItem().equals(itemName))
+	return 0;
+    }
+
+    @Override
+    public int getMerchantTotalPrice(Map<String, Integer> buyItem) {
+	// TODO Auto-generated method stub
+	return 0;
+    }
+
+    @Override
+    public boolean canPlayerBuyFromMerchant(Map<String, Integer> buyItem) {
+	return getMerchantTotalPrice(buyItem) <= this.player.getMoney();
+    }
+
+    @Override
+    public boolean buyMerchantItems(Map<String, Integer> buyItem) {
+	if (canPlayerBuyFromMerchant(buyItem)) {
+	    // merchant buy items
+	    return true;
+	}
+	return false;
+    }
+
+    @Override
+    public void endInteractionWithMerchant() {
+	this.merchantInteraction = Optional.empty();
+
     }
 
     @Override
