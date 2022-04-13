@@ -1,4 +1,4 @@
-package controller.json;
+package controller.json.saver;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,7 @@ import model.gameitem.GameItem;
 import model.monster.Monster;
 import model.player.Gender;
 
-public class PlayerLoadSaver {
+public class PlayerSaver {
 	private String name;
 	private Gender gender;
 	private int trainerNumber;
@@ -17,7 +17,7 @@ public class PlayerLoadSaver {
 	private List<String> gameItemsName;
 	private int money;
 
-	public PlayerLoadSaver(String name, Gender gender, int trainerNumber, Pair<Integer, Integer> position,
+	public PlayerSaver(String name, Gender gender, int trainerNumber, Pair<Integer, Integer> position,
 			List<Integer> monsterId, List<String> gameItemsName, int money) {
 
 		this.name = name;

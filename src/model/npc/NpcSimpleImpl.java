@@ -114,4 +114,9 @@ public class NpcSimpleImpl implements NpcSimple {
 	return Collections.unmodifiableList(this.events);
     }
 
+	@Override
+	public int getCurrentSetence() {
+		return this.currentSentence;
+	}
+
 }

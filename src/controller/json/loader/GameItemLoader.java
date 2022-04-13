@@ -1,18 +1,18 @@
-package controller.json;
+package controller.json.loader;
 
 import java.util.Optional;
 
 import model.gameitem.GameItemTypes;
 
-public class GameItemLoadSaver {
+public class GameItemLoader {
 
 	private String nameItem;
 	private int quantity;
-	private String description;
+	private String description; 
 	private GameItemTypes type;
 	private Optional<Integer> healing;
 
-	public GameItemLoadSaver(String nameItem, int quantity, String description, GameItemTypes type,
+	public GameItemLoader(String nameItem, int quantity, String description, GameItemTypes type,
 			Optional<Integer> healing) {
 		this.nameItem = nameItem;
 		this.quantity = quantity;

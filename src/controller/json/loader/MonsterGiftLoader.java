@@ -1,13 +1,12 @@
-package controller.json;
+package controller.json.loader;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import model.monster.Monster;
 
-public class MonsterGiftLoadSaver {
+public class MonsterGiftLoader {
 	private int id;
-
 	private boolean isToActiveImmediatly;
 	private boolean isActive;
 	private boolean isDeactivable;
@@ -15,7 +14,7 @@ public class MonsterGiftLoadSaver {
 	private List<Integer> eventsToDeactivate;
 	private final List<Integer> monsters;
 
-	public MonsterGiftLoadSaver(int id, boolean isToActiveImmediatly, boolean isActive, boolean isDeactivable,
+	public MonsterGiftLoader(int id, boolean isToActiveImmediatly, boolean isActive, boolean isDeactivable,
 			List<Integer> eventsToActivate, List<Integer> eventsToDeactivate, List<Integer> monsters) {
 		this.id = id;
 		this.isToActiveImmediatly = isToActiveImmediatly;

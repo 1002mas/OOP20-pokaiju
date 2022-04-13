@@ -19,6 +19,6 @@ public interface NpcTrainer extends NpcSimple{
 	/**
 	 *  set isDefeated filed true 
 	 */
-	public void setDefeated();	
+	public void setDefeated(boolean isDefeated);	
 
 }
