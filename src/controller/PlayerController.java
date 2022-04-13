@@ -100,9 +100,9 @@ public interface PlayerController {
 
     /**
      * 
-     * @return a list containing all visible npcs in the map
+     * @return a list containing all visible npcs and their location
      */
-    List<String> getAllNpcs();
+    Map<String, Pair<Integer, Integer>> getAllNpcs();
 
     /**
      * @return player position

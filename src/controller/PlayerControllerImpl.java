@@ -1,6 +1,7 @@
 package controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -15,7 +16,6 @@ import model.gameitem.GameItem;
 import model.gameitem.GameItemTypes;
 import model.map.GameMap;
 import model.monster.Monster;
-import model.monster.MonsterBuilder;
 import model.npc.NpcMerchant;
 import model.npc.NpcSimple;
 import model.npc.NpcTrainer;
@@ -166,9 +166,12 @@ public class PlayerControllerImpl implements PlayerController {
     }
 
     @Override
-    public List<String> getAllNpcs() {
-	return map.getAllNpcsInCurrentMap().stream().filter(npc -> npc.isEnabled() && npc.isVisible())
-		.map(npc -> npc.getName()).collect(Collectors.toList());
+    public Map<String, Pair<Integer, Integer>> getAllNpcs() {
+	Map<String, Pair<Integer, Integer>> res = new HashMap<>();
+	for (NpcSimple npc : map.getAllNpcsInCurrentMap()) {
+	    res.put(npc.getName(), npc.getPosition());
+	}
+	return res;
     }
 
     private Pair<Integer, Integer> generateCoordinates(Direction direction) { // --

@@ -109,6 +109,7 @@ public class GameFrame extends JFrame {
 	    if (playerController.canChangeMap()) {
 		List<BufferedImage> mapImageSequence = imgLoad.getMapByID(this.playerController.getCurrentMapID());
 		p.setMapImage(mapImageSequence);
+		topPanel.setNpcs(this.playerController.getAllNpcs());
 		animationOn = false;
 	    }
 	}
