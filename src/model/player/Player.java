@@ -146,4 +146,18 @@ public interface Player {
      */
     void setPosition(Pair<Integer, Integer> position);
 
+    /**
+     * This function evolves Monsters after a battle
+     * 
+     * @param position to be set
+     */
+    void evolveMonsters();
+
+    /**
+     * This function evolves Monster using giving GameItem
+     * 
+     * @param Monster, GameItem to be used
+     */
+    void evolveMonster(Monster monster, GameItem i);
+
 }
