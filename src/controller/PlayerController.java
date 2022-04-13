@@ -13,7 +13,7 @@ public interface PlayerController {
      * 
      * @return true if the player is moved, false otherwise.
      */
-    Pair<Integer, Integer> movePlayer(Direction direction);
+    boolean movePlayer(Direction direction);
 
     /**
      * Interacts with the object at coord position. If there is a trainer, it starts
@@ -115,11 +115,7 @@ public interface PlayerController {
      * @param new name, gender, trainerNumber
      */
 
-    boolean hasPlayerMoved();
-
-    boolean canPassThrough(Direction direction);
-
-    boolean canChangeMap();
+    boolean hasPlayerChangedMap();
 
     /**
      * It may be turn true after calling interact() or walking in wild monsters area

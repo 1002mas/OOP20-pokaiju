@@ -14,7 +14,6 @@ import javax.swing.JPanel;
 
 import controller.Direction;
 import controller.PlayerController;
-import model.Pair;
 
 public class GameFrame extends JFrame {
     private static final long serialVersionUID = -7927156597267134363L;
@@ -101,12 +100,10 @@ public class GameFrame extends JFrame {
 	TwoLayersPanel p = (TwoLayersPanel) subPanels.get(MAP_PANEL);
 	PlayerPanel topPanel = p.getTopPanel();
 	boolean animationOn = true;
-	Pair<Integer, Integer> newPosition = playerController.getPlayerPosition();
-
-	if (playerController.canPassThrough(dir)) {
-	    newPosition = playerController.movePlayer(dir);
-	    topPanel.setNextPosition(newPosition);
-	    if (playerController.canChangeMap()) {
+	boolean canPlayerMove = this.playerController.movePlayer(dir);
+	if (canPlayerMove) {
+	    topPanel.setNextPosition(this.playerController.getPlayerPosition());
+	    if (playerController.hasPlayerChangedMap()) {
 		List<BufferedImage> mapImageSequence = imgLoad.getMapByID(this.playerController.getCurrentMapID());
 		p.setMapImage(mapImageSequence);
 		topPanel.setNpcs(this.playerController.getAllNpcs());
@@ -115,7 +112,7 @@ public class GameFrame extends JFrame {
 	}
 
 	if (animationOn) {
-	    topPanel.animatedMove(dir, playerController.hasPlayerMoved());
+	    topPanel.animatedMove(dir, canPlayerMove);
 	} else {
 	    topPanel.staticMove();
 	}

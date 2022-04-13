@@ -10,15 +10,14 @@ import java.util.stream.Collectors;
 import controller.json.DataLoaderController;
 import model.Pair;
 import model.battle.MonsterBattle;
-import model.battle.MonsterBattleImpl;
 import model.battle.Moves;
 import model.gameitem.GameItem;
 import model.map.GameMap;
+import model.map.GameMapImpl;
 import model.monster.Monster;
 import model.monster.MonsterSpecies;
 import model.npc.NpcMerchant;
 import model.npc.NpcSimple;
-import model.npc.NpcTrainer;
 import model.npc.TypeOfNpc;
 import model.player.Gender;
 import model.player.Player;
@@ -27,7 +26,6 @@ import model.player.PlayerImpl;
 public class PlayerControllerImpl implements PlayerController {
 
     private Player player;
-    private boolean hasPlayerMoved;
     private GameMap map;// TODO initialize this field when you load saves
     private Direction currentDirection = Direction.DOWN;
     private Optional<MonsterBattle> battle = Optional.empty();
@@ -42,19 +40,15 @@ public class PlayerControllerImpl implements PlayerController {
 
     // --PLAYER--
     @Override
-    public Optional<String> interact() { // ----Problema battaglia-----
+    public Optional<String> interact() {
 	Pair<Integer, Integer> coord = generateCoordinates(this.currentDirection);
-	Optional<NpcSimple> npc = dataController.getGameMap().getNpcAt(coord);
-	if (npc.isPresent() && merchantInteraction.isEmpty()) {
-	    Optional<String> result = npc.get().interactWith();
-	    if (npc.get().getTypeOfNpc() == TypeOfNpc.TRAINER) {
-		NpcTrainer trainer = (NpcTrainer) npc.get();
-		if (!trainer.isDefeated()) {
-		    this.battle = Optional.of(new MonsterBattleImpl(player, trainer));
-		}
-	    }
-	    if (npc.get().getTypeOfNpc() == TypeOfNpc.MERCHANT) {
-		merchantInteraction = Optional.of((NpcMerchant) (npc.get()));
+	boolean isNpcPresent = this.player.interactAt(coord);
+	if (isNpcPresent && merchantInteraction.isEmpty()) {
+	    NpcSimple npc = this.player.getLastInteractionWithNpc().get();
+	    this.battle = this.player.getPlayerBattle();
+	    Optional<String> result = npc.interactWith();
+	    if (npc.getTypeOfNpc() == TypeOfNpc.MERCHANT) {
+		merchantInteraction = Optional.of((NpcMerchant) (npc));
 	    }
 	    return result;
 	}
@@ -123,50 +117,37 @@ public class PlayerControllerImpl implements PlayerController {
 	return this.player.getPosition();
     }
 
-    // TODO improve this function
     @Override
-    public Pair<Integer, Integer> movePlayer(Direction direction) { // --
+    public boolean movePlayer(Direction direction) { // --
 	this.currentDirection = direction;
-	if (canChangeMap()) {
-	    dataController.setNpcDefeatedFromMap();
-	    dataController.getGameMap().changeMap(getPlayerPosition());
-	    dataController.setNpcDefeatedInMap();
-	    setPlayerPosition(dataController.getGameMap().getPlayerMapPosition().get());
-	    setHasPlayerMoved(true);
-	} else if (canPassThrough(direction)) {
-	    Pair<Integer, Integer> newPosition = generateCoordinates(direction);
-	    player.setPosition(newPosition);
-	    setHasPlayerMoved(true);
-	    Optional<Monster> wildMonster = map.getWildMonster(newPosition);
-	    if (wildMonster.isPresent()) {
-		this.battle = Optional.of(new MonsterBattleImpl(player, wildMonster.get()));
-	    }
+	boolean hasPlayerMoved;
+	switch (direction) {
+	case UP: {
+	    hasPlayerMoved = this.player.moveUp();
+	    break;
 	}
-	return getPlayerPosition();
-    }
-
-    private void setPlayerPosition(Pair<Integer, Integer> position) { // --
-	this.player.setPosition(position);
-    }
-
-    @Override
-    public boolean hasPlayerMoved() { // --
+	case DOWN: {
+	    hasPlayerMoved = this.player.moveDown();
+	    break;
+	}
+	case LEFT: {
+	    hasPlayerMoved = this.player.moveLeft();
+	    break;
+	}
+	case RIGHT: {
+	    hasPlayerMoved = this.player.moveRight();
+	    break;
+	}
+	default:
+	    throw new IllegalArgumentException("Unexpected value: " + direction);
+	}
+	this.battle = this.player.getPlayerBattle();
 	return hasPlayerMoved;
     }
 
-    private void setHasPlayerMoved(boolean value) { // --
-	hasPlayerMoved = value;
-    }
-
     @Override
-    public boolean canPassThrough(Direction direction) { // --
-	Pair<Integer, Integer> newPosition = generateCoordinates(direction);
-	return dataController.getGameMap().canPassThrough(newPosition);
-    }
-
-    @Override
-    public boolean canChangeMap() { // --
-	return dataController.getGameMap().canChangeMap(getPlayerPosition());
+    public boolean hasPlayerChangedMap() { // --
+	return this.player.hasPlayerChangedMap();
     }
 
     @Override
@@ -217,10 +198,9 @@ public class PlayerControllerImpl implements PlayerController {
     }
 
     @Override
-    public void createNewPlayer(String name, Gender gender, int trainerNumber) { // --
-	this.player = new PlayerImpl(name, gender, trainerNumber, new Pair<Integer, Integer>(0, 0));
-	// this.map = new GameMapImpl(this.dataController.);//TODO get Map Data
-	this.hasPlayerMoved = false;
+    public void createNewPlayer(String name, Gender gender, int trainerNumber) {
+	this.map = new GameMapImpl(this.dataController.getGameMapData(this.dataController.getIdCurrentMap()));
+	this.player = new PlayerImpl(name, gender, trainerNumber, new Pair<Integer, Integer>(0, 0), map);
 	dataController.deleteData();
     }
 
@@ -386,9 +366,11 @@ public class PlayerControllerImpl implements PlayerController {
 	dataController.saveData(0, this.map.getCurrentMapId(), null, player);
     }
 
+    // TODO check correct
     @Override
     public boolean load() { // --
-	return dataController.loadData(player);
+	dataController.loadGameData();
+	return this.dataController.gameSaveExist();
     }
 
     @Override
@@ -433,7 +415,6 @@ public class PlayerControllerImpl implements PlayerController {
 	player.addItem(dataController.getItem(item));
     }
 
-    // TODO check correct
     @Override
     public boolean canUseItem(String item) {
 	return dataController.getItem(item).getType().isConsumableInBag();
@@ -452,12 +433,13 @@ public class PlayerControllerImpl implements PlayerController {
     public boolean hasAnyMonsterEvolved() {
 	evolutionList.addAll(player.getEvolutionList());
 	return !evolutionList.isEmpty();
-	
+
     }
-    
-    public Pair<String, String> getEvolvedMonster(){
-	if(hasAnyMonsterEvolved()) {
-	    Pair<String, String> p = new Pair<>(evolutionList.get(0).getFirst().getName(), evolutionList.get(0).getSecond().getName());
+
+    public Pair<String, String> getEvolvedMonster() {
+	if (hasAnyMonsterEvolved()) {
+	    Pair<String, String> p = new Pair<>(evolutionList.get(0).getFirst().getName(),
+		    evolutionList.get(0).getSecond().getName());
 	    this.evolutionList.remove(0);
 	    return p;
 	}
