@@ -5,7 +5,9 @@ import java.util.Map;
 
 import model.Pair;
 import model.gameitem.*;
+import model.map.GameMap;
 import model.monster.Monster;
+import model.monster.MonsterSpecies;
 
 public interface Player {
     /**
@@ -159,5 +161,43 @@ public interface Player {
      * @param Monster, GameItem to be used
      */
     void evolveMonster(Monster monster, GameItem i);
+
+    /**
+     * This function gets the EvolutionList
+     * 
+     * @return List of evolvedMonsters and base
+     */
+    List<Pair<MonsterSpecies, MonsterSpecies>> getEvolutionList();
+
+    /**
+     * Moves Player up
+     * 
+     */
+    boolean moveUp();
+
+    /**
+     * Moves Player down
+     * 
+     */
+    boolean moveDown();
+
+    /**
+     * Moves Player left
+     * 
+     */
+    boolean moveLeft();
+
+    /**
+     * Moves Player right
+     * 
+     */
+    boolean moveRight();
+
+    /**
+     * This function gets the GameMap
+     * 
+     * @return map
+     */
+    GameMap getMap();
 
 }
