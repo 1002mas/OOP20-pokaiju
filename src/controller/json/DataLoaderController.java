@@ -29,12 +29,6 @@ public interface DataLoaderController {
 
 	/**
 	 * 
-	 * @return a list of all monster species existing
-	 */
-	public List<MonsterSpecies> getMonsterSpecies();
-
-	/**
-	 * 
 	 * @return a list of all items existing
 	 */
 	public List<GameItem> getGameItems();

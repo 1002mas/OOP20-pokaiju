@@ -70,12 +70,12 @@ public class MonsterSpeciesLoader {
 	public int getSpeed() {
 		return this.stats.getSpeed();
 	}
-	public List<Pair<Moves, Integer>> getAllMoves(List<Moves> movesd) {
+	public List<Pair<Moves, Integer>> getAllMoves(List<Moves> movesList) {
 		List<Pair<Moves, Integer>> moves = new ArrayList<>();
 		for (Pair<String, Integer> n : this.allMoves) {
-			for (Moves md : movesd) {
-				if (md.getName().equals(n.getFirst())) {
-					moves.add(new Pair<Moves, Integer>(md, n.getSecond()));
+			for (Moves movesInList : movesList) {
+				if (movesInList.getName().equals(n.getFirst())) {
+					moves.add(new Pair<Moves, Integer>(movesInList, n.getSecond()));
 					break;
 				}
 			}
@@ -88,9 +88,9 @@ public class MonsterSpeciesLoader {
 	}
 
 	public Optional<GameItem> getEvolutionGameItem(List<GameItem> list) {
-		for(GameItem gi: list) {
-			if(gi.getNameItem().equals(this.evolutionItem.get())) {
-				return Optional.of(gi);
+		for(GameItem gameItem: list) {
+			if(gameItem.getNameItem().equals(this.evolutionItem.get())) {
+				return Optional.of(gameItem);
 			}
 		}
 

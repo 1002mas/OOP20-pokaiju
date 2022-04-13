@@ -46,7 +46,7 @@ public class NpcTrainerLoader {
 	public Pair<Integer, Integer> getPosition() {
 		return this.position;
 	}
-	
+
 	public boolean getIsVisible() {
 		return this.isVisible;
 	}

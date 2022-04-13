@@ -19,7 +19,7 @@ public interface NpcMerchant extends NpcSimple {
 	 * @return the amount of same item price 
 	 * @param item
 	 */
-	public int getPrice(Pair<GameItem,Integer>  item);
+	public int getPrice(GameItem  item);
 
 	/**
 	 * 

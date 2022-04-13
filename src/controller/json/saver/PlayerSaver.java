@@ -64,7 +64,7 @@ public class PlayerSaver {
 	public Map<GameItem, Integer> getTranslatedGameItems(List<GameItem> list) {
 		Map<GameItem, Integer> gameItems = new HashMap<>();
 		for (Entry<String, Integer> itemName : this.gameItemsName.entrySet()) {
-			for (GameItem item: list) {
+			for (GameItem item : list) {
 				if (itemName.getKey().equals(item.getNameItem())) {
 					gameItems.put(item, itemName.getValue());
 				}

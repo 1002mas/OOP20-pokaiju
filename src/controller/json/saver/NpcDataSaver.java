@@ -14,14 +14,14 @@ public class NpcDataSaver {
 		this.idSentence = idSentence;
 		this.isVisible = isVisible;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
 
 	public int getIdSentence() {
 		return idSentence;
-	}	
+	}
 
 	public boolean isVisible() {
 		return isVisible;
@@ -31,5 +31,4 @@ public class NpcDataSaver {
 		return isEnable;
 	}
 
-	
 }
