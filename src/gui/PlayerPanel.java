@@ -3,7 +3,9 @@ package gui;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
@@ -29,7 +31,7 @@ public class PlayerPanel extends JPanel {
     private final int maximumCellsInColumn;
     private final String player_gender;
 
-    private List<JLabel> npcsLabels = new ArrayList<>();
+    private Map<JLabel, Pair<Integer, Integer>> npcsLabels = new HashMap<>();
     private Pair<Integer, Integer> playerNextPos;
     private Pair<Integer, Integer> playerPos;
     private Pair<Integer, Integer> movementStep;
@@ -63,8 +65,9 @@ public class PlayerPanel extends JPanel {
 	player.setLocation(playerPos.getFirst(), playerPos.getSecond());
 	int textLabelHeight = (int) (this.getHeight() * 0.1);
 	textLabel.setBounds(0, this.getHeight() - textLabelHeight, this.getWidth(), textLabelHeight);
-	for(JLabel npc: npcsLabels) {
-	    
+	for (JLabel npc : npcsLabels.keySet()) {
+	    Pair<Integer, Integer> npcPos = calculateViewPosition(this.npcsLabels.get(npc));
+	    npc.setLocation(npcPos.getFirst(), npcPos.getSecond());
 	}
     }
 
@@ -144,20 +147,26 @@ public class PlayerPanel extends JPanel {
 	this.paintImmediately(this.getBounds());
     }
 
-    public void setNextPosition(Pair<Integer, Integer> nextPos) {
-	int targetX = nextPos.getFirst() * this.movementStep.getFirst() + cellRelativePos.getFirst();
-	int targetY = nextPos.getSecond() * this.movementStep.getSecond() + cellRelativePos.getSecond();
-	this.playerNextPos = new Pair<>(targetX, targetY);
+    private Pair<Integer, Integer> calculateViewPosition(Pair<Integer, Integer> pos) {
+	int targetX = pos.getFirst() * this.movementStep.getFirst() + cellRelativePos.getFirst();
+	int targetY = pos.getSecond() * this.movementStep.getSecond() + cellRelativePos.getSecond();
+	return new Pair<>(targetX, targetY);
     }
 
-    public void setNpcs(List<String> npcs) {
-	for (JLabel l : npcsLabels) {
+    public void setNextPosition(Pair<Integer, Integer> nextPos) {
+	this.playerNextPos = calculateViewPosition(nextPos);
+    }
+
+    public void setNpcs(Map<String, Pair<Integer, Integer>> npcsPosition) {
+	for (JLabel l : npcsLabels.keySet()) {
 	    this.remove(l);
 	}
-	npcsLabels = new ArrayList<>();
-
+	this.npcsLabels = new HashMap<>();
+	List<String> npcs = new ArrayList<>(npcsPosition.keySet());
 	for (String npcName : npcs) {
-	    JLabel npcLabel = new JLabel(/* TODO getNpcImage */);
+	    JLabel npcLabel = new JLabel(new ImageIcon(imgLoader.getNpcImages(npcName)));
+	    npcsLabels.put(npcLabel, npcsPosition.get(npcName));
+	    this.add(npcLabel);
 	}
 
     }

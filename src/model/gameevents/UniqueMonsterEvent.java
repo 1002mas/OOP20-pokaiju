@@ -1,35 +1,24 @@
 package model.gameevents;
 
-import java.util.Optional;
+import java.util.List;
 
-import model.battle.MonsterBattle;
-import model.battle.MonsterBattleImpl;
 import model.monster.Monster;
-import model.player.Player;
 
 public class UniqueMonsterEvent extends AbstractGameEvent {
     private final Monster monster;
-    private final Player player;
-    private Optional<MonsterBattle> monsterBattle = Optional.empty();
 
-    public UniqueMonsterEvent(int id, boolean isActive, boolean isToActiveImmediatly, Monster monster, Player player) {
+    public UniqueMonsterEvent(int id, boolean isActive, boolean isToActiveImmediatly, Monster monster) {
 	super(id, isActive, true, isToActiveImmediatly);
 	this.monster = monster;
-	this.player = player;
     }
 
     @Override
-    public void activateEvent() {
-	this.monsterBattle = Optional.of(new MonsterBattleImpl(player, monster));
+    public List<Monster> getMonster() {
+	return List.of(monster);
     }
 
-    /**
-     * 
-     * @return The battle against a monster if the event has been activated.
-     *         Optional.empty otherwise
-     */
-    public Optional<MonsterBattle> getMonsterBattle() {
-	return this.monsterBattle;
+    @Override
+    protected void activateEvent() {
     }
 
 }
