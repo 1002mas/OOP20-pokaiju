@@ -581,6 +581,7 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 					NpcTrainer npcTrainer = (NpcTrainer) npc;
 					npcTrainer.setDefeated(true);
 					npc = npcTrainer;
+					
 				}
 			}
 		}
