@@ -1,12 +1,16 @@
 package controller.json.loader;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import model.Pair;
+import model.gameevents.GameEvent;
+import model.map.GameMapData;
 import model.map.MapBlockType;
 import model.monster.MonsterSpecies;
 import model.npc.NpcSimple;
@@ -18,11 +22,15 @@ public class GameMapDataLoader {
 	private int maximumMonsterLevel;
 	private String name;
 	private Map<Pair<Integer, Integer>, MapBlockType> blocks;
-	private Set<String> npcs;
+	private Set<String> npcs; //
 	private List<String> wildMonsters;
-	//TODO add GameEvent
+	private Map<Pair<Integer, Integer>, Integer> eventLocation;
+	private Map<Pair<Pair<Integer, Integer>, Pair<Integer, Integer>>, Integer> linkedMapData;
+
 	public GameMapDataLoader(int id, int minimumMonsterLevel, int maximumMonsterLevel, String name,
-			Map<Pair<Integer, Integer>, MapBlockType> blocks, Set<String> npcs, List<String> wildMonsters) {
+			Map<Pair<Integer, Integer>, MapBlockType> blocks, Set<String> npcs, List<String> wildMonsters,
+			Map<Pair<Integer, Integer>, Integer> eventLocation,
+			Map<Pair<Pair<Integer, Integer>, Pair<Integer, Integer>>, Integer> linkedMapData) {
 
 		this.id = id;
 		this.minimumMonsterLevel = minimumMonsterLevel;
@@ -31,6 +39,8 @@ public class GameMapDataLoader {
 		this.blocks = blocks;
 		this.npcs = npcs;
 		this.wildMonsters = wildMonsters;
+		this.eventLocation = eventLocation;
+		this.linkedMapData = linkedMapData;
 
 	}
 
@@ -67,6 +77,21 @@ public class GameMapDataLoader {
 		return npc;
 	}
 
+	public Map<Pair<Pair<Integer, Integer>, Pair<Integer, Integer>>, GameMapData> getLinkedMapData(
+			List<GameMapData> list) {
+		Map<Pair<Pair<Integer, Integer>, Pair<Integer, Integer>>, GameMapData> linkedMaps = new HashMap<>();
+		for (Entry<Pair<Pair<Integer, Integer>, Pair<Integer, Integer>>, Integer> map : this.linkedMapData.entrySet()) {
+			for (GameMapData mapInList : list) {
+				if (mapInList.getMapId() == map.getValue()) {
+					linkedMaps.put(map.getKey(), mapInList);
+				}
+
+			}
+		}
+		return linkedMaps;
+
+	}
+
 	public List<MonsterSpecies> getTranslatedtWildMonsters(List<MonsterSpecies> list) {
 		List<MonsterSpecies> monster = new ArrayList<>();
 		for (String s : this.wildMonsters) {
@@ -79,4 +104,18 @@ public class GameMapDataLoader {
 		}
 		return monster;
 	}
+
+	public Map<Pair<Integer, Integer>, GameEvent> getTranslatedEventLocation(List<GameEvent> list) {
+		Map<Pair<Integer, Integer>, GameEvent> events = new HashMap<>();
+		for (Entry<Pair<Integer, Integer>, Integer> event : this.eventLocation.entrySet()) {
+			for (GameEvent eventInList : list) {
+				if (eventInList.getEventID() == event.getValue()) {
+					events.put(event.getKey(), eventInList);
+				}
+
+			}
+		}
+		return events;
+	};
+
 }

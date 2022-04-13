@@ -91,11 +91,9 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 	// commit
 	// TODO npcHealer
 	// commit
-	// TODO add events to gameMapData
-	// commit
-	// TODO change item all and player
 	// TODO Merchant add
 	// commit
+	// TODO SetList in loadGameMapData
 	private GsonBuilder gsonBuilder;
 	private Gson gson;
 	private List<Moves> moves;
@@ -310,23 +308,48 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 			}
 		}
 	}
-
+	//TODO npc problem
 	private void loadGameMapData() {
 		File folder = new File(GAME_MAP_DATA_PATH);
+		List<GameMapDataLoader> mapLoader = null;
 		for (File file : folder.listFiles()) {
 			String filePath = file.getPath();
 
 			try (final BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+				mapLoader = new ArrayList<>();
 				String stringRead = reader.readLine();
 				GameMapDataLoader m = gson.fromJson(stringRead, GameMapDataLoader.class);
 				GameMapData map = new GameMapDataImpl(m.getId(), m.getMinimumMonsterLevel(), m.getMaximumMonsterLevel(),
 						m.getName(), m.getBlocks(), m.getTranslatedNpcs(npcs),
 						m.getTranslatedtWildMonsters(monsterSpecies));
 				this.gameMapData.add(map);
+				Map<Pair<Integer, Integer>, GameEvent> eventLocationMap = m.getTranslatedEventLocation(this.events);
+				for (Entry<Pair<Integer, Integer>, GameEvent> event : eventLocationMap.entrySet()) {
+					map.addEventAt(event.getValue(), event.getKey());
+				}
+
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
+
+		if (this.gameMapData != null) {
+			for (GameMapData mapData : this.gameMapData) {
+				for (GameMapDataLoader mapInList : mapLoader) {
+					if (mapInList.getId() == mapData.getMapId()) {
+						Map<Pair<Pair<Integer, Integer>, Pair<Integer, Integer>>, GameMapData> linkedMapData = mapInList
+								.getLinkedMapData(this.gameMapData);
+						for (Entry<Pair<Pair<Integer, Integer>, Pair<Integer, Integer>>, GameMapData> map : linkedMapData
+								.entrySet()) {
+							mapData.addMapLink(map.getValue(), map.getKey().getFirst(), map.getKey().getSecond());
+						}
+					}
+
+				}
+			}
+
+		}
+
 	}
 
 	private List<MonsterGiftLoader> loadMonsterGift() {
