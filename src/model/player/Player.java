@@ -1,7 +1,7 @@
 package model.player;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import model.Pair;
 import model.gameitem.*;
@@ -27,24 +27,38 @@ public interface Player {
      * 
      * @return Player's list of GameItem
      */
-    List<GameItem> getAllItems();
+    Map<GameItem, Integer> getAllItems();
 
     /**
-     * This function adds new GameItems to player's bag
+     * This function adds new GameItem to player's bag
      * 
-     * @param new GameItems
+     * @param new GameItem
      */
     void addItem(GameItem i);
 
     /**
-     * This function removes GameItems from player's bag
+     * This function adds new GameItems to player's bag
+     * 
+     * @param GameItem, quantity
+     */
+    void addItem(GameItem i, int quantity);
+
+    /**
+     * This function returns GameItem's quantity
+     * 
+     * @return GameItem
+     */
+    int getItemQuantity(GameItem i);
+
+    /**
+     * This function removes GameItem from player's bag
      * 
      * @param GameItem
      */
     void removeItem(GameItem i);
 
     /**
-     * This function uses a GameItems 
+     * This function uses a GameItem
      * 
      * @param GameItem
      * 
@@ -52,23 +66,23 @@ public interface Player {
     void useItem(GameItem i);
 
     /**
-     * This function applies a GameItems on Monster
+     * This function uses a GameItems on Monster
      * 
-     * @param GameItems, Monster
+     * @param GameItem, Monster
      * 
      */
     void useItemOnMonster(GameItem i, Monster m);
-    
+
     /**
      * This function returns if buy GameItems is successfully or not
      * 
-     * @param Gameitems, price
-     * @return true if player has enought money
+     * @param Gameitem, price
+     * @return true if player has enough money
      */
     boolean buyItem(GameItem i, int price);
 
     /**
-     * This function returns if add Monster is successfully or not
+     * This function returns if add Monster is successful or not
      * 
      * @param Monster
      * @return true if add is successfully
@@ -76,7 +90,7 @@ public interface Player {
     boolean addMonster(Monster m);
 
     /**
-     * This function returns if remove Monster is successfully or not
+     * This function returns if remove Monster is successful or not
      * 
      * @param Monster
      * @return true if remove is successfully

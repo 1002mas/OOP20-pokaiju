@@ -135,6 +135,19 @@ public interface PlayerController {
 
     boolean canEvolveByItem(String nameItem, int monsterId);
 
+    /**
+     * 
+     * @param nameItem
+     * @param monsterId
+     * @return
+     */
     Optional<Pair<String, String>> evolveByItem(String nameItem, int monsterId);
+    
+    /**
+     * 
+     * @param monsterId
+     * @return
+     */
+    Optional<Pair<String, String>> evolveByLevel(int monsterId);
 
 }

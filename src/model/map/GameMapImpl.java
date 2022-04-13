@@ -68,8 +68,9 @@ public class GameMapImpl implements GameMap {
 	final int prob = 5;
 	List<Pair<Moves, Integer>> movesList = new ArrayList<>();
 	List<Moves> learnableMoves = species.getAllLearnableMoves(level);
+	Random r = new Random();
 	for (Moves m : learnableMoves) {
-	    if (movesList.size() < MonsterImpl.NUM_MAX_MOVES && new Random().nextInt(maxProb) < prob) {
+	    if (movesList.size() < MonsterImpl.NUM_MAX_MOVES && r.nextInt(maxProb) < prob) {
 		movesList.add(new Pair<>(m, m.getPP()));
 	    } else {
 		break;
@@ -84,8 +85,9 @@ public class GameMapImpl implements GameMap {
     @Override
     public Optional<Monster> getWildMonster(Pair<Integer, Integer> pos) {
 	List<MonsterSpecies> monsters = map.getMonstersInArea();
+	Random r = new Random();
 	if (!map.getBlockType(pos).canMonstersAppear() || monsters.size() < 1
-		|| new Random().nextInt(MAXIMUM_MONSTER_SPAWN_RATE) > MONSTER_SPAWN_RATE) {
+		|| r.nextInt(MAXIMUM_MONSTER_SPAWN_RATE) > MONSTER_SPAWN_RATE) {
 	    return Optional.empty();
 	}
 	MonsterSpecies species = monsters.get(new Random().nextInt(monsters.size()));
