@@ -13,9 +13,9 @@ import model.battle.MonsterBattle;
 import model.battle.MonsterBattleImpl;
 import model.battle.Moves;
 import model.gameitem.GameItem;
-import model.gameitem.GameItemTypes;
 import model.map.GameMap;
 import model.monster.Monster;
+import model.monster.MonsterSpecies;
 import model.npc.NpcMerchant;
 import model.npc.NpcSimple;
 import model.npc.NpcTrainer;
@@ -33,9 +33,10 @@ public class PlayerControllerImpl implements PlayerController {
     private Optional<MonsterBattle> battle = Optional.empty();
     private Optional<NpcMerchant> merchantInteraction = Optional.empty();
     private DataLoaderController dataController;
+    private List<Pair<MonsterSpecies, MonsterSpecies>> evolutionList;
 
     public PlayerControllerImpl(DataLoaderController dataController) {
-
+	this.evolutionList = new ArrayList<>();
 	this.dataController = dataController;
     }
 
@@ -445,6 +446,22 @@ public class PlayerControllerImpl implements PlayerController {
 	    return false;
 	}
 	return monster.get().canEvolveByItem(dataController.getItem(nameItem));
+    }
+
+    @Override
+    public boolean hasAnyMonsterEvolved() {
+	evolutionList.addAll(player.getEvolutionList());
+	return !evolutionList.isEmpty();
+	
+    }
+    
+    public Pair<String, String> getEvolvedMonster(){
+	if(hasAnyMonsterEvolved()) {
+	    Pair<String, String> p = new Pair<>(evolutionList.get(0).getFirst().getName(), evolutionList.get(0).getSecond().getName());
+	    this.evolutionList.remove(0);
+	    return p;
+	}
+	return null;
     }
 
 }

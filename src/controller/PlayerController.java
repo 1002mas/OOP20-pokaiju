@@ -225,5 +225,19 @@ public interface PlayerController {
      * @author Luca Barattini
      */
     Optional<Pair<String, String>> evolveByLevel(int monsterId);
+    
+    /**
+     * 
+     * @return
+     * @author Luca Barattini
+     */
+    boolean hasAnyMonsterEvolved();
+    
+    /**
+     * 
+     * @return
+     * @author Luca Barattini
+     */
+    Pair<String, String> getEvolvedMonster();
 
 }
