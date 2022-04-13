@@ -1,7 +1,10 @@
 package controller.json.saver;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import model.Pair;
 import model.gameitem.GameItem;
@@ -14,11 +17,11 @@ public class PlayerSaver {
 	private int trainerNumber;
 	private Pair<Integer, Integer> position;
 	private List<Integer> monsterId;
-	private List<String> gameItemsName;
+	private Map<String, Integer> gameItemsName;
 	private int money;
 
 	public PlayerSaver(String name, Gender gender, int trainerNumber, Pair<Integer, Integer> position,
-			List<Integer> monsterId, List<String> gameItemsName, int money) {
+			List<Integer> monsterId, Map<String, Integer> gameItemsName, int money) {
 
 		this.name = name;
 		this.gender = gender;
@@ -58,12 +61,12 @@ public class PlayerSaver {
 		return monsters;
 	}
 
-	public List<GameItem> getTranslatedGameItems(List<GameItem> list) {
-		List<GameItem> gameItems = new ArrayList<>();
-		for (String itemName : this.gameItemsName) {
-			for (GameItem item : list) {
-				if (itemName.equals(item.getNameItem())) {
-					gameItems.add(item);
+	public Map<GameItem, Integer> getTranslatedGameItems(List<GameItem> list) {
+		Map<GameItem, Integer> gameItems = new HashMap<>();
+		for (Entry<String, Integer> itemName : this.gameItemsName.entrySet()) {
+			for (GameItem item: list) {
+				if (itemName.getKey().equals(item.getNameItem())) {
+					gameItems.put(item, itemName.getValue());
 				}
 			}
 		}

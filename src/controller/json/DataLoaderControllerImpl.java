@@ -7,7 +7,10 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
 
 import com.google.gson.Gson;
@@ -83,11 +86,16 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 	// TODO java doc
 	// TODO fix names
 	// TODO check private
+	// commit
 	// TODO check boolean returns
-	// TODO fix interface
+	// commit
 	// TODO npcHealer
+	// commit
 	// TODO add events to gameMapData
-
+	// commit
+	// TODO change item all and player
+	// TODO Merchant add
+	// commit
 	private GsonBuilder gsonBuilder;
 	private Gson gson;
 	private List<Moves> moves;
@@ -97,7 +105,6 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 	private List<GameItem> gameItems;
 	private List<GameMapData> gameMapData;
 	private List<GameEvent> events;
-
 	private List<String> npcDefeated;
 	private Player player;
 	private List<NpcDataSaver> npcData;
@@ -265,16 +272,15 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 				switch (gis.getType()) {
 
 				case EVOLUTIONTOOL:
-					gameItem = new EvolutionItem(gis.getNameItem(), gis.getQuantity(), gis.getDescription());
+					gameItem = new EvolutionItem(gis.getNameItem(), gis.getDescription());
 					break;
 
 				case HEAL:
-					gameItem = new HealingItem(gis.getNameItem(), gis.getQuantity(), gis.getDescription(),
-							gis.getHealing().get());
+					gameItem = new HealingItem(gis.getNameItem(), gis.getDescription(), gis.getHealing().get());
 					break;
 
 				case MONSTERBALL:
-					gameItem = new GameItemImpl(gis.getNameItem(), gis.getQuantity(), gis.getDescription());
+					gameItem = new GameItemImpl(gis.getNameItem(), gis.getDescription());
 					break;
 				default:
 					throw new IllegalStateException();
@@ -472,7 +478,7 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 		GameDataSaver generalDataLoadSaver;
 		List<Pair<String, List<Integer>>> boxData = new ArrayList<>();
 		List<Integer> monsterId = new ArrayList<>();
-		List<String> gameItemsName = new ArrayList<>();
+		Map<String, Integer> gameItemsName = new HashMap<>();
 
 		for (Pair<String, List<Monster>> list : monsterStorage.getMonsterList()) {
 			List<Integer> monstersId = new ArrayList<>();
@@ -485,8 +491,8 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 		for (Monster monster : player.getAllMonsters()) {
 			monsterId.add(monster.getId());
 		}
-		for (GameItem gameItem : player.getAllItems()) {
-			gameItemsName.add(gameItem.getNameItem());
+		for (Entry<GameItem, Integer> gameItem : player.getAllItems().entrySet()) {
+			gameItemsName.put(gameItem.getKey().getNameItem(), gameItem.getValue());
 		}
 
 		generalDataLoadSaver = new GameDataSaver(this.npcDefeated, this.idBuilder, boxData, this.idCurrentMap,
@@ -529,7 +535,7 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 
 	private void translatePlayerSaver(PlayerSaver playerSaver) {
 		List<Monster> monsters;
-		List<GameItem> items;
+		Map<GameItem, Integer> items;
 		this.player = new PlayerImpl(playerSaver.getName(), playerSaver.getGender(), playerSaver.getTrainerNumber(),
 				playerSaver.getPosition());
 		monsters = playerSaver.getTranslatedMonster(this.monster);
@@ -538,8 +544,8 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 		for (Monster monster : monsters) {
 			this.player.addMonster(monster);
 		}
-		for (GameItem item : items) {
-			this.player.addItem(item);
+		for (Entry<GameItem, Integer> item : items.entrySet()) {
+			this.player.addItem(item.getKey(), item.getValue());
 		}
 
 	}

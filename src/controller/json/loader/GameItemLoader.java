@@ -7,15 +7,13 @@ import model.gameitem.GameItemTypes;
 public class GameItemLoader {
 
 	private String nameItem;
-	private int quantity;
 	private String description; 
 	private GameItemTypes type;
 	private Optional<Integer> healing;
 
-	public GameItemLoader(String nameItem, int quantity, String description, GameItemTypes type,
+	public GameItemLoader(String nameItem, String description, GameItemTypes type,
 			Optional<Integer> healing) {
 		this.nameItem = nameItem;
-		this.quantity = quantity;
 		this.description = description;
 		this.type = type;
 		this.healing = healing;
@@ -23,10 +21,6 @@ public class GameItemLoader {
 	
 	public String getNameItem() {
 		return this.nameItem;
-	}
-
-	public int getQuantity() {
-		return this.quantity;
 	}
 
 	public String getDescription() {
