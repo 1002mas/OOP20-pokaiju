@@ -145,8 +145,6 @@ public interface PlayerController {
 
     void removeItem(String i);
 
-    boolean buyItem(String i, int price);
-
     boolean addMonster(int idMonster);
 
     void createNewPlayer(String name, Gender gender, int trainerNumber);
@@ -162,8 +160,6 @@ public interface PlayerController {
     List<String> getPlayerItemsName();
 
     boolean isTeamFull();
-
-    void setPlayerMoney(int money);
 
     String getMonsterNameById(int monsterId);
 
@@ -220,7 +216,7 @@ public interface PlayerController {
      * @return
      */
     Optional<Pair<String, String>> evolveByItem(String nameItem, int monsterId);
-    
+
     /**
      * 
      * @param monsterId

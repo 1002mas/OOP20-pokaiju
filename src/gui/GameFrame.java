@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Random;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -65,7 +65,7 @@ public class GameFrame extends JFrame {
 	// Pannello del menu di gioco
 	JPanel menuPanel = buildMenuPanel();
 
-	JPanel battlePanel = new BattlePanel();
+	JPanel battlePanel = new BattlePanel(imgLoad, this);
 
 	mainPanel.add(loginPanel, LOGIN_PANEL);
 	mainPanel.add(newGamePanel, NEW_GAME_PANEL);
