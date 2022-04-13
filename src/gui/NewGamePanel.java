@@ -11,7 +11,6 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
-
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -19,10 +18,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
 import controller.PlayerController;
-import model.Pair;
-import model.map.*;
 import model.player.*;
 
 public class NewGamePanel extends JPanel {
@@ -70,7 +66,7 @@ public class NewGamePanel extends JPanel {
 
 	    public void actionPerformed(ActionEvent e) {
 		if (nameField.getText().equals("")) {
-		    JOptionPane.showMessageDialog(null, "name can't be null", "alert", JOptionPane.WARNING_MESSAGE);
+		    JOptionPane.showMessageDialog(null, "Name can't be null", "alert", JOptionPane.WARNING_MESSAGE);
 		} else {
 		    playerController.createNewPlayer(nameField.getText(), (Gender) gender.getSelectedItem(), a);
 		}

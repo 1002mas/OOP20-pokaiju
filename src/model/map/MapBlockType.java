@@ -33,10 +33,17 @@ public enum MapBlockType {
 	this.canSpawnMonsters = canSpawnMonsters;
     }
 
+    /**
+     * 
+     * @return true if you can go to the block
+     */
     public boolean canPassThrough() {
 	return this.canPassThrough;
     }
 
+    /**
+     * @return true if it is an a block where wild monsters may appear
+     */
     public boolean canMonstersAppear() {
 	return this.canSpawnMonsters;
     }

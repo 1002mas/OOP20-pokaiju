@@ -1,6 +1,7 @@
 package controller;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import model.Pair;
@@ -21,10 +22,87 @@ public interface PlayerController {
     Optional<String> interact();
 
     /**
+     * While this is true the player won't be able to interact with other npcs or
+     * move around.
      * 
-     * @return a list containing all visible npcs in the map
+     * @return true if in the last interact() call the player interacted with a
+     *         merchant
      */
-    List<String> getAllNpcs();
+    boolean hasMerchantInteractionOccurred();
+
+    /**
+     * If there was an interaction with the merchant in the interact() function, it
+     * will returns the merchant's name.
+     * 
+     * 
+     * @return the merchantName if a merchant interaction occurred.
+     */
+    Optional<String> getMerchantName();
+
+    /**
+     * Get the sold items from the merchant if the player has interacted with the
+     * merchant.
+     * 
+     */
+    List<String> getMerchantItems();
+
+    /**
+     * 
+     * The merchant item price if the player has interacted with the merchant.
+     * 
+     * @param itemName the name of the item sold by the merchant
+     * 
+     * @return the item price.
+     */
+    int getMerchantItemPrice(String itemName);
+
+    /**
+     * 
+     * The item total price for the goods if the player has interacted with the
+     * merchant.
+     * 
+     * @param buyItem a map of item name and item quantity
+     * 
+     * @return the goods price.
+     */
+    int getMerchantTotalPrice(Map<String, Integer> buyItem);
+
+    /**
+     * the price are of the merchant that player has interacted with.
+     * 
+     * @param merchant merchant's name.
+     * @param buyItem  a map of item name and item quantity
+     * @return true if the total price is lower than player's balance. false if the
+     *         player cannot buy the goods or no merchant interaction is on going
+     */
+
+    boolean canPlayerBuyFromMerchant(Map<String, Integer> buyItem);
+
+    /**
+     * 
+     * The items are added to the player and the player balance is reduced.
+     * 
+     * @param merchant merchant's name.
+     * @param buyItem  a map of item name and item quantity
+     * 
+     * @return true if the player has enough money to buy it.
+     */
+
+    boolean buyMerchantItems(Map<String, Integer> buyItem);
+
+    /**
+     * 
+     * Stops the merchant interaction.
+     * 
+     */
+
+    void endInteractionWithMerchant();
+
+    /**
+     * 
+     * @return a list containing all visible npcs and their location
+     */
+    Map<String, Pair<Integer, Integer>> getAllNpcs();
 
     /**
      * @return player position
@@ -67,8 +145,6 @@ public interface PlayerController {
 
     void removeItem(String i);
 
-    boolean buyItem(String i, int price);
-
     boolean addMonster(int idMonster);
 
     void createNewPlayer(String name, Gender gender, int trainerNumber);
@@ -84,8 +160,6 @@ public interface PlayerController {
     List<String> getPlayerItemsName();
 
     boolean isTeamFull();
-
-    void setPlayerMoney(int money);
 
     String getMonsterNameById(int monsterId);
 
@@ -143,7 +217,7 @@ public interface PlayerController {
      * @author Luca Barattini
      */
     Optional<Pair<String, String>> evolveByItem(String nameItem, int monsterId);
-    
+
     /**
      * 
      * @param monsterId

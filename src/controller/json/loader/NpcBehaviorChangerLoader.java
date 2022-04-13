@@ -1,4 +1,4 @@
-package controller.json;
+package controller.json.loader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,10 +7,9 @@ import java.util.Optional;
 import model.Pair;
 import model.npc.NpcSimple;
 
-public class NpcBehaviorChangerLoadSaver {
+public class NpcBehaviorChangerLoader {
 
 	private List<String> npcs = new ArrayList<>();
-
 	private List<Optional<Pair<Integer, Integer>>> npcsPositions = new ArrayList<>();
 	private List<Optional<Integer>> npcsText = new ArrayList<>();
 	private List<Optional<Boolean>> npcsShow = new ArrayList<>();
@@ -21,7 +20,7 @@ public class NpcBehaviorChangerLoadSaver {
 	private List<Integer> eventsToActivate = new ArrayList<>();
 	private List<Integer> eventsToDeactivate = new ArrayList<>();
 
-	public NpcBehaviorChangerLoadSaver(int id, boolean isToActiveImmediatly, boolean isActive, boolean isDeactivable,
+	public NpcBehaviorChangerLoader(int id, boolean isToActiveImmediatly, boolean isActive, boolean isDeactivable,
 			List<Integer> eventsToActivate, List<Integer> eventsToDeactivate) {
 
 		this.id = id;

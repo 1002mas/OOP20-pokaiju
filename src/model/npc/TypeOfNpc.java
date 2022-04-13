@@ -1,5 +1,5 @@
 package model.npc;
 
 public enum TypeOfNpc {
-	SIMPLE, TRAINER, MERCHANT
+	SIMPLE, TRAINER, MERCHANT, HEALER
 }

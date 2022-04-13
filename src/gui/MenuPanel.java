@@ -107,9 +107,7 @@ public class MenuPanel extends JPanel {
 			JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 		if (result == JOptionPane.YES_OPTION) {
 		    gui.changePanel(GameFrame.LOGIN_PANEL);
-		} else if (result == JOptionPane.NO_OPTION) {
-
-		}
+		} 
 	    }
 	});
 

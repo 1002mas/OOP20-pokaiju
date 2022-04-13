@@ -93,5 +93,11 @@ public interface NpcSimple {
      * @return a list of game events triggered by interacting with the npc
      */
     List<GameEvent> getGameEvents();
+    
+    /**
+     * 
+     * @return the index of the current sentence 
+     */
+    int getCurrentSetence();
 
 }

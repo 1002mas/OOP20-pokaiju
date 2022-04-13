@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Random;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -23,6 +23,7 @@ public class GameFrame extends JFrame {
     static final String MENU_PANEL = "menu";
     static final String MAP_PANEL = "map panel";
     static final String BATTLE_PANEL = "battle panel";
+    static final String MERCHANT_PANEL = "merchant panel";
 
     private final int size;
     private final CardLayout cLayout = new CardLayout();
@@ -64,7 +65,7 @@ public class GameFrame extends JFrame {
 	// Pannello del menu di gioco
 	JPanel menuPanel = buildMenuPanel();
 
-	JPanel battlePanel = new BattlePanel();
+	JPanel battlePanel = new BattlePanel(imgLoad, this);
 
 	mainPanel.add(loginPanel, LOGIN_PANEL);
 	mainPanel.add(newGamePanel, NEW_GAME_PANEL);
@@ -75,7 +76,7 @@ public class GameFrame extends JFrame {
 	subPanels.put(NEW_GAME_PANEL, newGamePanel);
 	subPanels.put(MENU_PANEL, menuPanel);
 	mainPanel.add(BATTLE_PANEL, battlePanel);
-	
+
 	this.pack();
 	this.setVisible(true);
 
@@ -108,6 +109,7 @@ public class GameFrame extends JFrame {
 	    if (playerController.canChangeMap()) {
 		List<BufferedImage> mapImageSequence = imgLoad.getMapByID(this.playerController.getCurrentMapID());
 		p.setMapImage(mapImageSequence);
+		topPanel.setNpcs(this.playerController.getAllNpcs());
 		animationOn = false;
 	    }
 	}
@@ -143,6 +145,9 @@ public class GameFrame extends JFrame {
 	PlayerPanel topPanel = p.getTopPanel();
 	topPanel.hideText();
 	changeToBattle();
+	if (this.playerController.hasMerchantInteractionOccurred()) {
+	    changePanel(MERCHANT_PANEL);
+	}
     }
 
     private JPanel buildMenuPanel() {

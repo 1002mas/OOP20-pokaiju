@@ -1,5 +1,9 @@
 package model.gameevents;
 
+import java.util.List;
+
+import model.monster.Monster;
+
 public interface GameEvent {// npcs needs events field
     /**
      * 
@@ -47,6 +51,19 @@ public interface GameEvent {// npcs needs events field
      *         is active it still be active
      */
     boolean isPermanent();
+
+    /**
+     * @return true if a battle is required
+     */
+    boolean isBattle();
+
+    /**
+     * if the isBattle is true these function return a list of enemies. If it is
+     * false the monsters are directly added to the player collection
+     * 
+     * @return monsters list
+     */
+    List<Monster> getMonster();
 
     /**
      * This function make the event happens. If the event is not active nothing will

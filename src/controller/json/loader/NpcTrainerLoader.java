@@ -1,4 +1,4 @@
-package controller.json;
+package controller.json.loader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +7,7 @@ import model.Pair;
 import model.monster.Monster;
 import model.npc.TypeOfNpc;
 
-public class NpcTrainerLoadSaver {
+public class NpcTrainerLoader {
 
 	private String name;
 	private TypeOfNpc typeOfNpc;
@@ -18,7 +18,7 @@ public class NpcTrainerLoadSaver {
 	private boolean isEnabled;
 	private boolean isDefeated;
 
-	public NpcTrainerLoadSaver(String name, TypeOfNpc typeOfNpc, List<String> sentences, List<Integer> monstersOwned,
+	public NpcTrainerLoader(String name, TypeOfNpc typeOfNpc, List<String> sentences, List<Integer> monstersOwned,
 			boolean isVisible, boolean isEnabled, boolean isDefeated, Pair<Integer, Integer> position) {
 		this.name = name;
 		this.typeOfNpc = typeOfNpc;
@@ -46,7 +46,7 @@ public class NpcTrainerLoadSaver {
 	public Pair<Integer, Integer> getPosition() {
 		return this.position;
 	}
-	
+
 	public boolean getIsVisible() {
 		return this.isVisible;
 	}

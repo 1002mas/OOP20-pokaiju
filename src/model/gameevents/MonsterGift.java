@@ -1,5 +1,6 @@
 package model.gameevents;
 
+import java.util.Collections;
 import java.util.List;
 
 import model.monster.Monster;
@@ -23,7 +24,8 @@ public class MonsterGift extends AbstractGameEvent {
 	}
     }
 
-    public List<Monster> getReceivedMonsters() {
-	return this.monsters;
+    @Override
+    public List<Monster> getMonster() {
+	return Collections.unmodifiableList(this.monsters);
     }
 }

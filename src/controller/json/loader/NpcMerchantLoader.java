@@ -1,4 +1,4 @@
-package controller.json;
+package controller.json.loader;
 
 import java.util.HashMap;
 import java.util.List;
@@ -8,18 +8,18 @@ import model.Pair;
 import model.gameitem.GameItem;
 import model.npc.TypeOfNpc;
 
-public class NpcMerchantLoadSaver {
+public class NpcMerchantLoader {
 
 	private String name;
 	private TypeOfNpc typeOfNpc;
 	private List<String> sentences;
 	private Pair<Integer, Integer> position;
 	private Map<String, Integer> inventary;
-    private boolean isVisible;
-    private boolean isEnabled;
+	private boolean isVisible;
+	private boolean isEnabled;
 
-	public NpcMerchantLoadSaver(String name, TypeOfNpc typeOfNpc, List<String> sentences,
-			Pair<Integer, Integer> position, boolean isVisible, boolean isEnabled, Map<String, Integer> inventary) {
+	public NpcMerchantLoader(String name, TypeOfNpc typeOfNpc, List<String> sentences, Pair<Integer, Integer> position,
+			boolean isVisible, boolean isEnabled, Map<String, Integer> inventary) {
 		this.name = name;
 		this.typeOfNpc = typeOfNpc;
 		this.sentences = sentences;
@@ -45,26 +45,26 @@ public class NpcMerchantLoadSaver {
 	public Pair<Integer, Integer> getPosition() {
 		return position;
 	}
-	
+
 	public boolean getIsVisible() {
 		return this.isVisible;
 	}
-	
-	public boolean  getisEnabled() {
+
+	public boolean getisEnabled() {
 		return this.isEnabled;
 	}
 
 	public Map<GameItem, Integer> getTranslatedGameItem(List<GameItem> list) {
 
-		Map<GameItem, Integer> map = new HashMap<>();
-		for (Map.Entry<String, Integer> m : inventary.entrySet()) {
-			for (GameItem gi : list) {
-				if (gi.getNameItem().equals(m.getKey())) {
-					map.put(gi, m.getValue());
+		Map<GameItem, Integer> gameItems = new HashMap<>();
+		for (Map.Entry<String, Integer> map : inventary.entrySet()) {
+			for (GameItem item : list) {
+				if (item.getNameItem().equals(map.getKey())) {
+					gameItems.put(item, map.getValue());
 					break;
 				}
 			}
 		}
-		return map;
+		return gameItems;
 	}
 }

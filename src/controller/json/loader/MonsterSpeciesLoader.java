@@ -1,4 +1,4 @@
-package controller.json;
+package controller.json.loader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +11,7 @@ import model.monster.EvolutionType;
 import model.monster.MonsterStats;
 import model.monster.MonsterType;
 
-public class MonsterSpeciesLoadSaver {
+public class MonsterSpeciesLoader {
 
 	private final Optional<String> evolution;
 	private final String name;
@@ -23,7 +23,7 @@ public class MonsterSpeciesLoadSaver {
 	private Optional<String> evolutionItem;
 	private Optional<Integer> evolutionLevel;
 
-	public MonsterSpeciesLoadSaver(Optional<String> evolution, String name, String info, MonsterType type,
+	public MonsterSpeciesLoader(Optional<String> evolution, String name, String info, MonsterType type,
 			EvolutionType evolutionType, MonsterStats stats, List<Pair<String, Integer>> allMoves,
 			Optional<String> evolutionItem, Optional<Integer> evolutionLevel) {
 
@@ -70,12 +70,12 @@ public class MonsterSpeciesLoadSaver {
 	public int getSpeed() {
 		return this.stats.getSpeed();
 	}
-	public List<Pair<Moves, Integer>> getAllMoves(List<Moves> movesd) {
+	public List<Pair<Moves, Integer>> getAllMoves(List<Moves> movesList) {
 		List<Pair<Moves, Integer>> moves = new ArrayList<>();
 		for (Pair<String, Integer> n : this.allMoves) {
-			for (Moves md : movesd) {
-				if (md.getName().equals(n.getFirst())) {
-					moves.add(new Pair<Moves, Integer>(md, n.getSecond()));
+			for (Moves movesInList : movesList) {
+				if (movesInList.getName().equals(n.getFirst())) {
+					moves.add(new Pair<Moves, Integer>(movesInList, n.getSecond()));
 					break;
 				}
 			}
@@ -88,9 +88,9 @@ public class MonsterSpeciesLoadSaver {
 	}
 
 	public Optional<GameItem> getEvolutionGameItem(List<GameItem> list) {
-		for(GameItem gi: list) {
-			if(gi.getNameItem().equals(this.evolutionItem.get())) {
-				return Optional.of(gi);
+		for(GameItem gameItem: list) {
+			if(gameItem.getNameItem().equals(this.evolutionItem.get())) {
+				return Optional.of(gameItem);
 			}
 		}
 

@@ -3,6 +3,8 @@ package model.gameevents;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.monster.Monster;
+
 public abstract class AbstractGameEvent implements GameEvent {
     private final int id;
     private final boolean isToActiveImmediatly;
@@ -51,6 +53,16 @@ public abstract class AbstractGameEvent implements GameEvent {
     @Override
     public boolean isPermanent() {
 	return !this.isDeactivable;
+    }
+
+    @Override
+    public boolean isBattle() {
+	return false;
+    }
+
+    @Override
+    public List<Monster> getMonster() {
+	return new ArrayList<>();
     }
 
     @Override

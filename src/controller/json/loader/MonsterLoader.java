@@ -1,4 +1,4 @@
-package controller.json;
+package controller.json.loader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,7 @@ import model.battle.Moves;
 import model.monster.MonsterSpecies;
 import model.monster.MonsterStats;
 
-public class MonsterLoadSaver {
+public class MonsterLoader {
 
 	private int id;
 	private int exp;
@@ -17,7 +17,7 @@ public class MonsterLoadSaver {
 	private List<Pair<String, Integer>> movesList;
 	private MonsterStats stats;
 
-	public MonsterLoadSaver(int id, int exp, int level, String species, List<Pair<String, Integer>> movesList,
+	public MonsterLoader(int id, int exp, int level, String species, List<Pair<String, Integer>> movesList,
 			MonsterStats stats) {
 		this.id = id;
 		this.exp = exp;

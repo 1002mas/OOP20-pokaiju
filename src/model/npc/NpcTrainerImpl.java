@@ -28,8 +28,8 @@ public class NpcTrainerImpl extends NpcSimpleImpl implements NpcTrainer {
 	}
 
 	@Override
-	public void setDefeated() {
-		this.isDefeated = true;
+	public void setDefeated(boolean isDefeated) {
+		this.isDefeated = isDefeated;
 		setDialogueText(DEFEATED_TEXTID);
 	}
 

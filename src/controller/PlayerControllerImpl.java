@@ -1,10 +1,13 @@
 package controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import controller.json.DataLoaderController;
 import model.Pair;
 import model.battle.MonsterBattle;
 import model.battle.MonsterBattleImpl;
@@ -13,6 +16,7 @@ import model.gameitem.GameItem;
 import model.gameitem.GameItemTypes;
 import model.map.GameMap;
 import model.monster.Monster;
+import model.npc.NpcMerchant;
 import model.npc.NpcSimple;
 import model.npc.NpcTrainer;
 import model.npc.TypeOfNpc;
@@ -27,9 +31,10 @@ public class PlayerControllerImpl implements PlayerController {
     private GameMap map;// TODO initialize this field when you load saves
     private Direction currentDirection = Direction.DOWN;
     private Optional<MonsterBattle> battle = Optional.empty();
-    private DataController dataController;
+    private Optional<NpcMerchant> merchantInteraction = Optional.empty();
+    private DataLoaderController dataController;
 
-    public PlayerControllerImpl(DataController dataController) {
+    public PlayerControllerImpl(DataLoaderController dataController) {
 
 	this.dataController = dataController;
     }
@@ -39,7 +44,7 @@ public class PlayerControllerImpl implements PlayerController {
     public Optional<String> interact() { // ----Problema battaglia-----
 	Pair<Integer, Integer> coord = generateCoordinates(this.currentDirection);
 	Optional<NpcSimple> npc = dataController.getGameMap().getNpcAt(coord);
-	if (npc.isPresent()) {
+	if (npc.isPresent() && merchantInteraction.isEmpty()) {
 	    Optional<String> result = npc.get().interactWith();
 	    if (npc.get().getTypeOfNpc() == TypeOfNpc.TRAINER) {
 		NpcTrainer trainer = (NpcTrainer) npc.get();
@@ -47,9 +52,69 @@ public class PlayerControllerImpl implements PlayerController {
 		    this.battle = Optional.of(new MonsterBattleImpl(player, trainer));
 		}
 	    }
+	    if (npc.get().getTypeOfNpc() == TypeOfNpc.MERCHANT) {
+		merchantInteraction = Optional.of((NpcMerchant) (npc.get()));
+	    }
 	    return result;
 	}
 	return Optional.empty();
+    }
+
+    @Override
+    public boolean hasMerchantInteractionOccurred() {
+	return merchantInteraction.isPresent();
+    }
+
+    @Override
+    public Optional<String> getMerchantName() {
+	return merchantInteraction.isPresent() ? Optional.of(merchantInteraction.get().getName()) : Optional.empty();
+    }
+
+    @Override
+    public List<String> getMerchantItems() {
+	if (!hasMerchantInteractionOccurred()) {
+	    return new ArrayList<>();
+	}
+	return this.merchantInteraction.get().getInventory().entrySet().stream()
+		.map(listedItem -> listedItem.getKey().getNameItem()).collect(Collectors.toList());
+    }
+
+    @Override
+    public int getMerchantItemPrice(String itemName) {
+	if (!hasMerchantInteractionOccurred()) {
+	    return -1;
+	}
+	return this.merchantInteraction.get().getPrice(dataController.getItem((itemName)));
+    }
+
+    private List<Pair<GameItem, Integer>> getBuyingItemAsList(Map<String, Integer> buyItem) {
+	return buyItem.entrySet().stream()
+		.map(listedItem -> new Pair<>(dataController.getItem(listedItem.getKey()), listedItem.getValue()))
+		.collect(Collectors.toList());
+    }
+
+    @Override
+    public int getMerchantTotalPrice(Map<String, Integer> buyItem) {
+	return this.merchantInteraction.get().getTotalPrice(getBuyingItemAsList(buyItem));
+    }
+
+    @Override
+    public boolean canPlayerBuyFromMerchant(Map<String, Integer> buyItem) {
+	return getMerchantTotalPrice(buyItem) <= this.player.getMoney();
+    }
+
+    @Override
+    public boolean buyMerchantItems(Map<String, Integer> buyItem) {
+	if (canPlayerBuyFromMerchant(buyItem)) {
+	    return this.merchantInteraction.get().buyItem(getBuyingItemAsList(buyItem), player);
+	}
+	return false;
+    }
+
+    @Override
+    public void endInteractionWithMerchant() {
+	this.merchantInteraction = Optional.empty();
+
     }
 
     @Override
@@ -104,9 +169,12 @@ public class PlayerControllerImpl implements PlayerController {
     }
 
     @Override
-    public List<String> getAllNpcs() {
-	return map.getAllNpcsInCurrentMap().stream().filter(npc -> npc.isEnabled() && npc.isVisible())
-		.map(npc -> npc.getName()).collect(Collectors.toList());
+    public Map<String, Pair<Integer, Integer>> getAllNpcs() {
+	Map<String, Pair<Integer, Integer>> res = new HashMap<>();
+	for (NpcSimple npc : map.getAllNpcsInCurrentMap()) {
+	    res.put(npc.getName(), npc.getPosition());
+	}
+	return res;
     }
 
     private Pair<Integer, Integer> generateCoordinates(Direction direction) { // --
@@ -152,7 +220,7 @@ public class PlayerControllerImpl implements PlayerController {
 	this.player = new PlayerImpl(name, gender, trainerNumber, new Pair<Integer, Integer>(0, 0));
 	// this.map = new GameMapImpl(this.dataController.);//TODO get Map Data
 	this.hasPlayerMoved = false;
-	dataController.deleteNpcData();
+	dataController.deleteData();
     }
 
     @Override
@@ -197,7 +265,7 @@ public class PlayerControllerImpl implements PlayerController {
     @Override
     public boolean addMonster(int monsterId) { // --
 	/*
-	 * if (!player.isTeamFull()) { for (Monster monster : gameMonster) { if
+	 * //TODO if (!player.isTeamFull()) { for (Monster monster : gameMonster) { if
 	 * (monster.getId() == monsterId) { player.addMonster(monster); } return true; }
 	 * }
 	 */
@@ -274,39 +342,21 @@ public class PlayerControllerImpl implements PlayerController {
 
     @Override
     public void useItem(String i) {
-	GameItem item = getItem(i);
-	if (item != null) {
-	    player.useItem(item);
+	GameItem gameItem = dataController.getItem(i);
+	if (player.getAllItems().containsKey(gameItem)) {
+	    player.useItem(gameItem);
 	}
-
-    }
-
-    private GameItem getItem(String name) { // --
-	for (GameItem item : player.getAllItems()) {
-	    if (item.getNameItem().equals(name)) {
-		return item;
-	    }
-	}
-	return null;
     }
 
     @Override
     public void removeItem(String i) { // --
-	player.removeItem(getItem(i));
-    }
-
-    @Override
-    public boolean buyItem(String i, int price) { // --
-	return player.buyItem(getItem(i), price);
+	player.removeItem(dataController.getItem(i));
     }
 
     @Override
     public List<String> getPlayerItemsName() { // --
-	List<String> items = new ArrayList<>();
-	for (GameItem i : player.getAllItems()) {
-	    items.add(i.getNameItem());
-	}
-	return items;
+	return player.getAllItems().entrySet().stream().map(map -> map.getKey().getNameItem())
+		.collect(Collectors.toList());
     }
 
     @Override
@@ -315,28 +365,24 @@ public class PlayerControllerImpl implements PlayerController {
     }
 
     @Override
-    public void setPlayerMoney(int money) { // --
-	player.setMoney(money);
-    }
-
-    @Override
     public int getItemQuantity(String item) { // --
-	return getItem(item).getNumber();
+	return player.getItemQuantity(dataController.getItem(item));
     }
 
     @Override
     public String getItemDescription(String item) { // --
-	return getItem(item).getDescription();
+	return dataController.getItem(item).getDescription();
     }
 
     @Override
     public String getItemtype(String item) { // --
-	return getItem(item).getType().toString();
+	return dataController.getItem(item).getType().toString();
     }
 
     @Override
     public void save() { // --
-	dataController.saveData(player);
+	// TODO monsterBuilder id and monster storage
+	dataController.saveData(0, this.map.getCurrentMapId(), null, player);
     }
 
     @Override
@@ -346,17 +392,17 @@ public class PlayerControllerImpl implements PlayerController {
 
     @Override
     public boolean dataExist() { // --
-	return dataController.dataExsist();
+	return dataController.gameSaveExist();
     }
 
     @Override
     public int getMaximumBlocksInRow() {
-	return dataController.getMaximumBlocksInRow();
+	return dataController.getMaximumBlockInRow();
     }
 
     @Override
     public int getMaximumBlocksInColumn() {
-	return dataController.getMaximumBlocksInColumn();
+	return dataController.getMaximumBlockInColumn();
     }
 
     @Override
@@ -369,33 +415,27 @@ public class PlayerControllerImpl implements PlayerController {
 	}
 	return Optional.empty();
     }
-    
+
     @Override
     public Optional<Pair<String, String>> evolveByLevel(int monsterId) {
-   	Optional<Monster> monster = player.getAllMonsters().stream().filter(i -> i.getId() == monsterId)
-   		.findAny();
-   	if (monster.isPresent() && monster.get().canEvolveByLevel()) {
-   	    String monsterName = monster.get().getName();
-   	    monster.get().evolve();
-   	    return Optional.of(new Pair<>(monsterName, monster.get().getName()));
-   	}
-   	return Optional.empty();
+	Optional<Monster> monster = player.getAllMonsters().stream().filter(i -> i.getId() == monsterId).findAny();
+	if (monster.isPresent() && monster.get().canEvolveByLevel()) {
+	    String monsterName = monster.get().getName();
+	    monster.get().evolve();
+	    return Optional.of(new Pair<>(monsterName, monster.get().getName()));
+	}
+	return Optional.empty();
     }
-    
+
     @Override
     public void addItem(String item) {
-	Optional<GameItem> gameItem = dataController.loadItems().stream().filter(i -> i.getNameItem().equals(item))
-		.findAny();
-	if (gameItem.isPresent()) {
-	    player.addItem(gameItem.get());
-	}
+	player.addItem(dataController.getItem(item));
     }
 
     // TODO check correct
     @Override
     public boolean canUseItem(String item) {
-	return dataController.loadItems().stream()
-		.filter(i -> i.getNameItem().equals(item) && i.getType() == GameItemTypes.HEAL).findAny().isPresent();
+	return dataController.getItem(item).getType().isConsumableInBag();
     }
 
     @Override
@@ -404,8 +444,7 @@ public class PlayerControllerImpl implements PlayerController {
 	if (monster.isEmpty()) {
 	    return false;
 	}
-	return monster.get().canEvolveByItem(
-		this.dataController.loadItems().stream().filter(i -> i.getNameItem().equals(nameItem)).findAny().get());
+	return monster.get().canEvolveByItem(dataController.getItem(nameItem));
     }
 
 }

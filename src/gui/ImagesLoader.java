@@ -33,6 +33,7 @@ public class ImagesLoader {
     private Map<String, BufferedImage> monsters = new HashMap<>();
     private Map<Integer, BufferedImage> mapTextures = new HashMap<>();
     private Map<Integer, List<BufferedImage>> maps = new HashMap<>();
+    private Map<String, BufferedImage> npc = new HashMap<>();
 
     public ImagesLoader(int height, int width, int maximumCellsInRow, int maximumCellsInHeight) {
 	super();
@@ -40,6 +41,14 @@ public class ImagesLoader {
 	this.width = width;
 	this.cellSize = new Pair<>(width / maximumCellsInRow, height / maximumCellsInHeight);
 	loadMapTextures();
+    }
+
+    public int getHeight() {
+	return height;
+    }
+
+    public int getWidth() {
+	return width;
     }
 
     private void loadMapTextures() {
@@ -66,6 +75,23 @@ public class ImagesLoader {
 	} catch (IOException e1) {
 	    e1.printStackTrace();
 	}
+    }
+
+    public BufferedImage getNpcImages(String name) {
+	if (!npc.containsKey(name)) {
+	    final double dimMultiplier = 1.3;
+	    final String path = BASE_PATH + "npcs" + File.separator + name + ".png";
+	    try {
+
+		BufferedImage img = resizeImage(ImageIO.read(new File(path)),
+			(int) (dimMultiplier * this.cellSize.getFirst()),
+			(int) (dimMultiplier * this.cellSize.getSecond()));
+		this.npc.put(name, img);
+	    } catch (IOException e) {
+		e.printStackTrace();
+	    }
+	}
+	return npc.get(name);
     }
 
     public List<BufferedImage> getPlayerImages(Direction dir, String gender) {
@@ -123,11 +149,11 @@ public class ImagesLoader {
 
 		String imgPath = basePath + fileType;
 		monsterPng = ImageIO.read(new File(imgPath));
-		double imageRatio = monsterPng.getHeight()/monsterPng.getWidth();
-		int newWidth = (int) (this.width * 0.25) ;
-		int newHeight = (int) (imageRatio * newWidth) ;
-		monsterPng =resizeImage(monsterPng, newWidth,newHeight);
-		
+		double imageRatio = monsterPng.getHeight() / monsterPng.getWidth();
+		int newWidth = (int) (this.width * 0.25);
+		int newHeight = (int) (imageRatio * newWidth);
+		monsterPng = resizeImage(monsterPng, newWidth, newHeight);
+
 	    } catch (IOException e) {
 		e.printStackTrace();
 	    }

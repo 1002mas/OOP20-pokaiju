@@ -1,10 +1,10 @@
-package controller.json;
+package controller.json.loader;
 
 import java.util.List;
 
 import model.monster.Monster;
 
-public class UniqueMonsterEventLoadSaver {
+public class UniqueMonsterEventLoader {
 
 	private int id;
 	private boolean isToActiveImmediatly;
@@ -14,7 +14,7 @@ public class UniqueMonsterEventLoadSaver {
 	private List<Integer> eventsToDeactivate;
 	private Integer monster;
 
-	public UniqueMonsterEventLoadSaver(int id, boolean isToActiveImmediatly, boolean isActive, boolean isDeactivable,
+	public UniqueMonsterEventLoader(int id, boolean isToActiveImmediatly, boolean isActive, boolean isDeactivable,
 			List<Integer> eventsToActivate, List<Integer> eventsToDeactivate, Integer monster) {
 
 		this.id = id;
