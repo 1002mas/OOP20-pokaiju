@@ -435,7 +435,7 @@ public class PlayerControllerImpl implements PlayerController {
     // TODO check correct
     @Override
     public boolean canUseItem(String item) {
-	return dataController.getItem(item).getType().equals(GameItemTypes.HEAL);
+	return dataController.getItem(item).getType().isConsumableInBag();
     }
 
     @Override

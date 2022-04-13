@@ -8,11 +8,13 @@ import java.util.Map;
 
 import model.Pair;
 import model.gameitem.GameItem;
+import model.map.GameMap;
 import model.monster.Monster;
 import model.monster.MonsterSpecies;
 
 public class PlayerImpl implements Player {
     private static final int STARTMONEY = 1000;
+    private static final int STEP = 1;
     private String name;
     private Gender gender;
     private int trainerNumber;
@@ -21,8 +23,10 @@ public class PlayerImpl implements Player {
     private Map<GameItem, Integer> gameItems;
     private int money;
     private List<Pair<MonsterSpecies, MonsterSpecies>> evolutionList;
+    private GameMap map;
 
-    public PlayerImpl(String name, Gender gender, int trainerNumber, Pair<Integer, Integer> startingPosition) {
+    public PlayerImpl(String name, Gender gender, int trainerNumber, Pair<Integer, Integer> startingPosition,
+	    GameMap map) {
 	this.name = name;
 	this.gender = gender;
 	this.trainerNumber = trainerNumber;
@@ -30,7 +34,7 @@ public class PlayerImpl implements Player {
 	this.team = new ArrayList<Monster>();
 	this.gameItems = new HashMap<GameItem, Integer>();
 	this.money = STARTMONEY;
-
+	this.map = map;
     }
 
     @Override
@@ -202,6 +206,45 @@ public class PlayerImpl implements Player {
     private void addMonsterToEvolutionList(Monster monster) {
 	MonsterSpecies base = monster.getSpecies();
 	evolutionList.add(new Pair<MonsterSpecies, MonsterSpecies>(base, base.getEvolution().get()));
+    }
+
+    public List<Pair<MonsterSpecies, MonsterSpecies>> getEvolutionList() {
+	List<Pair<MonsterSpecies, MonsterSpecies>> temp = this.evolutionList;
+	this.evolutionList = new ArrayList<>();
+	return temp;
+    }
+
+    private boolean move(int x, int y) {
+	Pair<Integer, Integer> nextPosition = new Pair<>(position.getFirst() + x, position.getSecond() + y);
+	if (map.canPassThrough(nextPosition)) {
+	    this.position = nextPosition;
+	    return true;
+	}
+	return false;
+    }
+
+    @Override
+    public boolean moveUp() {
+	return move(0, -STEP);
+    }
+
+    @Override
+    public boolean moveDown() {
+	return move(0, STEP);
+    }
+
+    @Override
+    public boolean moveLeft() {
+	return move(-STEP, 0);
+    }
+
+    @Override
+    public boolean moveRight() {
+	return move(STEP, 0);
+    }
+
+    public GameMap getMap() {
+	return map;
     }
 
 }
