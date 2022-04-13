@@ -94,9 +94,7 @@ public class GameItemPanel extends JPanel {
     }
 
     private void setButtonProp(JButton button, String itemName) {
-	if (this.playerController.getItemtype(itemName) == GameItemTypes.MONSTERBALL.name()) {
-	    button.setEnabled(false);
-	}
+	button.setEnabled(this.playerController.canUseItem(itemName));
     }
 
     public void changePanel(String panelName) {

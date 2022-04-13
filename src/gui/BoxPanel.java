@@ -9,7 +9,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -17,10 +16,10 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-
 import controller.PlayerController;
 
 public class BoxPanel extends JPanel {
+    private static final long serialVersionUID = 67133453355728035L;
     private static final int NUMBEROFMONSTERPERPAGE = 10;
     private final PlayerController playerController;
     private final CardLayout cardLayout = new CardLayout();
@@ -32,7 +31,7 @@ public class BoxPanel extends JPanel {
     private final JButton deposit = new JButton("Deposit");
     private final JButton take = new JButton("Take");
     private final JButton cancel = new JButton("Cancel");
-    int exchangecont;
+    private int exchangecont;
 
     public BoxPanel(PlayerController playerController) {
 	this.playerController = playerController;
@@ -88,11 +87,11 @@ public class BoxPanel extends JPanel {
 	playerMonstersPanel.setPreferredSize(new Dimension(200, 500));
 
 	for (int playerMonsterid : playerMonsterIdList) {
-	    playerMonstersPanel.add(setPlayerMonsterPanel(playerMonsterid, playerMonstersPanel));
+	    playerMonstersPanel.add(setMonsterPanel(playerMonsterid, playerMonstersPanel, true));
 	}
 	JPanel boxPanel = new JPanel();
 	boxPanel.setLayout(cardLayout);
-	
+
 	List<JPanel> contentPanel = new ArrayList<JPanel>();
 
 	int remainelement = boxMonsterIdList.size();
@@ -102,7 +101,7 @@ public class BoxPanel extends JPanel {
 	    for (int i = 0; i < (((remainelement - NUMBEROFMONSTERPERPAGE) > 0) ? NUMBEROFMONSTERPERPAGE
 		    : remainelement); i++) {
 		int id = boxMonsterIdList.get(i + moltiplicatore);
-		pagePanel.add(setBoxMonster(id, boxPanel));
+		pagePanel.add(setMonsterPanel(id, boxPanel, false));
 	    }
 	    remainelement = Math.abs(remainelement - NUMBEROFMONSTERPERPAGE);
 	    contentPanel.add(pagePanel);
@@ -164,7 +163,7 @@ public class BoxPanel extends JPanel {
 	this.idPlayerMonster = idPlayerMonster;
     }
 
-    private JPanel setPlayerMonsterPanel(int monsterId, JPanel playerMonstersPanel) {
+    private JPanel setMonsterPanel(int monsterId, JPanel playerMonstersPanel, boolean isTeam) {
 	JPanel panel = new JPanel(new GridLayout(1, 2));
 	panel.setBorder(BorderFactory.createLineBorder(Color.black));
 	JLabel label = new JLabel();
@@ -184,7 +183,11 @@ public class BoxPanel extends JPanel {
 			JOptionPane.QUESTION_MESSAGE);
 		if (result == JOptionPane.YES_OPTION) {
 		    if (cb.isSelected()) {
-			setIdPlayerMonster(Integer.parseInt(cb.getText()));
+			if (isTeam) {
+			    setIdPlayerMonster(Integer.parseInt(cb.getText()));
+			} else {
+			    setIdBoxMonster(Integer.parseInt(cb.getText()));
+			}
 			setPanelEnabled(playerMonstersPanel, false);
 			setButtonEnabled(deposit);
 			exchangecont++;
@@ -201,43 +204,6 @@ public class BoxPanel extends JPanel {
 	panel.add(checkBoxPlayer);
 	return panel;
 
-    }
-
-    private JCheckBox setBoxMonster(int boxMonsterId, JPanel boxPanel) {
-	JPanel panel = new JPanel(new GridLayout(1, 2));
-	panel.setBorder(BorderFactory.createLineBorder(Color.black));
-	JLabel label = new JLabel();
-	label.setText(" " + this.playerController.getMonsterNameById(boxMonsterId) + "  "
-		+ this.playerController.getMonsterLevel(boxMonsterId) + "  "
-		+ this.playerController.getMonsterHealth(boxMonsterId) + "/"
-		+ this.playerController.getMonsterMaxHealth(boxMonsterId));
-	setLabelProp(label);
-	JCheckBox checkBoxPlayer = new JCheckBox();
-	setJCheckBoxProp(checkBoxPlayer);
-	checkBoxPlayer.setText(Integer.toString(boxMonsterId));
-	checkBoxPlayer.setForeground(new Color(0, 0, 0, 0));
-
-	checkBoxPlayer.addActionListener(new ActionListener() {
-	    public void actionPerformed(ActionEvent e) {
-		JCheckBox cb = (JCheckBox) e.getSource();
-		int result = JOptionPane.showConfirmDialog(null, "Sure?", "Warning", JOptionPane.YES_NO_OPTION,
-			JOptionPane.QUESTION_MESSAGE);
-		if (result == JOptionPane.YES_OPTION) {
-		    if (cb.isSelected()) {
-			setIdBoxMonster(Integer.parseInt(cb.getText()));
-			setPanelEnabled(boxPanel, false);
-			setButtonEnabled(take);
-			exchangecont++;
-			if (exchangecont == 2) {
-			    setButtonEnabled(exchange);
-			}
-		    }
-		} else {
-		    cb.setSelected(false);
-		}
-	    }
-	});
-	return checkBoxPlayer;
     }
 
     private int numberOfPage(List<Integer> boxNames) {

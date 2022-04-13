@@ -36,11 +36,11 @@ public enum GameItemTypes {
 	return this.name;
     }
 
-    boolean isConsumableInBag() {
+    public boolean isConsumableInBag() {
 	return useBag;
     }
 
-    boolean isConsumableInBattle() {
+    public boolean isConsumableInBattle() {
 	return useBattle;
     }
 }
