@@ -87,11 +87,15 @@ public class PlayerControllerImpl implements PlayerController {
 	return this.merchantInteraction.get().getPrice(dataController.getItem((itemName)));
     }
 
+    private List<Pair<GameItem, Integer>> getBuyingItemAsList(Map<String, Integer> buyItem) {
+	return buyItem.entrySet().stream()
+		.map(listedItem -> new Pair<>(dataController.getItem(listedItem.getKey()), listedItem.getValue()))
+		.collect(Collectors.toList());
+    }
+
     @Override
     public int getMerchantTotalPrice(Map<String, Integer> buyItem) {
-	// TODO buyItem.entrySet().stream().map(listedItem ->
-	// listedItem.getValue()).collect(Collectors.toM)
-	return this.merchantInteraction.get().getTotalPrice(null);
+	return this.merchantInteraction.get().getTotalPrice(getBuyingItemAsList(buyItem));
     }
 
     @Override
@@ -102,8 +106,7 @@ public class PlayerControllerImpl implements PlayerController {
     @Override
     public boolean buyMerchantItems(Map<String, Integer> buyItem) {
 	if (canPlayerBuyFromMerchant(buyItem)) {
-	    // TODO convert map to List merchant buy items
-	    return this.merchantInteraction.get().buyItem(player, null);
+	    return this.merchantInteraction.get().buyItem(getBuyingItemAsList(buyItem), player);
 	}
 	return false;
     }
