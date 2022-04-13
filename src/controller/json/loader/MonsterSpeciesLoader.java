@@ -1,4 +1,4 @@
-package controller.json;
+package controller.json.loader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +11,7 @@ import model.monster.EvolutionType;
 import model.monster.MonsterStats;
 import model.monster.MonsterType;
 
-public class MonsterSpeciesLoadSaver {
+public class MonsterSpeciesLoader {
 
 	private final Optional<String> evolution;
 	private final String name;
@@ -23,7 +23,7 @@ public class MonsterSpeciesLoadSaver {
 	private Optional<String> evolutionItem;
 	private Optional<Integer> evolutionLevel;
 
-	public MonsterSpeciesLoadSaver(Optional<String> evolution, String name, String info, MonsterType type,
+	public MonsterSpeciesLoader(Optional<String> evolution, String name, String info, MonsterType type,
 			EvolutionType evolutionType, MonsterStats stats, List<Pair<String, Integer>> allMoves,
 			Optional<String> evolutionItem, Optional<Integer> evolutionLevel) {
 

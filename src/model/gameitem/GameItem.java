@@ -32,17 +32,4 @@ public interface GameItem {
      */
     boolean use(Monster m);
 
-    /**
-     * This function returns the quantity of GameItem
-     * 
-     * @return GameItem's quantity
-     */
-    int getNumber();
-
-    /**
-     * This function updates Item's quantity
-     * 
-     * @param new quantity
-     */
-    void setNumber(int i);
 }

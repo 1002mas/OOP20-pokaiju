@@ -64,9 +64,7 @@ public class MenuPanel extends JPanel {
 
 	MonsterPanel monsterPanel = new MonsterPanel(this.playerController, this.imgLoad);
 
-	JPanel boxPanel = new JPanel();
-	JLabel boxLabel = new JLabel();
-	boxPanel.add(boxLabel);
+	BoxPanel boxPanel = new BoxPanel(this.playerController);
 
 	GameItemPanel gameItemPanel = new GameItemPanel(this.playerController, size);
 

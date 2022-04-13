@@ -1,5 +1,9 @@
 package model.gameitem;
-
+/**
+ * Type of gameitem
+ * 
+ * @author Guo jiahao
+ */
 public enum GameItemTypes {
     HEAL("Heal"), EVOLUTIONTOOL("EvolutionTool"), MONSTERBALL("MonsterBall");
 

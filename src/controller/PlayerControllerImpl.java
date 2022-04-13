@@ -436,7 +436,19 @@ public class PlayerControllerImpl implements PlayerController {
 	}
 	return Optional.empty();
     }
-
+    
+    @Override
+    public Optional<Pair<String, String>> evolveByLevel(int monsterId) {
+   	Optional<Monster> monster = player.getAllMonsters().stream().filter(i -> i.getId() == monsterId)
+   		.findAny();
+   	if (monster.isPresent() && monster.get().canEvolveByLevel()) {
+   	    String monsterName = monster.get().getName();
+   	    monster.get().evolve();
+   	    return Optional.of(new Pair<>(monsterName, monster.get().getName()));
+   	}
+   	return Optional.empty();
+    }
+    
     @Override
     public void addItem(String item) {
 	Optional<GameItem> gameItem = dataController.loadItems().stream().filter(i -> i.getNameItem().equals(item))
@@ -451,7 +463,6 @@ public class PlayerControllerImpl implements PlayerController {
     public boolean canUseItem(String item) {
 	return dataController.loadItems().stream()
 		.filter(i -> i.getNameItem().equals(item) && i.getType() == GameItemTypes.HEAL).findAny().isPresent();
-
     }
 
     @Override

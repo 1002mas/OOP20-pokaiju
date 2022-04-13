@@ -31,6 +31,14 @@ public class MonsterBoxImpl implements MonsterBox {
 		}
 	}
 
+		
+	public MonsterBoxImpl(String name, List<Monster> monsters) {
+		this(name);
+		for(Monster monster : monsters) {
+			addMonster(monster);
+		}
+	}
+	
 	private void sortList() {
 		Collections.sort(freeCoord, new Comparator<Pair<Integer, Integer>>() {
 			@Override

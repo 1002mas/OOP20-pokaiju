@@ -61,7 +61,6 @@ public class MonsterBattleImpl implements MonsterBattle {
 	while (enemy.isOutOfPP(enemy.getMoves(x))) {
 	    x = (x + 1) % this.enemy.getNumberOfMoves();
 	}
-	;
 	return enemy.getMoves(x);
     }
 
@@ -91,16 +90,16 @@ public class MonsterBattleImpl implements MonsterBattle {
     public boolean escape() {
 	throwExceptionIfItIsOver();
 	if (!enemy.getWild()) {
-	    // System.out.println("Non puoi scappare");
+
 	    return false;
 	}
 	int attempt = (int) (Math.random() * ESCAPE_RANGE);
 	if (attempt <= ESCAPE_DIFFICULT) {
-	    // System.out.println("Sei fuggito");
+
 	    this.battleStatus = false;
 	    return true;
 	}
-	// System.out.println("Fuga fallita");
+
 	return false;
 
     }
@@ -110,7 +109,6 @@ public class MonsterBattleImpl implements MonsterBattle {
 	throwExceptionIfItIsOver();
 	Monster changingMonster = null;
 	if (index == playerCurrentMonster.getId()) {
-	    System.out.println("Il mostro è già in campo");
 	    return false;
 	}
 	for (var monster : playerTeam) {
@@ -120,11 +118,10 @@ public class MonsterBattleImpl implements MonsterBattle {
 	}
 	if (changingMonster.isAlive()) {
 	    playerCurrentMonster = changingMonster;
-	    System.out.println("Cambio");
+
 	    return true;
 	}
 
-	System.out.println("Il mostro selezionato è morto");
 	return false;
 
     }
@@ -150,95 +147,66 @@ public class MonsterBattleImpl implements MonsterBattle {
 	    return true;
 	}
 	throwExceptionIfItIsOver();
-	// System.out.println(playerCurrentMonster.getName() + " è troppo stanco per
-	// usare questa mossa");
 	return false;
     }
 
     private void turn(Moves monsterMove) {
-	MonsterStats playerStats = this.playerCurrentMonster.getStats();
-	MonsterStats enemyStats = this.enemy.getStats();
-	int damage = monsterMove.getDamage(enemy.getType()) * monsterMove.getBase()+playerStats.getAttack() - enemyStats.getDefense();
-	System.out.println("attacco partner" +monsterMove.getDamage(enemy.getType()) );
-	if (damage < 1) {
-	    damage = 1;
-	}
-
-	if (playerStats.getSpeed() < enemyStats.getSpeed()) {
-	    this.enemyTurn(playerStats, enemyStats);
-	    if (allPlayerMonsterDeafeted()) { // player's team defeated
-		this.battleStatus = false;
-		this.trainer.setMoney(trainer.getMoney() - MONEY_LOST);
-	    } else {
-		enemy.getStats().setHealth(enemy.getStats().getHealth() - damage);
-		if (!enemy.isAlive()) {
-
-		    playerCurrentMonster.incExp(enemy.getLevel() * EXP_MULTIPLER);
-		    System.out.println(enemy.getName() + " è morto"); // enemy's team defeated
-		    if (!areThereEnemies()) {
-			// ending battle
-			trainer.setMoney(trainer.getMoney() + MONEY_WON);
-			if (this.enemyTrainer.isPresent()) {
-			    enemyTrainer.get().isDefeated();
-			}
-			this.battleStatus = false;
-		    } else {
-			this.enemy = enemyTeam.stream().filter(m -> m.isAlive()).findAny().get(); // change enemy's
-												  // monster
-		    }
-		}
-	    }
-
-	} else {
-	    enemy.getStats().setHealth(enemy.getStats().getHealth() - damage);
-	    // System.out.println(playerCurrentMonster.getName() + " usa " + att.getName() +
-	    // " infliggendo "
-	    // + att.getDamage(enemy.getType()) + " danni");
-
+	if (this.playerCurrentMonster.getStats().getSpeed() > this.enemy.getStats().getSpeed()) {
+	    monsterAttack(playerCurrentMonster, enemy, monsterMove);
 	    if (enemy.isAlive()) {
-
-		this.enemyTurn(playerStats, enemyStats);
-		if (allPlayerMonsterDeafeted()) { // player's team defeated
-		    this.battleStatus = false;
-		    this.trainer.setMoney(trainer.getMoney() - MONEY_LOST);
-		}
-	    } else {
-
-		playerCurrentMonster.incExp(enemy.getLevel() * EXP_MULTIPLER);
-		System.out.println(enemy.getName() + " è morto "); // enemy's team defeated
-
-		if (!areThereEnemies()) {
-		    // ending battle
-		    trainer.setMoney(trainer.getMoney() + MONEY_WON);
-		    if (this.enemyTrainer.isPresent()) {
-			enemyTrainer.get().isDefeated();
-		    }
-		    this.battleStatus = false;
-		} else {
-		    this.enemy = enemyTeam.stream().filter(m -> m.isAlive()).findAny().get(); // change enemy's monster
-		}
-
+		monsterAttack(enemy, playerCurrentMonster, enemyAttack());
+	    }
+	} else {
+	    monsterAttack(enemy, playerCurrentMonster, enemyAttack());
+	    if (playerCurrentMonster.isAlive()) {
+		monsterAttack(playerCurrentMonster, enemy, enemyAttack());
 	    }
 	}
+	if (!enemy.isAlive()) {
+	    playerCurrentMonster.incExp(enemy.getLevel() * EXP_MULTIPLER);
+	}
+	if (allPlayerMonsterDeafeted()) { // player's team defeated
+	    this.battleStatus = false;
+	    this.trainer.setMoney(trainer.getMoney() - MONEY_LOST);
+	    restoreAllMonsters();
+	}
+
+	if (!areThereEnemies()) {
+	    // ending battle
+
+	    trainer.setMoney(trainer.getMoney() + MONEY_WON);
+	    if (this.enemyTrainer.isPresent()) {
+		enemyTrainer.get().isDefeated();
+	    }
+	    this.battleStatus = false;
+	} else {
+	    this.enemy = enemyTeam.stream().filter(m -> m.isAlive()).findAny().get(); // change enemy's
+										      // monster
+	}
+
     }
 
-    private void enemyTurn(MonsterStats playerStats, MonsterStats enemyStats) {
-	Moves att = this.enemyAttack();
-	int damage = att.getDamage(playerCurrentMonster.getType()) * att.getBase()+ enemyStats.getAttack() - playerStats.getDefense();
-	System.out.println("esisto getDamage:" + att.getDamage(playerCurrentMonster.getType()));
+    private void monsterAttack(Monster m1, Monster m2, Moves move) {
+
+	int damage = move.getDamage(m2.getType()) * move.getBase() + m1.getStats().getAttack()
+		- m2.getStats().getDefense();
 	if (damage < 1) {
 	    damage = 1;
 	}
-	enemy.decMovePP(att);
-	playerCurrentMonster.getStats().setHealth(playerCurrentMonster.getStats().getHealth() - damage);
-	System.out.println(enemy.getName() + " usa " + att.getName() + " infliggendo " + damage + " danni");
-	System.out
-		.println(this.playerCurrentMonster.getName() + "->" + this.playerCurrentMonster.getStats().getHealth());
+	enemy.decMovePP(move);
+	m2.getStats().setHealth(m2.getStats().getHealth() - damage);
     }
 
     private boolean areThereEnemies() {
 
 	return enemyTeam.stream().filter(m -> m.isAlive()).count() > 0;
+    }
+
+    private void restoreAllMonsters() {
+	this.playerTeam.stream().forEach(m -> {
+	    m.restoreAllMovesPP();
+	    m.restoreStats();
+	});
     }
 
     @Override
@@ -253,7 +221,7 @@ public class MonsterBattleImpl implements MonsterBattle {
 
     @Override
     public boolean isOver() {
-	// TODO Auto-generated method stub
+
 	return !battleStatus;
     }
 
@@ -270,13 +238,13 @@ public class MonsterBattleImpl implements MonsterBattle {
 
     @Override
     public Monster getCurrentPlayerMonster() {
-	// TODO Auto-generated method stub
+
 	return this.playerCurrentMonster;
     }
 
     @Override
     public Monster getCurrentEnemyMonster() {
-	// TODO Auto-generated method stub
+
 	return this.enemy;
     }
 

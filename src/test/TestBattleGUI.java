@@ -2,7 +2,7 @@ package test;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import javax.swing.JFrame;
 import controller.BattleController;
 import controller.BattleControllerImpl;
 import gui.BattlePanel;
@@ -12,12 +12,11 @@ import model.battle.MonsterBattle;
 import model.battle.MonsterBattleImpl;
 import model.battle.Moves;
 import model.battle.MovesImpl;
-import model.gameitem.GameItemTypes;
+
 import model.gameitem.*;
 import model.monster.*;
-import model.npc.NpcTrainer;
 import model.npc.NpcTrainerImpl;
-import model.npc.TypeOfNpc;
+
 import model.player.Gender;
 import model.player.*;
 
@@ -27,15 +26,18 @@ public class TestBattleGUI {
     private static BattleController ctrl;
     private static MonsterBattle battle;
     private static PlayerImpl pg;
-    private static NpcTrainer enemyTrainer;
     private static Monster pgMonster;
     private static Monster enemyMonster;
     private static List<Pair<Moves, Integer>> listOfMoves;
     private static BattlePanel GUI;
     static MonsterStats  stats = new MonsterStatsImpl(50, 10, 10, 10);
     
+    
     public static void main(String[] args) {
 	// TODO Auto-generated method stub
+	JFrame frame = new JFrame();
+	frame.setBounds(0, 0, 1024, 1024);
+	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	Moves m1 = new MovesImpl("Braciere", 50, MonsterType.FIRE, 10);
 	Moves m2 = new MovesImpl("Attacco", 10, MonsterType.NONE, 10);
 	Moves m3 = new MovesImpl("Volo", 50, MonsterType.GRASS, 10);
@@ -86,13 +88,15 @@ public class TestBattleGUI {
 	pg.addItem(new HealingItem("Benda", 10, ""));
 	pg.addItem(new GameItemImpl("Ball", 5, ""));
 	pg.addItem(new GameItemImpl("Boooble", 5, ""));
-	enemyTrainer = new NpcTrainerImpl("Luca", null, null, true, true, pgList, false);
+	NpcTrainerImpl enemyTrainer = new NpcTrainerImpl("Luca", null, null, true, true, pgList, false);
 	
 	battle = new MonsterBattleImpl(pg, enemyMonster);
 	ctrl = new BattleControllerImpl(battle);
-	GUI = new BattlePanel (new ImagesLoader(1024,1024,1,1));
+	GUI = new BattlePanel (new ImagesLoader(1024,1024,1,1), null);
+	frame.add(GUI);
 	GUI.setBattleController(ctrl);
 	GUI.start();
+	frame.setVisible(true);
 
     }
 

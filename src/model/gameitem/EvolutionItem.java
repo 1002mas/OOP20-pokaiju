@@ -4,8 +4,8 @@ import model.monster.*;
 
 public class EvolutionItem extends GameItemImpl {
 
-    public EvolutionItem(String nameItem, int number, String description) {
-	super(nameItem, number, description, GameItemTypes.EVOLUTIONTOOL);
+    public EvolutionItem(String nameItem, String description) {
+	super(nameItem, description, GameItemTypes.EVOLUTIONTOOL);
     }
 
     @Override
