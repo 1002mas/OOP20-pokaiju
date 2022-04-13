@@ -13,13 +13,13 @@ import model.player.MonsterBox;
 import model.player.MonsterBoxImpl;
 
 public class GameDataSaver {
-	private List<String> trainerDefeatedName; // durante loading false/true
+	private List<String> trainerDefeatedName;
 	private int idBuilder;
 	private List<Pair<String, List<Integer>>> boxData;
 	private int idMap;
-	List<NpcDataSaver> npcDatatSaver;
-	List<Pair<Integer, Boolean>> events; // (id, isattivo)
-	PlayerSaver playerSaver;
+	private List<NpcDataSaver> npcDatatSaver;
+	private List<Pair<Integer, Boolean>> events;
+	private PlayerSaver playerSaver;
 
 	public GameDataSaver(List<String> npcDefeatedName, int idBuilder, List<Pair<String, List<Integer>>> boxData,
 			int idMap, List<NpcDataSaver> npcDatatSaver, List<Pair<Integer, Boolean>> events, PlayerSaver playerSaver) {
@@ -50,9 +50,9 @@ public class GameDataSaver {
 	}
 
 	public void setTranslatedEvents(List<GameEvent> list) {
-		for(Pair<Integer, Boolean> eventId : events) {
-			for(GameEvent event : list) {
-				if(event.getEventID() == eventId.getFirst()) {
+		for (Pair<Integer, Boolean> eventId : events) {
+			for (GameEvent event : list) {
+				if (event.getEventID() == eventId.getFirst()) {
 					event.setActivity(eventId.getSecond());
 				}
 			}
@@ -80,8 +80,8 @@ public class GameDataSaver {
 
 		return monsterBoxs;
 	}
-	
-	public List<Pair<Integer, Boolean>> getEventsList(){
+
+	public List<Pair<Integer, Boolean>> getEventsList() {
 		return this.events;
 	}
 }

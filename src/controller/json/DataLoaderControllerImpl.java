@@ -68,7 +68,6 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 	private static final String SAVES_BASE_PATH = BASE_PATH + File.separator + "saves" + File.separator;
 	private static final String EVENTS_BASE_PATH = SAVES_BASE_PATH + File.separator + "event" + File.separator;
 	private static final String MOVES_PATH = BASE_PATH + "moves" + File.separator;
-
 	private static final String NPC_SIMPLE_PATH = NPC_BASE_PATH + "npcSimple" + File.separator;
 	private static final String NPC_HEALER_PATH = NPC_BASE_PATH + "npcHealer" + File.separator;
 	private static final String NPC_TRAINER_PATH = NPC_BASE_PATH + "npcTrainer" + File.separator;
@@ -85,17 +84,8 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 			+ File.separator;
 	private static final int MAXIMUM_BLOCK_IN_ROW = 20;
 	private static final int MAXIMUM_BLOCK_IN_COLUMN = 20;
+
 	// TODO java doc
-	// TODO fix names
-	// TODO check private
-	// commit
-	// TODO check boolean returns
-	// commit
-	// TODO npcHealer
-	// commit
-	// TODO Merchant add
-	// commit
-	// TODO SetList in loadGameMapData
 	private GsonBuilder gsonBuilder;
 	private Gson gson;
 	private List<Moves> moves;
@@ -132,8 +122,8 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 
 			try (final BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
 				String stringRead = reader.readLine();
-				Moves m = gson.fromJson(stringRead, MovesImpl.class);
-				this.moves.add(m);
+				Moves move = gson.fromJson(stringRead, MovesImpl.class);
+				this.moves.add(move);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -172,9 +162,11 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 			String filePath = file.getPath();
 			try (final BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
 				String stringRead = reader.readLine();
-				NpcTrainerLoader n = gson.fromJson(stringRead, NpcTrainerLoader.class);
-				NpcTrainer npc = new NpcTrainerImpl(n.getName(), n.getSentences(), n.getPosition(), n.getIsVisible(),
-						n.getIsEnabled(), n.getTranslatedMonsterList(monster), n.getIsVisible());
+				NpcTrainerLoader npcTrainerLoader = gson.fromJson(stringRead, NpcTrainerLoader.class);
+				NpcTrainer npc = new NpcTrainerImpl(npcTrainerLoader.getName(), npcTrainerLoader.getSentences(),
+						npcTrainerLoader.getPosition(), npcTrainerLoader.getIsVisible(),
+						npcTrainerLoader.getIsEnabled(), npcTrainerLoader.getTranslatedMonsterList(monster),
+						npcTrainerLoader.getIsVisible());
 				this.npcs.add(npc);
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -186,9 +178,10 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 			String filePath = file.getPath();
 			try (final BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
 				String stringRead = reader.readLine();
-				NpcMerchantLoader n = gson.fromJson(stringRead, NpcMerchantLoader.class);
-				NpcMerchant npc = new NpcMerchantImpl(n.getName(), n.getSentences(), n.getPosition(), n.getIsVisible(),
-						n.getisEnabled(), n.getTranslatedGameItem(gameItems));
+				NpcMerchantLoader npcMerchantLoader = gson.fromJson(stringRead, NpcMerchantLoader.class);
+				NpcMerchant npc = new NpcMerchantImpl(npcMerchantLoader.getName(), npcMerchantLoader.getSentences(),
+						npcMerchantLoader.getPosition(), npcMerchantLoader.getIsVisible(),
+						npcMerchantLoader.getisEnabled(), npcMerchantLoader.getTranslatedGameItem(gameItems));
 				this.npcs.add(npc);
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -203,12 +196,10 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 		List<MonsterSpeciesLoader> mssList = new ArrayList<>();
 		for (File file : folder.listFiles()) {
 			String filePath = file.getPath();
-
 			try (final BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
 				String stringRead = reader.readLine();
-
-				MonsterSpeciesLoader mss = gson.fromJson(stringRead, MonsterSpeciesLoader.class);
-				mssList.add(mss);
+				MonsterSpeciesLoader monsterSpeciesLoader = gson.fromJson(stringRead, MonsterSpeciesLoader.class);
+				mssList.add(monsterSpeciesLoader);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -224,52 +215,49 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 
 	}
 
-	private void loadEvolvableMonsters(List<MonsterSpeciesLoader> mssList) {
+	private void loadEvolvableMonsters(List<MonsterSpeciesLoader> monsterSpeciesList) {
 
 		List<MonsterSpeciesLoader> removedMonsters = new ArrayList<>();
-		for (MonsterSpeciesLoader ms : mssList) {
+		for (MonsterSpeciesLoader monsterSpecies : monsterSpeciesList) {
 			Optional<MonsterSpecies> evolution = this.monsterSpecies.stream()
-					.filter(m -> m.getName().equals(ms.getEvolution().get())).findAny();
+					.filter(m -> m.getName().equals(monsterSpecies.getEvolution().get())).findAny();
 			if (evolution.isPresent()) {
-				MonsterSpeciesBuilder mb = new MonsterSpeciesBuilderImpl().name(ms.getName()).info(ms.getInfo())
-						.monsterType(ms.getMonsterType()).health(ms.getHealth()).attack(ms.getAttack())
-						.defense(ms.getDefense()).speed(ms.getSpeed()).evolution(evolution.get())
-						.allMoves(ms.getAllMoves(moves));
-				if (ms.getEvolutionLevel().isPresent()) {
-					mb = mb.evolutionLevel(ms.getEvolutionLevel().get());
-				} else if (ms.getEvolutionGameItem(this.gameItems).isPresent()) {
-					mb = mb.gameItem(ms.getEvolutionGameItem(this.gameItems).get());
+				MonsterSpeciesBuilder monsterSpeciesBuilder = new MonsterSpeciesBuilderImpl()
+						.name(monsterSpecies.getName()).info(monsterSpecies.getInfo())
+						.monsterType(monsterSpecies.getMonsterType()).health(monsterSpecies.getHealth())
+						.attack(monsterSpecies.getAttack()).defense(monsterSpecies.getDefense())
+						.speed(monsterSpecies.getSpeed()).evolution(evolution.get())
+						.allMoves(monsterSpecies.getAllMoves(this.moves));
+				if (monsterSpecies.getEvolutionLevel().isPresent()) {
+					monsterSpeciesBuilder = monsterSpeciesBuilder
+							.evolutionLevel(monsterSpecies.getEvolutionLevel().get());
+				} else if (monsterSpecies.getEvolutionGameItem(this.gameItems).isPresent()) {
+					monsterSpeciesBuilder = monsterSpeciesBuilder
+							.gameItem(monsterSpecies.getEvolutionGameItem(this.gameItems).get());
 				}
-				this.monsterSpecies.add(mb.build());
-				removedMonsters.add(ms);
+				this.monsterSpecies.add(monsterSpeciesBuilder.build());
+				removedMonsters.add(monsterSpecies);
 			}
 
 		}
-		mssList.removeAll(removedMonsters);
+		monsterSpeciesList.removeAll(removedMonsters);
 
 	}
 
-	private void loadSimpleMonsters(List<MonsterSpeciesLoader> mssList) {
+	private void loadSimpleMonsters(List<MonsterSpeciesLoader> monsterSpeciesList) {
 		List<MonsterSpeciesLoader> removedMonsters = new ArrayList<>();
-		for (MonsterSpeciesLoader ms : mssList) {
-			if (ms.getEvolutionType().equals(EvolutionType.NONE)) {
-				MonsterSpecies m = new MonsterSpeciesBuilderImpl().name(ms.getName()).info(ms.getInfo())
-						.monsterType(ms.getMonsterType()).health(ms.getHealth()).attack(ms.getAttack())
-						.defense(ms.getDefense()).speed(ms.getSpeed()).allMoves(ms.getAllMoves(moves)).build();
-				this.monsterSpecies.add(m);
-				removedMonsters.add(ms);
+		for (MonsterSpeciesLoader monsterSpeciesLoader : monsterSpeciesList) {
+			if (monsterSpeciesLoader.getEvolutionType().equals(EvolutionType.NONE)) {
+				MonsterSpecies monsterSpecies = new MonsterSpeciesBuilderImpl().name(monsterSpeciesLoader.getName())
+						.info(monsterSpeciesLoader.getInfo()).monsterType(monsterSpeciesLoader.getMonsterType())
+						.health(monsterSpeciesLoader.getHealth()).attack(monsterSpeciesLoader.getAttack())
+						.defense(monsterSpeciesLoader.getDefense()).speed(monsterSpeciesLoader.getSpeed())
+						.allMoves(monsterSpeciesLoader.getAllMoves(this.moves)).build();
+				this.monsterSpecies.add(monsterSpecies);
+				removedMonsters.add(monsterSpeciesLoader);
 			}
 		}
-		mssList.removeAll(removedMonsters);
-	}
-
-	@Override
-	public List<MonsterSpecies> getMonsterSpecies() {
-		if (this.monsterSpecies == null) {
-			this.monsterSpecies = new ArrayList<>();
-			loadMonsterSpecies();
-		}
-		return this.monsterSpecies;
+		monsterSpeciesList.removeAll(removedMonsters);
 	}
 
 	private void loadGameItems() {
@@ -279,20 +267,21 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 
 			try (final BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
 				String stringRead = reader.readLine();
-				GameItemLoader gis = gson.fromJson(stringRead, GameItemLoader.class);
+				GameItemLoader gameItemLoader = gson.fromJson(stringRead, GameItemLoader.class);
 				GameItem gameItem;
-				switch (gis.getType()) {
+				switch (gameItemLoader.getType()) {
 
 				case EVOLUTIONTOOL:
-					gameItem = new EvolutionItem(gis.getNameItem(), gis.getDescription());
+					gameItem = new EvolutionItem(gameItemLoader.getNameItem(), gameItemLoader.getDescription());
 					break;
 
 				case HEAL:
-					gameItem = new HealingItem(gis.getNameItem(), gis.getDescription(), gis.getHealing().get());
+					gameItem = new HealingItem(gameItemLoader.getNameItem(), gameItemLoader.getDescription(),
+							gameItemLoader.getHealing().get());
 					break;
 
 				case MONSTERBALL:
-					gameItem = new GameItemImpl(gis.getNameItem(), gis.getDescription());
+					gameItem = new GameItemImpl(gameItemLoader.getNameItem(), gameItemLoader.getDescription());
 					break;
 				default:
 					throw new IllegalStateException();
@@ -311,33 +300,36 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 			String filePath = file.getPath();
 			try (final BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
 				String stringRead = reader.readLine();
-				MonsterLoader m = gson.fromJson(stringRead, MonsterLoader.class);
-				Monster monster = new MonsterBuilderImpl().health(m.getHealth()).attack(m.getAttack())
-						.defense(m.getDefense()).speed(m.getSpeed()).exp(m.getExp()).level(m.getLevel()).isWild(false)
-						.species(m.getTranslatedMonsterSpecies(monsterSpecies)).movesList(m.getTranslatedMoves(moves))
-						.build();
+				MonsterLoader monsterLoader = gson.fromJson(stringRead, MonsterLoader.class);
+				Monster monster = new MonsterBuilderImpl().health(monsterLoader.getHealth())
+						.attack(monsterLoader.getAttack()).defense(monsterLoader.getDefense())
+						.speed(monsterLoader.getSpeed()).exp(monsterLoader.getExp()).level(monsterLoader.getLevel())
+						.isWild(false).species(monsterLoader.getTranslatedMonsterSpecies(this.monsterSpecies))
+						.movesList(monsterLoader.getTranslatedMoves(this.moves)).build();
 				this.monster.add(monster);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 	}
-	//TODO npc problem
+
 	private void loadGameMapData() {
 		File folder = new File(GAME_MAP_DATA_PATH);
-		List<GameMapDataLoader> mapLoader = null;
+		List<GameMapDataLoader> mapLoaderList = null;
 		for (File file : folder.listFiles()) {
 			String filePath = file.getPath();
 
 			try (final BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-				mapLoader = new ArrayList<>();
+				mapLoaderList = new ArrayList<>();
 				String stringRead = reader.readLine();
-				GameMapDataLoader m = gson.fromJson(stringRead, GameMapDataLoader.class);
-				GameMapData map = new GameMapDataImpl(m.getId(), m.getMinimumMonsterLevel(), m.getMaximumMonsterLevel(),
-						m.getName(), m.getBlocks(), m.getTranslatedNpcs(npcs),
-						m.getTranslatedtWildMonsters(monsterSpecies));
+				GameMapDataLoader mapDataLoader = gson.fromJson(stringRead, GameMapDataLoader.class);
+				GameMapData map = new GameMapDataImpl(mapDataLoader.getId(), mapDataLoader.getMinimumMonsterLevel(),
+						mapDataLoader.getMaximumMonsterLevel(), mapDataLoader.getName(), mapDataLoader.getBlocks(),
+						mapDataLoader.getTranslatedNpcs(npcs),
+						mapDataLoader.getTranslatedtWildMonsters(this.monsterSpecies));
 				this.gameMapData.add(map);
-				Map<Pair<Integer, Integer>, GameEvent> eventLocationMap = m.getTranslatedEventLocation(this.events);
+				Map<Pair<Integer, Integer>, GameEvent> eventLocationMap = mapDataLoader
+						.getTranslatedEventLocation(this.events);
 				for (Entry<Pair<Integer, Integer>, GameEvent> event : eventLocationMap.entrySet()) {
 					map.addEventAt(event.getValue(), event.getKey());
 				}
@@ -349,7 +341,7 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 
 		if (this.gameMapData != null) {
 			for (GameMapData mapData : this.gameMapData) {
-				for (GameMapDataLoader mapInList : mapLoader) {
+				for (GameMapDataLoader mapInList : mapLoaderList) {
 					if (mapInList.getId() == mapData.getMapId()) {
 						Map<Pair<Pair<Integer, Integer>, Pair<Integer, Integer>>, GameMapData> linkedMapData = mapInList
 								.getLinkedMapData(this.gameMapData);
@@ -377,7 +369,7 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 				MonsterGift monsterGift = new MonsterGift(monsterGiftLoadSaver.getId(),
 						monsterGiftLoadSaver.getIsActive(), monsterGiftLoadSaver.getIsDeactivable(),
 						monsterGiftLoadSaver.getIsToActiveImmediatly(),
-						monsterGiftLoadSaver.getTranslatedMonsters(monster), this.player);
+						monsterGiftLoadSaver.getTranslatedMonsters(this.monster), this.player);
 				this.events.add(monsterGift);
 				loadList.add(monsterGiftLoadSaver);
 			} catch (IOException e) {
@@ -415,11 +407,13 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 			String filePath = file.getPath();
 			try (final BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
 				String stringRead = reader.readLine();
-				UniqueMonsterEventLoader m = gson.fromJson(stringRead, UniqueMonsterEventLoader.class);
-				UniqueMonsterEvent uniqueMonsterEvent = new UniqueMonsterEvent(m.getId(), m.getIsActive(),
-						m.getIsToActiveImmediatly(), m.getTranslatedMonster(monster), this.player);
+				UniqueMonsterEventLoader uniqueMonsterEventLoader = gson.fromJson(stringRead,
+						UniqueMonsterEventLoader.class);
+				UniqueMonsterEvent uniqueMonsterEvent = new UniqueMonsterEvent(uniqueMonsterEventLoader.getId(),
+						uniqueMonsterEventLoader.getIsActive(), uniqueMonsterEventLoader.getIsToActiveImmediatly(),
+						uniqueMonsterEventLoader.getTranslatedMonster(this.monster), this.player);
 				this.events.add(uniqueMonsterEvent);
-				loadList.add(m);
+				loadList.add(uniqueMonsterEventLoader);
 
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -483,20 +477,18 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 		}
 	}
 
-	// LOAD DATA SAVED
-
 	private List<Monster> translateMonsterId(List<Integer> monstersId) {
-		List<Monster> monsters = new ArrayList<>();
+		List<Monster> monsterList = new ArrayList<>();
 
 		for (int id : monstersId) {
 			for (Monster monster : this.monster) {
 				if (id == monster.getId()) {
-					monsters.add(monster);
+					monsterList.add(monster);
 				}
 			}
 		}
 
-		return monsters;
+		return monsterList;
 	}
 
 	@Override
@@ -504,7 +496,7 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 		File filePath = new File(GAME_DATA_PATH);
 		try (final BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
 			String stringRead = reader.readLine();
-			gameDataUnPack(gson.fromJson(stringRead, GameDataSaver.class));
+			translateGameDataSaver(gson.fromJson(stringRead, GameDataSaver.class));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -512,9 +504,9 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 
 	@Override
 	public boolean saveData(int idBuilder, int idCurrentMap, MonsterStorage monsterStorage, Player player) {
-		GameDataSaver generalDataLoadSaver;
+		GameDataSaver gameDataSaver;
 		List<Pair<String, List<Integer>>> boxData = new ArrayList<>();
-		List<Integer> monsterId = new ArrayList<>();
+		List<Integer> monsterIdList = new ArrayList<>();
 		Map<String, Integer> gameItemsName = new HashMap<>();
 
 		for (Pair<String, List<Monster>> list : monsterStorage.getMonsterList()) {
@@ -526,17 +518,17 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 		}
 
 		for (Monster monster : player.getAllMonsters()) {
-			monsterId.add(monster.getId());
+			monsterIdList.add(monster.getId());
 		}
 		for (Entry<GameItem, Integer> gameItem : player.getAllItems().entrySet()) {
 			gameItemsName.put(gameItem.getKey().getNameItem(), gameItem.getValue());
 		}
 
-		generalDataLoadSaver = new GameDataSaver(this.npcDefeated, this.idBuilder, boxData, this.idCurrentMap,
-				this.npcData, this.eventsList, new PlayerSaver(player.getName(), player.getGender(),
-						player.getTrainerNumber(), player.getPosition(), monsterId, gameItemsName, player.getMoney()));
+		gameDataSaver = new GameDataSaver(this.npcDefeated, this.idBuilder, boxData, this.idCurrentMap, this.npcData,
+				this.eventsList, new PlayerSaver(player.getName(), player.getGender(), player.getTrainerNumber(),
+						player.getPosition(), monsterIdList, gameItemsName, player.getMoney()));
 
-		String dataJson = gson.toJson(generalDataLoadSaver);
+		String dataJson = gson.toJson(gameDataSaver);
 
 		try (BufferedWriter bf = new BufferedWriter(new FileWriter(GAME_DATA_PATH))) {
 			bf.write(dataJson);
@@ -548,7 +540,7 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 
 	}
 
-	private void gameDataUnPack(GameDataSaver gameData) {
+	private void translateGameDataSaver(GameDataSaver gameData) {
 		translatePlayerSaver(gameData.getPlayerSaver());
 		translateNpcData(gameData.getNpcDatatSaver());
 		this.idCurrentMap = gameData.getMapId();
@@ -571,31 +563,31 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 	}
 
 	private void translatePlayerSaver(PlayerSaver playerSaver) {
-		List<Monster> monsters;
-		Map<GameItem, Integer> items;
+		List<Monster> monstersList;
+		Map<GameItem, Integer> itemsMap;
 		this.player = new PlayerImpl(playerSaver.getName(), playerSaver.getGender(), playerSaver.getTrainerNumber(),
 				playerSaver.getPosition());
-		monsters = playerSaver.getTranslatedMonster(this.monster);
-		items = playerSaver.getTranslatedGameItems(this.gameItems);
+		monstersList = playerSaver.getTranslatedMonster(this.monster);
+		itemsMap = playerSaver.getTranslatedGameItems(this.gameItems);
 
-		for (Monster monster : monsters) {
+		for (Monster monster : monstersList) {
 			this.player.addMonster(monster);
 		}
-		for (Entry<GameItem, Integer> item : items.entrySet()) {
+		for (Entry<GameItem, Integer> item : itemsMap.entrySet()) {
 			this.player.addItem(item.getKey(), item.getValue());
 		}
 
 	}
 
-	// TODO Fix in good code
-	private void translateNpcDefeated(List<String> names) {
+	// TODO Fix code
+	private void translateNpcDefeated(List<String> namesList) {
 		for (NpcSimple npc : this.npcs) {
-			for (String name : names) {
+			for (String name : namesList) {
 				if (npc.getTypeOfNpc() == TypeOfNpc.TRAINER && npc.getName().equals(name)) {
 					NpcTrainer npcTrainer = (NpcTrainer) npc;
 					npcTrainer.setDefeated(true);
 					npc = npcTrainer;
-					
+
 				}
 			}
 		}
@@ -615,8 +607,8 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 
 	@Override
 	public boolean gameSaveExist() {
-		File playerDataFile = new File(GAME_DATA_PATH);
-		return playerDataFile.exists();
+		File gameDataFile = new File(GAME_DATA_PATH);
+		return gameDataFile.exists();
 
 	}
 
@@ -779,7 +771,6 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 		return this.npcData;
 	}
 
-	// TODO
 	@Override
 	public void addNpcData(String name, int idSentence) {
 		for (NpcSimple npcSimple : this.npcs) {

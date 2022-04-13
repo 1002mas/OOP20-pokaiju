@@ -2,7 +2,6 @@ package model.npc;
 
 import java.util.List;
 import java.util.Map;
-
 import model.Pair;
 import model.gameitem.GameItem;
 import model.player.Player;
@@ -23,33 +22,33 @@ public class NpcMerchantImpl extends NpcSimpleImpl implements NpcMerchant {
 	}
 
 	@Override
-	public int getPrice(Pair<GameItem,Integer> itemList) {
-		if (this.inventory.containsKey(itemList.getFirst())) {
-			return (inventory.get(itemList.getFirst()) * itemList.getSecond());
+	public int getPrice(GameItem item) {
+		if (this.inventory.containsKey(item)) {
+			return inventory.get(item);
 		}
 		return 0;
 	}
 
 	@Override
-	public int getTotalPrice(List<Pair<GameItem,Integer>> list) {
+	public int getTotalPrice(List<Pair<GameItem, Integer>> list) {
 		int sum = 0;
-		for (Pair<GameItem,Integer> item : list) {
-			sum = sum + getPrice(item);
+		for (Pair<GameItem, Integer> item : list) {
+			sum = sum + (getPrice(item.getFirst()) * item.getSecond());
 		}
 		return sum;
 	}
 
 	private void addItems(List<Pair<GameItem, Integer>> list, Player player) {
 		for (Pair<GameItem, Integer> item : list) {
-			for(int i=0; i< item.getSecond(); i++) {
+			for (int i = 0; i < item.getSecond(); i++) {
 				player.addItem(item.getFirst());
 			}
-			
+
 		}
 	}
 
 	@Override
-	public boolean buyItem(List<Pair<GameItem,Integer>> itemList, Player player) {
+	public boolean buyItem(List<Pair<GameItem, Integer>> itemList, Player player) {
 		if ((player.getMoney() - getTotalPrice(itemList)) >= 0) {
 			player.setMoney(player.getMoney() - getTotalPrice(itemList));
 			addItems(itemList, player);

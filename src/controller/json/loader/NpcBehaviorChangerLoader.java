@@ -10,7 +10,6 @@ import model.npc.NpcSimple;
 public class NpcBehaviorChangerLoader {
 
 	private List<String> npcs = new ArrayList<>();
-
 	private List<Optional<Pair<Integer, Integer>>> npcsPositions = new ArrayList<>();
 	private List<Optional<Integer>> npcsText = new ArrayList<>();
 	private List<Optional<Boolean>> npcsShow = new ArrayList<>();

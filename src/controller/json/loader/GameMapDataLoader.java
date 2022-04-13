@@ -22,7 +22,7 @@ public class GameMapDataLoader {
 	private int maximumMonsterLevel;
 	private String name;
 	private Map<Pair<Integer, Integer>, MapBlockType> blocks;
-	private Set<String> npcs; //
+	private Set<String> npcs; 
 	private List<String> wildMonsters;
 	private Map<Pair<Integer, Integer>, Integer> eventLocation;
 	private Map<Pair<Pair<Integer, Integer>, Pair<Integer, Integer>>, Integer> linkedMapData;
@@ -93,16 +93,16 @@ public class GameMapDataLoader {
 	}
 
 	public List<MonsterSpecies> getTranslatedtWildMonsters(List<MonsterSpecies> list) {
-		List<MonsterSpecies> monster = new ArrayList<>();
+		List<MonsterSpecies> monsterSpecies = new ArrayList<>();
 		for (String s : this.wildMonsters) {
-			for (MonsterSpecies n : list) {
-				if (s.equals(n.getName())) {
-					monster.add(n);
+			for (MonsterSpecies monster : list) {
+				if (s.equals(monster.getName())) {
+					monsterSpecies.add(monster);
 					break;
 				}
 			}
 		}
-		return monster;
+		return monsterSpecies;
 	}
 
 	public Map<Pair<Integer, Integer>, GameEvent> getTranslatedEventLocation(List<GameEvent> list) {

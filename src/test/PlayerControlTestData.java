@@ -1,48 +1,16 @@
 package test;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonToken;
 
-import controller.json.DataLoaderController;
-import controller.json.DataLoaderControllerImpl;
 import model.Pair;
 import model.battle.Moves;
-import model.battle.Moves;
 import model.battle.MovesImpl;
-import model.battle.MovesImpl;
-import model.map.GameMapData;
-import model.map.GameMapDataImpl;
-import model.map.MapBlockType;
-import model.monster.Monster;
-import model.monster.MonsterImpl;
-import model.monster.MonsterSpecies;
-import model.monster.MonsterStats;
-import model.monster.MonsterStatsImpl;
 import model.monster.MonsterType;
 import model.npc.NpcSimple;
-import model.npc.NpcSimpleImpl;
-import model.npc.NpcTrainerImpl;
-import model.npc.TypeOfNpc;
-import model.player.Gender;
-import model.player.Player;
-import model.player.PlayerImpl;
 
 public class PlayerControlTestData {
 
@@ -50,7 +18,7 @@ public class PlayerControlTestData {
 		
 		//---DATA---
 		
-		
+		private  Set<NpcSimple> npcset;
 		
 		final String movesPath = "res"+File.separator+"data"+File.separator+"Moves"+File.separator;
 		
