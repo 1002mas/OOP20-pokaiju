@@ -14,7 +14,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import controller.PlayerController;
-import model.gameitem.*;
 
 public class GameItemPanel extends JPanel {
     private static final long serialVersionUID = -5473716174748395743L;

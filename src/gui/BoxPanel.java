@@ -85,7 +85,7 @@ public class BoxPanel extends JPanel {
 	take.setEnabled(false);
 
 	JPanel playerMonstersPanel = new JPanel(new GridLayout(0, 1));
-	playerMonstersPanel.setPreferredSize(new Dimension(200, 500));
+	playerMonstersPanel.setPreferredSize(new Dimension(200, getPreferredSize().height));
 
 	for (int playerMonsterid : playerMonsterIdList) {
 	    playerMonstersPanel.add(setMonsterPanel(playerMonsterid, playerMonstersPanel, true));
@@ -130,6 +130,7 @@ public class BoxPanel extends JPanel {
 	box.setBorder(BorderFactory.createLineBorder(Color.black));
 	JLabel team = new JLabel("team");
 	setLabelProp(team);
+	team.setBorder(BorderFactory.createLineBorder(Color.black));
 	team.setPreferredSize(new Dimension(200, getPreferredSize().height));
 
 	titlePanel.add(box, BorderLayout.CENTER);
@@ -214,7 +215,7 @@ public class BoxPanel extends JPanel {
 			setPanelEnabled(MonstersPanel, false);
 			exchangecont++;
 			if (exchangecont == 2) {
-			    setButtonEnabled(exchange);
+			    exchange.setEnabled(true);
 			}
 		    }
 		} else {

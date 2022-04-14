@@ -10,6 +10,7 @@ import java.util.Optional;
 import model.Pair;
 import model.battle.MonsterBattle;
 import model.battle.MonsterBattleImpl;
+import model.gameevents.GameEvent;
 import model.gameitem.GameItem;
 import model.map.GameMap;
 import model.monster.Monster;
@@ -33,7 +34,6 @@ public class PlayerImpl implements Player {
     private boolean hasMapChanged;
     private Optional<NpcSimple> npc;
     private Optional<MonsterBattle> monsterBattle;
-   
 
     public PlayerImpl(String name, Gender gender, int trainerNumber, Pair<Integer, Integer> startingPosition,
 	    GameMap map) {
@@ -197,14 +197,15 @@ public class PlayerImpl implements Player {
     public int getItemQuantity(GameItem i) {
 	return this.gameItems.get(i);
     }
-    
+
     @Override
     public Optional<NpcSimple> getLastInteractionWithNpc() {
-        return npc;
+	return npc;
     }
+
     @Override
     public Optional<MonsterBattle> getPlayerBattle() {
-        return monsterBattle;
+	return monsterBattle;
     }
 
     @Override
@@ -244,6 +245,10 @@ public class PlayerImpl implements Player {
 
 	if (canMove) {
 	    this.position = nextPosition;
+	    Optional<GameEvent> gameEvent = map.getEventAt(position);
+	    if (gameEvent.isPresent() && gameEvent.get().isBattle()) {
+		this.monsterBattle = Optional.of(new MonsterBattleImpl(this, gameEvent.get().getMonster().get(0)));
+	    }
 	    if (map.canChangeMap(nextPosition)) {
 		this.hasMapChanged = true;
 		map.changeMap(nextPosition);
@@ -261,7 +266,7 @@ public class PlayerImpl implements Player {
     public boolean hasPlayerChangedMap() {
 	return this.hasMapChanged;
     }
-    
+
     @Override
     public boolean interactAt(Pair<Integer, Integer> pos) {
 	this.monsterBattle = Optional.empty();

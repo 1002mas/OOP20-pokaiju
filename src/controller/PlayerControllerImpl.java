@@ -348,6 +348,11 @@ public class PlayerControllerImpl implements PlayerController {
 	    player.useItem(gameItem);
 	}
     }
+    
+    @Override
+    public void useItemOnMonster(String i, int monsterId) {
+	player.useItemOnMonster(dataController.getItem(i),dataController.getMonster(monsterId));
+    }
 
     @Override
     public void removeItem(String i) { // --

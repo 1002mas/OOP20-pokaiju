@@ -26,10 +26,12 @@ public class NewGamePanel extends JPanel {
     private static final int SPACE = 50;
     private JPanel parentPanel;
     private PlayerController playerController;
+    private GameFrame gameFrame;
 
-    public NewGamePanel(PlayerController playerController, JPanel mainPanel) {
+    public NewGamePanel(PlayerController playerController, JPanel mainPanel, GameFrame gameFrame) {
 	this.playerController = playerController;
 	this.parentPanel = mainPanel;
+	this.gameFrame = gameFrame;
 	init();
     }
 
@@ -69,8 +71,8 @@ public class NewGamePanel extends JPanel {
 		    JOptionPane.showMessageDialog(null, "Name can't be null", "alert", JOptionPane.WARNING_MESSAGE);
 		} else {
 		    playerController.createNewPlayer(nameField.getText(), (Gender) gender.getSelectedItem(), a);
+		    gameFrame.changePanel(GameFrame.MAP_PANEL);
 		}
-		 c1.show(parentPanel, GameFrame.MAP_PANEL);
 	    }
 	});
 

@@ -48,8 +48,6 @@ public class GameFrame extends JFrame {
 	LoginPanel loginPanel = new LoginPanel(this.playerController);
 	loginPanel.getContinue().addActionListener(e -> {
 	    this.playerController.load();
-	    // TODO load data this.playerController.load();
-
 	    if (!subPanels.containsKey(MAP_PANEL)) {
 		JPanel gamePanel = buildMapPanel();
 		mainPanel.add(gamePanel, MAP_PANEL);
@@ -58,11 +56,11 @@ public class GameFrame extends JFrame {
 	    changePanel(MAP_PANEL);
 	});
 
-	JPanel newGamePanel = newGamePanel();
 	loginPanel.getnewGame().addActionListener(e -> changePanel(NEW_GAME_PANEL));
 	loginPanel.getquitGame().addActionListener(e -> System.exit(0));
 
-	// Pannello del menu di gioco
+	JPanel newGamePanel = newGamePanel();
+
 	JPanel menuPanel = buildMenuPanel();
 
 	JPanel battlePanel = new BattlePanel(imgLoad, this);
@@ -155,7 +153,7 @@ public class GameFrame extends JFrame {
     }
 
     private JPanel newGamePanel() {
-	return new NewGamePanel(this.playerController, mainPanel);
+	return new NewGamePanel(this.playerController, mainPanel, this);
     }
 
     void changePanel(String name) {
