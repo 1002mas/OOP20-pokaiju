@@ -6,10 +6,8 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -48,14 +46,14 @@ public class MenuPanel extends JPanel {
 	final JButton playerInfo = new JButton(" PLAYERINFO ");
 	final JButton quit = new JButton(" QUIT MENU ");
 	final JButton backToMainMenu = new JButton(" BACK TO MAIN MENU ");
-	final JButton save = new JButton(" SAVE ");
+	/*final JButton save = new JButton(" SAVE ");*/
 
 	topPanel.add(monster);
 	topPanel.add(box);
 	topPanel.add(gameItems);
 	topPanel.add(playerInfo);
 	topPanel.add(quit);
-	topPanel.add(save);
+	/*topPanel.add(save);*/
 	topPanel.add(backToMainMenu);
 
 	JPanel bottomPanel = new JPanel();
@@ -95,12 +93,12 @@ public class MenuPanel extends JPanel {
 	    gui.changePanel(GameFrame.MAP_PANEL);
 	});
 
-	save.addActionListener(new ActionListener() {
+	/*save.addActionListener(new ActionListener() {
 	    public void actionPerformed(ActionEvent e) {
 		playerController.save();
 
 	    }
-	});
+	});*/
 	backToMainMenu.addActionListener(new ActionListener() {
 	    public void actionPerformed(ActionEvent e) {
 		int result = JOptionPane.showConfirmDialog(null, "Sure? You want to exit?", "Warning",

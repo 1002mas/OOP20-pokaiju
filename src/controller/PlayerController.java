@@ -138,6 +138,8 @@ public interface PlayerController {
     int getCurrentMapID();
 
     void useItem(String item);
+    
+    void useItemOnMonster(String i, int monsterId);
 
     void removeItem(String i);
 

@@ -80,27 +80,28 @@ public class BoxPanel extends JPanel {
     private void init() {
 	this.setLayout(new BorderLayout());
 	exchangecont = 0;
-	setButtonDisabled(exchange);
-	setButtonDisabled(deposit);
-	setButtonDisabled(take);
+	exchange.setEnabled(false);
+	deposit.setEnabled(false);
+	take.setEnabled(false);
+
 	JPanel playerMonstersPanel = new JPanel(new GridLayout(0, 1));
-	playerMonstersPanel.setPreferredSize(new Dimension(200, 500));
+	playerMonstersPanel.setPreferredSize(new Dimension(200, getPreferredSize().height));
 
 	for (int playerMonsterid : playerMonsterIdList) {
 	    playerMonstersPanel.add(setMonsterPanel(playerMonsterid, playerMonstersPanel, true));
 	}
+
 	JPanel boxPanel = new JPanel();
 	boxPanel.setLayout(cardLayout);
-
 	List<JPanel> contentPanel = new ArrayList<JPanel>();
 
 	int remainelement = boxMonsterIdList.size();
 	for (int a = 0; a < numberOfPage(boxMonsterIdList); a++) {
-	    int moltiplicatore = NUMBEROFMONSTERPERPAGE * a;
+	    int multiplicator = NUMBEROFMONSTERPERPAGE * a;
 	    JPanel pagePanel = new JPanel(new GridLayout(NUMBEROFMONSTERPERPAGE, 1));
 	    for (int i = 0; i < (((remainelement - NUMBEROFMONSTERPERPAGE) > 0) ? NUMBEROFMONSTERPERPAGE
 		    : remainelement); i++) {
-		int id = boxMonsterIdList.get(i + moltiplicatore);
+		int id = boxMonsterIdList.get(i + multiplicator);
 		pagePanel.add(setMonsterPanel(id, boxPanel, false));
 	    }
 	    remainelement = Math.abs(remainelement - NUMBEROFMONSTERPERPAGE);
@@ -113,6 +114,39 @@ public class BoxPanel extends JPanel {
 	    index++;
 	}
 
+	this.add(setTopPanel(), BorderLayout.NORTH);
+	this.add(boxPanel, BorderLayout.CENTER);
+	this.add(playerMonstersPanel, BorderLayout.EAST);
+	this.add(setBottomPanel(boxPanel), BorderLayout.SOUTH);
+    }
+
+    private JPanel setTopPanel() {
+	JPanel topPanel = new JPanel(new GridLayout(2, 1));
+	JPanel buttonPanel = new JPanel(new GridLayout(1, 4));
+	JPanel titlePanel = new JPanel(new BorderLayout());
+
+	JLabel box = new JLabel("box");
+	setLabelProp(box);
+	box.setBorder(BorderFactory.createLineBorder(Color.black));
+	JLabel team = new JLabel("team");
+	setLabelProp(team);
+	team.setBorder(BorderFactory.createLineBorder(Color.black));
+	team.setPreferredSize(new Dimension(200, getPreferredSize().height));
+
+	titlePanel.add(box, BorderLayout.CENTER);
+	titlePanel.add(team, BorderLayout.EAST);
+
+	buttonPanel.add(exchange);
+	buttonPanel.add(deposit);
+	buttonPanel.add(take);
+	buttonPanel.add(cancel);
+
+	topPanel.add(buttonPanel);
+	topPanel.add(titlePanel);
+	return topPanel;
+    }
+
+    private JPanel setBottomPanel(JPanel boxPanel) {
 	JPanel bottomPanel = new JPanel(new GridLayout(1, 2));
 	JButton previusPage = new JButton("Previews box");
 	JButton nextPage = new JButton("Next box");
@@ -121,18 +155,7 @@ public class BoxPanel extends JPanel {
 
 	nextPage.addActionListener(e -> cardLayout.next(boxPanel));
 	previusPage.addActionListener(e -> cardLayout.previous(boxPanel));
-
-	JPanel topPanel = new JPanel(new GridLayout(1, 5));
-
-	topPanel.add(exchange);
-	topPanel.add(deposit);
-	topPanel.add(take);
-	topPanel.add(cancel);
-
-	this.add(topPanel, BorderLayout.NORTH);
-	this.add(boxPanel, BorderLayout.CENTER);
-	this.add(playerMonstersPanel, BorderLayout.EAST);
-	this.add(bottomPanel, BorderLayout.SOUTH);
+	return bottomPanel;
     }
 
     private void setJCheckBoxProp(JCheckBox checkbox) {
@@ -163,7 +186,7 @@ public class BoxPanel extends JPanel {
 	this.idPlayerMonster = idPlayerMonster;
     }
 
-    private JPanel setMonsterPanel(int monsterId, JPanel playerMonstersPanel, boolean isTeam) {
+    private JPanel setMonsterPanel(int monsterId, JPanel MonstersPanel, boolean isTeam) {
 	JPanel panel = new JPanel(new GridLayout(1, 2));
 	panel.setBorder(BorderFactory.createLineBorder(Color.black));
 	JLabel label = new JLabel();
@@ -175,7 +198,6 @@ public class BoxPanel extends JPanel {
 	JCheckBox checkBoxPlayer = new JCheckBox();
 	setJCheckBoxProp(checkBoxPlayer);
 	checkBoxPlayer.setText(Integer.toString(monsterId));
-	checkBoxPlayer.setForeground(new Color(0, 0, 0, 0));
 	checkBoxPlayer.addActionListener(new ActionListener() {
 	    public void actionPerformed(ActionEvent e) {
 		JCheckBox cb = (JCheckBox) e.getSource();
@@ -185,14 +207,15 @@ public class BoxPanel extends JPanel {
 		    if (cb.isSelected()) {
 			if (isTeam) {
 			    setIdPlayerMonster(Integer.parseInt(cb.getText()));
+			    take.setEnabled(true);
 			} else {
 			    setIdBoxMonster(Integer.parseInt(cb.getText()));
+			    deposit.setEnabled(true);
 			}
-			setPanelEnabled(playerMonstersPanel, false);
-			setButtonEnabled(deposit);
+			setPanelEnabled(MonstersPanel, false);
 			exchangecont++;
 			if (exchangecont == 2) {
-			    setButtonEnabled(exchange);
+			    exchange.setEnabled(true);
 			}
 		    }
 		} else {
@@ -208,14 +231,6 @@ public class BoxPanel extends JPanel {
 
     private int numberOfPage(List<Integer> boxNames) {
 	return ((int) boxNames.size() / NUMBEROFMONSTERPERPAGE) + 1;
-    }
-
-    private void setButtonEnabled(JButton button) {
-	button.setEnabled(true);
-    }
-
-    private void setButtonDisabled(JButton button) {
-	button.setEnabled(false);
     }
 
     private void setLabelProp(JLabel label) {

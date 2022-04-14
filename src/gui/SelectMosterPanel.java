@@ -28,7 +28,6 @@ public class SelectMosterPanel extends JPanel {
     private void init() {
 	CardLayout c1 = (CardLayout) this.parentPanel.getLayout();
 	this.setLayout(c1);
-	
 	JPanel containerPanel = new JPanel(new BorderLayout());
 	List<Integer> monsterIds = this.playerController.getMonstersId();
 
@@ -44,7 +43,7 @@ public class SelectMosterPanel extends JPanel {
 
 	    JButton checkButton = new JButton("USE ON THIS MONSTER");
 	    checkButton.addActionListener(e -> {
-		//TODO this.playerController.useItem(this.itemName, monsterId);
+		this.playerController.useItemOnMonster(this.itemName, monsterId);
 		this.repaint();
 		update();
 	    });
