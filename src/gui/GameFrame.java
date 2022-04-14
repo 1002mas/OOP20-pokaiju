@@ -125,7 +125,7 @@ public class GameFrame extends JFrame {
     private void changeToBattle() {
 	if (playerController.hasBattleStarted()) {
 	    BattlePanel b = (BattlePanel) (this.subPanels.get(BATTLE_PANEL));
-	    b.setBattleController(this.playerController.getBattleController().get());
+	    b.setBattleController(this.playerController.getBattleController().get(),this.playerController);
 	    changePanel(BATTLE_PANEL);
 	}
     }
