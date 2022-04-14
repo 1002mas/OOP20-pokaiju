@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,6 +13,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 
@@ -26,7 +28,7 @@ public class PlayerPanel extends JPanel {
 
     private final ImagesLoader imgLoader;
     private final JLabel player = new JLabel();
-    private final JLabel textLabel = new JLabel();
+    private final JTextArea textLabel = new JTextArea();
     private final int maximumCellsInRow;
     private final int maximumCellsInColumn;
     private final String player_gender;
@@ -51,12 +53,13 @@ public class PlayerPanel extends JPanel {
 	this.add(player);
 	this.setOpaque(false);
 
-	textLabel.setOpaque(true);
-	textLabel.setBackground(Color.WHITE);
+	this.textLabel.setOpaque(true);
+	this.textLabel.setBackground(Color.WHITE);
 	Border labelBorder = BorderFactory.createLineBorder(Color.BLACK, 5);
-	textLabel.setBorder(labelBorder);
-	textLabel.setVerticalAlignment(SwingUtilities.TOP);
-	textLabel.setVisible(false);
+	this.textLabel.setBorder(labelBorder);
+	this.textLabel.setEditable(false);
+	this.textLabel.setLineWrap(true);
+	this.textLabel.setVisible(false);
     }
 
     @Override
@@ -82,6 +85,9 @@ public class PlayerPanel extends JPanel {
 
 	this.movementStep = new Pair<>(horizontalMovementStep, verticalMovementStep);
 	this.cellRelativePos = new Pair<>(cellRelativePosX, cellRelativePosY);
+
+	double fontRatio = 0.22;
+	this.textLabel.setFont(new Font(Font.SERIF, Font.PLAIN, (int) (fontRatio * height)));
 
 	this.setNextPosition(this.playerNextPos);
 	this.playerPos = playerNextPos;
