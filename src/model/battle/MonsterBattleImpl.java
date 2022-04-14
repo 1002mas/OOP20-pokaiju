@@ -169,6 +169,7 @@ public class MonsterBattleImpl implements MonsterBattle {
 	    this.battleStatus = false;
 	    this.trainer.setMoney(trainer.getMoney() - MONEY_LOST);
 	    restoreAllMonsters();
+	    trainer.evolveMonsters();
 	}
 
 	if (!areThereEnemies()) {
@@ -179,6 +180,7 @@ public class MonsterBattleImpl implements MonsterBattle {
 		enemyTrainer.get().isDefeated();
 	    }
 	    this.battleStatus = false;
+	    trainer.evolveMonsters();
 	} else {
 	    this.enemy = enemyTeam.stream().filter(m -> m.isAlive()).findAny().get(); // change enemy's
 										      // monster
@@ -250,13 +252,11 @@ public class MonsterBattleImpl implements MonsterBattle {
 
     @Override
     public Player getPlayer() {
-	// TODO Auto-generated method stub
 	return this.trainer;
     }
 
     @Override
     public Optional<NpcTrainer> getNpcEnemy() {
-	// TODO Auto-generated method stub
 	return this.enemyTrainer;
     }
 }

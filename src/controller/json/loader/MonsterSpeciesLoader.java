@@ -18,21 +18,27 @@ public class MonsterSpeciesLoader {
 	private final String info;
 	private final MonsterType type;
 	private final EvolutionType evolutionType;
-	private final MonsterStats stats;
 	private final List<Pair<String, Integer>> allMoves;
 	private Optional<String> evolutionItem;
 	private Optional<Integer> evolutionLevel;
+	private int health;
+	private int attack;
+	private int def;
+	private int speed;
 
 	public MonsterSpeciesLoader(Optional<String> evolution, String name, String info, MonsterType type,
-			EvolutionType evolutionType, MonsterStats stats, List<Pair<String, Integer>> allMoves,
-			Optional<String> evolutionItem, Optional<Integer> evolutionLevel) {
+			EvolutionType evolutionType, int health, int attack, int def, int speed,
+			List<Pair<String, Integer>> allMoves, Optional<String> evolutionItem, Optional<Integer> evolutionLevel) {
 
 		this.evolution = evolution;
 		this.name = name;
 		this.info = info;
 		this.type = type;
 		this.evolutionType = evolutionType;
-		this.stats = stats;
+		this.health = health;
+		this.attack = attack;
+		this.def = def;
+		this.speed = speed;
 		this.allMoves = allMoves;
 		this.evolutionItem = evolutionItem;
 		this.evolutionLevel = evolutionLevel;
@@ -56,20 +62,21 @@ public class MonsterSpeciesLoader {
 	}
 
 	public int getAttack() {
-		return this.stats.getAttack();
+		return this.attack;
 	}
-	
+
 	public int getDefense() {
-		return this.stats.getDefense();
+		return this.def;
 	}
-	
+
 	public int getHealth() {
-		return this.stats.getHealth();
+		return this.health;
 	}
-	
+
 	public int getSpeed() {
-		return this.stats.getSpeed();
+		return this.speed;
 	}
+
 	public List<Pair<Moves, Integer>> getAllMoves(List<Moves> movesList) {
 		List<Pair<Moves, Integer>> moves = new ArrayList<>();
 		for (Pair<String, Integer> n : this.allMoves) {
@@ -88,8 +95,8 @@ public class MonsterSpeciesLoader {
 	}
 
 	public Optional<GameItem> getEvolutionGameItem(List<GameItem> list) {
-		for(GameItem gameItem: list) {
-			if(gameItem.getNameItem().equals(this.evolutionItem.get())) {
+		for (GameItem gameItem : list) {
+			if (gameItem.getNameItem().equals(this.evolutionItem.get())) {
 				return Optional.of(gameItem);
 			}
 		}

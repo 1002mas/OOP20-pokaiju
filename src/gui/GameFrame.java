@@ -14,7 +14,6 @@ import javax.swing.JPanel;
 
 import controller.Direction;
 import controller.PlayerController;
-import model.Pair;
 
 public class GameFrame extends JFrame {
     private static final long serialVersionUID = -7927156597267134363L;
@@ -24,6 +23,7 @@ public class GameFrame extends JFrame {
     static final String MAP_PANEL = "map panel";
     static final String BATTLE_PANEL = "battle panel";
     static final String MERCHANT_PANEL = "merchant panel";
+    static final String EVOLVE_PANEL = "evolve panel";
 
     private final int size;
     private final CardLayout cLayout = new CardLayout();
@@ -66,11 +66,13 @@ public class GameFrame extends JFrame {
 	JPanel menuPanel = buildMenuPanel();
 
 	JPanel battlePanel = new BattlePanel(imgLoad, this);
+	JPanel evolvePanel = new EvolutionPanel(playerController, this, imgLoad);
 
 	mainPanel.add(loginPanel, LOGIN_PANEL);
 	mainPanel.add(newGamePanel, NEW_GAME_PANEL);
 	mainPanel.add(menuPanel, MENU_PANEL);
 	mainPanel.add(battlePanel, BATTLE_PANEL);
+	mainPanel.add(evolvePanel,EVOLVE_PANEL);
 
 	subPanels.put(LOGIN_PANEL, loginPanel);
 	subPanels.put(NEW_GAME_PANEL, newGamePanel);
@@ -101,12 +103,10 @@ public class GameFrame extends JFrame {
 	TwoLayersPanel p = (TwoLayersPanel) subPanels.get(MAP_PANEL);
 	PlayerPanel topPanel = p.getTopPanel();
 	boolean animationOn = true;
-	Pair<Integer, Integer> newPosition = playerController.getPlayerPosition();
-
-	if (playerController.canPassThrough(dir)) {
-	    newPosition = playerController.movePlayer(dir);
-	    topPanel.setNextPosition(newPosition);
-	    if (playerController.canChangeMap()) {
+	boolean canPlayerMove = this.playerController.movePlayer(dir);
+	if (canPlayerMove) {
+	    topPanel.setNextPosition(this.playerController.getPlayerPosition());
+	    if (playerController.hasPlayerChangedMap()) {
 		List<BufferedImage> mapImageSequence = imgLoad.getMapByID(this.playerController.getCurrentMapID());
 		p.setMapImage(mapImageSequence);
 		topPanel.setNpcs(this.playerController.getAllNpcs());
@@ -115,7 +115,7 @@ public class GameFrame extends JFrame {
 	}
 
 	if (animationOn) {
-	    topPanel.animatedMove(dir, playerController.hasPlayerMoved());
+	    topPanel.animatedMove(dir, canPlayerMove);
 	} else {
 	    topPanel.staticMove();
 	}
