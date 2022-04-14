@@ -5,15 +5,11 @@ package model.map;
  */
 public enum MapBlockType {
     /**
-     * it's the map limit, you can't go from there on.
-     */
-    BORDER(false, false),
-    /**
      * it's an obstacle you can't walk through
      **/
     MAP_CHANGE(true, false),
     /**
-     * it's an area where you can walk
+     * it's an area where you can't walk
      */
     OBSTACLE(false, false),
     /**
