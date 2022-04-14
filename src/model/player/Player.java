@@ -2,12 +2,15 @@ package model.player;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import model.Pair;
+import model.battle.MonsterBattle;
 import model.gameitem.*;
 import model.map.GameMap;
 import model.monster.Monster;
 import model.monster.MonsterSpecies;
+import model.npc.NpcSimple;
 
 public interface Player {
     /**
@@ -199,5 +202,34 @@ public interface Player {
      * @return map
      */
     GameMap getMap();
+
+    /**
+     * This function returns if Player has changed Map after movement
+     * 
+     * @return true if changed map
+     */
+    boolean hasPlayerChangedMap();
+
+    /**
+     * This function returns if Player has interaction with Npc
+     * 
+     * @return true if there is a Npc
+     */
+    boolean interactAt(Pair<Integer, Integer> pos);
+
+    /**
+     * This function returns if there was a interaction with Npc
+     * 
+     * @return last interacted Npc
+     */
+    Optional<NpcSimple> getLastInteractionWithNpc();
+
+    /**
+     * This function returns a battle if a wild monster attacked while player was
+     * moving or the Player talked with a Npc
+     * 
+     * @return a battle if any is present
+     */
+    Optional<MonsterBattle> getPlayerBattle();
 
 }

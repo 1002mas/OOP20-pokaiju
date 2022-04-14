@@ -5,12 +5,18 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import model.Pair;
+import model.battle.MonsterBattle;
+import model.battle.MonsterBattleImpl;
 import model.gameitem.GameItem;
 import model.map.GameMap;
 import model.monster.Monster;
 import model.monster.MonsterSpecies;
+import model.npc.NpcSimple;
+import model.npc.NpcTrainer;
+import model.npc.TypeOfNpc;
 
 public class PlayerImpl implements Player {
     private static final int STARTMONEY = 1000;
@@ -24,6 +30,10 @@ public class PlayerImpl implements Player {
     private int money;
     private List<Pair<MonsterSpecies, MonsterSpecies>> evolutionList;
     private GameMap map;
+    private boolean hasMapChanged;
+    private Optional<NpcSimple> npc;
+    private Optional<MonsterBattle> monsterBattle;
+   
 
     public PlayerImpl(String name, Gender gender, int trainerNumber, Pair<Integer, Integer> startingPosition,
 	    GameMap map) {
@@ -35,6 +45,9 @@ public class PlayerImpl implements Player {
 	this.gameItems = new HashMap<GameItem, Integer>();
 	this.money = STARTMONEY;
 	this.map = map;
+	this.npc = Optional.empty();
+	this.monsterBattle = Optional.empty();
+
     }
 
     @Override
@@ -184,6 +197,15 @@ public class PlayerImpl implements Player {
     public int getItemQuantity(GameItem i) {
 	return this.gameItems.get(i);
     }
+    
+    @Override
+    public Optional<NpcSimple> getLastInteractionWithNpc() {
+        return npc;
+    }
+    @Override
+    public Optional<MonsterBattle> getPlayerBattle() {
+        return monsterBattle;
+    }
 
     @Override
     public void evolveMonsters() {
@@ -215,12 +237,42 @@ public class PlayerImpl implements Player {
     }
 
     private boolean move(int x, int y) {
+	this.hasMapChanged = false;
+	this.monsterBattle = Optional.empty();
 	Pair<Integer, Integer> nextPosition = new Pair<>(position.getFirst() + x, position.getSecond() + y);
-	if (map.canPassThrough(nextPosition)) {
+	boolean canMove = map.canPassThrough(nextPosition);
+
+	if (canMove) {
 	    this.position = nextPosition;
-	    return true;
+	    if (map.canChangeMap(nextPosition)) {
+		this.hasMapChanged = true;
+		map.changeMap(nextPosition);
+		this.position = map.getPlayerMapPosition().get();
+	    }
 	}
-	return false;
+	Optional<Monster> monster = map.getWildMonster(this.position);
+	if (monster.isPresent()) {
+	    this.monsterBattle = Optional.of(new MonsterBattleImpl(this, monster.get()));
+	}
+	return canMove;
+    }
+
+    @Override
+    public boolean hasPlayerChangedMap() {
+	return this.hasMapChanged;
+    }
+    
+    @Override
+    public boolean interactAt(Pair<Integer, Integer> pos) {
+	this.monsterBattle = Optional.empty();
+	this.npc = map.getNpcAt(pos);
+	if (npc.isPresent() && npc.get().getTypeOfNpc() == TypeOfNpc.TRAINER) {
+	    NpcTrainer trainer = (NpcTrainer) npc.get();
+	    if (!trainer.isDefeated()) {
+		this.monsterBattle = Optional.of(new MonsterBattleImpl(this, trainer));
+	    }
+	}
+	return npc.isPresent();
     }
 
     @Override
