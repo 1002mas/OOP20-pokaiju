@@ -9,19 +9,17 @@ public class UniqueMonsterEventLoader {
 	private int id;
 	private boolean isToActiveImmediatly;
 	private boolean isActive;
-	private boolean isDeactivable;
 	private List<Integer> eventsToActivate;
 	private List<Integer> eventsToDeactivate;
 	private Integer monster;
 
-	public UniqueMonsterEventLoader(int id, boolean isToActiveImmediatly, boolean isActive, boolean isDeactivable,
+	public UniqueMonsterEventLoader(int id, boolean isToActiveImmediatly, boolean isActive,
 			List<Integer> eventsToActivate, List<Integer> eventsToDeactivate, Integer monster) {
 
 		this.id = id;
 		this.eventsToActivate = eventsToActivate;
 		this.eventsToDeactivate = eventsToDeactivate;
 		this.isActive = isActive;
-		this.isDeactivable = isDeactivable;
 		this.isToActiveImmediatly = isToActiveImmediatly;
 		this.monster = monster;
 
@@ -37,10 +35,6 @@ public class UniqueMonsterEventLoader {
 
 	public boolean getIsActive() {
 		return this.isActive;
-	}
-
-	public boolean getIsDeactivable() {
-		return this.isDeactivable;
 	}
 
 	public List<Integer> getEventsToActivate() {

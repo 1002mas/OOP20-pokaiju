@@ -15,15 +15,22 @@ public class MonsterLoader {
 	private int level;
 	private String species;
 	private List<Pair<String, Integer>> movesList;
-	private MonsterStats stats;
+	private int health;
+	private int attack;
+	private int def;
+	private int speed;
 
-	public MonsterLoader(int id, int exp, int level, String species, List<Pair<String, Integer>> movesList,
-			MonsterStats stats) {
+	public MonsterLoader(int id, int exp, int level, String species, List<Pair<String, Integer>> movesList, int health,
+			int attack, int def, int speed) {
 		this.id = id;
 		this.exp = exp;
 		this.level = level;
-		this.stats = stats;
+		this.health = health;
+		this.attack = attack;
+		this.def = def;
+		this.speed = speed;
 		this.movesList = movesList;
+		this.species = species;
 	}
 
 	public int getId() {
@@ -39,19 +46,19 @@ public class MonsterLoader {
 	}
 
 	public int getAttack() {
-		return this.stats.getAttack();
+		return this.attack;
 	}
 
 	public int getDefense() {
-		return this.stats.getDefense();
+		return this.def;
 	}
 
 	public int getHealth() {
-		return this.stats.getHealth();
+		return this.health;
 	}
 
 	public int getSpeed() {
-		return this.stats.getSpeed();
+		return this.speed;
 	}
 
 	public MonsterSpecies getTranslatedMonsterSpecies(List<MonsterSpecies> list) {

@@ -1,0 +1,1 @@
+{"evolution":{"value":"Optioanl:evolution"},"name":"nome2","info":"info","type":"FIRE","evolutionType":"ITEM","allMoves":[{"first":"Braciere","second":50},{"first":"Attacco","second":10},{"first":"Volo","second":50}],"evolutionItem":{"value":"evolutionItem"},"evolutionLevel":{"value":5},"health":10,"attack":10,"def":10,"speed":10}
