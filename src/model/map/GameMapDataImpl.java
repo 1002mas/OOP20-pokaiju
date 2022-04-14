@@ -60,7 +60,7 @@ public class GameMapDataImpl implements GameMapData {
 
     @Override
     public MapBlockType getBlockType(Pair<Integer, Integer> block) {
-	return blocks.containsKey(block) ? blocks.get(block) : MapBlockType.BORDER;
+	return blocks.containsKey(block) ? blocks.get(block) : MapBlockType.OBSTACLE;
     }
 
     @Override
