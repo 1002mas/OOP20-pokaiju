@@ -72,9 +72,9 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 	private static final String NPC_HEALER_PATH = NPC_BASE_PATH + "npcHealer" + File.separator;
 	private static final String NPC_TRAINER_PATH = NPC_BASE_PATH + "npcTrainer" + File.separator;
 	private static final String NPC_MERCHANT_PATH = NPC_BASE_PATH + "npcMerchant" + File.separator;
-	private static final String MONSTER_SPECIES_PATH = BASE_PATH + File.separator + "monsterSpecies" + File.separator;
-	private static final String GAME_ITEM_PATH = BASE_PATH + File.separator + "gameItem" + File.separator + "evolution"
-			+ File.separator;
+	private static final String MONSTER_SPECIES_PATH = BASE_PATH + "monsterSpecies" + File.separator;
+	private static final String GAME_ITEM_PATH = BASE_PATH + "gameItem" + File.separator;
+
 	private static final String MONSTER_PATH = BASE_PATH + "monster" + File.separator;
 	private static final String GAME_MAP_DATA_PATH = BASE_PATH + "gameMapData" + File.separator;
 	private static final String GAME_DATA_PATH = SAVES_BASE_PATH + "gameData.json";
@@ -86,13 +86,14 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 	private static final int MAXIMUM_BLOCK_IN_COLUMN = 20;
 
 	// TODO java doc
+	// TODO delete newArrayList
 	private GsonBuilder gsonBuilder;
 	private Gson gson;
-	private List<Moves> moves;
-	private List<Monster> monster;
-	private List<MonsterSpecies> monsterSpecies;
+	private List<Moves> moves = new ArrayList<Moves>();
+	private List<GameItem> gameItems = new ArrayList<GameItem>();
+	private List<MonsterSpecies> monsterSpecies =  new ArrayList<>();
+	private List<Monster> monster = new ArrayList<>();
 	private List<NpcSimple> npcs;
-	private List<GameItem> gameItems;
 	private List<GameMapData> gameMapData;
 	private List<GameEvent> events;
 	private List<String> npcDefeated;
@@ -110,12 +111,12 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 		loadGameItems();
 		loadMonsterSpecies();
 		loadMonsters();
-		loadEvents();
-		loadNpcs();
-		loadGameMapData();
+		// loadEvents();
+		// loadNpcs();
+		// loadGameMapData();
 	}
 
-	private void loadMoves() {
+	public void loadMoves() {
 		File folder = new File(MOVES_PATH);
 		for (File file : folder.listFiles()) {
 			String filePath = file.getPath();
@@ -207,8 +208,8 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 		}
 		int oldListSize = mssList.size();
 		loadSimpleMonsters(mssList);
-
 		while (!mssList.isEmpty() && oldListSize != mssList.size()) {
+			
 			oldListSize = mssList.size();
 			loadEvolvableMonsters(mssList);
 		}
@@ -411,7 +412,7 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 						UniqueMonsterEventLoader.class);
 				UniqueMonsterEvent uniqueMonsterEvent = new UniqueMonsterEvent(uniqueMonsterEventLoader.getId(),
 						uniqueMonsterEventLoader.getIsActive(), uniqueMonsterEventLoader.getIsToActiveImmediatly(),
-						uniqueMonsterEventLoader.getTranslatedMonster(this.monster), this.player);
+						uniqueMonsterEventLoader.getTranslatedMonster(this.monster));
 				this.events.add(uniqueMonsterEvent);
 				loadList.add(uniqueMonsterEventLoader);
 
