@@ -23,6 +23,7 @@ public class GameFrame extends JFrame {
     static final String MAP_PANEL = "map panel";
     static final String BATTLE_PANEL = "battle panel";
     static final String MERCHANT_PANEL = "merchant panel";
+    static final String EVOLVE_PANEL = "evolve panel";
 
     private final int size;
     private final CardLayout cLayout = new CardLayout();
@@ -65,11 +66,13 @@ public class GameFrame extends JFrame {
 	JPanel menuPanel = buildMenuPanel();
 
 	JPanel battlePanel = new BattlePanel(imgLoad, this);
+	JPanel evolvePanel = new EvolutionPanel(playerController, this, imgLoad);
 
 	mainPanel.add(loginPanel, LOGIN_PANEL);
 	mainPanel.add(newGamePanel, NEW_GAME_PANEL);
 	mainPanel.add(menuPanel, MENU_PANEL);
 	mainPanel.add(battlePanel, BATTLE_PANEL);
+	mainPanel.add(evolvePanel,EVOLVE_PANEL);
 
 	subPanels.put(LOGIN_PANEL, loginPanel);
 	subPanels.put(NEW_GAME_PANEL, newGamePanel);
