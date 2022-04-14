@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import controller.BattleController;
+import controller.PlayerController;
 
 public class BattlePanel extends JPanel {
 
@@ -36,6 +37,7 @@ public class BattlePanel extends JPanel {
     private JLabel enemyMonsterImg = new JLabel();
 
     private BattleController ctrl;
+    private PlayerController playerCtrl;
     private ImagesLoader img;
     private GameFrame gameFrame;
 
@@ -44,8 +46,9 @@ public class BattlePanel extends JPanel {
 	this.gameFrame = frame;
     }
 
-    public void setBattleController(BattleController ctrl) {
+    public void setBattleController(BattleController ctrl,PlayerController playerCtrl) {
 	this.ctrl = ctrl;
+	this.playerCtrl = playerCtrl;
     }
 
     private String getCurrentPlayerMonsterData() {
@@ -88,7 +91,12 @@ public class BattlePanel extends JPanel {
 		    if (ctrl.isOver()) {
 			// ENDING BATTLE player team dead
 			actionText.setText("You lose...");
-			this.gameFrame.changePanel(GameFrame.MAP_PANEL);
+			if(this.playerCtrl.hasAnyMonsterEvolved()) {
+			    this.gameFrame.changePanel(GameFrame.EVOLVE_PANEL);
+			}else {
+			    this.gameFrame.changePanel(GameFrame.MAP_PANEL);
+			}
+			
 		    } else {
 			loadMonsters();
 			cLayout.show(this.panelMap.get(SOUTH_PANEL), MONSTER);
@@ -97,7 +105,11 @@ public class BattlePanel extends JPanel {
 		    if (ctrl.isOver()) {
 			// ENDING BATTLE enemy team dead
 			actionText.setText("You have defeated all the enemies!!");
-			this.gameFrame.changePanel(GameFrame.MAP_PANEL);
+			if(this.playerCtrl.hasAnyMonsterEvolved()) {
+			    this.gameFrame.changePanel(GameFrame.EVOLVE_PANEL);
+			}else {
+			    this.gameFrame.changePanel(GameFrame.MAP_PANEL);
+			}
 		    } else {
 			refresh();
 		    }
