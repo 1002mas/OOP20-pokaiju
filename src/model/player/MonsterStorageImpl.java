@@ -6,7 +6,7 @@ import java.util.List;
 import model.Pair;
 import model.monster.Monster;
 
-public class MonsterStorageImpl {
+public class MonsterStorageImpl implements MonsterStorage{
 
 	private static final int MAX_NUMBER_OF_BOX = 10;
 	private static final String INITIAL_BOX_NAME = "BOX";

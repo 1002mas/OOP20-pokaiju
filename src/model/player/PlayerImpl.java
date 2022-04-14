@@ -34,6 +34,7 @@ public class PlayerImpl implements Player {
     private boolean hasMapChanged;
     private Optional<NpcSimple> npc;
     private Optional<MonsterBattle> monsterBattle;
+    private MonsterStorage storage = new MonsterStorageImpl(this);
 
     public PlayerImpl(String name, Gender gender, int trainerNumber, Pair<Integer, Integer> startingPosition,
 	    GameMap map) {
@@ -147,6 +148,7 @@ public class PlayerImpl implements Player {
     @Override
     public boolean addMonster(Monster m) {
 	if (isTeamFull()) {
+	    this.storage.addMonster(m);
 	    return false;
 	} else {
 	    return this.team.add(m);

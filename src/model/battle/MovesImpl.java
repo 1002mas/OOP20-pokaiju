@@ -55,7 +55,6 @@ public class MovesImpl implements Moves {
 
     @Override
     public int getDamage(MonsterType type) {
-	// TODO Auto-generated method stub
 	return (int) this.type.damageTo(type);
     }
     

@@ -245,12 +245,7 @@ public class PlayerControllerImpl implements PlayerController {
 
     @Override
     public boolean addMonster(int monsterId) { // --
-	/*
-	 * //TODO if (!player.isTeamFull()) { for (Monster monster : gameMonster) { if
-	 * (monster.getId() == monsterId) { player.addMonster(monster); } return true; }
-	 * }
-	 */
-	return false;
+	return this.player.addMonster(this.dataController.getMonster(monsterId)); 
     }
 
     @Override
