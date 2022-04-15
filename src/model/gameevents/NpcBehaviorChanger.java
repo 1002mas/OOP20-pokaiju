@@ -73,7 +73,7 @@ public class NpcBehaviorChanger extends AbstractGameEvent {
 	    }
 	    // interaction active change
 	    if (npcsEnabled.get(i).isPresent()) {
-		npcs.get(i).setVisible(npcsEnabled.get(i).get());
+		npcs.get(i).setEnabled(npcsEnabled.get(i).get());
 	    }
 	}
     }

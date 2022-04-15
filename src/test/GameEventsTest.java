@@ -43,18 +43,19 @@ public class GameEventsTest {
 
     @Before
     public void initFactory() {
-	player = new PlayerImpl("Player", Gender.MAN, 4343, new Pair<>(1, 0));
-	List<Pair<Moves, Integer>> moves = List.of(new Pair<>(new MovesImpl("Slap", 20, MonsterType.FIRE, 10), 2));
+	player = new PlayerImpl("Player", Gender.MAN, 4343, new Pair<>(1, 0), null);
+	List<Moves> movesSpecies = List.of(new MovesImpl("Slap", 20, MonsterType.FIRE, 10));
+	List<Pair<Moves, Integer>> moves = List.of(new Pair<>(movesSpecies.get(0), 2));
 
-	MonsterSpecies monsterSpeciesA = new MonsterSpeciesBuilderImpl().name("MonsterA").allMoves(moves)
+	MonsterSpecies monsterSpeciesA = new MonsterSpeciesBuilderImpl().name("MonsterA").movesList(movesSpecies)
 		.monsterType(MonsterType.FIRE).attack(5).speed(5).defense(5).health(5).info("Fire monsterA").build();
 	this.monsterA = new MonsterBuilderImpl().level(5).species(monsterSpeciesA).movesList(moves).build();
 
-	MonsterSpecies monsterSpeciesB = new MonsterSpeciesBuilderImpl().name("MonsterB").allMoves(moves)
+	MonsterSpecies monsterSpeciesB = new MonsterSpeciesBuilderImpl().name("MonsterB").movesList(movesSpecies)
 		.monsterType(MonsterType.WATER).attack(5).speed(5).defense(5).health(5).info("Water monsterB").build();
 	this.monsterB = new MonsterBuilderImpl().level(5).species(monsterSpeciesB).movesList(moves).build();
 
-	MonsterSpecies monsterSpeciesC = new MonsterSpeciesBuilderImpl().name("MonsterA").allMoves(moves)
+	MonsterSpecies monsterSpeciesC = new MonsterSpeciesBuilderImpl().name("MonsterA").movesList(movesSpecies)
 		.monsterType(MonsterType.GRASS).attack(5).speed(5).defense(5).health(5).info("Grass monsterC").build();
 	this.monsterC = new MonsterBuilderImpl().level(5).species(monsterSpeciesC).movesList(moves).build();
     }
@@ -75,6 +76,9 @@ public class GameEventsTest {
 	npcDisappearingEvent.addNpcVisibilityChange(item1, false);
 	npcDisappearingEvent.addNpcVisibilityChange(item2, false);
 	npcDisappearingEvent.addNpcVisibilityChange(item3, false);
+	npcDisappearingEvent.addNpcInteractbilityChange(item1, false);
+	npcDisappearingEvent.addNpcInteractbilityChange(item2, false);
+	npcDisappearingEvent.addNpcInteractbilityChange(item3, false);
 
 	GameEvent eventA = new MonsterGift(1, true, true, false, List.of(this.monsterA), player);
 	eventA.addSuccessiveGameEvent(npcDisappearingEvent);
@@ -137,7 +141,7 @@ public class GameEventsTest {
     }
 
     private GameMap initMonsterSpawnMap(Pair<Integer, Integer> eventPosition, List<NpcSimple> npcs,
-	    UniqueMonsterEvent monsterEvent) {
+	    GameEvent monsterEvent) {
 	Map<Pair<Integer, Integer>, MapBlockType> blocks = new HashMap<>();
 	int rows = 20;
 	int columns = 20;
@@ -155,7 +159,7 @@ public class GameEventsTest {
     @Test
     public void uniqueMonsterSpawn() {
 	// interaction with npc then monster spawn available
-	UniqueMonsterEvent monsterEvent = new UniqueMonsterEvent(15, false, false, monsterA, player);
+	GameEvent monsterEvent = new UniqueMonsterEvent(15, false, false, monsterA);
 	player.addMonster(monsterB);
 
 	Pair<Integer, Integer> eventPosition = new Pair<>(10, 10);
@@ -163,7 +167,7 @@ public class GameEventsTest {
 	NpcSimple mario = new NpcSimpleImpl("Mario", List.of("There is a special monster over there"), new Pair<>(0, 0),
 		true, true);
 
-	NpcBehaviorChanger npcEvent = new NpcBehaviorChanger(1, true, true, false);
+	GameEvent npcEvent = new NpcBehaviorChanger(1, true, true, false);
 	npcEvent.addSuccessiveGameEvent(monsterEvent);
 	mario.addGameEvent(npcEvent);
 
@@ -176,7 +180,7 @@ public class GameEventsTest {
 
 	assertTrue(map.getEventAt(eventPosition).get().isActive());
 	monsterEvent.activate();
-	assertEquals(monsterEvent.getMonsterBattle().get().getCurrentEnemyMonster(), monsterA);
+	assertTrue(monsterEvent.isBattle());
     }
 
 }

@@ -21,4 +21,9 @@ public class UniqueMonsterEvent extends AbstractGameEvent {
     protected void activateEvent() {
     }
 
+    @Override
+    public boolean isBattle() {
+	return true;
+    }
+
 }
