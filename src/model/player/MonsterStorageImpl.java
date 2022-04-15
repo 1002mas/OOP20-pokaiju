@@ -22,7 +22,7 @@ public class MonsterStorageImpl implements MonsterStorage {
 		if (monsterBoxes.size() > MAX_NUMBER_OF_BOX) {
 			this.monsterBoxes = monsterBoxes.subList(0, MAX_NUMBER_OF_BOX);
 		} else {
-			generateBoxs(MAX_NUMBER_OF_BOX - monsterBoxes.size());
+			generateBoxs(monsterBoxes.size());
 		}
 	}
 	

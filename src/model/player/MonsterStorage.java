@@ -60,16 +60,13 @@ public interface MonsterStorage {
      */
     public String getCurrentBoxName();
 
-<<<<<<< HEAD
-	/**
-	 * 
-	 * @return current box monsters list
-	 */
-	public List<Monster> getCurrentBoxMonsters();
-	public int getMaxSizeOfBox();
-	public int getMaxNumberOfBox();
-	public int currentBoxSize();
-=======
+    /**
+     * 
+     * @return current box size
+     */
+
+    public int currentBoxSize();
+
     /**
      * 
      * @return current box monsters list
@@ -87,5 +84,5 @@ public interface MonsterStorage {
      * @return maximum number of monster in each box
      */
     int getMaxNumberOfBox();
->>>>>>> cb2a10a1d50782eeac516ac08b02f601552d39d8
+
 }

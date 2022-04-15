@@ -5,7 +5,7 @@ package model.player;
  * @author Guo jiahao
  */
 public enum Gender {
-    MAN("Male"), WOMAN("Female");
+    MAN("male"), WOMAN("female");
 
     final String name;
 
