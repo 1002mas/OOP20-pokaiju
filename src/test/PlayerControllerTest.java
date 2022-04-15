@@ -130,11 +130,11 @@ public class PlayerControllerTest {
 		Pair<Integer, Integer> coord1 = new Pair<Integer, Integer>(1, 1);
 		Pair<Integer, Integer> coord2 = new Pair<Integer, Integer>(2, 2);
 
-		Pair<Pair<Integer, Integer>, MapBlockType> ddff = new Pair<>(coord1, MapBlockType.BORDER);
+		/*Pair<Pair<Integer, Integer>, MapBlockType> ddff = new Pair<>(coord1, MapBlockType.BORDER);
 
 		List<Pair<Pair<Integer, Integer>, MapBlockType>> blockList = new ArrayList<>();
 		blockList.add(ddff);
-
+		 */
 		//
 		Set<String> npcsString = new HashSet<>();
 		npcsString.add("nomeS");
@@ -200,14 +200,14 @@ public class PlayerControllerTest {
 
 		// List<GameEvent> eventList = dlc.getNpcs();
 
-		/*
+		
 		 * for(GameEvent n : dlc.getEvents()) { if(n.getEventID()==2) {
 		 * NpcBehaviorChanger m = (NpcBehaviorChanger) n; System.out.println(m); } }
-		 */
+		 
 
-		/*
-		 * dlc = new DataLoaderControllerImpl(); dlc.loadMoves();
-		 */
+		*/
+		  dlc = new DataLoaderControllerImpl(); dlc.getMonsters();
+		 
 	}
 
 }

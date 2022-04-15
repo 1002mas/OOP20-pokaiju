@@ -119,7 +119,7 @@ public class DataLoaderControllerImpl implements DataLoaderController {
 		loadGameItems();
 		loadMonsterSpecies();
 		loadMonsters();
-		loadNpcs();
+		//loadNpcs();
 		//loadEvents();
 		//loadGameMapData();
 		
