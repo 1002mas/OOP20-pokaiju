@@ -220,6 +220,24 @@ public interface PlayerController {
      */
     List<Integer> getBoxMonsters();
 
+    /**
+     * 
+     * @return maximum boxes
+     */
+    int getBoxNumbers();
+
+    /**
+     * 
+     * @return maximum monster in a box
+     */
+    int getMonstersForEachBox();
+
+    /**
+     * 
+     * @return true if player has one monster left
+     */
+    boolean isPlayerLastMonsterLeft();
+
     int getItemQuantity(String item);
 
     String getItemDescription(String item);
