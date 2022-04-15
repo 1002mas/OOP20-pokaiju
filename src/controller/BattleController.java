@@ -6,13 +6,6 @@ import java.util.Optional;
 public interface BattleController {
 
     /**
-     * Choose the player move in the battle and starts the turn
-     * 
-     * @return true if you can choose the selected move
-     */
-    // boolean chooseMove(int moveIndex);
-
-    /**
      * Get the id of the current player monster
      * 
      * @return id of the current monster
@@ -45,9 +38,6 @@ public interface BattleController {
      * 
      * @return current monster level
      */
-
-    // void useItem(GameItems gameItem, int monsterIndex);
-
     int getPlayerCurrentMonsterLevel();
 
     /**

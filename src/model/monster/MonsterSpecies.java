@@ -55,15 +55,7 @@ public interface MonsterSpecies {
      * @param level
      * @return a list of all learnable moves
      */
-    List<Moves> getAllLearnableMoves(int level);
-    
-    /**
-     * This function returns a move that can be learned in this level
-     * 
-     * @param level
-     * @return move that can be learned in this level
-     */
-    Optional<Moves> learnNewMove(int level);
+    List<Moves> getAllLearnableMoves();
 }
 
 

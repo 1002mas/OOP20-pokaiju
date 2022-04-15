@@ -2,7 +2,6 @@ package model.monster;
 
 import java.util.List;
 
-import model.Pair;
 import model.battle.Moves;
 import model.gameitem.GameItem;
 
@@ -79,14 +78,6 @@ public interface MonsterSpeciesBuilder {
      * @return a MonsterSpeciesBuilder
      */
     MonsterSpeciesBuilder speed(int speed);
-
-    /**
-     * Build species moves
-     * 
-     * @param allMoves
-     * @return a  MonsterSpeciesBuilder
-     */
-    MonsterSpeciesBuilder allMoves(List<Pair<Moves, Integer>> allMoves);
     
     /**
      * Build species item for evolving by level
@@ -95,6 +86,14 @@ public interface MonsterSpeciesBuilder {
      * @return a MonsterSpeciesBuilder
      */
     MonsterSpeciesBuilder gameItem(GameItem gameItem);
+    
+    /**
+     * Build species moves
+     * 
+     * @param allMoves
+     * @return a  MonsterSpeciesBuilder
+     */
+    MonsterSpeciesBuilder movesList(List<Moves> movesList);
     
     /**
      * Build MonsterSpecies
