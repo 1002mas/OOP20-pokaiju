@@ -12,7 +12,6 @@ import controller.PlayerController;
 public class LoginPanel extends JPanel {
     private static final long serialVersionUID = -7589477617567743318L;
     private static final int SPACE = 50;
-    private final JButton continueGame = new JButton(" CONTINUE ");
     private final JButton newGame = new JButton(" NEW GAME ");
     private final JButton quitGame = new JButton(" QUIT GAME ");
     private final PlayerController playerController;
@@ -24,22 +23,15 @@ public class LoginPanel extends JPanel {
 
     private void init() {
 	this.setLayout(new GridBagLayout());
-	continueGame.setEnabled(continueButtonVisibility());
 	final GridBagConstraints cons = new GridBagConstraints();
 	cons.gridy = 0;
 	cons.fill = GridBagConstraints.HORIZONTAL;
 	cons.ipady = 50;
 	cons.weightx = 0;
 	cons.insets = new Insets(SPACE, 0, 0, 0);
-	this.add(continueGame, cons);
-	cons.gridy++;
 	this.add(newGame, cons);
 	cons.gridy++;
 	this.add(quitGame, cons);
-    }
-
-    public JButton getContinue() {
-	return this.continueGame;
     }
 
     public JButton getnewGame() {
@@ -50,7 +42,4 @@ public class LoginPanel extends JPanel {
 	return this.quitGame;
     }
 
-    private boolean continueButtonVisibility() {
-	return this.playerController.dataExist();
-    }
 }

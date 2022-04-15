@@ -232,4 +232,20 @@ public interface Player {
      */
     Optional<MonsterBattle> getPlayerBattle();
 
+    /**
+     * This function updates storage
+     * 
+     * @param storage
+     */
+    void setStorage(MonsterStorage storage);
+
+    /**
+     * This function gets storage
+     * 
+     * @return storage
+     */
+    MonsterStorage getStorage();
+
+    boolean isTriggeredEvent();
+
 }

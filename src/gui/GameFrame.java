@@ -46,31 +46,37 @@ public class GameFrame extends JFrame {
 	mainPanel.setLayout(cLayout);
 
 	LoginPanel loginPanel = new LoginPanel(this.playerController);
-	loginPanel.getContinue().addActionListener(e -> {
-	    this.playerController.load();
-	    if (!subPanels.containsKey(MAP_PANEL)) {
-		JPanel gamePanel = buildMapPanel();
-		mainPanel.add(gamePanel, MAP_PANEL);
-		subPanels.put(MAP_PANEL, gamePanel);
-	    }
-	    changePanel(MAP_PANEL);
-	});
+	/*
+	 * loginPanel.getContinue().addActionListener(e -> {
+	 * this.playerController.load();
+	 */
 
+	/*
+	 * changePanel(MAP_PANEL); });
+	 */
+
+	if (!subPanels.containsKey(MAP_PANEL)) {
+	    JPanel gamePanel = buildMapPanel();
+	    mainPanel.add(gamePanel, MAP_PANEL);
+	    subPanels.put(MAP_PANEL, gamePanel);
+	}
+	
 	loginPanel.getnewGame().addActionListener(e -> changePanel(NEW_GAME_PANEL));
 	loginPanel.getquitGame().addActionListener(e -> System.exit(0));
+
+	JPanel evolvePanel = new EvolutionPanel(playerController, this, imgLoad);
 
 	JPanel newGamePanel = newGamePanel();
 
 	JPanel menuPanel = buildMenuPanel();
 
 	JPanel battlePanel = new BattlePanel(imgLoad, this);
-	JPanel evolvePanel = new EvolutionPanel(playerController, this, imgLoad);
 
 	mainPanel.add(loginPanel, LOGIN_PANEL);
 	mainPanel.add(newGamePanel, NEW_GAME_PANEL);
 	mainPanel.add(menuPanel, MENU_PANEL);
 	mainPanel.add(battlePanel, BATTLE_PANEL);
-	mainPanel.add(evolvePanel,EVOLVE_PANEL);
+	mainPanel.add(evolvePanel, EVOLVE_PANEL);
 
 	subPanels.put(LOGIN_PANEL, loginPanel);
 	subPanels.put(NEW_GAME_PANEL, newGamePanel);
@@ -123,7 +129,7 @@ public class GameFrame extends JFrame {
     private void changeToBattle() {
 	if (playerController.hasBattleStarted()) {
 	    BattlePanel b = (BattlePanel) (this.subPanels.get(BATTLE_PANEL));
-	    b.setBattleController(this.playerController.getBattleController().get(),this.playerController);
+	    b.setBattleController(this.playerController.getBattleController().get(), this.playerController);
 	    changePanel(BATTLE_PANEL);
 	}
     }
