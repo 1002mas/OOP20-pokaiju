@@ -1,4 +1,4 @@
-package gui;
+package gui.panels;
 
 import java.awt.GridLayout;
 import java.awt.image.BufferedImage;
@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 
 import controller.Direction;
 import controller.PlayerController;
+import gui.ImagesLoader;
 
 public class TwoLayersPanel extends JPanel {
 

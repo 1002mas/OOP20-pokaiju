@@ -1,4 +1,4 @@
-package gui;
+package gui.panels;
 
 import java.awt.BorderLayout;
 import java.awt.event.ComponentEvent;
@@ -10,6 +10,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import controller.PlayerController;
+import gui.GameFrame;
+import gui.ImagesLoader;
 import model.Pair;
 
 public class EvolutionPanel extends JPanel {
@@ -39,7 +41,7 @@ public class EvolutionPanel extends JPanel {
 	this.setLayout(new BorderLayout());
 	this.add(imgMonster, BorderLayout.CENTER);
 	this.add(actionText, BorderLayout.SOUTH);
-	this.returnPanelName = GameFrame.MAP_PANEL;
+	this.returnPanelName = GameFrameImpl.MAP_VIEW;
 	this.playerController = ctrl;
 	init();
 	this.addMouseListener(new MouseListener() {
@@ -77,7 +79,7 @@ public class EvolutionPanel extends JPanel {
 		    // TODO Auto-generated catch block
 		    e1.printStackTrace();
 		}
-		frame.changePanel(returnPanelName);
+		frame.updateView(returnPanelName);
 	    }
 	});
 	this.addComponentListener(new ComponentListener() {
@@ -155,7 +157,7 @@ public class EvolutionPanel extends JPanel {
 		    // TODO Auto-generated catch block
 		    e1.printStackTrace();
 		}
-		frame.changePanel(GameFrame.MAP_PANEL);
+		frame.updateView(GameFrame.MAP_PANEL);
 	    }
 	});
 	this.addComponentListener(new ComponentListener() {

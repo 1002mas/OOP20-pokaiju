@@ -1,4 +1,4 @@
-package gui;
+package gui.panels;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -6,18 +6,21 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import controller.PlayerController;
+import gui.GameFrameImpl;
+import gui.ImagesLoader;
 
 public class MenuPanel extends JPanel {
     private static final long serialVersionUID = 5503139907518499045L;
     private final ImagesLoader imgLoad;
     private int size;
-    private final GameFrame gui;
+    private final GameFrameImpl gui;
     private final PlayerController playerController;
     private static final String MONSTERPANEL = "MONSTER";
     private static final String BOXPANEL = "BOX";
@@ -30,7 +33,7 @@ public class MenuPanel extends JPanel {
     private final JButton quit = new JButton(" QUIT MENU ");
     private final JButton backToMainMenu = new JButton(" BACK TO MAIN MENU ");
 
-    public MenuPanel(PlayerController playerController, ImagesLoader imgLoad, int size, GameFrame gui) {
+    public MenuPanel(PlayerController playerController, ImagesLoader imgLoad, int size, GameFrameImpl gui) {
 	this.playerController = playerController;
 	this.imgLoad = imgLoad;
 	this.size = size;
@@ -87,7 +90,7 @@ public class MenuPanel extends JPanel {
 	quit.addActionListener(e -> {
 	    monsterPanel.changePanel(Integer.toString(0));
 	    gameItemPanel.changePanel(GAMEITEMSPANEL);
-	    gui.changePanel(GameFrame.MAP_PANEL);
+	    gui.updateView(GameFrameImpl.MAP_VIEW);
 	});
 
 	backToMainMenu.addActionListener(new ActionListener() {
@@ -95,7 +98,7 @@ public class MenuPanel extends JPanel {
 		int result = JOptionPane.showConfirmDialog(null, "Sure? You want to exit?", "Warning",
 			JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 		if (result == JOptionPane.YES_OPTION) {
-		    gui.changePanel(GameFrame.LOGIN_PANEL);
+		    gui.updateView(GameFrameImpl.LOGIN_VIEW);
 		}
 	    }
 	});

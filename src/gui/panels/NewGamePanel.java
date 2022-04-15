@@ -1,4 +1,4 @@
-package gui;
+package gui.panels;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -11,6 +11,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -18,8 +19,11 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
 import controller.PlayerController;
-import model.player.*;
+import gui.GameFrame;
+import gui.GameFrameImpl;
+import model.player.Gender;
 
 public class NewGamePanel extends JPanel {
     private static final long serialVersionUID = -5002323628263687923L;
@@ -71,13 +75,13 @@ public class NewGamePanel extends JPanel {
 		    JOptionPane.showMessageDialog(null, "Name can't be null", "alert", JOptionPane.WARNING_MESSAGE);
 		} else {
 		    playerController.createNewPlayer(nameField.getText(), (Gender) gender.getSelectedItem(), a);
-		    gameFrame.changePanel(GameFrame.MAP_PANEL);
+		    gameFrame.updateView(GameFrameImpl.MAP_VIEW);
 		}
 	    }
 	});
 
 	JButton quitButton = new JButton("BACK TO MENU");
-	quitButton.addActionListener(e -> c1.show(this.parentPanel, GameFrame.LOGIN_PANEL));
+	quitButton.addActionListener(e -> c1.show(this.parentPanel, GameFrameImpl.LOGIN_VIEW));
 
 	JPanel topPanel = new JPanel(new FlowLayout());
 	topPanel.add(quitButton, FlowLayout.LEFT);

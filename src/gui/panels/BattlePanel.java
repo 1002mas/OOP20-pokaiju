@@ -1,4 +1,4 @@
-package gui;
+package gui.panels;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -7,13 +7,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
 import controller.BattleController;
 import controller.PlayerController;
+import gui.GameFrame;
+import gui.GameFrameImpl;
+import gui.ImagesLoader;
 
 public class BattlePanel extends JPanel {
 
@@ -92,9 +97,9 @@ public class BattlePanel extends JPanel {
 			// ENDING BATTLE player team dead
 			actionText.setText("You lose...");
 			if(this.playerCtrl.hasAnyMonsterEvolved()) {
-			    this.gameFrame.changePanel(GameFrame.EVOLVE_PANEL);
+			    this.gameFrame.updateView(GameFrameImpl.EVOLVE_PANEL);
 			}else {
-			    this.gameFrame.changePanel(GameFrame.MAP_PANEL);
+			    this.gameFrame.updateView(GameFrameImpl.MAP_VIEW);
 			}
 			
 		    } else {
@@ -106,9 +111,9 @@ public class BattlePanel extends JPanel {
 			// ENDING BATTLE enemy team dead
 			actionText.setText("You have defeated all the enemies!!");
 			if(this.playerCtrl.hasAnyMonsterEvolved()) {
-			    this.gameFrame.changePanel(GameFrame.EVOLVE_PANEL);
+			    this.gameFrame.updateView(GameFrameImpl.EVOLVE_PANEL);
 			}else {
-			    this.gameFrame.changePanel(GameFrame.MAP_PANEL);
+			    this.gameFrame.updateView(GameFrameImpl.MAP_VIEW);
 			}
 		    } else {
 			refresh();
@@ -160,7 +165,7 @@ public class BattlePanel extends JPanel {
 		    if (ctrl.isEnemyCaught()) {
 			// ENDING BATTLE
 			actionText.setText("You have captured a new Monster!!");
-			this.gameFrame.changePanel(GameFrame.MAP_PANEL);
+			this.gameFrame.updateView(GameFrameImpl.MAP_VIEW);
 		    } else {
 			refresh();
 		    }
@@ -260,7 +265,7 @@ public class BattlePanel extends JPanel {
 	    public void actionPerformed(ActionEvent e) {
 		if (ctrl.flee()) {
 		    actionText.setText("You successfully escaped");
-		    gameFrame.changePanel(GameFrame.MAP_PANEL);
+		    gameFrame.updateView(GameFrameImpl.MAP_VIEW);
 
 		} else {
 		    actionText.setText("You failed to escaped");

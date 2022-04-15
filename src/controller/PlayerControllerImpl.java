@@ -12,20 +12,17 @@ import model.Pair;
 import model.battle.MonsterBattle;
 import model.battle.Moves;
 import model.gameitem.GameItem;
-import model.map.GameMap;
 import model.monster.Monster;
 import model.monster.MonsterSpecies;
 import model.npc.NpcMerchant;
 import model.npc.NpcSimple;
 import model.npc.TypeOfNpc;
 import model.player.Gender;
-import model.player.MonsterStorage;
 import model.player.Player;
 
 public class PlayerControllerImpl implements PlayerController {
 
 	private Player player;
-	private GameMap map;// TODO initialize this field when you load saves
 	private Direction currentDirection = Direction.DOWN;
 	private Optional<MonsterBattle> battle = Optional.empty();
 	private DataLoaderController dataController;
@@ -140,7 +137,7 @@ public class PlayerControllerImpl implements PlayerController {
 
 	@Override
 	public int getCurrentMapID() {
-		return this.map.getCurrentMapId();
+		return this.player.getMap().getCurrentMapId();
 	}
 	// -- MERCHANT --
 
@@ -204,7 +201,7 @@ public class PlayerControllerImpl implements PlayerController {
 	@Override
 	public Map<String, Pair<Integer, Integer>> getAllNpcs() {
 		Map<String, Pair<Integer, Integer>> res = new HashMap<>();
-		for (NpcSimple npc : map.getAllNpcsInCurrentMap()) {
+		for (NpcSimple npc : player.getMap().getAllNpcsInCurrentMap()) {
 			res.put(npc.getName(), npc.getPosition());
 		}
 		return res;
