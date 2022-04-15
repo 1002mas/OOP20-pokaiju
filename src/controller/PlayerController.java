@@ -177,6 +177,12 @@ public interface PlayerController {
     int getMonsterSpeed(int monsterId);
 
     /**
+     * 
+     * @return current box name
+     */
+    String getCurrentBoxName();
+
+    /**
      * It puts the team monster in the box and it retrieves the given box monster.
      * 
      * @param teamMonsterId team monster id
@@ -197,6 +203,22 @@ public interface PlayerController {
      * @param boxMonsterId box monster id
      */
     void withdrawMonster(int boxMonsterId);
+
+    /**
+     * Moves to the next box
+     */
+    void nextBox();
+
+    /**
+     * Moves to the previous box
+     */
+    void previousBox();
+
+    /**
+     * 
+     * @return box monster ID
+     */
+    List<Integer> getBoxMonsters();
 
     int getItemQuantity(String item);
 

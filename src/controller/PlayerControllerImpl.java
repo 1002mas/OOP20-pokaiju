@@ -13,16 +13,13 @@ import model.battle.MonsterBattle;
 import model.battle.Moves;
 import model.gameitem.GameItem;
 import model.map.GameMap;
-import model.map.GameMapImpl;
 import model.monster.Monster;
 import model.monster.MonsterSpecies;
 import model.npc.NpcMerchant;
 import model.npc.NpcSimple;
 import model.npc.TypeOfNpc;
 import model.player.Gender;
-import model.player.MonsterStorageImpl;
 import model.player.Player;
-import model.player.PlayerImpl;
 
 public class PlayerControllerImpl implements PlayerController {
 
@@ -42,9 +39,7 @@ public class PlayerControllerImpl implements PlayerController {
 
     @Override
     public void createNewPlayer(String name, Gender gender, int trainerNumber) {
-	this.map = new GameMapImpl(this.dataController.getGameMapData(this.dataController.getIdCurrentMap()));
-	this.player = new PlayerImpl(name, gender, trainerNumber, new Pair<Integer, Integer>(0, 0), map);
-	dataController.deleteData();
+	this.player = this.dataController.getPlayer();
     }
 
     @Override
@@ -233,7 +228,7 @@ public class PlayerControllerImpl implements PlayerController {
 
     @Override
     public String getMonsterNameById(int monsterId) { // --
-	return getMonster(monsterId).getName();
+	return getMonster(monsterId).get().getName();
     }
 
     public List<Integer> getMonstersId() {
@@ -242,15 +237,6 @@ public class PlayerControllerImpl implements PlayerController {
 	    playerMonster.add(monster.getId());
 	}
 	return playerMonster;
-    }
-
-    private Monster getMonster(int monsterId) { // --
-	for (Monster monster : player.getAllMonsters()) {
-	    if (monster.getId() == monsterId) {
-		return monster;
-	    }
-	}
-	return null;
     }
 
     @Override
@@ -265,27 +251,47 @@ public class PlayerControllerImpl implements PlayerController {
 
     @Override
     public int getMonsterExp(int monsterId) { // --
-	return getMonster(monsterId).getExp();
+	return getMonster(monsterId).get().getExp();
     }
 
     @Override
     public int getMonsterLevel(int monsterId) { // --
-	return getMonster(monsterId).getLevel();
+	return getMonster(monsterId).get().getLevel();
     }
 
     @Override
     public int getMonsterMaxHealth(int monsterId) { // --
-	return getMonster(monsterId).getMaxHealth();
+	return getMonster(monsterId).get().getMaxHealth();
     }
 
     @Override
     public String getMonsterType(int monsterId) { // --
-	return getMonster(monsterId).getSpecies().getType().toString();
+	return getMonster(monsterId).get().getSpecies().getType().toString();
+    }
+
+    private Optional<Monster> getMonster(int monsterId) { // --
+	for (Monster monster : player.getAllMonsters()) {
+	    if (monster.getId() == monsterId) {
+		return Optional.of(monster);
+	    }
+	}
+	for (Monster monster : player.getStorage().getCurrentBoxMonsters()) {
+	    if (monster.getId() == monsterId) {
+		return Optional.of(monster);
+	    }
+	}
+	return Optional.empty();
+    }
+
+    // -- BOX --
+    @Override
+    public String getCurrentBoxName() {
+	return this.player.getStorage().getCurrentBoxName();
     }
 
     @Override
     public void exchangeMonster(int teamMonsterId, int boxMonsterId) {
-	Optional<Monster> tMonster = getTeamMonsterByID(teamMonsterId);
+	Optional<Monster> tMonster = getMonster(teamMonsterId);
 	if (tMonster.isPresent()) {
 
 	    this.player.getStorage().exchange(tMonster.get(), boxMonsterId);
@@ -295,10 +301,26 @@ public class PlayerControllerImpl implements PlayerController {
 
     @Override
     public void depositMonster(int teamMonsterId) {
-	Optional<Monster> tMonster = getTeamMonsterByID(teamMonsterId);
+	Optional<Monster> tMonster = getMonster(teamMonsterId);
 	if (tMonster.isPresent()) {
 	    this.player.getStorage().depositMonster(tMonster.get());
 	}
+    }
+
+    @Override
+    public void nextBox() {
+	this.player.getStorage().nextBox();
+    }
+
+    @Override
+    public void previousBox() {
+	this.player.getStorage().previousBox();
+    }
+
+    @Override
+    public List<Integer> getBoxMonsters() {
+	return this.player.getStorage().getCurrentBoxMonsters().stream().map(m -> m.getId())
+		.collect(Collectors.toList());
     }
 
     @Override
@@ -306,40 +328,37 @@ public class PlayerControllerImpl implements PlayerController {
 	this.player.getStorage().withdrawMonster(boxMonsterId);
     }
 
-    private Optional<Monster> getTeamMonsterByID(int monsterID) {
-	return this.player.getAllMonsters().stream().filter(m -> m.getId() == monsterID).findAny();
+    @Override
+    public int getMonsterHealth(int monsterId) { // --
+	return getMonster(monsterId).get().getStats().getHealth();
+    }
+
+    @Override
+    public int getMonsterAttack(int monsterId) { // --
+	return getMonster(monsterId).get().getStats().getAttack();
+    }
+
+    @Override
+    public int getMonsterDefense(int monsterId) { // --
+	return getMonster(monsterId).get().getStats().getDefense();
+    }
+
+    @Override
+    public int getMonsterSpeed(int monsterId) { // --
+	return getMonster(monsterId).get().getStats().getSpeed();
     }
 
     // -- MOVES --
     @Override
     public List<String> getMovesNames(int monsterId) { // --
-	Monster m = getMonster(monsterId);
+	Optional<Monster> m = getMonster(monsterId);
 	List<String> moves = new ArrayList<>();
-	for (Moves mov : m.getAllMoves()) {
-	    moves.add(mov.getName());
+	if (m.isPresent()) {
+	    for (Moves mov : m.get().getAllMoves()) {
+		moves.add(mov.getName());
+	    }
 	}
-
 	return moves;
-    }
-
-    @Override
-    public int getMonsterHealth(int monsterId) { // --
-	return getMonster(monsterId).getStats().getHealth();
-    }
-
-    @Override
-    public int getMonsterAttack(int monsterId) { // --
-	return getMonster(monsterId).getStats().getAttack();
-    }
-
-    @Override
-    public int getMonsterDefense(int monsterId) { // --
-	return getMonster(monsterId).getStats().getDefense();
-    }
-
-    @Override
-    public int getMonsterSpeed(int monsterId) { // --
-	return getMonster(monsterId).getStats().getSpeed();
     }
 
     // --ITEMS--
