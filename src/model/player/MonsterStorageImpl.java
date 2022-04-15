@@ -3,71 +3,109 @@ package model.player;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.Pair;
 import model.monster.Monster;
 
-public class MonsterStorageImpl implements MonsterStorage{
+public class MonsterStorageImpl implements MonsterStorage {
 
 	private static final int MAX_NUMBER_OF_BOX = 10;
 	private static final String INITIAL_BOX_NAME = "BOX";
 
-	private List<MonsterBox> monsterBoxs;
+	private List<MonsterBox> monsterBoxes;
+	private int currentMonsterBoxIndex;
 	private Player player;
-	
-	public MonsterStorageImpl(Player player) {
+
+	public MonsterStorageImpl(Player player, List<MonsterBox> boxes) {
 		this.player = player;
-		generateBoxs();
+		this.monsterBoxes = new ArrayList<>(boxes);
+		this.currentMonsterBoxIndex = 1;
+		if (monsterBoxes.size() > MAX_NUMBER_OF_BOX) {
+			this.monsterBoxes = monsterBoxes.subList(0, MAX_NUMBER_OF_BOX);
+		} else {
+			generateBoxs(MAX_NUMBER_OF_BOX - monsterBoxes.size());
+		}
 	}
 
-	private void generateBoxs() {
+	private void generateBoxs(int n) {
 		MonsterBox box;
-		for (int i = 0; i < MAX_NUMBER_OF_BOX; i++) {
+		for (int i = n; i < MAX_NUMBER_OF_BOX; i++) {
 			box = new MonsterBoxImpl(INITIAL_BOX_NAME + i);
-			this.monsterBoxs.add(box);
+			this.monsterBoxes.add(box);
 		}
-	}
-	
-	public List<Pair<String, List<Monster>>> getMonsterList() {
-		List<Pair<String, List<Monster>>> boxList = new ArrayList<>();
-		for (MonsterBox mb : this.monsterBoxs) {
-			boxList .add(new Pair<>(mb.getName(),mb.getAllMonsters()));
-		}
-		return boxList ;
 	}
 
-	private MonsterBox findMonster(Monster monster) {
-		for (MonsterBox m : monsterBoxs) {
-			if (m.getAllMonsters().contains(monster)) {
-				return m;
-			}
-		}
-		return null;
-	}
-
+	@Override
 	public void addMonster(Monster monster) {
-		for (MonsterBox m : monsterBoxs) {
-			if (!m.isFull()) {
-				m.addMonster(monster);
-				break;
+		if (!getCurrentBox().isFull()) {
+			getCurrentBox().addMonster(monster);
+		}
+	}
+
+	@Override
+	public boolean depositMonster(Monster monster) {
+		if (this.player.removeMonster(monster)) {
+			getCurrentBox().addMonster(monster);
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean withdrawMonster(int monsterID) {
+		if (isInBox(monsterID)) {
+			getCurrentBox().removeMonster(monsterID);
+			if (!this.player.isTeamFull()) {
+				this.player.addMonster(getCurrentBox().getMonster(monsterID).get());
+				return true;
 			}
 		}
-		this.player.removeMonster(monster);
+		return false;
 	}
 
-	public void takeMonster(Monster monster) {
-		MonsterBox m = findMonster(monster);
-		if (m != null) {
-			m.takeMonster(monster);
+	private boolean isInBox(int monsterID) {
+		for (Monster monster : getCurrentBox().getAllMonsters()) {
+			if (monster.getId() == monsterID) {
+				return true;
+			}
 		}
-		this.player.addMonster(monster);
+		return false;
 	}
 
-	public void exchange(Monster monsterToBox, Monster monsterFromBox) {
-		MonsterBox m = findMonster(monsterFromBox);
-		if (m != null) {
-			m.exchange(monsterToBox, monsterFromBox);
-			this.player.removeMonster(monsterToBox);
-			this.player.addMonster(monsterFromBox);
+	private MonsterBox getCurrentBox() {
+		return this.monsterBoxes.get(currentMonsterBoxIndex);
+	}
+
+	@Override
+	public boolean exchange(Monster monster, int monsterID) {
+
+		if (this.player.getAllMonsters().contains(monster) && isInBox(monsterID)) {
+			getCurrentBox().exchange(monster, monsterID);
 		}
+
+		return false;
+	}
+
+	@Override
+	public void nextBox() {
+		if (this.currentMonsterBoxIndex < MAX_NUMBER_OF_BOX) {
+			this.currentMonsterBoxIndex++;
+		}
+
+	}
+
+	@Override
+	public void previousBox() {
+		if (this.currentMonsterBoxIndex > 1) {
+			this.currentMonsterBoxIndex--;
+		}
+	}
+
+	@Override
+	public String getCurrentBoxName() {
+		return getCurrentBox().getName();
+	}
+
+	@Override
+	public List<Monster> getCurrentBoxMonsters() {
+		return getCurrentBox().getAllMonsters();
 	}
 }

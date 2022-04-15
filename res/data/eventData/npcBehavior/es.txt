@@ -1,0 +1,1 @@
+{"npcs":[],"npcsPositions":[],"npcsText":[],"npcsShow":[],"id":2,"isToActiveImmediatly":true,"isActive":true,"isDeactivable":false,"eventsToActivate":[5,4],"eventsToDeactivate":[4,5]}

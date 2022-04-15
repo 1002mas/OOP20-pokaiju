@@ -5,37 +5,34 @@ import java.util.List;
 import java.util.Map;
 
 import model.Pair;
+import model.gameevents.GameEvent;
 import model.gameitem.GameItem;
 import model.npc.TypeOfNpc;
 
 public class NpcMerchantLoader {
 
 	private String name;
-	private TypeOfNpc typeOfNpc;
 	private List<String> sentences;
 	private Pair<Integer, Integer> position;
 	private Map<String, Integer> inventary;
 	private boolean isVisible;
 	private boolean isEnabled;
+	private List<Integer> events;
 
-	public NpcMerchantLoader(String name, TypeOfNpc typeOfNpc, List<String> sentences, Pair<Integer, Integer> position,
-			boolean isVisible, boolean isEnabled, Map<String, Integer> inventary) {
+	public NpcMerchantLoader(String name, List<String> sentences, Pair<Integer, Integer> position,
+			boolean isVisible, boolean isEnabled, Map<String, Integer> inventary,List<Integer> events) {
 		this.name = name;
-		this.typeOfNpc = typeOfNpc;
 		this.sentences = sentences;
 		this.position = position;
 		this.inventary = inventary;
 		this.isVisible = isVisible;
 		this.isEnabled = isEnabled;
+		this.events = events;
 
 	}
 
 	public String getName() {
 		return name;
-	}
-
-	public TypeOfNpc getTypeOfNpc() {
-		return typeOfNpc;
 	}
 
 	public List<String> getSentences() {
@@ -52,6 +49,10 @@ public class NpcMerchantLoader {
 
 	public boolean getisEnabled() {
 		return this.isEnabled;
+	}
+	
+	public List<Integer> getEvents(){
+		return this.events;
 	}
 
 	public Map<GameItem, Integer> getTranslatedGameItem(List<GameItem> list) {

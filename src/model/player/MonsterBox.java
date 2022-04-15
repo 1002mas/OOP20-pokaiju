@@ -1,6 +1,7 @@
 package model.player;
 
 import java.util.List;
+import java.util.Optional;
 
 import model.monster.Monster;
 
@@ -8,7 +9,7 @@ public interface MonsterBox {
 
 	/**
 	 * 
-	 * @return a map of all monsters with box coordinates
+	 * @return a list of all monsters in box
 	 */
 	public List<Monster> getAllMonsters();
 
@@ -16,31 +17,37 @@ public interface MonsterBox {
 	 * 
 	 * @param monster to add
 	 */
-	public void addMonster(Monster monster);
+	public boolean addMonster(Monster monster);
 
 	/**
 	 * 
-	 * @param monster to remove from box
-	 * @return true if monster was removed, false otherwise
+	 * @param toBox monster to put in the box
+	 * @param monsterID monster to get from the box
 	 */
-	public boolean takeMonster(Monster monster);
-
+	public Optional<Monster> exchange(Monster toBox, int monsterID);
+	
 	/**
 	 * 
-	 * @return if monster map is full
+	 * @param monsterID 
+	 * @return optional of a monster if is in box, an empty optional otherwise
 	 */
-	public boolean isFull();
-
-	/**
-	 * 
-	 * @param monsterToBox monster to put in the box
-	 * @param monsterFromBox monster to get from the box
-	 */
-	public void exchange(Monster monsterToBox, Monster monsterFromBox);
+	public Optional<Monster> getMonster(int monsterID);
 	
 	/**
 	 * 
 	 * @return box name
 	 */
 	public String getName();
+	
+	/**
+	 * 
+	 * @return true if box is full, false otherwise
+	 */
+	public boolean isFull();
+	
+	/**
+	 * 
+	 * @param monsterID to remove
+	 */
+	public void removeMonster(int monsterID);
 }

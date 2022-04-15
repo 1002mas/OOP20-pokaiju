@@ -1,0 +1,1 @@
+{"id":3000,"exp":10,"level":2,"species":"nome3","movesList":[{"first":"Braciere","second":50},{"first":"Attacco","second":10},{"first":"Volo","second":50}],"health":1,"attack":1,"def":1,"speed":1}

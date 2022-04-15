@@ -35,4 +35,9 @@ public class NpcHealerImpl extends NpcSimpleImpl implements NpcHealer {
 
 	}
 
+	@Override
+	public String toString() {
+		return "NpcHealerImpl [player=" + player + "]";
+	}
+
 }
