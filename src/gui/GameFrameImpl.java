@@ -1,38 +1,49 @@
 package gui;
 
+import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-
+import java.util.Random;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-
+import javax.swing.JTextField;
 import controller.Direction;
 import controller.PlayerController;
 import gui.panels.BattlePanel;
-import gui.panels.EvolutionPanel;
 import gui.panels.LoginPanel;
 import gui.panels.MenuPanel;
-import gui.panels.NewGamePanel;
 import gui.panels.PlayerPanel;
 import gui.panels.TwoLayersPanel;
+import model.player.Gender;
 
 public class GameFrameImpl extends JFrame implements GameFrame {
+    private static final long serialVersionUID = -7927156597267134363L;
+    private static final int SPACE = 50;
     public static final String MAP_VIEW = "map panel";
     public static final String LOGIN_VIEW = "login panel";
-    public static final String EVOLVE_PANEL = "evolve panel";
-
-    private static final long serialVersionUID = -7927156597267134363L;
-    private static final String NEW_GAME_VIEW = "new game";
-    private static final String MENU_VIEW = "menu";
-    private static final String BATTLE_VIEW = "battle panel";
-    private static final String MERCHANT_VIEW = "merchant panel";
-
+    public static final String NEW_GAME_VIEW = "new game";
+    public static final String MENU_VIEW = "menu";
+    public static final String BATTLE_VIEW = "battle panel";
+    public static final String MERCHANT_VIEW = "merchant panel";
     private final int size;
     private final CardLayout cLayout = new CardLayout();
     private final Map<String, JPanel> subPanels = new HashMap<>();
@@ -55,36 +66,16 @@ public class GameFrameImpl extends JFrame implements GameFrame {
 
 	LoginPanel loginPanel = new LoginPanel();
 
-	if (!subPanels.containsKey(MAP_VIEW)) {
-	    JPanel gamePanel = buildMapPanel();
-	    mainPanel.add(gamePanel, MAP_VIEW);
-	    subPanels.put(MAP_VIEW, gamePanel);
-	}
-
 	loginPanel.getnewGame().addActionListener(e -> updateView(NEW_GAME_VIEW));
 	loginPanel.getquitGame().addActionListener(e -> System.exit(0));
 
-	JPanel evolvePanel = new EvolutionPanel(playerController, this, imgLoad);
-
 	JPanel newGamePanel = newGamePanel();
-
-	JPanel menuPanel = buildMenuPanel();
-
-	JPanel battlePanel = new BattlePanel(imgLoad, this);
 
 	mainPanel.add(loginPanel, LOGIN_VIEW);
 	mainPanel.add(newGamePanel, NEW_GAME_VIEW);
-	mainPanel.add(menuPanel, MENU_VIEW);
-	mainPanel.add(battlePanel, BATTLE_VIEW);
-	mainPanel.add(evolvePanel, EVOLVE_PANEL);
-	mainPanel.add(battlePanel, BATTLE_VIEW);
 
 	subPanels.put(LOGIN_VIEW, loginPanel);
 	subPanels.put(NEW_GAME_VIEW, newGamePanel);
-	subPanels.put(MENU_VIEW, menuPanel);
-	subPanels.put(BATTLE_VIEW, battlePanel);
-	subPanels.put(EVOLVE_PANEL, evolvePanel);
-	subPanels.put(BATTLE_VIEW, battlePanel);
 
 	this.pack();
 	this.setVisible(true);
@@ -92,7 +83,7 @@ public class GameFrameImpl extends JFrame implements GameFrame {
     }
 
     private int getMainPanelSize() {
-	double percScreen = 5 / 6;
+	double percScreen = 5.0 / 6.0;
 	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	int s = (int) (screenSize.getHeight() > screenSize.getWidth() ? screenSize.getWidth() : screenSize.getHeight());
 	s = (int) (s * percScreen);
@@ -170,7 +161,84 @@ public class GameFrameImpl extends JFrame implements GameFrame {
     }
 
     private JPanel newGamePanel() {
-	return new NewGamePanel(this.playerController, mainPanel, this);
+	JPanel panel = new JPanel(new BorderLayout());
+	panel.setBorder(BorderFactory.createLineBorder(Color.green));
+
+	JLabel tipsLabel = new JLabel();
+	tipsLabel.setText("Creating a new game will delete the old savedata");
+	tipsLabel.setFont(new Font("SansSerif Bold Italic", Font.CENTER_BASELINE, 22));
+	tipsLabel.setForeground(Color.red);
+
+	JLabel nameLabel = new JLabel();
+	JTextField nameField = new JTextField();
+	nameLabel.setText("Insert name :");
+
+	JLabel genderLabel = new JLabel();
+	String[] genderText = { "MALE", "FEMALE" };
+	JComboBox<String> gender = new JComboBox<String>(genderText);
+	genderLabel.setText("Select your gender :");
+
+	Random rand = new Random();
+	int a = rand.nextInt(999999) + 100000;
+	JLabel trainerNumberLabel = new JLabel();
+	trainerNumberLabel.setText("Trainer number is generated randomly : ");
+	JTextField trainerNumberField = new JTextField();
+	trainerNumberField.setText(String.valueOf(a));
+	trainerNumberField.setEditable(false);
+	trainerNumberLabel.setFont(new Font("SansSerif Bold Italic", Font.CENTER_BASELINE, 22));
+	trainerNumberLabel.setEnabled(false);
+
+	JButton postData = new JButton("CREATE");
+	postData.addActionListener(e -> {
+	    if (nameField.getText().equals("")) {
+		JOptionPane.showMessageDialog(null, "Name can't be null", "alert", JOptionPane.WARNING_MESSAGE);
+	    } else {
+		playerController.createNewPlayer(nameField.getText(), gender.getSelectedItem().toString(), a);
+		if (!subPanels.containsKey(MAP_VIEW)) {
+		    JPanel gamePanel = buildMapPanel();
+		    mainPanel.add(gamePanel, MAP_VIEW);
+		    subPanels.put(MAP_VIEW, gamePanel);
+		}
+		// qua
+		JPanel menuPanel = buildMenuPanel();
+		JPanel battlePanel = new BattlePanel(imgLoad, this);
+		mainPanel.add(menuPanel, MENU_VIEW);
+		mainPanel.add(battlePanel, BATTLE_VIEW);
+		subPanels.put(MENU_VIEW, menuPanel);
+		subPanels.put(BATTLE_VIEW, battlePanel);
+		updateView(GameFrameImpl.MAP_VIEW);
+	    }
+	});
+
+	JButton quitButton = new JButton("BACK TO MENU");
+	quitButton.addActionListener(e -> updateView(GameFrameImpl.LOGIN_VIEW));
+
+	JPanel topPanel = new JPanel(new FlowLayout());
+	topPanel.add(quitButton, FlowLayout.LEFT);
+
+	JPanel underPanel = new JPanel(new GridBagLayout());
+
+	GridBagConstraints rows = new GridBagConstraints();
+	rows.gridy = 1;
+	underPanel.add(nameLabel, rows);
+	rows.insets = new Insets(0, 0, SPACE, 0);
+	rows.fill = GridBagConstraints.HORIZONTAL;
+	underPanel.add(nameLabel, rows);
+	underPanel.add(nameField, rows);
+	rows.gridy++;
+	underPanel.add(genderLabel, rows);
+	underPanel.add(gender, rows);
+	rows.gridy++;
+	underPanel.add(trainerNumberLabel, rows);
+	underPanel.add(trainerNumberField, rows);
+	rows.gridy++;
+	underPanel.add(postData, rows);
+	rows.gridy++;
+	underPanel.add(tipsLabel, rows);
+
+	panel.add(topPanel, BorderLayout.LINE_START);
+	panel.add(underPanel, BorderLayout.CENTER);
+	return panel;
     }
 
     public void updateView(String name) {
