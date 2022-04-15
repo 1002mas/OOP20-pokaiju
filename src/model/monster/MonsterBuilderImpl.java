@@ -102,7 +102,6 @@ public class MonsterBuilderImpl implements MonsterBuilder {
 	id++;
 	for (int i = MIN_LEVEL; i < this.level; i++) {
 	    monster.levelUp();
-	    monster.getMoveToLearn();
 	}
 	monster.incExp(exp);
 	stats.getStatsAsMap().entrySet().forEach(e -> {

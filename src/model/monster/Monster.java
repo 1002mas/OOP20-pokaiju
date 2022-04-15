@@ -147,37 +147,6 @@ public interface Monster {
     void decMovePP(Moves move);
 
     /**
-     * This functions return if the monster can learn a new move
-     * 
-     * @return true if monster can learn new move, false otherwise
-     */
-    boolean canLearnNewMove();
-
-    /**
-     * This functions return a move that monster can learn
-     * 
-     * @return a move that monster can learn
-     */
-    Moves getMoveToLearn();
-
-    /**
-     * This function teach a new move to a monster
-     * 
-     * @param move
-     * @throws IllegalStateException is list of moves is full
-     */
-    void learnNewMove(Moves move);
-
-    /**
-     * This function remove an old move to teach a new move
-     * 
-     * @param oldMove
-     * @param newMove
-     * @throws IllegalArgumentException if oldMove does not exist
-     */
-    void learnNewMove(Moves oldMove, Moves newMove);
-
-    /**
      * This function return true if the move set is full, false otherwise
      * 
      * @return if the move set is full
