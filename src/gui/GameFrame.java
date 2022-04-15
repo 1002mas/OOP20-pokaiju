@@ -45,25 +45,24 @@ public class GameFrame extends JFrame {
 	mainPanel.setBounds(0, 0, size, size);
 	mainPanel.setLayout(cLayout);
 
-	LoginPanel loginPanel = new LoginPanel(this.playerController);
-	loginPanel.getContinue().addActionListener(e -> {
-	    if (!subPanels.containsKey(MAP_PANEL)) {
-		JPanel gamePanel = buildMapPanel();
-		mainPanel.add(gamePanel, MAP_PANEL);
-		subPanels.put(MAP_PANEL, gamePanel);
-	    }
-	    changePanel(MAP_PANEL);
-	});
+	LoginPanel loginPanel = new LoginPanel();
+
+	if (!subPanels.containsKey(MAP_PANEL)) {
+	    JPanel gamePanel = buildMapPanel();
+	    mainPanel.add(gamePanel, MAP_PANEL);
+	    subPanels.put(MAP_PANEL, gamePanel);
+	}
 
 	loginPanel.getnewGame().addActionListener(e -> changePanel(NEW_GAME_PANEL));
 	loginPanel.getquitGame().addActionListener(e -> System.exit(0));
+
+	JPanel evolvePanel = new EvolutionPanel(playerController, this, imgLoad);
 
 	JPanel newGamePanel = newGamePanel();
 
 	JPanel menuPanel = buildMenuPanel();
 
 	JPanel battlePanel = new BattlePanel(imgLoad, this);
-	JPanel evolvePanel = new EvolutionPanel(playerController, this, imgLoad);
 
 	mainPanel.add(loginPanel, LOGIN_PANEL);
 	mainPanel.add(newGamePanel, NEW_GAME_PANEL);

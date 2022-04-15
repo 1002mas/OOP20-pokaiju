@@ -288,7 +288,7 @@ public class PlayerControllerImpl implements PlayerController {
 	Optional<Monster> tMonster = getTeamMonsterByID(teamMonsterId);
 	if (tMonster.isPresent()) {
 
-	    this.player.getMonsterStorage.exchange(tMonster.get(), boxMonsterId);
+	    this.player.getStorage().exchange(tMonster.get(), boxMonsterId);
 	}
 
     }
@@ -297,13 +297,13 @@ public class PlayerControllerImpl implements PlayerController {
     public void depositMonster(int teamMonsterId) {
 	Optional<Monster> tMonster = getTeamMonsterByID(teamMonsterId);
 	if (tMonster.isPresent()) {
-	    this.player.getMonsterStorage.depositMonster(tMonster.get());
+	    this.player.getStorage().depositMonster(tMonster.get());
 	}
     }
 
     @Override
     public void withdrawMonster(int boxMonsterId) {
-	this.player.getMonsterStorage.withdrawMonster(boxMonsterId);
+	this.player.getStorage().withdrawMonster(boxMonsterId);
     }
 
     private Optional<Monster> getTeamMonsterByID(int monsterID) {

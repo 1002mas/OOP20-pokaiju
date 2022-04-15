@@ -11,17 +11,19 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import controller.PlayerController;
-
+import model.gameitem.GameItemTypes;
 
 public class SelectMosterPanel extends JPanel {
     private static final long serialVersionUID = 8185263432699574937L;
     private final PlayerController playerController;
     private final JPanel parentPanel;
     private String itemName;
+    private final GameFrame gui;
 
-    public SelectMosterPanel(PlayerController playerController, JPanel parentPanel) {
+    public SelectMosterPanel(PlayerController playerController, JPanel parentPanel, GameFrame gui) {
 	this.playerController = playerController;
 	this.parentPanel = parentPanel;
+	this.gui = gui;
 	init();
     }
 
@@ -43,9 +45,17 @@ public class SelectMosterPanel extends JPanel {
 
 	    JButton checkButton = new JButton("USE ON THIS MONSTER");
 	    checkButton.addActionListener(e -> {
-		this.playerController.useItemOnMonster(this.itemName, monsterId);
-		this.repaint();
-		update();
+		if (this.playerController.canEvolveByItem(itemName, monsterId)) {
+		    this.playerController.evolveByItem(itemName, monsterId);
+		    this.playerController.useItemOnMonster(this.itemName, monsterId);
+		    update();
+		} else {
+		    this.playerController.useItemOnMonster(this.itemName, monsterId);
+		    update();
+		}
+
+		// se è di tipo evoluzione uso l'oggetto , update e cambio pannello
+		// e da game frame cambio pagina a evolution panel, poi torno al bag
 	    });
 
 	    allMonsterPanel.add(singleMonsterLabel);

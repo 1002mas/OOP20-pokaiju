@@ -35,6 +35,7 @@ public class PlayerImpl implements Player {
     private Optional<NpcSimple> npc;
     private Optional<MonsterBattle> monsterBattle;
     private MonsterStorage storage = new MonsterStorageImpl(this);
+    private boolean triggeredEvent;
 
     public PlayerImpl(String name, Gender gender, int trainerNumber, Pair<Integer, Integer> startingPosition,
 	    GameMap map) {
@@ -261,6 +262,7 @@ public class PlayerImpl implements Player {
 	if (monster.isPresent()) {
 	    this.monsterBattle = Optional.of(new MonsterBattleImpl(this, monster.get()));
 	}
+	this.triggeredEvent = this.map.getEventAt(position).isPresent();
 	return canMove;
     }
 
@@ -273,10 +275,13 @@ public class PlayerImpl implements Player {
     public boolean interactAt(Pair<Integer, Integer> pos) {
 	this.monsterBattle = Optional.empty();
 	this.npc = map.getNpcAt(pos);
-	if (npc.isPresent() && npc.get().getTypeOfNpc() == TypeOfNpc.TRAINER) {
-	    NpcTrainer trainer = (NpcTrainer) npc.get();
-	    if (!trainer.isDefeated()) {
-		this.monsterBattle = Optional.of(new MonsterBattleImpl(this, trainer));
+	if (npc.isPresent()) {
+	    this.triggeredEvent = npc.get().getTriggeredEvent().isPresent();
+	    if (npc.get().getTypeOfNpc() == TypeOfNpc.TRAINER) {
+		NpcTrainer trainer = (NpcTrainer) npc.get();
+		if (!trainer.isDefeated()) {
+		    this.monsterBattle = Optional.of(new MonsterBattleImpl(this, trainer));
+		}
 	    }
 	}
 	return npc.isPresent();
@@ -304,6 +309,18 @@ public class PlayerImpl implements Player {
 
     public GameMap getMap() {
 	return map;
+    }
+
+    public void setStorage(MonsterStorage storage) {
+	this.storage = storage;
+    }
+
+    public MonsterStorage getStorage() {
+	return storage;
+    }
+
+    public boolean isTriggeredEvent() {
+	return triggeredEvent;
     }
 
 }
