@@ -42,7 +42,7 @@ public class BoxPanel extends JPanel {
 
     private void setList() {
 	playerMonsterIdList = this.playerController.getMonstersId();
-	// TODO initialization of boxlist
+	boxMonsterIdList = this.playerController.getBoxMonsters();
     }
 
     private void setButtons() {
