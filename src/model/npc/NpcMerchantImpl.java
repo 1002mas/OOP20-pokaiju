@@ -56,4 +56,9 @@ public class NpcMerchantImpl extends NpcSimpleImpl implements NpcMerchant {
 		}
 		return false;
 	}
+
+	@Override
+	public String toString() {
+		return "NpcMerchantImpl [inventory=" + inventory + "]";
+	}
 }

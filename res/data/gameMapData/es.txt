@@ -1,0 +1,62 @@
+{
+  "id": 1,
+  "minimumMonsterLevel": 3,
+  "maximumMonsterLevel": 30,
+  "name": "nomeMappa1",
+  "blocks": [
+    [
+      {
+        "first": 1,
+        "second": 1
+      },
+      "WILD_ZONE"
+    ],
+    [
+      {
+        "first": 3,
+        "second": 1
+      },
+      "MAP_CHANGE"
+    ],
+    [
+      {
+        "first": 2,
+        "second": 1
+      },
+      "WALK"
+    ]
+  ],
+  "npcs": [
+    "nomeS",
+    "nomeT"
+  ],
+  "wildMonsters": [
+    "nome3",
+    "nome4"
+  ],
+  "eventLocation": [
+    [
+      {
+        "first": 1,
+        "second": 3
+      },
+      3
+    ],
+    [
+      {
+        "first": 1,
+        "second": 2
+      },
+      2
+    ],
+    [
+      {
+        "first": 1,
+        "second": 4
+      },
+      1
+    ]
+  ],
+  "linkedMapsStartingPosition": {},
+  "linkedMapData": {}
+}

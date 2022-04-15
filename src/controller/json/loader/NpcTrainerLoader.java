@@ -10,33 +10,28 @@ import model.npc.TypeOfNpc;
 public class NpcTrainerLoader {
 
 	private String name;
-	private TypeOfNpc typeOfNpc;
 	private List<String> sentences;
 	private List<Integer> monstersOwned;
 	private Pair<Integer, Integer> position;
 	private boolean isVisible;
 	private boolean isEnabled;
 	private boolean isDefeated;
+	private List<Integer> events;
 
-	public NpcTrainerLoader(String name, TypeOfNpc typeOfNpc, List<String> sentences, List<Integer> monstersOwned,
-			boolean isVisible, boolean isEnabled, boolean isDefeated, Pair<Integer, Integer> position) {
+	public NpcTrainerLoader(String name, List<String> sentences, List<Integer> monstersOwned,
+			boolean isVisible, boolean isEnabled, boolean isDefeated, Pair<Integer, Integer> position, List<Integer> events) {
 		this.name = name;
-		this.typeOfNpc = typeOfNpc;
 		this.sentences = sentences;
 		this.monstersOwned = monstersOwned;
 		this.position = position;
 		this.isVisible = isVisible;
 		this.isDefeated = isDefeated;
 		this.isEnabled = isEnabled;
-
+		this.events=events;
 	}
 
 	public String getName() {
 		return this.name;
-	}
-
-	public TypeOfNpc getTypeOfNpc() {
-		return this.typeOfNpc;
 	}
 
 	public List<String> getSentences() {
@@ -58,6 +53,10 @@ public class NpcTrainerLoader {
 	public boolean getIsDefeated() {
 		return this.isDefeated;
 	}
+	public List<Integer> getEvents(){
+		return this.events;
+	}
+
 
 	public List<Monster> getTranslatedMonsterList(List<Monster> list) {
 		List<Monster> monsters = new ArrayList<>();

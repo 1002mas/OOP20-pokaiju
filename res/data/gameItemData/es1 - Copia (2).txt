@@ -1,0 +1,1 @@
+{"nameItem":"item3","description":"descrizione","type":"HEAL","healing":{"value":12}}

@@ -1,1 +1,0 @@
-{"nameItem":"item senza op","description":"descrizione","type":"MONSTERBALL","healing":{}}

@@ -119,4 +119,11 @@ public class NpcSimpleImpl implements NpcSimple {
 		return this.currentSentence;
 	}
 
+	@Override
+	public String toString() {
+		return "NpcSimpleImpl [name=" + name + ", typeOfNpc=" + typeOfNpc + ", sentences=" + sentences
+				+ ", currentSentence=" + currentSentence + ", events=" + events + ", triggeredEvent=" + triggeredEvent
+				+ ", position=" + position + ", isVisible=" + isVisible + ", isEnabled=" + isEnabled + "]";
+	}
+
 }

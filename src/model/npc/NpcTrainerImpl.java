@@ -33,4 +33,9 @@ public class NpcTrainerImpl extends NpcSimpleImpl implements NpcTrainer {
 		setDialogueText(DEFEATED_TEXTID);
 	}
 
+	@Override
+	public String toString() {
+		return "NpcTrainerImpl [monstersOwned=" + monstersOwned + ", isDefeated=" + isDefeated + "]";
+	}
+
 }
