@@ -121,8 +121,8 @@ public class BattleControllerImpl implements BattleController {
 
     @Override
     public boolean checkPP(String moveName) {
-	return monsterBattle.getCurrentPlayerMonster().isOutOfPP(monsterBattle.getCurrentPlayerMonster()
-		.getAllMoves().stream().filter(m -> m.getName().equals(moveName)).findAny().get());
+	return monsterBattle.getCurrentPlayerMonster().isOutOfPP(monsterBattle.getCurrentPlayerMonster().getAllMoves()
+		.stream().filter(m -> m.getName().equals(moveName)).findAny().get());
     }
 
     @Override
@@ -146,8 +146,8 @@ public class BattleControllerImpl implements BattleController {
 
     @Override
     public int getItemNumber(String gameItemName) {
-	return this.monsterBattle.getPlayer().getItemQuantity(monsterBattle.getPlayer().getAllItems().keySet().stream().filter(i -> i.getNameItem().equals(gameItemName)).findAny()
-		.get());
+	return this.monsterBattle.getPlayer().getItemQuantity(monsterBattle.getPlayer().getAllItems().keySet().stream()
+		.filter(i -> i.getNameItem().equals(gameItemName)).findAny().get());
     }
 
     @Override

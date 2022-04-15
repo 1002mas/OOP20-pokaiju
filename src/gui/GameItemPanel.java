@@ -22,10 +22,12 @@ public class GameItemPanel extends JPanel {
     private final static int NUMBEROFELEMENTS = 10;
     private final static int WIDTH = 50;
     private final int size;
+    private final GameFrame gui;
 
-    public GameItemPanel(PlayerController playerController, int size) {
+    public GameItemPanel(PlayerController playerController, int size, GameFrame gui) {
 	this.playerController = playerController;
 	this.size = size;
+	this.gui = gui;
 	init();
     }
 
@@ -39,7 +41,7 @@ public class GameItemPanel extends JPanel {
 	setTopPanel(topPanel);
 
 	JPanel subPanel = new JPanel(new GridLayout(0, 5));
-	SelectMosterPanel selection = new SelectMosterPanel(playerController, this);
+	SelectMosterPanel selection = new SelectMosterPanel(playerController, this, this.gui);
 
 	for (String itemName : listItemsName) {
 	    JLabel nameItem = new JLabel();

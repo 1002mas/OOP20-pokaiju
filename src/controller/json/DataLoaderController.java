@@ -15,202 +15,93 @@ import model.player.Player;
 
 public interface DataLoaderController {
 
-	/**
-	 * 
-	 * @return a list of all moves existing
-	 */
-	public List<Moves> getMoves();
+    /**
+     * 
+     * @return a list of all moves existing
+     */
+    public List<Moves> getMoves();
 
-	/**
-	 * 
-	 * @return a list of all npcs existing
-	 */
-	public List<NpcSimple> getNpcs();
+    /**
+     * 
+     * @return a list of all npcs existing
+     */
+    public List<NpcSimple> getNpcs();
 
-	/**
-	 * 
-	 * @return a list of all items existing
-	 */
-	public List<GameItem> getGameItems();
+    /**
+     * 
+     * @return a list of all items existing
+     */
+    public List<GameItem> getGameItems();
 
-	/**
-	 * 
-	 * @return a list of all monsters existing
-	 */
-	public List<Monster> getMonsters();
+    /**
+     * 
+     * @return a list of all Events
+     */
+    public List<GameEvent> getEvents();
 
-	/**
-	 * 
-	 * @return a list of all game maps
-	 */
+    /**
+     * 
+     * @return a list of monsterSpecies
+     */
+    public List<MonsterSpecies> getMonstersSpecies();
 
-	public List<GameMapData> getGameMapData();
+    /**
+     * 
+     * @return the player
+     */
+    public Player getPlayer();
 
-	/**
-	 * 
-	 * @return true if exist game data saved, false otherwise
-	 */
-	public boolean gameSaveExist();
+    /**
+     * 
+     * @return max column value
+     */
 
-	/**
-	 * 
-	 * @param idBuilder
-	 * @param idCurrentMap
-	 * @param monsterStorage
-	 * @param player
-	 * @return true if data is saved, false otherwise
-	 */
-	public boolean saveData(int idBuilder, int idCurrentMap, MonsterStorage monsterStorage, Player player);
+    public int getMaximumBlockInColumn();
 
-	/**
-	 * loads data saved
-	 */
-	public void loadGameData();
+    /**
+     * 
+     * @return max row value
+     */
+    public int getMaximumBlockInRow();
 
-	/**
-	 * 
-	 * @return a list of all Events
-	 */
-	public List<GameEvent> getEvents();
+    /**
+     * 
+     * @param name
+     * @return a move
+     */
 
-	/**
-	 * 
-	 * @return true if data is deleted, false otherwise
-	 */
-	public boolean deleteData();
+    public Moves getMove(String name);
 
-	/**
-	 * 
-	 * @return a list of monsterSpecies
-	 */
-	public List<MonsterSpecies> getMonstersSpecies();
+    /**
+     * 
+     * @param id
+     * @return a monster
+     */
 
-	/**
-	 * 
-	 * @return a list of npcs Trainer defeated
-	 */
-	public List<String> getNpcsDefeated();
+    public Monster getMonster(int id);
 
-	/**
-	 * 
-	 * @return the player
-	 */
-	public Player getPlayer();
+    /**
+     * 
+     * @param name
+     * @return a npc
+     */
 
-	/**
-	 * 
-	 * @return a list of npcs data saved
-	 */
-	public List<NpcDataSaver> getNpcData();
+    public NpcSimple getNpc(String name);
 
-	/**
-	 * 
-	 * @return id builder
-	 */
-	public int getIdBuilder();
+    /**
+     * 
+     * @param name
+     * @return an item
+     */
 
-	/**
-	 * 
-	 * @return id current map used
-	 */
+    public GameItem getItem(String name);
 
-	public int getIdCurrentMap();
+    /**
+     * 
+     * @param id
+     * @return an event
+     */
 
-	/**
-	 * 
-	 * @return player monster storage
-	 */
-
-	public MonsterStorage monsterStorage();
-
-	/**
-	 * 
-	 * @param npcName name of the npc
-	 */
-
-	public void addTrainerDefeated(String npcName);
-
-	/**
-	 * 
-	 * @param name       of the npc
-	 * @param idSentence
-	 */
-
-	public void addNpcData(String name, int idSentence);
-
-	/**
-	 * 
-	 * @param idBuilder new builder id
-	 */
-
-	public void setIdBuilder(int idBuilder);
-
-	/**
-	 * 
-	 * @param idCurrentMap map id
-	 */
-
-	public void setIdCurrentMap(int idCurrentMap);
-
-	/**
-	 * 
-	 * @return max column value
-	 */
-
-	public int getMaximumBlockInColumn();
-
-	/**
-	 * 
-	 * @return max row value
-	 */
-	public int getMaximumBlockInRow();
-
-	/**
-	 * 
-	 * @param name
-	 * @return a move
-	 */
-
-	public Moves getMove(String name);
-
-	/**
-	 * 
-	 * @param id
-	 * @return a monster
-	 */
-
-	public Monster getMonster(int id);
-
-	/**
-	 * 
-	 * @param name
-	 * @return a npc
-	 */
-
-	public NpcSimple getNpc(String name);
-
-	/**
-	 * 
-	 * @param name
-	 * @return an item
-	 */
-
-	public GameItem getItem(String name);
-
-	/**
-	 * 
-	 * @param id
-	 * @return a map
-	 */
-
-	public GameMapData getGameMapData(int id);
-
-	/**
-	 * 
-	 * @param id
-	 * @return an event
-	 */
-
-	public GameEvent getEvent(int id);
+    public GameEvent getEvent(int id);
 
 }

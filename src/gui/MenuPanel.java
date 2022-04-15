@@ -23,6 +23,12 @@ public class MenuPanel extends JPanel {
     private static final String BOXPANEL = "BOX";
     private static final String GAMEITEMSPANEL = "ITEMS";
     private static final String PLAYERINFOPANEL = "INFO";
+    private final JButton monster = new JButton("MONSTER");
+    private final JButton box = new JButton(" BOX ");
+    private final JButton gameItems = new JButton(" BAG ");
+    private final JButton playerInfo = new JButton(" PLAYERINFO ");
+    private final JButton quit = new JButton(" QUIT MENU ");
+    private final JButton backToMainMenu = new JButton(" BACK TO MAIN MENU ");
 
     public MenuPanel(PlayerController playerController, ImagesLoader imgLoad, int size, GameFrame gui) {
 	this.playerController = playerController;
@@ -40,20 +46,11 @@ public class MenuPanel extends JPanel {
 	JPanel topPanel = new JPanel(new FlowLayout());
 	topPanel.setBorder(BorderFactory.createLineBorder(Color.blue));
 
-	final JButton monster = new JButton("MONSTER");
-	final JButton box = new JButton(" BOX ");
-	final JButton gameItems = new JButton(" BAG ");
-	final JButton playerInfo = new JButton(" PLAYERINFO ");
-	final JButton quit = new JButton(" QUIT MENU ");
-	final JButton backToMainMenu = new JButton(" BACK TO MAIN MENU ");
-	/*final JButton save = new JButton(" SAVE ");*/
-
 	topPanel.add(monster);
 	topPanel.add(box);
 	topPanel.add(gameItems);
 	topPanel.add(playerInfo);
 	topPanel.add(quit);
-	/*topPanel.add(save);*/
 	topPanel.add(backToMainMenu);
 
 	JPanel bottomPanel = new JPanel();
@@ -64,7 +61,7 @@ public class MenuPanel extends JPanel {
 
 	BoxPanel boxPanel = new BoxPanel(this.playerController);
 
-	GameItemPanel gameItemPanel = new GameItemPanel(this.playerController, size);
+	GameItemPanel gameItemPanel = new GameItemPanel(this.playerController, size, this.gui);
 
 	PlayerInfoPanel playerInfoPanel = new PlayerInfoPanel(this.playerController);
 
@@ -93,19 +90,13 @@ public class MenuPanel extends JPanel {
 	    gui.changePanel(GameFrame.MAP_PANEL);
 	});
 
-	/*save.addActionListener(new ActionListener() {
-	    public void actionPerformed(ActionEvent e) {
-		playerController.save();
-
-	    }
-	});*/
 	backToMainMenu.addActionListener(new ActionListener() {
 	    public void actionPerformed(ActionEvent e) {
 		int result = JOptionPane.showConfirmDialog(null, "Sure? You want to exit?", "Warning",
 			JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 		if (result == JOptionPane.YES_OPTION) {
 		    gui.changePanel(GameFrame.LOGIN_PANEL);
-		} 
+		}
 	    }
 	});
 

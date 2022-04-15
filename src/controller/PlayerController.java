@@ -22,6 +22,13 @@ public interface PlayerController {
     Optional<String> interact();
 
     /**
+     * If any event has been triggered it may be necessary reloading npc positions.
+     * 
+     * @return true if any event has been triggered
+     */
+    boolean hasPlayerTriggeredEvent();
+
+    /**
      * While this is true the player won't be able to interact with other npcs or
      * move around.
      * 
@@ -29,15 +36,6 @@ public interface PlayerController {
      *         merchant
      */
     boolean hasMerchantInteractionOccurred();
-
-    /**
-     * If there was an interaction with the merchant in the interact() function, it
-     * will returns the merchant's name.
-     * 
-     * 
-     * @return the merchantName if a merchant interaction occurred.
-     */
-    Optional<String> getMerchantName();
 
     /**
      * Get the sold items from the merchant if the player has interacted with the
@@ -92,14 +90,6 @@ public interface PlayerController {
 
     /**
      * 
-     * Stops the merchant interaction.
-     * 
-     */
-
-    void endInteractionWithMerchant();
-
-    /**
-     * 
      * @return a list containing all visible npcs and their location
      */
     Map<String, Pair<Integer, Integer>> getAllNpcs();
@@ -138,7 +128,7 @@ public interface PlayerController {
     int getCurrentMapID();
 
     void useItem(String item);
-    
+
     void useItemOnMonster(String i, int monsterId);
 
     void removeItem(String i);
@@ -163,13 +153,9 @@ public interface PlayerController {
 
     List<Integer> getMonstersId();
 
-    void removeMonster(int monsterId);
-
     int getMonsterExp(int monsterId);
 
     int getMonsterLevel(int monsterId);
-
-    boolean getMonsterIsWild(int monsterId);
 
     int getMonsterMaxHealth(int monsterId);
 
@@ -183,7 +169,56 @@ public interface PlayerController {
 
     int getMonsterDefense(int monsterId);
 
+    /**
+     * 
+     * @param monsterId monster id
+     * @return monster speed
+     */
     int getMonsterSpeed(int monsterId);
+
+    /**
+     * 
+     * @return current box name
+     */
+    String getCurrentBoxName();
+
+    /**
+     * It puts the team monster in the box and it retrieves the given box monster.
+     * 
+     * @param teamMonsterId team monster id
+     * @param boxMonsterId  box monster id
+     */
+    void exchangeMonster(int teamMonsterId, int boxMonsterId);
+
+    /**
+     * It puts the team monster in the box.
+     * 
+     * @param teamMonsterId team monster id
+     */
+    void depositMonster(int teamMonsterId);
+
+    /**
+     * It retrieves the given box monster.
+     * 
+     * @param boxMonsterId box monster id
+     */
+    void withdrawMonster(int boxMonsterId);
+
+    /**
+     * Moves to the next box
+     */
+    void nextBox();
+
+    /**
+     * Moves to the previous box
+     */
+    void previousBox();
+
+    /**
+     * 
+     * @return box monster ID
+     */
+    List<Integer> getBoxMonsters();
 
     int getItemQuantity(String item);
 
@@ -192,12 +227,6 @@ public interface PlayerController {
     String getItemtype(String item);
 
     void addItem(String item);
-
-    void save();
-
-    boolean load();
-
-    boolean dataExist();
 
     boolean canUseItem(String item);
 
@@ -223,14 +252,14 @@ public interface PlayerController {
      * @author Luca Barattini
      */
     Optional<Pair<String, String>> evolveByLevel(int monsterId);
-    
+
     /**
      * 
      * @return
      * @author Luca Barattini
      */
     boolean hasAnyMonsterEvolved();
-    
+
     /**
      * 
      * @return

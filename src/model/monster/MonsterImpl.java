@@ -46,7 +46,6 @@ public class MonsterImpl implements Monster {
     private List<Pair<Moves, Integer>> movesList;
     private MonsterStats stats;
     private MonsterStats maxStats;
-    private Set<Moves> movesToLearn;
 
     public MonsterImpl(int id, MonsterStats stats, int exp, int level, boolean isWild, MonsterSpecies species,
 	    List<Pair<Moves, Integer>> movesList) {
@@ -60,7 +59,6 @@ public class MonsterImpl implements Monster {
 	this.isWild = isWild;
 	this.species = species;
 	this.movesList = new ArrayList<>(movesList);
-	this.movesToLearn = new HashSet<>();
     }
 
     public int getId() {
@@ -133,13 +131,6 @@ public class MonsterImpl implements Monster {
 		this.maxStats.getDefense() + rand.nextInt(MAX_STAT_STEP - MIN_STAT_STEP) + MIN_STAT_STEP);
 	this.maxStats.setSpeed(
 		this.maxStats.getSpeed() + rand.nextInt(MAX_STAT_STEP - MIN_STAT_STEP) + MIN_STAT_STEP);
-	for (; incLevel > 0; incLevel--) {
-	    Optional<Moves> moves = species.learnNewMove(this.level - incLevel + 1);
-	    if (moves.isPresent()
-		    && movesList.stream().filter(i -> i.getFirst().equals(moves.get())).findAny().isEmpty()) {
-		this.movesToLearn.add(moves.get());
-	    }
-	}
 	restoreStats();
     }
 
@@ -207,39 +198,6 @@ public class MonsterImpl implements Monster {
 	Pair<Moves, Integer> p = movesList.get(index);
 	movesList.remove(index);
 	movesList.add(index, new Pair<>(p.getFirst(), p.getSecond() - 1));
-    }
-
-    @Override
-    public boolean canLearnNewMove() {
-	return !movesToLearn.isEmpty();
-    }
-
-    @Override
-    public Moves getMoveToLearn() {
-	if (!canLearnNewMove()) {
-	    return null;
-	}
-	Moves m = movesToLearn.stream().findAny().get();
-	movesToLearn.remove(m);
-	return m;
-    }
-
-    @Override
-    public void learnNewMove(Moves move) {
-	if (isMoveSetFull()) {
-	    throw new IllegalStateException();
-	}
-	this.movesList.add(new Pair<>(move, move.getPP()));
-    }
-
-    @Override
-    public void learnNewMove(Moves oldMove, Moves newMove) {
-	if (this.movesList.stream().filter(i -> i.getFirst().equals(oldMove)).findAny().isEmpty()) {
-	    throw new IllegalArgumentException();
-	}
-	int index = getIndexOfMove(oldMove);
-	this.movesList.remove(index);
-	this.movesList.add(index, new Pair<>(newMove, newMove.getPP()));
     }
 
     private int getIndexOfMove(Moves move) {
