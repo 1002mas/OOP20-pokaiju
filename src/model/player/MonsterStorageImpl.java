@@ -14,11 +14,6 @@ public class MonsterStorageImpl implements MonsterStorage {
 	private List<MonsterBox> monsterBoxes;
 	private int currentMonsterBoxIndex;
 	private Player player;
-
-	//TODO max monster fuori
-	//TODO add monster
-	//TODO Costruttore
-	//TODO liste circolari
 	
 	public  MonsterStorageImpl(Player player, List<MonsterBox> boxes) {
 		this.player = player;
@@ -32,10 +27,7 @@ public class MonsterStorageImpl implements MonsterStorage {
 	}
 	
 	public MonsterStorageImpl(Player player) {
-		this.player = player;
-		this.currentMonsterBoxIndex = 1;
-		this.monsterBoxes = new ArrayList<>();
-		generateBoxs(MAX_NUMBER_OF_BOX);
+		this(player, new ArrayList<>());
 		
 	}
 	
@@ -142,6 +134,11 @@ public class MonsterStorageImpl implements MonsterStorage {
 	public int getMaxSizeOfBox() {
 		return MAX_SIZE_OF_BOX;
 	}
+	
+	public int getMaxNumberOfBox() {
+		return MAX_NUMBER_OF_BOX;
+	}
+	
 	
 	public int currentBoxSize() {
 		return this.getCurrentBoxMonsters().size();
