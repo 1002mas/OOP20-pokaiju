@@ -20,6 +20,7 @@ import model.npc.NpcMerchant;
 import model.npc.NpcSimple;
 import model.npc.TypeOfNpc;
 import model.player.Gender;
+import model.player.MonsterStorageImpl;
 import model.player.Player;
 import model.player.PlayerImpl;
 
@@ -280,6 +281,33 @@ public class PlayerControllerImpl implements PlayerController {
     @Override
     public String getMonsterType(int monsterId) { // --
 	return getMonster(monsterId).getSpecies().getType().toString();
+    }
+
+    @Override
+    public void exchangeMonster(int teamMonsterId, int boxMonsterId) {
+	Optional<Monster> tMonster = getTeamMonsterByID(teamMonsterId);
+	if (tMonster.isPresent()) {
+
+	    this.player.getMonsterStorage.exchange(tMonster.get(), boxMonsterId);
+	}
+
+    }
+
+    @Override
+    public void depositMonster(int teamMonsterId) {
+	Optional<Monster> tMonster = getTeamMonsterByID(teamMonsterId);
+	if (tMonster.isPresent()) {
+	    this.player.getMonsterStorage.depositMonster(tMonster.get());
+	}
+    }
+
+    @Override
+    public void withdrawMonster(int boxMonsterId) {
+	this.player.getMonsterStorage.withdrawMonster(boxMonsterId);
+    }
+
+    private Optional<Monster> getTeamMonsterByID(int monsterID) {
+	return this.player.getAllMonsters().stream().filter(m -> m.getId() == monsterID).findAny();
     }
 
     // -- MOVES --

@@ -169,7 +169,34 @@ public interface PlayerController {
 
     int getMonsterDefense(int monsterId);
 
+    /**
+     * 
+     * @param monsterId monster id
+     * @return monster speed
+     */
     int getMonsterSpeed(int monsterId);
+
+    /**
+     * It puts the team monster in the box and it retrieves the given box monster.
+     * 
+     * @param teamMonsterId team monster id
+     * @param boxMonsterId  box monster id
+     */
+    void exchangeMonster(int teamMonsterId, int boxMonsterId);
+
+    /**
+     * It puts the team monster in the box.
+     * 
+     * @param teamMonsterId team monster id
+     */
+    void depositMonster(int teamMonsterId);
+
+    /**
+     * It retrieves the given box monster.
+     * 
+     * @param boxMonsterId box monster id
+     */
+    void withdrawMonster(int boxMonsterId);
 
     int getItemQuantity(String item);
 
