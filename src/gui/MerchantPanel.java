@@ -53,7 +53,6 @@ public class MerchantPanel extends JPanel {
 	JButton exitButton = new JButton("exit");
 	actionPanel.add(exitButton);
 	exitButton.addActionListener(e -> {
-	    this.playerController.endInteractionWithMerchant();
 	    frame.changePanel(GameFrame.MAP_PANEL);
 	});
 

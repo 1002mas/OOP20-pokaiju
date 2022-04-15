@@ -63,11 +63,11 @@ public class GameMapImpl implements GameMap {
 	return temp;
     }
 
-    private List<Pair<Moves, Integer>> getRandomListMoves(MonsterSpecies species, int level) {
+    private List<Pair<Moves, Integer>> getRandomListMoves(MonsterSpecies species) {
 	final int maxProb = 10;
 	final int prob = 5;
 	List<Pair<Moves, Integer>> movesList = new ArrayList<>();
-	List<Moves> learnableMoves = species.getAllLearnableMoves(level);
+	List<Moves> learnableMoves = species.getAllLearnableMoves();
 	Random r = new Random();
 	for (Moves m : learnableMoves) {
 	    if (movesList.size() < MonsterImpl.NUM_MAX_MOVES && r.nextInt(maxProb) < prob) {
@@ -95,8 +95,8 @@ public class GameMapImpl implements GameMap {
 		.nextInt(map.getWildMonsterLevelRange().getSecond() - map.getWildMonsterLevelRange().getFirst())
 		+ map.getWildMonsterLevelRange().getFirst();
 	Monster m = new MonsterBuilderImpl().species(species).isWild(true)
-		.level(map.getWildMonsterLevelRange().getFirst()).exp(0)
-		.movesList(getRandomListMoves(species, monsterLevel)).build();
+		.level(map.getWildMonsterLevelRange().getFirst()).exp(0).level(monsterLevel)
+		.movesList(getRandomListMoves(species)).build();
 	return Optional.of(m);
     }
 
@@ -116,7 +116,8 @@ public class GameMapImpl implements GameMap {
 
     @Override
     public Optional<GameEvent> getEventAt(Pair<Integer, Integer> position) {
-	return this.map.getEvent(position);
+	Optional<GameEvent> event = this.map.getEvent(position);
+	return event.isPresent() ? event : Optional.empty();
     }
 
 }

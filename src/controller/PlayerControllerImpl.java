@@ -29,7 +29,6 @@ public class PlayerControllerImpl implements PlayerController {
     private GameMap map;// TODO initialize this field when you load saves
     private Direction currentDirection = Direction.DOWN;
     private Optional<MonsterBattle> battle = Optional.empty();
-    private Optional<NpcMerchant> merchantInteraction = Optional.empty();
     private DataLoaderController dataController;
     private List<Pair<MonsterSpecies, MonsterSpecies>> evolutionList;
 
@@ -39,78 +38,52 @@ public class PlayerControllerImpl implements PlayerController {
     }
 
     // --PLAYER--
+
+    @Override
+    public void createNewPlayer(String name, Gender gender, int trainerNumber) {
+	this.map = new GameMapImpl(this.dataController.getGameMapData(this.dataController.getIdCurrentMap()));
+	this.player = new PlayerImpl(name, gender, trainerNumber, new Pair<Integer, Integer>(0, 0), map);
+	dataController.deleteData();
+    }
+
+    @Override
+    public String getPlayerName() { // --
+	return player.getName();
+    }
+
+    @Override
+    public int getTrainerNumber() { // --
+	return player.getTrainerNumber();
+    }
+
+    @Override
+    public String getPlayerGender() { // --
+	return player.getGender().name();
+    }
+
+    @Override
+    public int getPlayerMoney() { // --
+	return player.getMoney();
+    }
+
     @Override
     public Optional<String> interact() {
 	Pair<Integer, Integer> coord = generateCoordinates(this.currentDirection);
 	boolean isNpcPresent = this.player.interactAt(coord);
-	if (isNpcPresent && merchantInteraction.isEmpty()) {
-	    NpcSimple npc = this.player.getLastInteractionWithNpc().get();
+	if (isNpcPresent) {
 	    this.battle = this.player.getPlayerBattle();
+	    NpcSimple npc = this.player.getLastInteractionWithNpc().get();
 	    Optional<String> result = npc.interactWith();
-	    if (npc.getTypeOfNpc() == TypeOfNpc.MERCHANT) {
-		merchantInteraction = Optional.of((NpcMerchant) (npc));
-	    }
 	    return result;
 	}
 	return Optional.empty();
     }
 
     @Override
-    public boolean hasMerchantInteractionOccurred() {
-	return merchantInteraction.isPresent();
+    public boolean hasPlayerTriggeredEvent() {
+	return this.player.isTriggeredEvent();
     }
-
-    @Override
-    public Optional<String> getMerchantName() {
-	return merchantInteraction.isPresent() ? Optional.of(merchantInteraction.get().getName()) : Optional.empty();
-    }
-
-    @Override
-    public List<String> getMerchantItems() {
-	if (!hasMerchantInteractionOccurred()) {
-	    return new ArrayList<>();
-	}
-	return this.merchantInteraction.get().getInventory().entrySet().stream()
-		.map(listedItem -> listedItem.getKey().getNameItem()).collect(Collectors.toList());
-    }
-
-    @Override
-    public int getMerchantItemPrice(String itemName) {
-	if (!hasMerchantInteractionOccurred()) {
-	    return -1;
-	}
-	return this.merchantInteraction.get().getPrice(dataController.getItem((itemName)));
-    }
-
-    private List<Pair<GameItem, Integer>> getBuyingItemAsList(Map<String, Integer> buyItem) {
-	return buyItem.entrySet().stream()
-		.map(listedItem -> new Pair<>(dataController.getItem(listedItem.getKey()), listedItem.getValue()))
-		.collect(Collectors.toList());
-    }
-
-    @Override
-    public int getMerchantTotalPrice(Map<String, Integer> buyItem) {
-	return this.merchantInteraction.get().getTotalPrice(getBuyingItemAsList(buyItem));
-    }
-
-    @Override
-    public boolean canPlayerBuyFromMerchant(Map<String, Integer> buyItem) {
-	return getMerchantTotalPrice(buyItem) <= this.player.getMoney();
-    }
-
-    @Override
-    public boolean buyMerchantItems(Map<String, Integer> buyItem) {
-	if (canPlayerBuyFromMerchant(buyItem)) {
-	    return this.merchantInteraction.get().buyItem(getBuyingItemAsList(buyItem), player);
-	}
-	return false;
-    }
-
-    @Override
-    public void endInteractionWithMerchant() {
-	this.merchantInteraction = Optional.empty();
-
-    }
+    // -- PLAYER MOVEMENT
 
     @Override
     public Pair<Integer, Integer> getPlayerPosition() { // --
@@ -150,15 +123,6 @@ public class PlayerControllerImpl implements PlayerController {
 	return this.player.hasPlayerChangedMap();
     }
 
-    @Override
-    public Map<String, Pair<Integer, Integer>> getAllNpcs() {
-	Map<String, Pair<Integer, Integer>> res = new HashMap<>();
-	for (NpcSimple npc : map.getAllNpcsInCurrentMap()) {
-	    res.put(npc.getName(), npc.getPosition());
-	}
-	return res;
-    }
-
     private Pair<Integer, Integer> generateCoordinates(Direction direction) { // --
 
 	Pair<Integer, Integer> newPosition = null;
@@ -181,6 +145,75 @@ public class PlayerControllerImpl implements PlayerController {
     public int getCurrentMapID() {
 	return this.map.getCurrentMapId();
     }
+    // -- MERCHANT --
+
+    @Override
+    public boolean hasMerchantInteractionOccurred() {
+	Optional<NpcSimple> npc = this.player.getLastInteractionWithNpc();
+	if (npc.isEmpty()) {
+	    return false;
+	}
+	return this.player.getLastInteractionWithNpc().get().getTypeOfNpc().equals(TypeOfNpc.MERCHANT);
+    }
+
+    @Override
+    public List<String> getMerchantItems() {
+	if (!hasMerchantInteractionOccurred()) {
+	    return new ArrayList<>();
+	}
+	NpcMerchant merchant = (NpcMerchant) this.player.getLastInteractionWithNpc().get();
+	return merchant.getInventory().entrySet().stream().map(listedItem -> listedItem.getKey().getNameItem())
+		.collect(Collectors.toList());
+    }
+
+    @Override
+    public int getMerchantItemPrice(String itemName) {
+	if (!hasMerchantInteractionOccurred()) {
+	    return -1;
+	}
+	NpcMerchant merchant = (NpcMerchant) this.player.getLastInteractionWithNpc().get();
+	return merchant.getPrice(dataController.getItem((itemName)));
+    }
+
+    private List<Pair<GameItem, Integer>> getBuyingItemAsList(Map<String, Integer> buyItem) {
+	return buyItem.entrySet().stream()
+		.map(listedItem -> new Pair<>(dataController.getItem(listedItem.getKey()), listedItem.getValue()))
+		.collect(Collectors.toList());
+    }
+
+    @Override
+    public int getMerchantTotalPrice(Map<String, Integer> buyItem) {
+	if (!hasMerchantInteractionOccurred()) {
+	    return -1;
+	}
+	NpcMerchant merchant = (NpcMerchant) this.player.getLastInteractionWithNpc().get();
+	return merchant.getTotalPrice(getBuyingItemAsList(buyItem));
+    }
+
+    @Override
+    public boolean canPlayerBuyFromMerchant(Map<String, Integer> buyItem) {
+	return getMerchantTotalPrice(buyItem) <= this.player.getMoney();
+    }
+
+    @Override
+    public boolean buyMerchantItems(Map<String, Integer> buyItem) {
+	NpcMerchant merchant = (NpcMerchant) this.player.getLastInteractionWithNpc().get();
+	if (canPlayerBuyFromMerchant(buyItem)) {
+	    return merchant.buyItem(getBuyingItemAsList(buyItem), player);
+	}
+	return false;
+    }
+
+    @Override
+    public Map<String, Pair<Integer, Integer>> getAllNpcs() {
+	Map<String, Pair<Integer, Integer>> res = new HashMap<>();
+	for (NpcSimple npc : map.getAllNpcsInCurrentMap()) {
+	    res.put(npc.getName(), npc.getPosition());
+	}
+	return res;
+    }
+
+    // --MONSTERS--
 
     @Override
     public boolean hasBattleStarted() {
@@ -196,30 +229,6 @@ public class PlayerControllerImpl implements PlayerController {
 	}
 	return Optional.empty();
     }
-
-    @Override
-    public void createNewPlayer(String name, Gender gender, int trainerNumber) {
-	this.map = new GameMapImpl(this.dataController.getGameMapData(this.dataController.getIdCurrentMap()));
-	this.player = new PlayerImpl(name, gender, trainerNumber, new Pair<Integer, Integer>(0, 0), map);
-	dataController.deleteData();
-    }
-
-    @Override
-    public String getPlayerName() { // --
-	return player.getName();
-    }
-
-    @Override
-    public int getTrainerNumber() { // --
-	return player.getTrainerNumber();
-    }
-
-    @Override
-    public String getPlayerGender() { // --
-	return player.getGender().name();
-    }
-
-    // --MONSTERS--
 
     @Override
     public String getMonsterNameById(int monsterId) { // --
@@ -245,17 +254,12 @@ public class PlayerControllerImpl implements PlayerController {
 
     @Override
     public boolean addMonster(int monsterId) { // --
-	return this.player.addMonster(this.dataController.getMonster(monsterId)); 
+	return this.player.addMonster(this.dataController.getMonster(monsterId));
     }
 
     @Override
     public boolean isTeamFull() { // --
 	return player.isTeamFull();
-    }
-
-    @Override
-    public void removeMonster(int monsterId) { // --
-	player.removeMonster(getMonster(monsterId));
     }
 
     @Override
@@ -269,11 +273,6 @@ public class PlayerControllerImpl implements PlayerController {
     }
 
     @Override
-    public boolean getMonsterIsWild(int monsterId) { // --
-	return getMonster(monsterId).getWild();
-    }
-
-    @Override
     public int getMonsterMaxHealth(int monsterId) { // --
 	return getMonster(monsterId).getMaxHealth();
     }
@@ -283,6 +282,7 @@ public class PlayerControllerImpl implements PlayerController {
 	return getMonster(monsterId).getSpecies().getType().toString();
     }
 
+    // -- MOVES --
     @Override
     public List<String> getMovesNames(int monsterId) { // --
 	Monster m = getMonster(monsterId);
@@ -323,10 +323,10 @@ public class PlayerControllerImpl implements PlayerController {
 	    player.useItem(gameItem);
 	}
     }
-    
+
     @Override
     public void useItemOnMonster(String i, int monsterId) {
-	player.useItemOnMonster(dataController.getItem(i),dataController.getMonster(monsterId));
+	player.useItemOnMonster(dataController.getItem(i), dataController.getMonster(monsterId));
     }
 
     @Override
@@ -338,11 +338,6 @@ public class PlayerControllerImpl implements PlayerController {
     public List<String> getPlayerItemsName() { // --
 	return player.getAllItems().entrySet().stream().map(map -> map.getKey().getNameItem())
 		.collect(Collectors.toList());
-    }
-
-    @Override
-    public int getPlayerMoney() { // --
-	return player.getMoney();
     }
 
     @Override
@@ -361,24 +356,6 @@ public class PlayerControllerImpl implements PlayerController {
     }
 
     @Override
-    public void save() { // --
-	// TODO monsterBuilder id and monster storage
-	dataController.saveData(0, this.map.getCurrentMapId(), null, player);
-    }
-
-    // TODO check correct
-    @Override
-    public boolean load() { // --
-	dataController.loadGameData();
-	return this.dataController.gameSaveExist();
-    }
-
-    @Override
-    public boolean dataExist() { // --
-	return dataController.gameSaveExist();
-    }
-
-    @Override
     public int getMaximumBlocksInRow() {
 	return dataController.getMaximumBlockInRow();
     }
@@ -390,13 +367,12 @@ public class PlayerControllerImpl implements PlayerController {
 
     @Override
     public Optional<Pair<String, String>> evolveByItem(String nameItem, int monsterId) {
-	if (canEvolveByItem(nameItem, monsterId)) {
-	    Monster monster = player.getAllMonsters().stream().filter(i -> i.getId() == monsterId).findAny().get();
-	    String monsterName = monster.getName();
-	    monster.evolve();
-	    return Optional.of(new Pair<>(monsterName, monster.getName()));
-	}
-	return Optional.empty();
+	Monster monster = player.getAllMonsters().stream().filter(i -> i.getId() == monsterId).findAny().get();
+	GameItem gameItem = dataController.getItem(nameItem);
+	String monsterName = monster.getName();
+	this.player.evolveMonster(monster, gameItem);
+	return monster.getName().equals(monsterName) ? Optional.empty()
+		: Optional.of(new Pair<>(monsterName, monster.getName()));
     }
 
     @Override
@@ -423,19 +399,15 @@ public class PlayerControllerImpl implements PlayerController {
     @Override
     public boolean canEvolveByItem(String nameItem, int monsterId) {
 	Optional<Monster> monster = this.player.getAllMonsters().stream().filter(m -> m.getId() == monsterId).findAny();
-	if (monster.isEmpty()) {
-	    return false;
-	}
-	return monster.get().canEvolveByItem(dataController.getItem(nameItem));
+	return monster.isPresent() && monster.get().canEvolveByItem(dataController.getItem(nameItem));
     }
 
     @Override
     public boolean hasAnyMonsterEvolved() {
 	evolutionList.addAll(player.getEvolutionList());
 	return !evolutionList.isEmpty();
-
     }
-    
+
     @Override
     public Pair<String, String> getEvolvedMonster() {
 	if (hasAnyMonsterEvolved()) {

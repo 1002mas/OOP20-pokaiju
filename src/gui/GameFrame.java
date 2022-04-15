@@ -47,7 +47,6 @@ public class GameFrame extends JFrame {
 
 	LoginPanel loginPanel = new LoginPanel(this.playerController);
 	loginPanel.getContinue().addActionListener(e -> {
-	    this.playerController.load();
 	    if (!subPanels.containsKey(MAP_PANEL)) {
 		JPanel gamePanel = buildMapPanel();
 		mainPanel.add(gamePanel, MAP_PANEL);
@@ -70,7 +69,7 @@ public class GameFrame extends JFrame {
 	mainPanel.add(newGamePanel, NEW_GAME_PANEL);
 	mainPanel.add(menuPanel, MENU_PANEL);
 	mainPanel.add(battlePanel, BATTLE_PANEL);
-	mainPanel.add(evolvePanel,EVOLVE_PANEL);
+	mainPanel.add(evolvePanel, EVOLVE_PANEL);
 
 	subPanels.put(LOGIN_PANEL, loginPanel);
 	subPanels.put(NEW_GAME_PANEL, newGamePanel);
@@ -118,12 +117,15 @@ public class GameFrame extends JFrame {
 	    topPanel.staticMove();
 	}
 	changeToBattle();
+	if (playerController.hasPlayerTriggeredEvent()) {
+	    topPanel.setNpcs(this.playerController.getAllNpcs());
+	}
     }
 
     private void changeToBattle() {
 	if (playerController.hasBattleStarted()) {
 	    BattlePanel b = (BattlePanel) (this.subPanels.get(BATTLE_PANEL));
-	    b.setBattleController(this.playerController.getBattleController().get(),this.playerController);
+	    b.setBattleController(this.playerController.getBattleController().get(), this.playerController);
 	    changePanel(BATTLE_PANEL);
 	}
     }
@@ -134,6 +136,9 @@ public class GameFrame extends JFrame {
 	Optional<String> text = playerController.interact();
 	if (text.isPresent()) {
 	    topPanel.showText(text.get());
+	}
+	if (playerController.hasPlayerTriggeredEvent()) {
+	    topPanel.setNpcs(this.playerController.getAllNpcs());
 	}
 	return text.isPresent();
     }
