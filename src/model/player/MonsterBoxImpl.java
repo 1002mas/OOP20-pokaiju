@@ -54,7 +54,8 @@ public class MonsterBoxImpl implements MonsterBox {
 		}
 		return Optional.empty();
 	}
-
+	
+	@Override
 	public boolean isFull() {
 		return (this.monsterList.size() >= this.boxSize);
 	}

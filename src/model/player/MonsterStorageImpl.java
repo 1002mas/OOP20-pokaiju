@@ -130,16 +130,16 @@ public class MonsterStorageImpl implements MonsterStorage {
 	public List<Monster> getCurrentBoxMonsters() {
 		return getCurrentBox().getAllMonsters();
 	}
-	
+	@Override
 	public int getMaxSizeOfBox() {
 		return MAX_SIZE_OF_BOX;
 	}
-	
+	@Override
 	public int getMaxNumberOfBox() {
 		return MAX_NUMBER_OF_BOX;
 	}
 	
-	
+	@Override
 	public int currentBoxSize() {
 		return this.getCurrentBoxMonsters().size();
 	}

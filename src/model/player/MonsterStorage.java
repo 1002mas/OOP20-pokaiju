@@ -65,4 +65,7 @@ public interface MonsterStorage {
 	 * @return current box monsters list
 	 */
 	public List<Monster> getCurrentBoxMonsters();
+	public int getMaxSizeOfBox();
+	public int getMaxNumberOfBox();
+	public int currentBoxSize();
 }

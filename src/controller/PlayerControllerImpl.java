@@ -466,4 +466,20 @@ public class PlayerControllerImpl implements PlayerController {
 	return null;
     }
 
+	@Override
+	public int getBoxNumbers() {
+		return this.player.getStorage().getMaxNumberOfBox();
+	}
+
+	@Override
+	public int getMonstersForEachBox() {
+		
+		return this.player.getStorage().getMaxSizeOfBox();
+	}
+
+	@Override
+	public boolean isPlayerLastMonsterLeft() {
+		return (this.player.getAllMonsters().size() == 1);
+	}
+
 }

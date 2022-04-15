@@ -55,4 +55,5 @@ public interface MonsterBox {
 	 * @param monsterID to remove
 	 */
 	public void removeMonster(int monsterID);
+	
 }
