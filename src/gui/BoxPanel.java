@@ -20,11 +20,10 @@ import controller.PlayerController;
 
 public class BoxPanel extends JPanel {
     private static final long serialVersionUID = 67133453355728035L;
-    private static final int NUMBEROFMONSTERPERPAGE = 10;
     private final PlayerController playerController;
     private final CardLayout cardLayout = new CardLayout();
     private List<Integer> playerMonsterIdList = new ArrayList<Integer>();
-    private List<Integer> boxMonsterIdList = new ArrayList<Integer>();
+    private List<Integer> boxMonsterIdList;
     private int idBoxMonster;
     private int idPlayerMonster;
     private final JButton exchange = new JButton("Exchange");
@@ -48,22 +47,21 @@ public class BoxPanel extends JPanel {
     private void setButtons() {
 	exchange.addActionListener(new ActionListener() {
 	    public void actionPerformed(ActionEvent e) {
-		// TODO
+		playerController.exchangeMonster(idPlayerMonster, idBoxMonster);
 		update();
 	    }
 	});
 	deposit.addActionListener(new ActionListener() {
 	    public void actionPerformed(ActionEvent e) {
-		// TODO
+		playerController.depositMonster(idPlayerMonster);
 		update();
 
 	    }
 	});
 	take.addActionListener(new ActionListener() {
 	    public void actionPerformed(ActionEvent e) {
-		// TODO
+		playerController.withdrawMonster(idBoxMonster);
 		update();
-
 	    }
 	});
 	cancel.addActionListener(new ActionListener() {
@@ -95,16 +93,11 @@ public class BoxPanel extends JPanel {
 	boxPanel.setLayout(cardLayout);
 	List<JPanel> contentPanel = new ArrayList<JPanel>();
 
-	int remainelement = boxMonsterIdList.size();
-	for (int a = 0; a < numberOfPage(boxMonsterIdList); a++) {
-	    int multiplicator = NUMBEROFMONSTERPERPAGE * a;
-	    JPanel pagePanel = new JPanel(new GridLayout(NUMBEROFMONSTERPERPAGE, 1));
-	    for (int i = 0; i < (((remainelement - NUMBEROFMONSTERPERPAGE) > 0) ? NUMBEROFMONSTERPERPAGE
-		    : remainelement); i++) {
-		int id = boxMonsterIdList.get(i + multiplicator);
-		pagePanel.add(setMonsterPanel(id, boxPanel, false));
+	for (int a = 0; a < 10; a++) {// TODO numbero di box esistenti
+	    JPanel pagePanel = new JPanel(new GridLayout(this.boxMonsterIdList.size(), 1));
+	    for (int b = 0; b < this.boxMonsterIdList.size(); b++) {
+		pagePanel.add(setMonsterPanel(boxMonsterIdList.get(b), boxPanel, false));
 	    }
-	    remainelement = Math.abs(remainelement - NUMBEROFMONSTERPERPAGE);
 	    contentPanel.add(pagePanel);
 	}
 
@@ -153,8 +146,16 @@ public class BoxPanel extends JPanel {
 	bottomPanel.add(previusPage);
 	bottomPanel.add(nextPage);
 
-	nextPage.addActionListener(e -> cardLayout.next(boxPanel));
-	previusPage.addActionListener(e -> cardLayout.previous(boxPanel));
+	nextPage.addActionListener(e -> {
+	    this.playerController.nextBox();
+	    setList();
+	    cardLayout.next(boxPanel);
+	});
+	nextPage.addActionListener(e -> {
+	    this.playerController.previousBox();
+	    setList();
+	    cardLayout.previous(boxPanel);
+	});
 	return bottomPanel;
     }
 
@@ -227,10 +228,6 @@ public class BoxPanel extends JPanel {
 	panel.add(checkBoxPlayer);
 	return panel;
 
-    }
-
-    private int numberOfPage(List<Integer> boxNames) {
-	return ((int) boxNames.size() / NUMBEROFMONSTERPERPAGE) + 1;
     }
 
     private void setLabelProp(JLabel label) {
