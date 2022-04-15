@@ -19,6 +19,7 @@ import model.npc.NpcMerchant;
 import model.npc.NpcSimple;
 import model.npc.TypeOfNpc;
 import model.player.Gender;
+import model.player.MonsterStorage;
 import model.player.Player;
 
 public class PlayerControllerImpl implements PlayerController {
@@ -464,6 +465,16 @@ public class PlayerControllerImpl implements PlayerController {
 	    return p;
 	}
 	return null;
+    }
+
+    @Override
+    public int getBoxNumbers() {
+	return this.player.getStorage().getMaxSizeOfBox();
+    }
+
+    @Override
+    public int getMonstersForEachBox() {
+	return this.player.getStorage().getMaxNumberOfBox();
     }
 
 }

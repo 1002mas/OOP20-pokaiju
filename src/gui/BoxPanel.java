@@ -93,8 +93,8 @@ public class BoxPanel extends JPanel {
 	boxPanel.setLayout(cardLayout);
 	List<JPanel> contentPanel = new ArrayList<JPanel>();
 
-	for (int a = 0; a < 10; a++) {// TODO numbero di box esistenti
-	    JPanel pagePanel = new JPanel(new GridLayout(this.boxMonsterIdList.size(), 1));
+	for (int a = 0; a < playerController.getBoxNumbers(); a++) {
+	    JPanel pagePanel = new JPanel(new GridLayout(this.playerController.getMonstersForEachBox(), 1));
 	    for (int b = 0; b < this.boxMonsterIdList.size(); b++) {
 		pagePanel.add(setMonsterPanel(boxMonsterIdList.get(b), boxPanel, false));
 	    }
