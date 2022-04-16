@@ -3,7 +3,6 @@ package gui;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,7 +11,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
 
 import javax.imageio.ImageIO;
 
@@ -29,7 +27,7 @@ public class ImagesLoaderImpl implements ImagesLoader {
     private final int width;
     private final Pair<Integer, Integer> cellSize;
 
-    private Map<Direction, List<BufferedImage>> player = new HashMap<>();
+    private Map<String, List<BufferedImage>> player = new HashMap<>();
     private Map<String, BufferedImage> monsters = new HashMap<>();
     private Map<Integer, BufferedImage> mapTextures = new HashMap<>();
     private Map<Integer, List<BufferedImage>> maps = new HashMap<>();
@@ -98,8 +96,7 @@ public class ImagesLoaderImpl implements ImagesLoader {
     public List<BufferedImage> getPlayerImages(Direction dir, String gender) {
 	if (!player.containsKey(dir)) {
 	    final double dimMultiplier = 1.3;
-	    final String basePath = BASE_PATH + "player/" + gender + "/player_"
-		    + dir.toString() + "_";
+	    final String basePath = BASE_PATH + "player/" + gender + "/player_" + dir.toString() + "_";
 	    final String fileType = ".png";
 	    List<BufferedImage> imageSequence = new ArrayList<>();
 	    try {
@@ -113,17 +110,16 @@ public class ImagesLoaderImpl implements ImagesLoader {
 	    } catch (IOException e) {
 		e.printStackTrace();
 	    }
-	    player.put(dir, imageSequence);
+	    player.put(dir.toString() + " " + gender, imageSequence);
 	}
-	return player.get(dir);
+	return player.get(dir.toString() + " " + gender);
     }
 
     @Override
     public List<BufferedImage> getMapByID(int mapID) {
 	if (!maps.containsKey(mapID)) {
 	    List<BufferedImage> mapSequence = new ArrayList<>();
-	    String mapPath = "data/maps/appearance/map"
-		    + mapID + ".dat";
+	    String mapPath = "data/maps/appearance/map" + mapID + ".dat";
 	    InputStream fileStream = this.getClass().getClassLoader().getResourceAsStream(mapPath);
 	    try (BufferedReader in = new BufferedReader(new InputStreamReader(fileStream));) {
 		String line = null;

@@ -192,20 +192,20 @@ public class GameFrameImpl extends JFrame implements GameFrame {
 		JOptionPane.showMessageDialog(null, "Name can't be null", "alert", JOptionPane.WARNING_MESSAGE);
 	    } else {
 		playerController.createNewPlayer(nameField.getText(), gender.getSelectedItem().toString(), a);
-		if (!subPanels.containsKey(MAP_VIEW)) {
-		    JPanel gamePanel = buildMapPanel();
-		    JPanel menuPanel = buildMenuPanel();
-		    JPanel battlePanel = new BattlePanel(imgLoad, this);
-		    JPanel merchantPanel = new MerchantPanel(this, playerController);
-		    mainPanel.add(gamePanel, MAP_VIEW);
-		    mainPanel.add(battlePanel, BATTLE_VIEW);
-		    mainPanel.add(menuPanel, MENU_VIEW);
-		    mainPanel.add(merchantPanel, MERCHANT_VIEW);
-		    subPanels.put(MERCHANT_VIEW, merchantPanel);
-		    subPanels.put(MENU_VIEW, menuPanel);
-		    subPanels.put(BATTLE_VIEW, battlePanel);
-		    subPanels.put(MAP_VIEW, gamePanel);
-		}
+
+		JPanel gamePanel = buildMapPanel();
+		JPanel menuPanel = buildMenuPanel();
+		JPanel battlePanel = new BattlePanel(imgLoad, this);
+		JPanel merchantPanel = new MerchantPanel(this, playerController);
+		mainPanel.add(gamePanel, MAP_VIEW);
+		mainPanel.add(battlePanel, BATTLE_VIEW);
+		mainPanel.add(menuPanel, MENU_VIEW);
+		mainPanel.add(merchantPanel, MERCHANT_VIEW);
+		subPanels.put(MERCHANT_VIEW, merchantPanel);
+		subPanels.put(MENU_VIEW, menuPanel);
+		subPanels.put(BATTLE_VIEW, battlePanel);
+		subPanels.put(MAP_VIEW, gamePanel);
+
 		updateView(GameFrameImpl.MAP_VIEW);
 	    }
 	});
