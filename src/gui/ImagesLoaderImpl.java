@@ -5,7 +5,6 @@ import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -63,8 +62,8 @@ public class ImagesLoaderImpl implements ImagesLoader {
 		    texturesID = Integer.parseInt(line);
 		} else {
 		    String texturePath = line.replaceAll("/", Matcher.quoteReplacement(File.separator));
-
-		    BufferedImage img = resizeImage(ImageIO.read(new File(texturePath)), cellSize.getFirst(),
+		    InputStream textureStream = this.getClass().getClassLoader().getResourceAsStream(texturePath);
+		    BufferedImage img = resizeImage(ImageIO.read(textureStream), cellSize.getFirst(),
 			    cellSize.getSecond());
 
 		    mapTextures.put(texturesID, img);
@@ -107,7 +106,6 @@ public class ImagesLoaderImpl implements ImagesLoader {
 	    try {
 		for (int i = 1; i <= PLAYER_SEQUENCE_LENGTH; i++) {
 		    String imgPath = basePath + i + fileType;
-		    System.out.println(imgPath);
 		    InputStream imgStream = this.getClass().getClassLoader().getResourceAsStream(imgPath);
 		    imageSequence
 			    .add(resizeImage(ImageIO.read(imgStream), (int) (dimMultiplier * this.cellSize.getFirst()),
@@ -125,11 +123,10 @@ public class ImagesLoaderImpl implements ImagesLoader {
     public List<BufferedImage> getMapByID(int mapID) {
 	if (!maps.containsKey(mapID)) {
 	    List<BufferedImage> mapSequence = new ArrayList<>();
-	    String mapPath = "res" + File.separator + "data" + File.separator + "maps" + File.separator + "appearance"
-		    + File.separator + "map" + mapID + ".dat";
-
-	    File f = new File(mapPath);
-	    try (BufferedReader in = new BufferedReader(new FileReader(f));) {
+	    String mapPath = "data" + File.separator + "maps" + File.separator + "appearance" + File.separator + "map"
+		    + mapID + ".dat";
+	    InputStream fileStream = this.getClass().getClassLoader().getResourceAsStream(mapPath);
+	    try (BufferedReader in = new BufferedReader(new InputStreamReader(fileStream));) {
 		String line = null;
 		while ((line = in.readLine()) != null) {
 		    int texturesID = Integer.parseInt(line);
@@ -142,6 +139,7 @@ public class ImagesLoaderImpl implements ImagesLoader {
 		e.printStackTrace();
 	    }
 	}
+	System.out.println("DONE");
 	return this.maps.get(mapID);
     }
 

@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,8 +19,9 @@ public enum MonsterType {
     private MonsterType(String name) {
 
 	this.name = name;
-	String path = "res" + File.separator + "data" + File.separator + "weakness" + File.separator + name + ".dat";
-	try (BufferedReader in = new BufferedReader(new FileReader(path))) {
+	String path = "data" + File.separator + "weakness" + File.separator + name + ".dat";
+	InputStream fileStream = this.getClass().getClassLoader().getResourceAsStream(path);
+	try (BufferedReader in = new BufferedReader(new InputStreamReader(fileStream))) {
 	    String line;
 
 	    String[] splittedLine;

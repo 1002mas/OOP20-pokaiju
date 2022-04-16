@@ -3,13 +3,15 @@ package controller.json;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+
 import model.Pair;
 import model.battle.Moves;
 import model.battle.MovesImpl;
@@ -137,10 +139,11 @@ public class DataControllerImpl implements DataLoaderController {
     }
 
     private Map<Pair<Integer, Integer>, MapBlockType> getMapBlocksById(int Id) {
-	String filePath = "res" + File.separator + "data" + File.separator + "maps" + File.separator + "permissions"
-		+ File.separator + "map_permissions" + Id + ".dat";
+	String filePath = "data" + File.separator + "maps" + File.separator + "permissions" + File.separator
+		+ "map_permissions" + Id + ".dat";
+	InputStream fileStream = this.getClass().getClassLoader().getResourceAsStream(filePath);
 	Map<Pair<Integer, Integer>, MapBlockType> map = new HashMap<>();
-	try (BufferedReader reader = new BufferedReader(new FileReader(filePath));) {
+	try (BufferedReader reader = new BufferedReader(new InputStreamReader(fileStream));) {
 	    String line;
 	    int x = 0;
 	    int y = 0;
