@@ -5,6 +5,8 @@ import java.awt.CardLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,18 +44,43 @@ public class BattlePanel extends JPanel {
     private JLabel enemyMonsterImg = new JLabel();
 
     private BattleController ctrl;
-    private PlayerController playerCtrl;
+   
     private ImagesLoader img;
     private GameFrame gameFrame;
 
     public BattlePanel(ImagesLoader img,GameFrame frame) {
 	this.img = img;
 	this.gameFrame = frame;
+	this.addComponentListener(new ComponentListener() {
+	    
+	    @Override
+	    public void componentShown(ComponentEvent e) {
+		// TODO Auto-generated method stub
+		start();
+	    }
+	    
+	    @Override
+	    public void componentResized(ComponentEvent e) {
+		// TODO Auto-generated method stub
+		
+	    }
+	    
+	    @Override
+	    public void componentMoved(ComponentEvent e) {
+		// TODO Auto-generated method stub
+		
+	    }
+	    
+	    @Override
+	    public void componentHidden(ComponentEvent e) {
+		// TODO Auto-generated method stub
+		
+	    }
+	});
     }
 
-    public void setBattleController(BattleController ctrl,PlayerController playerCtrl) {
+    public void setBattleController(BattleController ctrl) {
 	this.ctrl = ctrl;
-	this.playerCtrl = playerCtrl;
     }
 
     private String getCurrentPlayerMonsterData() {
@@ -96,11 +123,9 @@ public class BattlePanel extends JPanel {
 		    if (ctrl.isOver()) {
 			// ENDING BATTLE player team dead
 			actionText.setText("You lose...");
-			if(this.playerCtrl.hasAnyMonsterEvolved()) {
-			    this.gameFrame.updateView(GameFrameImpl.EVOLVE_PANEL);
-			}else {
+			
 			    this.gameFrame.updateView(GameFrameImpl.MAP_VIEW);
-			}
+			
 			
 		    } else {
 			loadMonsters();
@@ -110,11 +135,9 @@ public class BattlePanel extends JPanel {
 		    if (ctrl.isOver()) {
 			// ENDING BATTLE enemy team dead
 			actionText.setText("You have defeated all the enemies!!");
-			if(this.playerCtrl.hasAnyMonsterEvolved()) {
-			    this.gameFrame.updateView(GameFrameImpl.EVOLVE_PANEL);
-			}else {
-			    this.gameFrame.updateView(GameFrameImpl.MAP_VIEW);
-			}
+		
+			this.gameFrame.updateView(GameFrameImpl.MAP_VIEW);
+			
 		    } else {
 			refresh();
 		    }
