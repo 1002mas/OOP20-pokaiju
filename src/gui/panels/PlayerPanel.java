@@ -1,4 +1,4 @@
-package gui;
+package gui.panels;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -17,6 +17,7 @@ import javax.swing.JTextArea;
 import javax.swing.border.Border;
 
 import controller.Direction;
+import gui.ImagesLoader;
 import model.Pair;
 
 public class PlayerPanel extends JPanel {

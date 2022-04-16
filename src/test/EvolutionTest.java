@@ -2,9 +2,9 @@ package test;
 
 import javax.swing.JFrame;
 
-import gui.EvolutionPanel;
 import gui.GameFrame;
 import gui.ImagesLoader;
+import gui.panels.EvolutionPanel;
 import model.Pair;
 
 public class EvolutionTest {

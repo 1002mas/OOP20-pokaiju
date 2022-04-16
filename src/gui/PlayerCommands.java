@@ -46,7 +46,7 @@ public class PlayerCommands implements KeyListener {
 		    gui.movePlayer(Direction.RIGHT);
 		    break;
 		case menuCommand:
-		    gui.changePanel("menu");
+		    gui.updateView("menu");
 		    break;
 		case interactionCommand:
 		    this.canMove = gui.playerInteraction();

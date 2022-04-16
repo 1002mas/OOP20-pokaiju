@@ -1,4 +1,4 @@
-package gui;
+package gui.panels;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import controller.PlayerController;
+import gui.GameFrame;
 import model.gameitem.GameItemTypes;
 
 public class SelectMosterPanel extends JPanel {

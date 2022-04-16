@@ -1,4 +1,4 @@
-package gui;
+package gui.panels;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -18,6 +18,8 @@ import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 
 import controller.PlayerController;
+import gui.GameFrame;
+import gui.GameFrameImpl;
 
 public class MerchantPanel extends JPanel {
     private static final long serialVersionUID = -8620443097250013546L;
@@ -53,7 +55,7 @@ public class MerchantPanel extends JPanel {
 	JButton exitButton = new JButton("exit");
 	actionPanel.add(exitButton);
 	exitButton.addActionListener(e -> {
-	    frame.changePanel(GameFrame.MAP_PANEL);
+	    frame.updateView(GameFrameImpl.MAP_VIEW);
 	});
 
 	JPanel itemPanel = new JPanel();

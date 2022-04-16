@@ -135,7 +135,7 @@ public interface PlayerController {
 
     boolean addMonster(int idMonster);
 
-    void createNewPlayer(String name, Gender gender, int trainerNumber);
+    void createNewPlayer(String name, String gender, int trainerNumber);
 
     String getPlayerName();
 

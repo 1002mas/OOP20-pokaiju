@@ -246,6 +246,11 @@ public interface Player {
      */
     MonsterStorage getStorage();
 
+    /**
+     * This function returns if the player has triggered an event
+     * 
+     * @return true if the player has triggered an event
+     */
     boolean isTriggeredEvent();
 
 }

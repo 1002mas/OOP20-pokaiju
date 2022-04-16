@@ -1,4 +1,4 @@
-package gui;
+package gui.panels;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import controller.PlayerController;
+import gui.ImagesLoader;
 
 public class MonsterInfoPanel extends JPanel {
     private static final long serialVersionUID = -5191191420756038008L;

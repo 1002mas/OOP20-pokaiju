@@ -104,4 +104,12 @@ public interface DataLoaderController {
 
     public GameEvent getEvent(int id);
 
+    /**
+     * set a new Player
+     * 
+     * @param name,gender,trainer
+     * 
+     */
+    public void setPlayer(String name, String gender, int trainerNumber);
+
 }

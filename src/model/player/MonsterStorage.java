@@ -83,4 +83,5 @@ public interface MonsterStorage {
 	 * @return maximum number of monster in each box
 	 */
 	int getMaxNumberOfBox();
+
 }
