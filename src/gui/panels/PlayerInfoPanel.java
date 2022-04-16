@@ -16,7 +16,6 @@ public class PlayerInfoPanel extends JPanel {
 
     public PlayerInfoPanel(PlayerController playerController) {
 	this.playerController = playerController;
-	init();
     }
 
     private void init() {
@@ -45,5 +44,6 @@ public class PlayerInfoPanel extends JPanel {
     public void update() {
 	this.removeAll();
 	this.init();
+	this.validate();
     };
 }

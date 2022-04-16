@@ -162,7 +162,7 @@ public class PlayerImpl implements Player {
     }
 
     public void setMoney(int money) {
-	this.money = money;
+	this.money = money < 0 ? 0 : money;
     }
 
     public String getName() {

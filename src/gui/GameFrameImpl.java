@@ -10,6 +10,10 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Toolkit;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.List;
@@ -91,6 +95,16 @@ public class GameFrameImpl extends JFrame implements GameFrame {
     private JPanel buildMapPanel() {
 	TwoLayersPanel mapPanel = new TwoLayersPanel(playerController, imgLoad, size, size);
 	mapPanel.addKeyListener(new PlayerCommands(this));
+	mapPanel.addFocusListener(new FocusListener() {
+	    @Override
+	    public void focusLost(FocusEvent e) {
+		mapPanel.requestFocusInWindow();
+	    }
+
+	    @Override
+	    public void focusGained(FocusEvent e) {
+	    }
+	});
 	return mapPanel;
     }
 
@@ -121,12 +135,14 @@ public class GameFrameImpl extends JFrame implements GameFrame {
 	}
     }
 
-    private void changeToBattle() {
+    private boolean changeToBattle() {
 	if (playerController.hasBattleStarted()) {
 	    BattlePanel b = (BattlePanel) (this.subPanels.get(BATTLE_VIEW));
 	    b.setBattleController(this.playerController.getBattleController().get());
 	    updateView(BATTLE_VIEW);
+	    return true;
 	}
+	return false;
     }
 
     @Override
@@ -136,6 +152,7 @@ public class GameFrameImpl extends JFrame implements GameFrame {
 	Optional<String> text = playerController.interact();
 	if (text.isPresent()) {
 	    topPanel.showText(text.get());
+
 	}
 	if (playerController.hasPlayerTriggeredEvent()) {
 	    topPanel.setNpcs(this.playerController.getAllNpcs());
@@ -162,11 +179,6 @@ public class GameFrameImpl extends JFrame implements GameFrame {
 	JPanel panel = new JPanel(new BorderLayout());
 	panel.setBorder(BorderFactory.createLineBorder(Color.green));
 
-	JLabel tipsLabel = new JLabel();
-	tipsLabel.setText("Creating a new game will delete the old savedata");
-	tipsLabel.setFont(new Font("SansSerif Bold Italic", Font.CENTER_BASELINE, 22));
-	tipsLabel.setForeground(Color.red);
-
 	JLabel nameLabel = new JLabel();
 	JTextField nameField = new JTextField();
 	nameLabel.setText("Insert name :");
@@ -176,12 +188,9 @@ public class GameFrameImpl extends JFrame implements GameFrame {
 	JComboBox<String> gender = new JComboBox<String>(genderText);
 	genderLabel.setText("Select your gender :");
 
-	Random rand = new Random();
-	int a = rand.nextInt(999999) + 100000;
 	JLabel trainerNumberLabel = new JLabel();
 	trainerNumberLabel.setText("Trainer number is generated randomly : ");
 	JTextField trainerNumberField = new JTextField();
-	trainerNumberField.setText(String.valueOf(a));
 	trainerNumberField.setEditable(false);
 	trainerNumberLabel.setFont(new Font("SansSerif Bold Italic", Font.CENTER_BASELINE, 22));
 	trainerNumberLabel.setEnabled(false);
@@ -191,7 +200,8 @@ public class GameFrameImpl extends JFrame implements GameFrame {
 	    if (nameField.getText().equals("")) {
 		JOptionPane.showMessageDialog(null, "Name can't be null", "alert", JOptionPane.WARNING_MESSAGE);
 	    } else {
-		playerController.createNewPlayer(nameField.getText(), gender.getSelectedItem().toString(), a);
+		playerController.createNewPlayer(nameField.getText(), gender.getSelectedItem().toString(),
+			Integer.parseInt(trainerNumberField.getText()));
 
 		JPanel gamePanel = buildMapPanel();
 		JPanel menuPanel = buildMenuPanel();
@@ -220,9 +230,8 @@ public class GameFrameImpl extends JFrame implements GameFrame {
 
 	GridBagConstraints rows = new GridBagConstraints();
 	rows.gridy = 1;
-	underPanel.add(nameLabel, rows);
 	rows.insets = new Insets(0, 0, SPACE, 0);
-	rows.fill = GridBagConstraints.HORIZONTAL;
+	rows.fill = GridBagConstraints.BOTH;
 	underPanel.add(nameLabel, rows);
 	underPanel.add(nameField, rows);
 	rows.gridy++;
@@ -233,10 +242,29 @@ public class GameFrameImpl extends JFrame implements GameFrame {
 	underPanel.add(trainerNumberField, rows);
 	rows.gridy++;
 	underPanel.add(postData, rows);
-	rows.gridy++;
-	underPanel.add(tipsLabel, rows);
 
-	panel.add(topPanel, BorderLayout.LINE_START);
+	panel.addComponentListener(new ComponentListener() {
+	    @Override
+	    public void componentShown(ComponentEvent e) {
+		Random rand = new Random();
+		int a = rand.nextInt(999999) + 100000;
+		trainerNumberField.setText(Integer.toString(a));
+		nameField.setText("");
+	    }
+
+	    @Override
+	    public void componentResized(ComponentEvent e) {
+	    }
+
+	    @Override
+	    public void componentMoved(ComponentEvent e) {
+	    }
+
+	    @Override
+	    public void componentHidden(ComponentEvent e) {
+	    }
+	});
+	panel.add(topPanel, BorderLayout.NORTH);
 	panel.add(underPanel, BorderLayout.CENTER);
 	return panel;
     }

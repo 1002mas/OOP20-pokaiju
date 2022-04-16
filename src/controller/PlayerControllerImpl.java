@@ -66,6 +66,7 @@ public class PlayerControllerImpl implements PlayerController {
 	boolean isNpcPresent = this.player.interactAt(coord);
 	if (isNpcPresent) {
 	    this.battle = this.player.getPlayerBattle();
+	    System.out.println(this.battle);
 	    NpcSimple npc = this.player.getLastInteractionWithNpc().get();
 	    Optional<String> result = npc.interactWith();
 	    return result;
@@ -371,7 +372,7 @@ public class PlayerControllerImpl implements PlayerController {
 
     @Override
     public void useItemOnMonster(String i, int monsterId) {
-	player.useItemOnMonster(dataController.getItem(i), dataController.getMonster(monsterId));
+	player.useItemOnMonster(dataController.getItem(i), getMonster(monsterId).get());
     }
 
     @Override
