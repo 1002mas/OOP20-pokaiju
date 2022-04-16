@@ -6,7 +6,7 @@ import java.util.Optional;
 import model.battle.Moves;
 import model.gameitem.GameItem;
 
-public class MonsterSpeciesByItem extends MonsterSpeciesImpl {
+public class MonsterSpeciesByItem extends MonsterSpeciesSimple {
 
     private GameItem evolutionItem;
 
