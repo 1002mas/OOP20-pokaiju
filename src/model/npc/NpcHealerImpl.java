@@ -1,12 +1,14 @@
 package model.npc;
 
 import java.util.List;
+import java.util.Optional;
+
 import model.Pair;
 import model.battle.Moves;
 import model.monster.Monster;
 import model.player.Player;
 
-public class NpcHealerImpl extends NpcSimpleImpl implements NpcHealer {
+public class NpcHealerImpl extends NpcSimpleImpl {
 
 	private Player player;
 
@@ -19,19 +21,18 @@ public class NpcHealerImpl extends NpcSimpleImpl implements NpcHealer {
 	private void heal() {
 		for (Monster monster : this.player.getAllMonsters()) {
 			monster.setHealth(monster.getMaxHealth());
-			for (Moves move : monster.getAllMoves()) {
-				monster.restoreMovePP(move);
-			}
+			monster.restoreAllMovesPP();
 		}
 
 	}
 
 	@Override
-	public void interractWith() {
-		super.interactWith();
+	public Optional<String> interactWith() {
+		Optional<String> result = super.interactWith();
 		if (isEnabled()) {
 			heal();
 		}
+		return result;
 
 	}
 

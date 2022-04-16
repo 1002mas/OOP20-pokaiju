@@ -20,7 +20,6 @@ import model.monster.MonsterBuilderImpl;
 import model.monster.MonsterSpecies;
 import model.monster.MonsterSpeciesBuilderImpl;
 import model.monster.MonsterType;
-import model.npc.NpcHealer;
 import model.npc.NpcHealerImpl;
 import model.npc.NpcMerchant;
 import model.npc.NpcMerchantImpl;
@@ -35,7 +34,7 @@ import model.player.PlayerImpl;
 public class NpcTest {
 
 	private NpcSimple npc1;
-	private NpcHealer npc2;
+	private NpcSimple npc2;
 	private NpcMerchant npc3;
 	private NpcTrainer npc4;
 	private Pair<Integer, Integer> position;
