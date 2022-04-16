@@ -139,8 +139,7 @@ public class DataControllerImpl implements DataLoaderController {
     }
 
     private Map<Pair<Integer, Integer>, MapBlockType> getMapBlocksById(int Id) {
-	String filePath = "data" + File.separator + "maps" + File.separator + "permissions" + File.separator
-		+ "map_permissions" + Id + ".dat";
+	String filePath = "data/maps/permissions/map_permissions" + Id + ".dat";
 	InputStream fileStream = this.getClass().getClassLoader().getResourceAsStream(filePath);
 	Map<Pair<Integer, Integer>, MapBlockType> map = new HashMap<>();
 	try (BufferedReader reader = new BufferedReader(new InputStreamReader(fileStream));) {

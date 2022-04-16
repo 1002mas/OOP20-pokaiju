@@ -19,7 +19,7 @@ public enum MonsterType {
     private MonsterType(String name) {
 
 	this.name = name;
-	String path = "data" + File.separator + "weakness" + File.separator + name + ".dat";
+	String path = "data/weakness/" + name + ".dat";
 	InputStream fileStream = this.getClass().getClassLoader().getResourceAsStream(path);
 	try (BufferedReader in = new BufferedReader(new InputStreamReader(fileStream))) {
 	    String line;

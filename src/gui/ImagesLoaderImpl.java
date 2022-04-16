@@ -21,9 +21,9 @@ import model.Pair;
 
 public class ImagesLoaderImpl implements ImagesLoader {
     private static final int PLAYER_SEQUENCE_LENGTH = 3;
-    private static final String BASE_PATH = "textures" + File.separator;
-    private static final String MONSTER_PATH = "monster" + File.separator;
-    private static final String TEXTURE_DATA_PATH = "data" + File.separator + "map_textures.dat";
+    private static final String BASE_PATH = "textures/";
+    private static final String MONSTER_PATH = "monster/";
+    private static final String TEXTURE_DATA_PATH = "data/map_textures.dat";
 
     private final int height;
     private final int width;
@@ -61,8 +61,7 @@ public class ImagesLoaderImpl implements ImagesLoader {
 		if (isNumber) {
 		    texturesID = Integer.parseInt(line);
 		} else {
-		    String texturePath = line.replaceAll("/", Matcher.quoteReplacement(File.separator));
-		    InputStream textureStream = this.getClass().getClassLoader().getResourceAsStream(texturePath);
+		    InputStream textureStream = this.getClass().getClassLoader().getResourceAsStream(line);
 		    BufferedImage img = resizeImage(ImageIO.read(textureStream), cellSize.getFirst(),
 			    cellSize.getSecond());
 
@@ -81,7 +80,7 @@ public class ImagesLoaderImpl implements ImagesLoader {
     public BufferedImage getNpcImages(String name) {
 	if (!npc.containsKey(name)) {
 	    final double dimMultiplier = 1.3;
-	    final String path = BASE_PATH + "npcs" + File.separator + name + ".png";
+	    final String path = BASE_PATH + "npcs/" + name + ".png";
 	    try {
 		InputStream imgStream = this.getClass().getClassLoader().getResourceAsStream(path);
 		BufferedImage img = resizeImage(ImageIO.read(imgStream),
@@ -99,7 +98,7 @@ public class ImagesLoaderImpl implements ImagesLoader {
     public List<BufferedImage> getPlayerImages(Direction dir, String gender) {
 	if (!player.containsKey(dir)) {
 	    final double dimMultiplier = 1.3;
-	    final String basePath = BASE_PATH + "player" + File.separator + gender + File.separator + "player_"
+	    final String basePath = BASE_PATH + "player/" + gender + "/player_"
 		    + dir.toString() + "_";
 	    final String fileType = ".png";
 	    List<BufferedImage> imageSequence = new ArrayList<>();
@@ -123,7 +122,7 @@ public class ImagesLoaderImpl implements ImagesLoader {
     public List<BufferedImage> getMapByID(int mapID) {
 	if (!maps.containsKey(mapID)) {
 	    List<BufferedImage> mapSequence = new ArrayList<>();
-	    String mapPath = "data" + File.separator + "maps" + File.separator + "appearance" + File.separator + "map"
+	    String mapPath = "data/maps/appearance/map"
 		    + mapID + ".dat";
 	    InputStream fileStream = this.getClass().getClassLoader().getResourceAsStream(mapPath);
 	    try (BufferedReader in = new BufferedReader(new InputStreamReader(fileStream));) {
@@ -139,7 +138,6 @@ public class ImagesLoaderImpl implements ImagesLoader {
 		e.printStackTrace();
 	    }
 	}
-	System.out.println("DONE");
 	return this.maps.get(mapID);
     }
 
