@@ -3,15 +3,14 @@ package gui;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
 
 import javax.imageio.ImageIO;
 
@@ -20,16 +19,15 @@ import model.Pair;
 
 public class ImagesLoaderImpl implements ImagesLoader {
     private static final int PLAYER_SEQUENCE_LENGTH = 3;
-    private static final String BASE_PATH = "res" + File.separator + "textures" + File.separator;
-    private static final String MONSTER_PATH = "res" + File.separator + "monster" + File.separator;
-    private static final String TEXTURE_DATA_PATH = "res" + File.separator + "data" + File.separator
-	    + "map_textures.dat";
+    private static final String BASE_PATH = "textures/";
+    private static final String MONSTER_PATH = "monster/";
+    private static final String TEXTURE_DATA_PATH = "data/map_textures.dat";
 
     private final int height;
     private final int width;
     private final Pair<Integer, Integer> cellSize;
 
-    private Map<Direction, List<BufferedImage>> player = new HashMap<>();
+    private Map<String, List<BufferedImage>> player = new HashMap<>();
     private Map<String, BufferedImage> monsters = new HashMap<>();
     private Map<Integer, BufferedImage> mapTextures = new HashMap<>();
     private Map<Integer, List<BufferedImage>> maps = new HashMap<>();
@@ -52,8 +50,8 @@ public class ImagesLoaderImpl implements ImagesLoader {
     }
 
     private void loadMapTextures() {
-	File f = new File(TEXTURE_DATA_PATH);
-	try (BufferedReader in = new BufferedReader(new FileReader(f));) {
+	InputStream fileStream = this.getClass().getClassLoader().getResourceAsStream(TEXTURE_DATA_PATH);
+	try (BufferedReader in = new BufferedReader(new InputStreamReader(fileStream));) {
 	    boolean isNumber = true;
 	    int texturesID = 0;
 	    String line;
@@ -61,9 +59,8 @@ public class ImagesLoaderImpl implements ImagesLoader {
 		if (isNumber) {
 		    texturesID = Integer.parseInt(line);
 		} else {
-		    String texturePath = line.replaceAll("/", Matcher.quoteReplacement(File.separator));
-
-		    BufferedImage img = resizeImage(ImageIO.read(new File(texturePath)), cellSize.getFirst(),
+		    InputStream textureStream = this.getClass().getClassLoader().getResourceAsStream(line);
+		    BufferedImage img = resizeImage(ImageIO.read(textureStream), cellSize.getFirst(),
 			    cellSize.getSecond());
 
 		    mapTextures.put(texturesID, img);
@@ -81,10 +78,10 @@ public class ImagesLoaderImpl implements ImagesLoader {
     public BufferedImage getNpcImages(String name) {
 	if (!npc.containsKey(name)) {
 	    final double dimMultiplier = 1.3;
-	    final String path = BASE_PATH + "npcs" + File.separator + name + ".png";
+	    final String path = BASE_PATH + "npcs/" + name + ".png";
 	    try {
-
-		BufferedImage img = resizeImage(ImageIO.read(new File(path)),
+		InputStream imgStream = this.getClass().getClassLoader().getResourceAsStream(path);
+		BufferedImage img = resizeImage(ImageIO.read(imgStream),
 			(int) (dimMultiplier * this.cellSize.getFirst()),
 			(int) (dimMultiplier * this.cellSize.getSecond()));
 		this.npc.put(name, img);
@@ -99,34 +96,32 @@ public class ImagesLoaderImpl implements ImagesLoader {
     public List<BufferedImage> getPlayerImages(Direction dir, String gender) {
 	if (!player.containsKey(dir)) {
 	    final double dimMultiplier = 1.3;
-	    final String basePath = BASE_PATH + "player" + File.separator + gender + File.separator + "player_"
-		    + dir.toString() + "_";
+	    final String basePath = BASE_PATH + "player/" + gender + "/player_" + dir.toString() + "_";
 	    final String fileType = ".png";
 	    List<BufferedImage> imageSequence = new ArrayList<>();
 	    try {
 		for (int i = 1; i <= PLAYER_SEQUENCE_LENGTH; i++) {
 		    String imgPath = basePath + i + fileType;
-		    imageSequence.add(resizeImage(ImageIO.read(new File(imgPath)),
-			    (int) (dimMultiplier * this.cellSize.getFirst()),
-			    (int) (dimMultiplier * this.cellSize.getSecond())));
+		    InputStream imgStream = this.getClass().getClassLoader().getResourceAsStream(imgPath);
+		    imageSequence
+			    .add(resizeImage(ImageIO.read(imgStream), (int) (dimMultiplier * this.cellSize.getFirst()),
+				    (int) (dimMultiplier * this.cellSize.getSecond())));
 		}
 	    } catch (IOException e) {
 		e.printStackTrace();
 	    }
-	    player.put(dir, imageSequence);
+	    player.put(dir.toString() + " " + gender, imageSequence);
 	}
-	return player.get(dir);
+	return player.get(dir.toString() + " " + gender);
     }
 
     @Override
     public List<BufferedImage> getMapByID(int mapID) {
 	if (!maps.containsKey(mapID)) {
 	    List<BufferedImage> mapSequence = new ArrayList<>();
-	    String mapPath = "res" + File.separator + "data" + File.separator + "maps" + File.separator + "appearance"
-		    + File.separator + "map" + mapID + ".dat";
-
-	    File f = new File(mapPath);
-	    try (BufferedReader in = new BufferedReader(new FileReader(f));) {
+	    String mapPath = "data/maps/appearance/map" + mapID + ".dat";
+	    InputStream fileStream = this.getClass().getClassLoader().getResourceAsStream(mapPath);
+	    try (BufferedReader in = new BufferedReader(new InputStreamReader(fileStream));) {
 		String line = null;
 		while ((line = in.readLine()) != null) {
 		    int texturesID = Integer.parseInt(line);
@@ -152,7 +147,8 @@ public class ImagesLoaderImpl implements ImagesLoader {
 	    try {
 
 		String imgPath = basePath + fileType;
-		monsterPng = ImageIO.read(new File(imgPath));
+		InputStream imgStream = this.getClass().getClassLoader().getResourceAsStream(imgPath);
+		monsterPng = ImageIO.read(imgStream);
 		double imageRatio = monsterPng.getHeight() / monsterPng.getWidth();
 		int newWidth = (int) (this.width * 0.25);
 		int newHeight = (int) (imageRatio * newWidth);

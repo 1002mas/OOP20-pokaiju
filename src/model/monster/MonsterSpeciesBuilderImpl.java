@@ -96,7 +96,7 @@ public class MonsterSpeciesBuilderImpl implements MonsterSpeciesBuilder {
 	if (this.gameItem.isPresent()) {
 	    return new MonsterSpeciesByItem(name, info, type, stats, evolution, this.gameItem.get(), this.movesList);
 	}
-	return new MonsterSpeciesImpl(this.name, this.info, this.type, this.stats, this.movesList);
+	return new MonsterSpeciesSimple(this.name, this.info, this.type, this.stats, this.movesList);
 
     }
 }

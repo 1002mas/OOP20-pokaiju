@@ -10,14 +10,13 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -26,14 +25,15 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
 import controller.Direction;
 import controller.PlayerController;
 import gui.panels.BattlePanel;
 import gui.panels.LoginPanel;
 import gui.panels.MenuPanel;
+import gui.panels.MerchantPanel;
 import gui.panels.PlayerPanel;
 import gui.panels.TwoLayersPanel;
-import model.player.Gender;
 
 public class GameFrameImpl extends JFrame implements GameFrame {
     private static final long serialVersionUID = -7927156597267134363L;
@@ -52,17 +52,14 @@ public class GameFrameImpl extends JFrame implements GameFrame {
     private final PlayerController playerController;
 
     public GameFrameImpl(PlayerController playerController) {
-	this.playerController = playerController;
 	this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	this.setResizable(false);
-	this.setContentPane(mainPanel);
+	this.playerController = playerController;
 
 	size = getMainPanelSize();
+	mainPanel.setPreferredSize(new Dimension(size, size));
+	mainPanel.setLayout(cLayout);
 	imgLoad = new ImagesLoaderImpl(size, size, playerController.getMaximumBlocksInRow(),
 		playerController.getMaximumBlocksInColumn());
-	mainPanel.setPreferredSize(new Dimension(size, size));
-	mainPanel.setBounds(0, 0, size, size);
-	mainPanel.setLayout(cLayout);
 
 	LoginPanel loginPanel = new LoginPanel();
 
@@ -76,7 +73,8 @@ public class GameFrameImpl extends JFrame implements GameFrame {
 
 	subPanels.put(LOGIN_VIEW, loginPanel);
 	subPanels.put(NEW_GAME_VIEW, newGamePanel);
-
+	this.setResizable(false);
+	this.setContentPane(mainPanel);
 	this.pack();
 	this.setVisible(true);
 
@@ -91,7 +89,7 @@ public class GameFrameImpl extends JFrame implements GameFrame {
     }
 
     private JPanel buildMapPanel() {
-	TwoLayersPanel mapPanel = new TwoLayersPanel(playerController, imgLoad, this.getHeight(), this.getWidth());
+	TwoLayersPanel mapPanel = new TwoLayersPanel(playerController, imgLoad, size, size);
 	mapPanel.addKeyListener(new PlayerCommands(this));
 	return mapPanel;
     }
@@ -126,7 +124,7 @@ public class GameFrameImpl extends JFrame implements GameFrame {
     private void changeToBattle() {
 	if (playerController.hasBattleStarted()) {
 	    BattlePanel b = (BattlePanel) (this.subPanels.get(BATTLE_VIEW));
-	    b.setBattleController(this.playerController.getBattleController().get(), this.playerController);
+	    b.setBattleController(this.playerController.getBattleController().get());
 	    updateView(BATTLE_VIEW);
 	}
     }
@@ -142,7 +140,7 @@ public class GameFrameImpl extends JFrame implements GameFrame {
 	if (playerController.hasPlayerTriggeredEvent()) {
 	    topPanel.setNpcs(this.playerController.getAllNpcs());
 	}
-	return text.isPresent();
+	return text.isEmpty();
     }
 
     @Override
@@ -194,18 +192,20 @@ public class GameFrameImpl extends JFrame implements GameFrame {
 		JOptionPane.showMessageDialog(null, "Name can't be null", "alert", JOptionPane.WARNING_MESSAGE);
 	    } else {
 		playerController.createNewPlayer(nameField.getText(), gender.getSelectedItem().toString(), a);
-		if (!subPanels.containsKey(MAP_VIEW)) {
-		    JPanel gamePanel = buildMapPanel();
-		    mainPanel.add(gamePanel, MAP_VIEW);
-		    subPanels.put(MAP_VIEW, gamePanel);
-		}
-		// qua
+
+		JPanel gamePanel = buildMapPanel();
 		JPanel menuPanel = buildMenuPanel();
 		JPanel battlePanel = new BattlePanel(imgLoad, this);
-		mainPanel.add(menuPanel, MENU_VIEW);
+		JPanel merchantPanel = new MerchantPanel(this, playerController);
+		mainPanel.add(gamePanel, MAP_VIEW);
 		mainPanel.add(battlePanel, BATTLE_VIEW);
+		mainPanel.add(menuPanel, MENU_VIEW);
+		mainPanel.add(merchantPanel, MERCHANT_VIEW);
+		subPanels.put(MERCHANT_VIEW, merchantPanel);
 		subPanels.put(MENU_VIEW, menuPanel);
 		subPanels.put(BATTLE_VIEW, battlePanel);
+		subPanels.put(MAP_VIEW, gamePanel);
+
 		updateView(GameFrameImpl.MAP_VIEW);
 	    }
 	});

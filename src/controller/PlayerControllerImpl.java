@@ -17,7 +17,6 @@ import model.monster.MonsterSpecies;
 import model.npc.NpcMerchant;
 import model.npc.NpcSimple;
 import model.npc.TypeOfNpc;
-import model.player.Gender;
 import model.player.Player;
 
 public class PlayerControllerImpl implements PlayerController {
@@ -40,8 +39,6 @@ public class PlayerControllerImpl implements PlayerController {
 	dataController.setPlayer(name, gender, trainerNumber);
 	this.player = dataController.getPlayer();
     }
-    
-    
 
     @Override
     public String getPlayerName() { // --
@@ -83,12 +80,12 @@ public class PlayerControllerImpl implements PlayerController {
     // -- PLAYER MOVEMENT
 
     @Override
-    public Pair<Integer, Integer> getPlayerPosition() { // --
+    public Pair<Integer, Integer> getPlayerPosition() {
 	return this.player.getPosition();
     }
 
     @Override
-    public boolean movePlayer(Direction direction) { // --
+    public boolean movePlayer(Direction direction) {
 	this.currentDirection = direction;
 	boolean hasPlayerMoved;
 	switch (direction) {
@@ -124,10 +121,10 @@ public class PlayerControllerImpl implements PlayerController {
 
 	Pair<Integer, Integer> newPosition = null;
 	if (direction == Direction.DOWN) {
-	    newPosition = new Pair<>(player.getPosition().getFirst(), player.getPosition().getSecond() - 1);
+	    newPosition = new Pair<>(player.getPosition().getFirst(), player.getPosition().getSecond() + 1);
 	}
 	if (direction == Direction.UP) {
-	    newPosition = new Pair<>(player.getPosition().getFirst(), player.getPosition().getSecond() + 1);
+	    newPosition = new Pair<>(player.getPosition().getFirst(), player.getPosition().getSecond() - 1);
 	}
 	if (direction == Direction.LEFT) {
 	    newPosition = new Pair<>(player.getPosition().getFirst() - 1, player.getPosition().getSecond());

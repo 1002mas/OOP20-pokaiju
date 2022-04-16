@@ -53,7 +53,7 @@ public class TestBattleGUI {
 		new MovesImpl("Fossa", 50, MonsterType.FIRE, 10),new MovesImpl("Calcio", 50, MonsterType.FIRE, 10));
 	
 	
-	MonsterSpeciesImpl secondEvolution = new MonsterSpeciesImpl("Pippo3", "Info3", MonsterType.FIRE, stats, allMoves);
+	MonsterSpeciesSimple secondEvolution = new MonsterSpeciesSimple("Pippo3", "Info3", MonsterType.FIRE, stats, allMoves);
 	MonsterSpeciesByLevel firstEvolution = new MonsterSpeciesByLevel("Pippo2", "Info2", MonsterType.FIRE, stats, secondEvolution,
 		SECOND_EVOLUTION_LEVEL, allMoves);
 	MonsterSpeciesByLevel species = new MonsterSpeciesByLevel("kracez", "Info", MonsterType.FIRE, stats, firstEvolution,
@@ -62,7 +62,7 @@ public class TestBattleGUI {
 		.movesList(listOfMoves).build();
 	
 	
-	secondEvolution = new MonsterSpeciesImpl("Pippo3", "Info3", MonsterType.FIRE, null, null);
+	secondEvolution = new MonsterSpeciesSimple("Pippo3", "Info3", MonsterType.FIRE, null, null);
 
 	firstEvolution = new MonsterSpeciesByLevel("Pippo2", "Info2", MonsterType.FIRE, null, secondEvolution,
 		SECOND_EVOLUTION_LEVEL, null);

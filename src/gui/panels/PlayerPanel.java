@@ -23,7 +23,7 @@ import model.Pair;
 public class PlayerPanel extends JPanel {
     private static final long serialVersionUID = -7016352522753786674L;
     private static final int CHARACTER_STEP = 1;
-    private static final int STEP_TIME = 500;// ms
+    private static final int STEP_TIME = 400;// ms
     private static final int CHARACTER_TURN_TIME = 60;// ms
 
     private final ImagesLoader imgLoader;
@@ -60,6 +60,7 @@ public class PlayerPanel extends JPanel {
 	this.textLabel.setEditable(false);
 	this.textLabel.setLineWrap(true);
 	this.textLabel.setVisible(false);
+	this.add(textLabel);
     }
 
     @Override
@@ -86,7 +87,7 @@ public class PlayerPanel extends JPanel {
 	this.movementStep = new Pair<>(horizontalMovementStep, verticalMovementStep);
 	this.cellRelativePos = new Pair<>(cellRelativePosX, cellRelativePosY);
 
-	double fontRatio = 0.22;
+	double fontRatio = 0.022;
 	this.textLabel.setFont(new Font(Font.SERIF, Font.PLAIN, (int) (fontRatio * height)));
 
 	this.setNextPosition(this.playerNextPos);
@@ -174,7 +175,8 @@ public class PlayerPanel extends JPanel {
 	    npcsLabels.put(npcLabel, npcsPosition.get(npcName));
 	    this.add(npcLabel);
 	}
-
+	this.validate();
+	this.repaint();
     }
 
     public void showText(String text) {
@@ -184,6 +186,7 @@ public class PlayerPanel extends JPanel {
 
     public void hideText() {
 	textLabel.setVisible(false);
+	this.paintImmediately(this.getBounds());
     }
 
     private void sleepMillisec(long millisec) {
