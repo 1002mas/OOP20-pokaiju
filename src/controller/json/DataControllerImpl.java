@@ -109,7 +109,7 @@ public class DataControllerImpl implements DataLoaderController {
 	GameMapData house = new GameMapDataImpl(2, 1, 99, "MAP2", getMapBlocksById(2),
 		new HashSet<>(List.of(healerNpc)), new ArrayList<>());
 	this.gameMapData.get(0).addMapLink(house, new Pair<>(5, 10), new Pair<>(10, 10));
-	house.addMapLink(this.gameMapData.get(0), new Pair<>(10, 15), new Pair<>(5, 10));
+	house.addMapLink(this.gameMapData.get(0), new Pair<>(10, 15), new Pair<>(5, 12));
 	this.gameMapData.add(house);
 	this.npcs.add(healerNpc);
     }
