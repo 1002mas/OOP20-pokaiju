@@ -1,6 +1,8 @@
 package gui.panels;
 
 import java.awt.GridLayout;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +33,27 @@ public class TwoLayersPanel extends JPanel {
 	topPanel.setPlayerImage(
 		new ImageIcon(imgLoad.getPlayerImages(Direction.DOWN, playerController.getPlayerGender()).get(0)));
 	topPanel.setNpcs(playerController.getAllNpcs());
-
+	this.addMouseListener(new MouseListener() {
+	    @Override
+	    public void mouseReleased(MouseEvent e) {
+		topPanel.requestFocusInWindow();
+	    }
+	    @Override
+	    public void mousePressed(MouseEvent e) {
+		
+	    }
+	    @Override
+	    public void mouseExited(MouseEvent e) {
+	    }
+	    
+	    @Override
+	    public void mouseEntered(MouseEvent e) {
+	    }
+	    @Override
+	    public void mouseClicked(MouseEvent e) {
+		topPanel.requestFocusInWindow();
+	    }
+	});
 	bottomPanel = new JPanel();
 	bottomPanel.setOpaque(true);
 	bottomPanel.setLayout(new GridLayout(rows, columns));

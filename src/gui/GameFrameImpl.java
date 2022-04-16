@@ -10,6 +10,10 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Toolkit;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.List;
@@ -91,6 +95,16 @@ public class GameFrameImpl extends JFrame implements GameFrame {
     private JPanel buildMapPanel() {
 	TwoLayersPanel mapPanel = new TwoLayersPanel(playerController, imgLoad, size, size);
 	mapPanel.addKeyListener(new PlayerCommands(this));
+	mapPanel.addFocusListener(new FocusListener() {
+	    @Override
+	    public void focusLost(FocusEvent e) {
+		mapPanel.requestFocusInWindow();
+	    }
+
+	    @Override
+	    public void focusGained(FocusEvent e) {
+	    }
+	});
 	return mapPanel;
     }
 
@@ -121,12 +135,14 @@ public class GameFrameImpl extends JFrame implements GameFrame {
 	}
     }
 
-    private void changeToBattle() {
+    private boolean changeToBattle() {
 	if (playerController.hasBattleStarted()) {
 	    BattlePanel b = (BattlePanel) (this.subPanels.get(BATTLE_VIEW));
 	    b.setBattleController(this.playerController.getBattleController().get());
 	    updateView(BATTLE_VIEW);
+	    return true;
 	}
+	return false;
     }
 
     @Override
@@ -136,6 +152,7 @@ public class GameFrameImpl extends JFrame implements GameFrame {
 	Optional<String> text = playerController.interact();
 	if (text.isPresent()) {
 	    topPanel.showText(text.get());
+
 	}
 	if (playerController.hasPlayerTriggeredEvent()) {
 	    topPanel.setNpcs(this.playerController.getAllNpcs());
