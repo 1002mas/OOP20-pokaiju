@@ -1,9 +1,9 @@
 package model.monster;
 
-import java.io.File;
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +12,7 @@ import model.battle.Moves;
 
 public class MonsterBuilderImpl implements MonsterBuilder {
 
-    private static final String LASTIDPATH = "res" + File.separator + "data" + File.separator + "generatedId.dat";
+    private static final String LASTIDPATH = "data/generatedId.dat";
     private static final int MIN_LEVEL = 1;
     private static int id;
     private int exp;
@@ -23,12 +23,13 @@ public class MonsterBuilderImpl implements MonsterBuilder {
     private MonsterStats stats = new MonsterStatsImpl(-1, -1, -1, -1);
 
     static {
-	try {
-	    String lastId = Files.readAllLines(Path.of(LASTIDPATH)).get(0);
-	    id = Integer.parseInt(lastId);
+	InputStream fileStream = MonsterBuilderImpl.class.getClassLoader().getResourceAsStream(LASTIDPATH);
+	try (BufferedReader in = new BufferedReader(new InputStreamReader(fileStream));) {
+	    id = Integer.parseInt(in.readLine());
 	} catch (IOException e) {
 	    e.printStackTrace();
 	}
+
     }
 
     @Override
@@ -88,7 +89,8 @@ public class MonsterBuilderImpl implements MonsterBuilder {
     @Override
     public MonsterBuilder movesList(List<Pair<Moves, Integer>> movesList) {
 	this.movesList = new ArrayList<>(movesList);
-	this.movesList = this.movesList.subList(0, movesList.size() < MonsterImpl.NUM_MAX_MOVES ? movesList.size() : MonsterImpl.NUM_MAX_MOVES);
+	this.movesList = this.movesList.subList(0,
+		movesList.size() < MonsterImpl.NUM_MAX_MOVES ? movesList.size() : MonsterImpl.NUM_MAX_MOVES);
 	return this;
     }
 

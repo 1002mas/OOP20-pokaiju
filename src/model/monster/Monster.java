@@ -99,7 +99,8 @@ public interface Monster {
      * This function returns a move from a list of moves
      * 
      * @param index of the moves
-     * @throws IllegalArgumentException if index is below zero or over max number of moves
+     * @throws IllegalArgumentException if index is below zero or over max number of
+     *                                  moves
      * @return a move
      */
     Moves getMoves(int index);
@@ -126,14 +127,14 @@ public interface Monster {
      * @return if the monster have finished move's PP
      */
     boolean isOutOfPP(Moves move);
-    
+
     /**
      * This function restore all PP of a move
      * 
      * @param move
      */
     void restoreMovePP(Moves move);
-    
+
     /**
      * This function restore all PP of all moves
      */

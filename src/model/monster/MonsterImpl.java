@@ -70,6 +70,7 @@ public class MonsterImpl implements Monster {
     @Override
     public void setHealth(int health) {
 	this.stats.setHealth(health <= this.getMaxHealth() ? health : this.getMaxHealth());
+	this.stats.setHealth(health <= 0 ? 0 : health);
     }
 
     @Override
@@ -191,10 +192,14 @@ public class MonsterImpl implements Monster {
 
     @Override
     public void decMovePP(Moves move) {
+	System.out.println(move);
+	System.out.println(movesList);
+	System.out.println(getId());
 	int index = getIndexOfMove(move);
 	Pair<Moves, Integer> p = movesList.get(index);
 	movesList.remove(index);
 	movesList.add(index, new Pair<>(p.getFirst(), p.getSecond() - 1));
+	System.out.println(movesList);
     }
 
     private int getIndexOfMove(Moves move) {
