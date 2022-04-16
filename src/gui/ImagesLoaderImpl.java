@@ -7,6 +7,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,10 +22,9 @@ import model.Pair;
 
 public class ImagesLoaderImpl implements ImagesLoader {
     private static final int PLAYER_SEQUENCE_LENGTH = 3;
-    private static final String BASE_PATH = "res" + File.separator + "textures" + File.separator;
-    private static final String MONSTER_PATH = "res" + File.separator + "monster" + File.separator;
-    private static final String TEXTURE_DATA_PATH = "res" + File.separator + "data" + File.separator
-	    + "map_textures.dat";
+    private static final String BASE_PATH = "textures" + File.separator;
+    private static final String MONSTER_PATH = "monster" + File.separator;
+    private static final String TEXTURE_DATA_PATH = "data" + File.separator + "map_textures.dat";
 
     private final int height;
     private final int width;
@@ -52,8 +53,8 @@ public class ImagesLoaderImpl implements ImagesLoader {
     }
 
     private void loadMapTextures() {
-	File f = new File(TEXTURE_DATA_PATH);
-	try (BufferedReader in = new BufferedReader(new FileReader(f));) {
+	InputStream fileStream = this.getClass().getClassLoader().getResourceAsStream(TEXTURE_DATA_PATH);
+	try (BufferedReader in = new BufferedReader(new InputStreamReader(fileStream));) {
 	    boolean isNumber = true;
 	    int texturesID = 0;
 	    String line;
@@ -83,8 +84,8 @@ public class ImagesLoaderImpl implements ImagesLoader {
 	    final double dimMultiplier = 1.3;
 	    final String path = BASE_PATH + "npcs" + File.separator + name + ".png";
 	    try {
-
-		BufferedImage img = resizeImage(ImageIO.read(new File(path)),
+		InputStream imgStream = this.getClass().getClassLoader().getResourceAsStream(path);
+		BufferedImage img = resizeImage(ImageIO.read(imgStream),
 			(int) (dimMultiplier * this.cellSize.getFirst()),
 			(int) (dimMultiplier * this.cellSize.getSecond()));
 		this.npc.put(name, img);
@@ -106,9 +107,11 @@ public class ImagesLoaderImpl implements ImagesLoader {
 	    try {
 		for (int i = 1; i <= PLAYER_SEQUENCE_LENGTH; i++) {
 		    String imgPath = basePath + i + fileType;
-		    imageSequence.add(resizeImage(ImageIO.read(new File(imgPath)),
-			    (int) (dimMultiplier * this.cellSize.getFirst()),
-			    (int) (dimMultiplier * this.cellSize.getSecond())));
+		    System.out.println(imgPath);
+		    InputStream imgStream = this.getClass().getClassLoader().getResourceAsStream(imgPath);
+		    imageSequence
+			    .add(resizeImage(ImageIO.read(imgStream), (int) (dimMultiplier * this.cellSize.getFirst()),
+				    (int) (dimMultiplier * this.cellSize.getSecond())));
 		}
 	    } catch (IOException e) {
 		e.printStackTrace();
@@ -152,7 +155,8 @@ public class ImagesLoaderImpl implements ImagesLoader {
 	    try {
 
 		String imgPath = basePath + fileType;
-		monsterPng = ImageIO.read(new File(imgPath));
+		InputStream imgStream = this.getClass().getClassLoader().getResourceAsStream(imgPath);
+		monsterPng = ImageIO.read(imgStream);
 		double imageRatio = monsterPng.getHeight() / monsterPng.getWidth();
 		int newWidth = (int) (this.width * 0.25);
 		int newHeight = (int) (imageRatio * newWidth);
