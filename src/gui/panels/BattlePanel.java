@@ -196,6 +196,7 @@ public class BattlePanel extends JPanel {
 	enemyMonsterImg.setIcon(new ImageIcon(img.getMonster(ctrl.getEnemyCurrentMonsterName())));
 	this.panelMap.get(CENTER_PANEL).add(enemyMonsterImg, BorderLayout.EAST);
 	this.panelMap.get(CENTER_PANEL).repaint();
+	this.validate();
 
     }
 
@@ -242,6 +243,11 @@ public class BattlePanel extends JPanel {
 	    });
 	    this.panelMap.get(MOVE).add(button);
 	}
+	JButton back = new JButton("Back");
+	back.addActionListener(e -> {
+	    refresh();
+	});
+	this.panelMap.get(MOVE).add(back);
     }
 
     private void loadMonsters() {
@@ -269,6 +275,11 @@ public class BattlePanel extends JPanel {
 	    });
 	    this.panelMap.get(MONSTER).add(button);
 	}
+	JButton back = new JButton("Back");
+	back.addActionListener(e -> {
+	    refresh();
+	});
+	this.panelMap.get(ITEM).add(back);
     }
 
     private void loadItems() {
