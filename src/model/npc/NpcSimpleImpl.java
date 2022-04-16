@@ -13,7 +13,7 @@ public class NpcSimpleImpl implements NpcSimple {
     private final String name;
     private TypeOfNpc typeOfNpc;
     private List<String> sentences;
-    private int currentSentence = 0;
+    private int currentSentence;
     private List<GameEvent> events;
     private Optional<GameEvent> triggeredEvent;
     private Pair<Integer, Integer> position;
@@ -26,6 +26,7 @@ public class NpcSimpleImpl implements NpcSimple {
 	this.typeOfNpc = typeOfNpc;
 	this.sentences = sentences;
 	this.position = position;
+	this.currentSentence = 0;
 	this.isVisible = isVisible;
 	this.isEnabled = isEnabled;
 	this.events = new ArrayList<>();

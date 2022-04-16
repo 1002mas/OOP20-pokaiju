@@ -2,6 +2,7 @@ package model.player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import model.monster.Monster;
 
@@ -14,54 +15,53 @@ public class MonsterStorageImpl implements MonsterStorage {
 	private List<MonsterBox> monsterBoxes;
 	private int currentMonsterBoxIndex;
 	private Player player;
-	
-	public  MonsterStorageImpl(Player player, List<MonsterBox> boxes) {
+
+	public MonsterStorageImpl(Player player, List<MonsterBox> boxes) {
 		this.player = player;
 		this.monsterBoxes = new ArrayList<>(boxes);
 		this.currentMonsterBoxIndex = 1;
 		if (monsterBoxes.size() > MAX_NUMBER_OF_BOX) {
 			this.monsterBoxes = monsterBoxes.subList(0, MAX_NUMBER_OF_BOX);
 		} else {
-			generateBoxs(MAX_NUMBER_OF_BOX - monsterBoxes.size());
+			generateBoxs(monsterBoxes.size());
 		}
 	}
-	
+
 	public MonsterStorageImpl(Player player) {
 		this(player, new ArrayList<>());
-		
+
 	}
-	
-	
 
 	private void generateBoxs(int n) {
 		MonsterBox box;
-		
 		for (int i = n; i < MAX_NUMBER_OF_BOX; i++) {
+
 			box = new MonsterBoxImpl(INITIAL_BOX_NAME + i, MAX_SIZE_OF_BOX);
 			this.monsterBoxes.add(box);
 		}
 	}
-	private MonsterBox getFirstBoxFree(){
-		for(int i = 1; i< MAX_NUMBER_OF_BOX; i++) {
-			if(!this.monsterBoxes.get(i).isFull()) {
+
+	private MonsterBox getFirstBoxFree() {
+		for (int i = 1; i < MAX_NUMBER_OF_BOX; i++) {
+			if (!this.monsterBoxes.get(i).isFull()) {
 				return this.monsterBoxes.get(i);
 			}
-			
+
 		}
 		return null;
 	}
+
 	@Override
 	public void addMonster(Monster monster) {
-		if(!this.getCurrentBox().isFull()) {
+		if (!this.getCurrentBox().isFull()) {
 			this.getCurrentBox().addMonster(monster);
-		}
-		else {	
-			MonsterBox monsterBox = getFirstBoxFree();			
-			if(monsterBox!=null) {
+		} else {
+			MonsterBox monsterBox = getFirstBoxFree();
+			if (monsterBox != null) {
 				monsterBox.addMonster(monster);
 			}
 		}
-		
+
 	}
 
 	@Override
@@ -100,9 +100,11 @@ public class MonsterStorageImpl implements MonsterStorage {
 
 	@Override
 	public boolean exchange(Monster monster, int monsterID) {
-
-		if (this.player.getAllMonsters().contains(monster) && isInBox(monsterID)) {
-			getCurrentBox().exchange(monster, monsterID);
+		if (isInBox(monsterID)) {
+			Optional<Monster> m = getCurrentBox().exchange(monster, monsterID);
+			if (m.isPresent()) {
+				return true;
+			}
 		}
 
 		return false;
@@ -110,7 +112,7 @@ public class MonsterStorageImpl implements MonsterStorage {
 
 	@Override
 	public void nextBox() {
-		this.currentMonsterBoxIndex = (this.currentMonsterBoxIndex + 1)%MAX_SIZE_OF_BOX;
+		this.currentMonsterBoxIndex = (this.currentMonsterBoxIndex + 1) % MAX_SIZE_OF_BOX;
 
 	}
 
@@ -130,17 +132,25 @@ public class MonsterStorageImpl implements MonsterStorage {
 	public List<Monster> getCurrentBoxMonsters() {
 		return getCurrentBox().getAllMonsters();
 	}
+
 	@Override
 	public int getMaxSizeOfBox() {
 		return MAX_SIZE_OF_BOX;
 	}
+
 	@Override
 	public int getMaxNumberOfBox() {
 		return MAX_NUMBER_OF_BOX;
 	}
-	
+
 	@Override
-	public int currentBoxSize() {
+	public int getCurrentBoxSize() {
 		return this.getCurrentBoxMonsters().size();
+	}
+
+	@Override
+	public String toString() {
+		return "MonsterStorageImpl [monsterBoxes=" + monsterBoxes + ", currentMonsterBoxIndex=" + currentMonsterBoxIndex
+				+ ", player=" + player + "]";
 	}
 }

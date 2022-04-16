@@ -9,27 +9,27 @@ import model.player.Player;
 
 public interface NpcMerchant extends NpcSimple {
 	/**
-	 * this function return a map of items and prices
+	 * this function returns a map of items and prices
 	 * 
 	 * @return list of sold game items
 	 */
 	public Map<GameItem, Integer> getInventory();
 
 	/**
-	 * this function return the price of an item
+	 * this function returns the price of an item
 	 *
-	 * @return the amount of same item price 
+	 * @return the amount of same item price
 	 * @param item
 	 */
-	public int getPrice(GameItem  item);
+	public int getPrice(GameItem item);
 
 	/**
-	 * this function return the total price amount of items to buy
+	 * this function returns the total price amount of items to buy
 	 * 
 	 * @param list of items and quantity to buy
 	 * @return sum of items price
 	 */
-	public int getTotalPrice(List<Pair<GameItem,Integer>>  list);
+	public int getTotalPrice(List<Pair<GameItem, Integer>> list);
 
 	/**
 	 * this function tries to buy a list of items
@@ -38,5 +38,5 @@ public interface NpcMerchant extends NpcSimple {
 	 * @param itemList to buy
 	 * @return true if item is bought, false otherwise
 	 */
-	public boolean buyItem(List<Pair<GameItem,Integer>>  itemList, Player player);
+	public boolean buyItem(List<Pair<GameItem, Integer>> itemList, Player player);
 }

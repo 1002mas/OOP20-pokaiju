@@ -8,15 +8,13 @@ import model.monster.Monster;
 
 public class MonsterBoxImpl implements MonsterBox {
 
-	
-
 	private String name;
 	private int boxSize;
-	List<Monster> monsterList;
+	private List<Monster> monsterList;
 
 	public MonsterBoxImpl(String name, int boxSize) {
 		this.name = name;
-		this.boxSize =  boxSize;
+		this.boxSize = boxSize;
 		this.monsterList = new ArrayList<>();
 	}
 
@@ -54,7 +52,7 @@ public class MonsterBoxImpl implements MonsterBox {
 		}
 		return Optional.empty();
 	}
-	
+
 	@Override
 	public boolean isFull() {
 		return (this.monsterList.size() >= this.boxSize);
@@ -84,6 +82,10 @@ public class MonsterBoxImpl implements MonsterBox {
 		}
 
 	}
-	
+
+	@Override
+	public String toString() {
+		return "MonsterBoxImpl [name=" + name + ", boxSize=" + boxSize + ", monsterList=" + monsterList + "]";
+	}
 
 }
