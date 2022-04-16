@@ -220,10 +220,7 @@ public class BattlePanel extends JPanel {
 		    playerMonster.setText(getCurrentPlayerMonsterData());
 		    if (ctrl.isOver()) {
 			// ENDING BATTLE player team dead
-			actionText.setText("You lose...");
-			
-			    this.gameFrame.updateView(GameFrameImpl.MAP_VIEW);
-			
+			endBattle("You lose...");
 			
 		    } else {
 			loadMonsters();
@@ -232,10 +229,7 @@ public class BattlePanel extends JPanel {
 		} else {
 		    if (ctrl.isOver()) {
 			// ENDING BATTLE enemy team dead
-			actionText.setText("You have defeated all the enemies!!");
-		
-			this.gameFrame.updateView(GameFrameImpl.MAP_VIEW);
-			
+			endBattle("You have defeated all the enemies!!");
 		    } else {
 			refresh();
 		    }
@@ -295,8 +289,7 @@ public class BattlePanel extends JPanel {
 		    this.ctrl.useItem(itemUsed, 0);
 		    if (ctrl.isEnemyCaught()) {
 			// ENDING BATTLE
-			actionText.setText("You have captured a new Monster!!");
-			this.gameFrame.updateView(GameFrameImpl.MAP_VIEW);
+			endBattle("You have captured a new Monster!!");
 		    } else {
 			refresh();
 		    }
@@ -335,5 +328,16 @@ public class BattlePanel extends JPanel {
 	
 	
 
+    }
+    private void endBattle(String text) {
+	refresh();
+	actionText.setText(text);
+	this.paintImmediately(getBounds());
+	try {
+	    Thread.sleep(3000);
+	} catch (InterruptedException e1) {
+	    e1.printStackTrace();
+	}
+	this.gameFrame.updateView(GameFrameImpl.MAP_VIEW);
     }
 }

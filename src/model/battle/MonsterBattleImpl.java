@@ -12,7 +12,7 @@ import model.npc.NpcTrainer;
 import model.player.Player;
 
 public class MonsterBattleImpl implements MonsterBattle {
-    private final static int EXP_MULTIPLER = 5;
+    private final static int EXP_MULTIPLER = 100;
     private final static int ESCAPE_RANGE = 10;
     private final static int ESCAPE_DIFFICULT = 5;
     private final static int CAPTURE_RANGE = 10;
@@ -195,7 +195,7 @@ public class MonsterBattleImpl implements MonsterBattle {
 	if (damage < 1) {
 	    damage = 1;
 	}
-	enemy.decMovePP(move);
+	m1.decMovePP(move);
 	m2.getStats().setHealth(m2.getStats().getHealth() - damage);
     }
 

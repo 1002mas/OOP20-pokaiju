@@ -35,8 +35,9 @@ public class BoxPanel extends JPanel {
     public BoxPanel(PlayerController playerController) {
 	this.playerController = playerController;
 	setButtons();
-	setList();
+	
 	init();
+	
     }
 
     private void setList() {
@@ -77,6 +78,7 @@ public class BoxPanel extends JPanel {
 
     private void init() {
 	this.setLayout(new BorderLayout());
+	setList();
 	exchangecont = 0;
 	exchange.setEnabled(false);
 	deposit.setEnabled(false);
@@ -208,10 +210,10 @@ public class BoxPanel extends JPanel {
 		    if (cb.isSelected()) {
 			if (isTeam) {
 			    setIdPlayerMonster(Integer.parseInt(cb.getText()));
-			    take.setEnabled(true);
+			    deposit.setEnabled(true);
 			} else {
 			    setIdBoxMonster(Integer.parseInt(cb.getText()));
-			    deposit.setEnabled(true);
+			    take.setEnabled(true);
 			}
 			setPanelEnabled(MonstersPanel, false);
 			exchangecont++;

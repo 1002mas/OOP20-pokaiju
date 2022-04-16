@@ -103,11 +103,12 @@ public class DataControllerImpl implements DataLoaderController {
 	}
 	this.player = new PlayerImpl(name, playerGender, trainerNumber, INITIAL_PLAYER_POSITION,
 		new GameMapImpl(gameMapData.stream().filter(e -> e.getMapId() == INITIAL_GAME_MAP_ID).findAny().get()));
+	this.player.setMoney(60000);
 	setHealerNpcAndMap();
     }
 
     private void setHealerNpcAndMap() {
-	NpcSimple healerNpc = new NpcHealerImpl("Mom", List.of("I can heal your team"), new Pair<>(10, 5), this.player,
+	NpcSimple healerNpc = new NpcHealerImpl("Mom", List.of("Let me heal your Pokaiju"), new Pair<>(10, 5), this.player,
 		true, true);
 	GameMapData house = new GameMapDataImpl(2, 1, 99, "MAP2", getMapBlocksById(2),
 		new HashSet<>(List.of(healerNpc)), new ArrayList<>());
