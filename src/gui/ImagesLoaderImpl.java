@@ -94,7 +94,7 @@ public class ImagesLoaderImpl implements ImagesLoader {
 
     @Override
     public List<BufferedImage> getPlayerImages(Direction dir, String gender) {
-	if (!player.containsKey(dir)) {
+	if (!player.containsKey(dir.toString() + " " + gender)) {
 	    final double dimMultiplier = 1.3;
 	    final String basePath = BASE_PATH + "player/" + gender + "/player_" + dir.toString() + "_";
 	    final String fileType = ".png";

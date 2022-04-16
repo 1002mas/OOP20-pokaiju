@@ -33,6 +33,7 @@ import model.npc.NpcHealerImpl;
 import model.npc.NpcMerchantImpl;
 import model.npc.NpcSimple;
 import model.npc.NpcSimpleImpl;
+import model.npc.NpcTrainerImpl;
 import model.player.Gender;
 import model.player.Player;
 import model.player.PlayerImpl;
@@ -85,6 +86,11 @@ public class DataControllerImpl implements DataLoaderController {
 	monsterSpecies.add(species1);
 	monsterSpecies.add(species2);
 	monsterSpecies.add(species3);
+	Monster monster2 = new MonsterBuilderImpl().species(monsterSpecies.get(1)).level(5)
+		.movesList(moves.stream().map(m -> new Pair<>(m, m.getPP())).collect(Collectors.toList())).build();
+	NpcSimple trainer = new NpcTrainerImpl("Giorgio", List.of("Let's battle", "I lost..."), new Pair<>(1, 10), true,
+		true, List.of(monster2), false);
+	npcs.add(trainer);
 
 	GameMapData mapData = new GameMapDataImpl(INITIAL_GAME_MAP_ID, 1, 10, "MAP1",
 		getMapBlocksById(INITIAL_GAME_MAP_ID), new HashSet<>(npcs), monsterSpecies);
@@ -108,17 +114,21 @@ public class DataControllerImpl implements DataLoaderController {
     }
 
     private void setHealerNpcAndMap() {
-	NpcSimple healerNpc = new NpcHealerImpl("Mom", List.of("Let me heal your Pokaiju"), new Pair<>(10, 5), this.player,
-		true, true);
+	NpcSimple healerNpc = new NpcHealerImpl("Mom", List.of("Let me heal your Pokaiju"), new Pair<>(10, 5),
+		this.player, true, true);
 	GameMapData house = new GameMapDataImpl(2, 1, 99, "MAP2", getMapBlocksById(2),
 		new HashSet<>(List.of(healerNpc)), new ArrayList<>());
 	this.gameMapData.get(0).addMapLink(house, new Pair<>(5, 10), new Pair<>(10, 10));
 	house.addMapLink(this.gameMapData.get(0), new Pair<>(10, 15), new Pair<>(5, 12));
 	this.gameMapData.add(house);
 	this.npcs.add(healerNpc);
-	Monster monster = new MonsterBuilderImpl().species(monsterSpecies.get(0)).level(100).movesList(moves.stream().map(m -> new Pair<>(m,m.getPP())).collect(Collectors.toList())).build();
+
+	Monster monster = new MonsterBuilderImpl().species(monsterSpecies.get(0)).level(100)
+		.movesList(moves.stream().map(m -> new Pair<>(m, m.getPP())).collect(Collectors.toList())).build();
 	monster.setHealth(150);
+
 	this.player.addMonster(monster);
+
     }
 
     private Map<GameItem, Integer> getInventory() {

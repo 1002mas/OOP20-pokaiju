@@ -3,6 +3,8 @@ package gui.panels;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -52,6 +54,7 @@ public class PlayerPanel extends JPanel {
 	this.player_gender = player_gender;
 	this.add(player);
 	this.setOpaque(false);
+	
 
 	this.textLabel.setOpaque(true);
 	this.textLabel.setBackground(Color.WHITE);
