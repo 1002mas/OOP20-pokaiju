@@ -21,15 +21,13 @@ public class NpcHealerImpl extends NpcSimpleImpl {
 	private void heal() {
 		for (Monster monster : this.player.getAllMonsters()) {
 			monster.setHealth(monster.getMaxHealth());
-			for (Moves move : monster.getAllMoves()) {
-				monster.restoreMovePP(move);
-			}
+			monster.restoreAllMovesPP();
 		}
 
 	}
 
 	@Override
-	public Optional<String> interactWith(){
+	public Optional<String> interactWith() {
 		Optional<String> result = super.interactWith();
 		if (isEnabled()) {
 			heal();
