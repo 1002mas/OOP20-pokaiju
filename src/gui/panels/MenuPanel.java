@@ -6,6 +6,8 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -81,7 +83,6 @@ public class MenuPanel extends JPanel {
 	gameItems.addActionListener(e -> {
 	    gameItemPanel.update();
 	    cLayout.show(bottomPanel, GAMEITEMSPANEL);
-
 	});
 	playerInfo.addActionListener(e -> {
 	    playerInfoPanel.update();
@@ -108,6 +109,28 @@ public class MenuPanel extends JPanel {
 	bottomPanel.add(gameItemPanel, GAMEITEMSPANEL);
 	bottomPanel.add(playerInfoPanel, PLAYERINFOPANEL);
 
+	this.addComponentListener(new ComponentListener() {
+
+	    @Override
+	    public void componentShown(ComponentEvent e) {
+		monsterPanel.update();
+		gameItemPanel.update();
+		playerInfoPanel.update();
+		boxPanel.update();
+	    }
+
+	    @Override
+	    public void componentResized(ComponentEvent e) {
+	    }
+
+	    @Override
+	    public void componentMoved(ComponentEvent e) {
+	    }
+
+	    @Override
+	    public void componentHidden(ComponentEvent e) {
+	    }
+	});
 	this.add(topPanel, BorderLayout.NORTH);
 	this.add(bottomPanel, BorderLayout.CENTER);
 

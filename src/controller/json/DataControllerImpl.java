@@ -117,6 +117,7 @@ public class DataControllerImpl implements DataLoaderController {
 	this.gameMapData.add(house);
 	this.npcs.add(healerNpc);
 	Monster monster = new MonsterBuilderImpl().species(monsterSpecies.get(0)).level(100).movesList(moves.stream().map(m -> new Pair<>(m,m.getPP())).collect(Collectors.toList())).build();
+	monster.setHealth(150);
 	this.player.addMonster(monster);
     }
 

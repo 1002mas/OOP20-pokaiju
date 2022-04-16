@@ -25,7 +25,6 @@ public class SelectMosterPanel extends JPanel {
 	this.playerController = playerController;
 	this.parentPanel = parentPanel;
 	this.gui = gui;
-	init();
     }
 
     private void init() {
@@ -34,7 +33,7 @@ public class SelectMosterPanel extends JPanel {
 	JPanel containerPanel = new JPanel(new BorderLayout());
 	List<Integer> monsterIds = this.playerController.getMonstersId();
 
-	JPanel allMonsterPanel = new JPanel(new GridLayout(6, 2));
+	JPanel allMonsterPanel = new JPanel(new GridLayout(0, 2));
 	for (int monsterId : monsterIds) {
 	    JLabel singleMonsterLabel = new JLabel();
 	    String stats = "<html>" + "name : " + this.playerController.getMonsterNameById(monsterId) + "<br/>"
@@ -46,22 +45,21 @@ public class SelectMosterPanel extends JPanel {
 
 	    JButton checkButton = new JButton("USE ON THIS MONSTER");
 	    checkButton.addActionListener(e -> {
+		//TODO controllare la quantità dell'item se è zero
 		if (this.playerController.canEvolveByItem(itemName, monsterId)) {
 		    this.playerController.evolveByItem(itemName, monsterId);
 		    this.playerController.useItemOnMonster(this.itemName, monsterId);
-		    update();
 		} else {
 		    this.playerController.useItemOnMonster(this.itemName, monsterId);
-		    update();
 		}
-
-		// se è di tipo evoluzione uso l'oggetto , update e cambio pannello
-		// e da game frame cambio pagina a evolution panel, poi torno al bag
+		   update();
 	    });
 
 	    allMonsterPanel.add(singleMonsterLabel);
 	    allMonsterPanel.add(checkButton);
 	}
+
+	setPanelProp(allMonsterPanel, monsterIds.size());
 
 	JButton backButton = new JButton("BACK");
 	backButton.addActionListener(e -> c1.show(this.parentPanel, "ITEMS"));
@@ -76,13 +74,26 @@ public class SelectMosterPanel extends JPanel {
 	this.itemName = ItemName;
     }
 
-    private void update() {
+    private void setPanelProp(JPanel panel, int numberOfMonster) {
+	int cont = 6 - numberOfMonster;
+	while (cont > 0) {
+	    JLabel label = new JLabel();
+	    JButton button = new JButton();
+	    label.setVisible(false);
+	    button.setVisible(false);
+	    panel.add(label);
+	    panel.add(button);
+	    cont--;
+	}
+    }
+
+    public void update() {
 	this.removeAll();
 	init();
+	this.validate();
     }
 
     private void setLabelProp(JLabel label) {
-	label.setLayout(new BorderLayout());
 	label.setBorder(BorderFactory.createLineBorder(Color.blue));
 	label.setHorizontalAlignment(SwingConstants.CENTER);
 	label.setVerticalAlignment(SwingConstants.CENTER);

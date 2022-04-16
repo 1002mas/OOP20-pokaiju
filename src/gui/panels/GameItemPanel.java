@@ -13,6 +13,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+
 import controller.PlayerController;
 import gui.GameFrame;
 
@@ -29,7 +31,6 @@ public class GameItemPanel extends JPanel {
 	this.playerController = playerController;
 	this.size = size;
 	this.gui = gui;
-	init();
     }
 
     private void init() {
@@ -45,11 +46,16 @@ public class GameItemPanel extends JPanel {
 	SelectMosterPanel selection = new SelectMosterPanel(playerController, this, this.gui);
 
 	for (String itemName : listItemsName) {
-	    JLabel nameItem = new JLabel();
+	    JTextArea nameItem = new JTextArea();
 	    nameItem.setPreferredSize(new Dimension(WIDTH, size / NUMBEROFELEMENTS));
 	    JLabel quantity = new JLabel();
-	    JLabel description = new JLabel();
+	    JTextArea description = new JTextArea();
 	    JLabel type = new JLabel();
+	    nameItem.setEditable(false);
+	    description.setEditable(false);
+	    description.setLineWrap(true);
+	    type.setHorizontalAlignment(JLabel.CENTER);
+	    quantity.setHorizontalAlignment(JLabel.CENTER);
 	    JButton useItemButton = new JButton("USE THIS ITEM");
 	    setButtonProp(useItemButton, itemName);
 	    nameItem.setText(itemName);
@@ -58,6 +64,7 @@ public class GameItemPanel extends JPanel {
 	    type.setText(this.playerController.getItemtype(itemName).toString());
 	    useItemButton.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
+		    selection.update();
 		    selection.setItemName(nameItem.getText());
 		    changePanel("SELECTIONPANEL");
 		}
@@ -71,6 +78,7 @@ public class GameItemPanel extends JPanel {
 	setShowProp(listItemsName, subPanel);
 	JScrollPane scrollPane = new JScrollPane(subPanel);
 	scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+	scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
 	containerPanel.add(topPanel, BorderLayout.NORTH);
 	containerPanel.add(scrollPane, BorderLayout.CENTER);

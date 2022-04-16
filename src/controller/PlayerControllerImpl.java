@@ -371,7 +371,7 @@ public class PlayerControllerImpl implements PlayerController {
 
     @Override
     public void useItemOnMonster(String i, int monsterId) {
-	player.useItemOnMonster(dataController.getItem(i), dataController.getMonster(monsterId));
+	player.useItemOnMonster(dataController.getItem(i), getMonster(monsterId).get());
     }
 
     @Override

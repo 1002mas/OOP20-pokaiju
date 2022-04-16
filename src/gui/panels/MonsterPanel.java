@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +28,6 @@ public class MonsterPanel extends JPanel {
     public MonsterPanel(PlayerController playerController, ImagesLoader imgLoad) {
 	this.playerController = playerController;
 	this.imgLoad = imgLoad;
-	init();
     }
 
     private void init() {
@@ -45,7 +46,7 @@ public class MonsterPanel extends JPanel {
 	    allMonsterPanel.add(setMonsterPanel(id, index));
 	    index++;
 	}
-
+	setPanelProp(allMonsterPanel, monsterIds.size());
 	this.add(allMonsterPanel, Integer.toString(0));
 
 	index = 1;
@@ -84,9 +85,20 @@ public class MonsterPanel extends JPanel {
 	return panel;
     }
 
+    private void setPanelProp(JPanel panel, int numberOfMonster) {
+	int cont = 6 - numberOfMonster;
+	while (cont > 0) {
+	    JLabel label = new JLabel();
+	    label.setVisible(false);
+	    panel.add(label);
+	    cont--;
+	}
+    }
+
     public void update() {
 	this.removeAll();
 	init();
+	this.validate();
     }
 
     private void setLabelProp(JLabel label) {
