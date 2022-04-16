@@ -51,11 +51,108 @@ public class BattlePanel extends JPanel {
     public BattlePanel(ImagesLoader img,GameFrame frame) {
 	this.img = img;
 	this.gameFrame = frame;
+	this.setLayout(new BorderLayout());
+	JPanel topPanel = new JPanel();
+	topPanel.setLayout(new GridLayout());
+	this.cLayout = new CardLayout();
+	JPanel southPanel = new JPanel();
+	southPanel.setLayout(cLayout);
+	this.panelMap.put(SOUTH_PANEL, southPanel);
+	JPanel centerPanel = new JPanel();
+	centerPanel.setLayout(new BorderLayout());
+	this.panelMap.put(CENTER_PANEL, centerPanel);
+	JPanel choosePanel = new JPanel();
+	choosePanel.setLayout(new GridLayout());
+	JPanel movesPanel = new JPanel();
+	movesPanel.setLayout(new GridLayout());
+	this.panelMap.put(MOVE, movesPanel);
+	JPanel monsterPanel = new JPanel();
+	monsterPanel.setLayout(new GridLayout());
+	this.panelMap.put(MONSTER, monsterPanel);
+	JPanel itemsPanel = new JPanel();
+	itemsPanel.setLayout(new GridLayout());
+	this.panelMap.put(ITEM, itemsPanel);
+	
+	this.playerMonster = new JTextField();
+	this.playerMonster.setEditable(false);
+	this.enemyMonster = new JTextField();
+	this.enemyMonster.setEditable(false);
+	
+	topPanel.add(playerMonster);
+	topPanel.add(enemyMonster);
+	
+	this.actionText = new JTextField();
+	this.actionText.setEditable(false);
+	centerPanel.add(actionText, BorderLayout.SOUTH);
+	
+
+	JButton leftNorthButton = new JButton("Attack");
+	leftNorthButton.addActionListener(new ActionListener() {
+
+	    @Override
+	    public void actionPerformed(ActionEvent e) {
+		loadMoves();
+		actionText.setText("What move do u choose?");
+		cLayout.show(southPanel, MOVE);
+	    }
+
+	});
+	JButton rightNorthButton = new JButton("Change Monster");
+	rightNorthButton.addActionListener(new ActionListener() {
+
+	    @Override
+	    public void actionPerformed(ActionEvent e) {
+		itemsFlag = false;
+		loadMonsters();
+		actionText.setText("What monster do u choose?");
+		cLayout.show(southPanel, MONSTER);
+	    }
+
+	});
+	JButton leftSouthButton = new JButton("Equipment");
+	leftSouthButton.addActionListener(new ActionListener() {
+
+	    @Override
+	    public void actionPerformed(ActionEvent e) {
+		loadItems();
+		actionText.setText("What item do u choose?");
+		cLayout.show(southPanel, ITEM);
+	    }
+
+	});
+	JButton rightSouthButton = new JButton("Get Out");
+	rightSouthButton.addActionListener(new ActionListener() {
+
+	    @Override
+	    public void actionPerformed(ActionEvent e) {
+		if (ctrl.flee()) {
+		    actionText.setText("You successfully escaped");
+		    gameFrame.updateView(GameFrameImpl.MAP_VIEW);
+
+		} else {
+		    actionText.setText("You failed to escaped");
+		}
+	    }
+	});
+	
+	choosePanel.add(leftNorthButton);
+	choosePanel.add(rightNorthButton);
+	choosePanel.add(leftSouthButton);
+	choosePanel.add(rightSouthButton);
+
+	southPanel.add(choosePanel, CHOOSE);
+	southPanel.add(monsterPanel, MONSTER);
+	southPanel.add(movesPanel, MOVE);
+	southPanel.add(itemsPanel, ITEM);
+	this.cLayout.show(southPanel, CHOOSE);
+	this.add(topPanel, BorderLayout.NORTH);
+	this.add(centerPanel, BorderLayout.CENTER);
+	this.add(southPanel, BorderLayout.SOUTH);
+	
 	this.addComponentListener(new ComponentListener() {
 	    
 	    @Override
 	    public void componentShown(ComponentEvent e) {
-		// TODO Auto-generated method stub
 		start();
 	    }
 	    
@@ -201,6 +298,11 @@ public class BattlePanel extends JPanel {
 	    });
 	    this.panelMap.get(ITEM).add(button);
 	}
+	JButton back = new JButton("Back");
+	back.addActionListener(e -> {
+	    refresh();
+	});
+	this.panelMap.get(ITEM).add(back);
     }
 
     private void refresh() {
@@ -214,101 +316,13 @@ public class BattlePanel extends JPanel {
 
     public void start() {
 
-	this.setLayout(new BorderLayout());
-	JPanel topPanel = new JPanel();
-	topPanel.setLayout(new GridLayout());
-	this.cLayout = new CardLayout();
-	JPanel southPanel = new JPanel();
-	southPanel.setLayout(cLayout);
-	this.panelMap.put(SOUTH_PANEL, southPanel);
-	JPanel centerPanel = new JPanel();
-	centerPanel.setLayout(new BorderLayout());
-	this.panelMap.put(CENTER_PANEL, centerPanel);
-	JPanel choosePanel = new JPanel();
-	choosePanel.setLayout(new GridLayout());
-	JPanel movesPanel = new JPanel();
-	movesPanel.setLayout(new GridLayout());
-	this.panelMap.put(MOVE, movesPanel);
-	JPanel monsterPanel = new JPanel();
-	monsterPanel.setLayout(new GridLayout());
-	this.panelMap.put(MONSTER, monsterPanel);
-	JPanel itemsPanel = new JPanel();
-	itemsPanel.setLayout(new GridLayout());
-	this.panelMap.put(ITEM, itemsPanel);
-	this.playerMonster = new JTextField(this.getCurrentPlayerMonsterData());
-	this.playerMonster.setEditable(false);
-	this.enemyMonster = new JTextField(this.getCurrentEnemyMonsterData());
-	this.enemyMonster.setEditable(false);
-	topPanel.add(playerMonster);
-	topPanel.add(enemyMonster);
-
-	this.actionText = new JTextField("What do you want to do?...");
-	this.actionText.setEditable(false);
-
-	centerPanel.add(actionText, BorderLayout.SOUTH);
 	loadImg();
-	JButton leftNorthButton = new JButton("Attack");
-	leftNorthButton.addActionListener(new ActionListener() {
-
-	    @Override
-	    public void actionPerformed(ActionEvent e) {
-		loadMoves();
-		actionText.setText("What move do u choose?");
-		cLayout.show(southPanel, MOVE);
-	    }
-
-	});
-	JButton rightNorthButton = new JButton("Change Monster");
-	rightNorthButton.addActionListener(new ActionListener() {
-
-	    @Override
-	    public void actionPerformed(ActionEvent e) {
-		itemsFlag = false;
-		loadMonsters();
-		actionText.setText("What monster do u choose?");
-		cLayout.show(southPanel, MONSTER);
-	    }
-
-	});
-	JButton leftSouthButton = new JButton("Equipment");
-	leftSouthButton.addActionListener(new ActionListener() {
-
-	    @Override
-	    public void actionPerformed(ActionEvent e) {
-		loadItems();
-		actionText.setText("What item do u choose?");
-		cLayout.show(southPanel, ITEM);
-	    }
-
-	});
-	JButton rightSouthButton = new JButton("Get Out");
-	rightSouthButton.addActionListener(new ActionListener() {
-
-	    @Override
-	    public void actionPerformed(ActionEvent e) {
-		if (ctrl.flee()) {
-		    actionText.setText("You successfully escaped");
-		    gameFrame.updateView(GameFrameImpl.MAP_VIEW);
-
-		} else {
-		    actionText.setText("You failed to escaped");
-		}
-	    }
-	});
-
-	choosePanel.add(leftNorthButton);
-	choosePanel.add(rightNorthButton);
-	choosePanel.add(leftSouthButton);
-	choosePanel.add(rightSouthButton);
-
-	southPanel.add(choosePanel, CHOOSE);
-	southPanel.add(monsterPanel, MONSTER);
-	southPanel.add(movesPanel, MOVE);
-	southPanel.add(itemsPanel, ITEM);
-	this.cLayout.show(southPanel, CHOOSE);
-	this.add(topPanel, BorderLayout.NORTH);
-	this.add(centerPanel, BorderLayout.CENTER);
-	this.add(southPanel, BorderLayout.SOUTH);
+	this.playerMonster.setText(this.getCurrentPlayerMonsterData());
+	this.enemyMonster.setText(this.getCurrentEnemyMonsterData());
+	this.actionText.setText("What do you want to do?...");
+	cLayout.show(this.panelMap.get(SOUTH_PANEL), CHOOSE);
+	
+	
 
     }
 }

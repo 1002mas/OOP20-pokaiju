@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import model.Pair;
 import model.battle.Moves;
@@ -24,6 +25,7 @@ import model.map.GameMapDataImpl;
 import model.map.GameMapImpl;
 import model.map.MapBlockType;
 import model.monster.Monster;
+import model.monster.MonsterBuilderImpl;
 import model.monster.MonsterSpecies;
 import model.monster.MonsterSpeciesBuilderImpl;
 import model.monster.MonsterType;
@@ -67,16 +69,16 @@ public class DataControllerImpl implements DataLoaderController {
 	Moves m6 = new MovesImpl("Grass headbutt", 80, MonsterType.GRASS, 5);
 	Moves m7 = new MovesImpl("Grass shoot", 20, MonsterType.GRASS, 15);
 	Moves m8 = new MovesImpl("Water bomb", 60, MonsterType.WATER, 5);
-
-	MonsterSpecies species1 = new MonsterSpeciesBuilderImpl().name("Bibol").info("His name is bibol")
+	moves.add(m8);
+	MonsterSpecies species1 = new MonsterSpeciesBuilderImpl().name("bibol").info("His name is bibol")
 		.monsterType(MonsterType.FIRE).health(60).attack(20).defense(5).speed(10).movesList(List.of(m1, m3, m8))
 		.build();
 
-	MonsterSpecies species2 = new MonsterSpeciesBuilderImpl().name("Greyfish").info("is a fish")
+	MonsterSpecies species2 = new MonsterSpeciesBuilderImpl().name("greyfish").info("is a fish")
 		.monsterType(MonsterType.WATER).health(100).attack(8).defense(5).speed(8).movesList(List.of(m2, m4, m8))
 		.build();
 
-	MonsterSpecies species3 = new MonsterSpeciesBuilderImpl().name("Kracez").info("cute thing")
+	MonsterSpecies species3 = new MonsterSpeciesBuilderImpl().name("kracez").info("cute thing")
 		.monsterType(MonsterType.GRASS).health(70).attack(25).defense(2).speed(5).movesList(List.of(m5, m6, m7))
 		.build();
 
@@ -113,6 +115,8 @@ public class DataControllerImpl implements DataLoaderController {
 	house.addMapLink(this.gameMapData.get(0), new Pair<>(10, 15), new Pair<>(5, 12));
 	this.gameMapData.add(house);
 	this.npcs.add(healerNpc);
+	Monster monster = new MonsterBuilderImpl().species(monsterSpecies.get(0)).level(100).movesList(moves.stream().map(m -> new Pair<>(m,m.getPP())).collect(Collectors.toList())).build();
+	this.player.addMonster(monster);
     }
 
     private Map<GameItem, Integer> getInventory() {
