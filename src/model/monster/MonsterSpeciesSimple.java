@@ -8,7 +8,7 @@ import model.battle.Moves;
 
 //a single instance of this class represents a monster species  
 
-public class MonsterSpeciesImpl implements MonsterSpecies {
+public class MonsterSpeciesSimple implements MonsterSpecies {
 
     private final Optional<MonsterSpecies> evolution;
     private final String name;
@@ -18,7 +18,7 @@ public class MonsterSpeciesImpl implements MonsterSpecies {
     private final MonsterStats stats;
     private final List<Moves> movesList;
 
-    protected MonsterSpeciesImpl(String name, String info, MonsterType type, MonsterStats stats,
+    protected MonsterSpeciesSimple(String name, String info, MonsterType type, MonsterStats stats,
 	    Optional<MonsterSpecies> evolution, EvolutionType evolutionType, List<Moves> movesList) {
 	this.name = name;
 	this.info = info;
@@ -29,7 +29,7 @@ public class MonsterSpeciesImpl implements MonsterSpecies {
 	this.movesList = movesList;
     }
     
-    public MonsterSpeciesImpl(String name, String info, MonsterType type, MonsterStats stats, List<Moves> movesList) {
+    public MonsterSpeciesSimple(String name, String info, MonsterType type, MonsterStats stats, List<Moves> movesList) {
    	this(name, info, type, stats, Optional.empty(), EvolutionType.NONE, movesList);
     }
 
