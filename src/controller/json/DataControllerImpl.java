@@ -93,7 +93,8 @@ public class DataControllerImpl implements DataLoaderController {
 	npcs.add(trainer);
 
 	GameMapData mapData = new GameMapDataImpl(INITIAL_GAME_MAP_ID, 1, 10, "MAP1",
-		getMapBlocksById(INITIAL_GAME_MAP_ID), new HashSet<>(npcs), monsterSpecies);
+		getMapBlocksById(INITIAL_GAME_MAP_ID), monsterSpecies);
+	this.npcs.forEach(npc -> mapData.addNpc(npc));
 
 	this.gameMapData.add(mapData);
     }
@@ -116,12 +117,13 @@ public class DataControllerImpl implements DataLoaderController {
     private void setHealerNpcAndMap() {
 	NpcSimple healerNpc = new NpcHealerImpl("Mom", List.of("Let me heal your Pokaiju"), new Pair<>(10, 5),
 		this.player, true, true);
-	GameMapData house = new GameMapDataImpl(2, 1, 99, "MAP2", getMapBlocksById(2),
-		new HashSet<>(List.of(healerNpc)), new ArrayList<>());
-	this.gameMapData.get(0).addMapLink(house, new Pair<>(5, 10), new Pair<>(10, 10));
-	house.addMapLink(this.gameMapData.get(0), new Pair<>(10, 15), new Pair<>(5, 12));
+	GameMapData house = new GameMapDataImpl(2, 1, 99, "MAP2", getMapBlocksById(2), new ArrayList<>());
+	this.gameMapData.get(0).addMapLink(house, new Pair<>(5, 10), new Pair<>(10, 14));
+	house.addMapLink(this.gameMapData.get(0), new Pair<>(10, 16), new Pair<>(5, 12));
+	house.addMapLink(this.gameMapData.get(0), new Pair<>(9, 16), new Pair<>(5, 12));
 	this.gameMapData.add(house);
 	this.npcs.add(healerNpc);
+	house.addNpc(healerNpc);
 
 	Monster monster = new MonsterBuilderImpl().species(monsterSpecies.get(0)).level(100)
 		.movesList(moves.stream().map(m -> new Pair<>(m, m.getPP())).collect(Collectors.toList())).build();

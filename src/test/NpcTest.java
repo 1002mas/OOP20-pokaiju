@@ -13,6 +13,7 @@ import model.Pair;
 import model.battle.Moves;
 import model.battle.MovesImpl;
 import model.gameevents.NpcBehaviorChanger;
+import model.gameevents.NpcVisibilityChanger;
 import model.gameitem.GameItem;
 import model.gameitem.GameItemImpl;
 import model.monster.Monster;
@@ -39,7 +40,6 @@ public class NpcTest {
 	private NpcTrainer npc4;
 	private Pair<Integer, Integer> position;
 	private List<String> sentences;
-	private NpcBehaviorChanger npcEvent;
 	private Monster monster1;
 	private Player player;
 	private List<Monster> monsterList;
@@ -56,7 +56,6 @@ public class NpcTest {
 		sentences.add("Frase 3");
 		position = new Pair<>(1, 1);
 		player = new PlayerImpl("player", Gender.WOMAN, 0, position, null);
-		npcEvent = new NpcBehaviorChanger(3, false, true, true);
 		// item
 		item1 = new GameItemImpl("pietra", "descrizione");
 		item2 = new GameItemImpl("carta", "descrizione");
@@ -76,7 +75,6 @@ public class NpcTest {
 		this.player.addMonster(monster1);
 		// npc
 		this.npc1 = new NpcSimpleImpl("nome1", sentences, position, false, false);
-		this.npc1.addGameEvent(npcEvent);
 		this.npc2 = new NpcHealerImpl("nome2", sentences, position, player, false, false);
 		this.npc3 = new NpcMerchantImpl("nome3", sentences, position, false, false, inventory);
 		list = List.of(new Pair<GameItem, Integer>(item1, 2));
@@ -86,7 +84,6 @@ public class NpcTest {
 
 	@org.junit.Test
 	public void CommonFields() {
-
 		assertEquals("nome1", this.npc1.getName());
 		assertEquals(0, this.npc1.getCurrentSetence());
 		assertEquals(this.position, this.npc1.getPosition());

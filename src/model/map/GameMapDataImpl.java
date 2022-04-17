@@ -28,17 +28,17 @@ public class GameMapDataImpl implements GameMapData {
     private final List<MonsterSpecies> wildMonsters;
 
     public GameMapDataImpl(int id, int minimumMonsterLevel, int maximumMonsterLevel, String name,
-	    Map<Pair<Integer, Integer>, MapBlockType> blocks, Set<NpcSimple> npcs, List<MonsterSpecies> wildMonsters) {
+	    Map<Pair<Integer, Integer>, MapBlockType> blocks, List<MonsterSpecies> wildMonsters) {
 	this.id = id;
 	this.minimumMonsterLevel = minimumMonsterLevel;
 	this.maximumMonsterLevel = maximumMonsterLevel;
 	this.name = name;
 	this.blocks = blocks;
-	this.npcs = npcs == null ? new HashSet<>() : npcs;
 	this.wildMonsters = wildMonsters == null ? new ArrayList<>() : wildMonsters;
-	this.linkedMaps = new HashMap<>();
 	this.linkedMapsStartingPosition = new HashMap<>();
 	this.eventLocation = new HashMap<>();
+	this.npcs = new HashSet<>();
+	this.linkedMaps = new HashMap<>();
     }
 
     @Override
@@ -51,6 +51,11 @@ public class GameMapDataImpl implements GameMapData {
 	    Pair<Integer, Integer> characterSpawn) {
 	this.linkedMaps.put(mapLinkPosition, map);
 	this.linkedMapsStartingPosition.put(map, characterSpawn);
+    }
+
+    @Override
+    public void addNpc(NpcSimple npc) {
+	this.npcs.add(npc);
     }
 
     @Override

@@ -5,19 +5,39 @@ import java.util.List;
 
 import model.monster.Monster;
 
+/**
+ * It implements some generic game event functions.
+ * 
+ * @author sam
+ *
+ */
 public abstract class AbstractGameEvent implements GameEvent {
     private final int id;
     private final boolean isToActiveImmediatly;
     private boolean isActive;
-    private boolean isDeactivable;
+    private boolean isReactivable;
+    private boolean hasBeenActivated;
     private List<GameEvent> eventsToActivate = new ArrayList<>();
     private List<GameEvent> eventsToDeactivate = new ArrayList<>();
 
-    public AbstractGameEvent(int id, boolean isActive, boolean isDeactivable, boolean isToActiveImmediatly) {
+    /**
+     * 
+     * @param id                   it is used to identify the event
+     * @param isActive             if it is active when the player interacts with a
+     *                             trigger, this event will use {@link #activate()
+     *                             activate}
+     * @param isReactivable        if the event has to be has to deactivate and
+     *                             never be reactivated after calling the function
+     *                             {@link #activate() activate}
+     * @param isToActiveImmediatly if the event has to be activated right after
+     *                             another event
+     */
+    public AbstractGameEvent(int id, boolean isActive, boolean isReactivable, boolean isToActiveImmediatly) {
 	this.id = id;
 	this.isToActiveImmediatly = isToActiveImmediatly;
 	this.isActive = isActive;
-	this.isDeactivable = isDeactivable;
+	this.isReactivable = isReactivable;
+	this.hasBeenActivated = isActive;
     }
 
     @Override
@@ -37,7 +57,15 @@ public abstract class AbstractGameEvent implements GameEvent {
 
     @Override
     public void setActivity(boolean active) {
-	this.isActive = active;
+
+	if (hasBeenActivated && !isReactivable) {
+	    this.isActive = false;
+	} else {
+	    this.isActive = active;
+	}
+	if (active) {
+	    hasBeenActivated = true;
+	}
     }
 
     @Override
@@ -51,8 +79,8 @@ public abstract class AbstractGameEvent implements GameEvent {
     }
 
     @Override
-    public boolean isPermanent() {
-	return !this.isDeactivable;
+    public boolean isReactivable() {
+	return this.isReactivable;
     }
 
     @Override
@@ -78,11 +106,13 @@ public abstract class AbstractGameEvent implements GameEvent {
 		}
 	    }
 
-	    if (!isPermanent()) {
-		this.setActivity(false);
-	    }
+	    this.setActivity(false);
+
 	}
     }
 
+    /**
+     * In this function you need to implement the event action.
+     */
     protected abstract void activateEvent();
 }

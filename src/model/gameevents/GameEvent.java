@@ -4,7 +4,13 @@ import java.util.List;
 
 import model.monster.Monster;
 
-public interface GameEvent {// npcs needs events field
+/**
+ * It represents a generic game event.
+ * 
+ * @author sam
+ *
+ */
+public interface GameEvent {
     /**
      * 
      * @return event ID
@@ -47,10 +53,9 @@ public interface GameEvent {// npcs needs events field
 
     /**
      * 
-     * @return false if the event ends after being activated. True if once the event
-     *         is active it still be active
+     * @return false can be activated only one time.
      */
-    boolean isPermanent();
+    boolean isReactivable();
 
     /**
      * @return true if a battle is required

@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -17,7 +16,10 @@ import model.battle.Moves;
 import model.battle.MovesImpl;
 import model.gameevents.GameEvent;
 import model.gameevents.MonsterGift;
-import model.gameevents.NpcBehaviorChanger;
+import model.gameevents.NpcActivityChanger;
+import model.gameevents.NpcPositionChanger;
+import model.gameevents.NpcTextChanger;
+import model.gameevents.NpcVisibilityChanger;
 import model.gameevents.UniqueMonsterEvent;
 import model.map.GameMap;
 import model.map.GameMapData;
@@ -71,23 +73,32 @@ public class GameEventsTest {
 	NpcSimple item3 = new NpcSimpleImpl("monsterCnpc", List.of("You choose monsterC"), new Pair<>(0, 3), true,
 		true);
 
-	NpcBehaviorChanger npcDisappearingEvent = new NpcBehaviorChanger(0, false, true, true);
-	npcDisappearingEvent.addNpcDialogChange(teacher, 1);
-	npcDisappearingEvent.addNpcVisibilityChange(item1, false);
-	npcDisappearingEvent.addNpcVisibilityChange(item2, false);
-	npcDisappearingEvent.addNpcVisibilityChange(item3, false);
-	npcDisappearingEvent.addNpcInteractbilityChange(item1, false);
-	npcDisappearingEvent.addNpcInteractbilityChange(item2, false);
-	npcDisappearingEvent.addNpcInteractbilityChange(item3, false);
+	GameEvent teacherTextChange = new NpcTextChanger(1, false, true, true, teacher, 1);
 
-	GameEvent eventA = new MonsterGift(1, true, true, false, List.of(this.monsterA), player);
-	eventA.addSuccessiveGameEvent(npcDisappearingEvent);
+	GameEvent npcEventV1 = new NpcVisibilityChanger(2, false, true, true, item1, false);
+	GameEvent npcEventEn1 = new NpcActivityChanger(3, false, true, true, item1, false);
 
-	GameEvent eventB = new MonsterGift(1, true, true, false, List.of(this.monsterB), player);
-	eventB.addSuccessiveGameEvent(npcDisappearingEvent);
+	GameEvent npcEventV2 = new NpcVisibilityChanger(4, false, true, true, item2, false);
+	GameEvent npcEventEn2 = new NpcActivityChanger(5, false, true, true, item2, false);
 
-	GameEvent eventC = new MonsterGift(1, true, true, false, List.of(this.monsterC), player);
-	eventC.addSuccessiveGameEvent(npcDisappearingEvent);
+	GameEvent npcEventV3 = new NpcVisibilityChanger(6, false, true, true, item3, false);
+	GameEvent npcEventEn3 = new NpcActivityChanger(7, false, true, true, item3, false);
+
+	teacherTextChange.addSuccessiveGameEvent(npcEventEn1);
+	teacherTextChange.addSuccessiveGameEvent(npcEventEn2);
+	teacherTextChange.addSuccessiveGameEvent(npcEventEn3);
+	teacherTextChange.addSuccessiveGameEvent(npcEventV1);
+	teacherTextChange.addSuccessiveGameEvent(npcEventV2);
+	teacherTextChange.addSuccessiveGameEvent(npcEventV3);
+
+	GameEvent eventA = new MonsterGift(8, true, true, false, List.of(this.monsterA), player);
+	eventA.addSuccessiveGameEvent(teacherTextChange);
+
+	GameEvent eventB = new MonsterGift(9, true, true, false, List.of(this.monsterB), player);
+	eventB.addSuccessiveGameEvent(teacherTextChange);
+
+	GameEvent eventC = new MonsterGift(10, true, true, false, List.of(this.monsterC), player);
+	eventC.addSuccessiveGameEvent(teacherTextChange);
 
 	eventA.addDependentGameEvent(eventB);
 	eventA.addDependentGameEvent(eventC);
@@ -127,8 +138,7 @@ public class GameEventsTest {
 	NpcSimple mario = new NpcSimpleImpl("Mario", List.of("Licia? She is behind you"), new Pair<>(0, 0), true, true);
 	NpcSimple licia = new NpcSimpleImpl("Licia", List.of("BOO! Scared, aren't you?"), startingPosition, true, true);
 
-	NpcBehaviorChanger npcEvent = new NpcBehaviorChanger(0, true, true, false);
-	npcEvent.addNpcPositionChange(licia, newPosition);
+	GameEvent npcEvent = new NpcPositionChanger(0, true, false, false, licia, newPosition);
 
 	assertEquals(licia.getPosition(), startingPosition);
 
@@ -137,7 +147,7 @@ public class GameEventsTest {
 
 	assertEquals(licia.getPosition(), newPosition);
 	assertFalse(npcEvent.isActive());
-	assertFalse(npcEvent.isPermanent());
+	assertFalse(npcEvent.isReactivable());
     }
 
     private GameMap initMonsterSpawnMap(Pair<Integer, Integer> eventPosition, List<NpcSimple> npcs,
@@ -151,7 +161,8 @@ public class GameEventsTest {
 	    }
 	}
 
-	GameMapData map = new GameMapDataImpl(0, 0, 0, "test map", blocks, new HashSet<>(npcs), null);
+	GameMapData map = new GameMapDataImpl(0, 0, 0, "test map", blocks, null);
+	npcs.forEach(npc -> map.addNpc(npc));
 	map.addEventAt(monsterEvent, eventPosition);
 	return new GameMapImpl(map);
     }
@@ -167,7 +178,7 @@ public class GameEventsTest {
 	NpcSimple mario = new NpcSimpleImpl("Mario", List.of("There is a special monster over there"), new Pair<>(0, 0),
 		true, true);
 
-	GameEvent npcEvent = new NpcBehaviorChanger(1, true, true, false);
+	GameEvent npcEvent = new NpcActivityChanger(1, true, true, false, mario, true);
 	npcEvent.addSuccessiveGameEvent(monsterEvent);
 	mario.addGameEvent(npcEvent);
 
