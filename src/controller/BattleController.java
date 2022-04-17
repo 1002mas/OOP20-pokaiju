@@ -185,20 +185,6 @@ public interface BattleController {
     boolean isCaptureItem(String gameItemName);
 
     /**
-     * This function returns true if a monster can evolve, false otherwise
-     * 
-     * @return true if a monster can evolve, false otherwise
-     */
-    boolean canOneMonsterEvolve();
-
-    /**
-     * This function returns the id of the evolving monster
-     * 
-     * @return id of the evolving monster
-     */
-    Optional<Integer> getIdOfEvolvingMonster();
-
-    /**
      * Check the health of the monster
      * 
      * @param monsterId
