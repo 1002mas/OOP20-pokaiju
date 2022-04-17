@@ -141,7 +141,6 @@ public class MonsterBattleImpl implements MonsterBattle {
 	if (!this.playerCurrentMonster.isOutOfPP(playerCurrentMonster.getMoves(moveIndex)) && this.battleStatus
 		&& this.playerCurrentMonster.isAlive()) {
 
-	    this.playerCurrentMonster.decMovePP(playerCurrentMonster.getMoves(moveIndex));
 	    this.turn(this.playerCurrentMonster.getMoves(moveIndex));
 
 	    return true;
@@ -159,7 +158,7 @@ public class MonsterBattleImpl implements MonsterBattle {
 	} else {
 	    monsterAttack(enemy, playerCurrentMonster, enemyAttack());
 	    if (playerCurrentMonster.isAlive()) {
-		monsterAttack(playerCurrentMonster, enemy, enemyAttack());
+		monsterAttack(playerCurrentMonster, enemy, monsterMove);
 	    }
 	}
 	if (!enemy.isAlive()) {
@@ -177,7 +176,7 @@ public class MonsterBattleImpl implements MonsterBattle {
 
 	    trainer.setMoney(trainer.getMoney() + MONEY_WON);
 	    if (this.enemyTrainer.isPresent()) {
-		enemyTrainer.get().isDefeated();
+		enemyTrainer.get().setDefeated(true);
 	    }
 	    this.battleStatus = false;
 	    trainer.evolveMonsters();
@@ -196,7 +195,7 @@ public class MonsterBattleImpl implements MonsterBattle {
 	    damage = 1;
 	}
 	m1.decMovePP(move);
-	m2.getStats().setHealth(m2.getStats().getHealth() - damage);
+	m2.setHealth(m2.getStats().getHealth() - damage);
     }
 
     private boolean areThereEnemies() {

@@ -189,6 +189,7 @@ public class BattlePanel extends JPanel {
 	return " " + ctrl.getEnemyCurrentMonsterName() + " " + ctrl.getEnemyCurrentMonsterHp() + "/"
 		+ ctrl.getEnemyCurrentMonsterMaxHealth() + " HP " + "LVL." + ctrl.getEnemyCurrentMonsterLevel();
     }
+   
 
     private void loadImg() {
 	playerMonsterImg.setIcon(new ImageIcon(img.getMonster(ctrl.getPlayerCurrentMonsterName())));
@@ -273,7 +274,7 @@ public class BattlePanel extends JPanel {
 	back.addActionListener(e -> {
 	    refresh();
 	});
-	this.panelMap.get(ITEM).add(back);
+	this.panelMap.get(MONSTER).add(back);
     }
 
     private void loadItems() {
