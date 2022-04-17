@@ -134,6 +134,12 @@ public interface BattleController {
      * @return if PP are below zero returns false, true otherwise
      */
     boolean checkPP(String moveName);
+    
+    /**
+     * This function returns if monster has finished all PP of the moves
+     * @return if monster has finished all PP of the moves return true, false otherwise
+     */
+    boolean isOverOfPP();
 
     /**
      * Get a list with all the monster's moves

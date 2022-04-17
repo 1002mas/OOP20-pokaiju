@@ -124,6 +124,12 @@ public class BattleControllerImpl implements BattleController {
 	return monsterBattle.getCurrentPlayerMonster().isOutOfPP(monsterBattle.getCurrentPlayerMonster().getAllMoves()
 		.stream().filter(m -> m.getName().equals(moveName)).findAny().get());
     }
+    
+
+    @Override
+    public boolean isOverOfPP() {
+	return this.monsterBattle.isOverOfPP();
+    }
 
     @Override
     public List<String> getMoves() {
