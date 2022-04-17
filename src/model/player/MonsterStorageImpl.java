@@ -66,7 +66,7 @@ public class MonsterStorageImpl implements MonsterStorage {
 
 	@Override
 	public boolean depositMonster(Monster monster) {
-		if (this.player.getAllMonsters().size() <= 1) {
+		if (this.player.getAllMonsters().size() > 1) {
 			if (this.player.removeMonster(monster)) {
 				getCurrentBox().addMonster(monster);
 				return true;
@@ -78,8 +78,8 @@ public class MonsterStorageImpl implements MonsterStorage {
 	@Override
 	public boolean withdrawMonster(int monsterID) {
 		if (isInBox(monsterID) && !this.player.isTeamFull()) {
-			getCurrentBox().removeMonster(monsterID);
 			this.player.addMonster(getCurrentBox().getMonster(monsterID).get());
+			getCurrentBox().removeMonster(monsterID);
 			return true;
 
 		}
