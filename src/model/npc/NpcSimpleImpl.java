@@ -1,10 +1,12 @@
 package model.npc;
 
 import java.util.ArrayList;
-
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+
 import model.Pair;
 import model.gameevents.GameEvent;
 
@@ -14,7 +16,7 @@ public class NpcSimpleImpl implements NpcSimple {
     private TypeOfNpc typeOfNpc;
     private List<String> sentences;
     private int currentSentence;
-    private List<GameEvent> events;
+    private Set<GameEvent> events;
     private Optional<GameEvent> triggeredEvent;
     private Pair<Integer, Integer> position;
     private boolean isVisible;
@@ -29,14 +31,15 @@ public class NpcSimpleImpl implements NpcSimple {
 	this.currentSentence = 0;
 	this.isVisible = isVisible;
 	this.isEnabled = isEnabled;
-	this.events = new ArrayList<>();
+	this.events = new HashSet<>();
 	this.triggeredEvent = Optional.empty();
     }
 
-    public NpcSimpleImpl(String name, List<String> sentences, Pair<Integer, Integer> position,
-    	    boolean isVisible, boolean isEnabled) {
-    	this(name,TypeOfNpc.SIMPLE,sentences, position, isVisible, isEnabled);
+    public NpcSimpleImpl(String name, List<String> sentences, Pair<Integer, Integer> position, boolean isVisible,
+	    boolean isEnabled) {
+	this(name, TypeOfNpc.SIMPLE, sentences, position, isVisible, isEnabled);
     }
+
     @Override
     public String getName() {
 	return this.name;
@@ -45,8 +48,8 @@ public class NpcSimpleImpl implements NpcSimple {
     @Override
     public Optional<String> interactWith() {
 	if (isEnabled) {
-		Optional<String> result = Optional.of(sentences.get(currentSentence));
-		Optional<GameEvent> activeEvent = events.stream().filter(ge -> ge.isActive()).findFirst();
+	    Optional<String> result = Optional.of(sentences.get(currentSentence));
+	    Optional<GameEvent> activeEvent = events.stream().filter(ge -> ge.isActive()).findFirst();
 	    if (activeEvent.isPresent()) {
 		this.triggeredEvent = activeEvent;
 		activeEvent.get().activate();
@@ -112,19 +115,19 @@ public class NpcSimpleImpl implements NpcSimple {
 
     @Override
     public List<GameEvent> getGameEvents() {
-	return Collections.unmodifiableList(this.events);
+	return Collections.unmodifiableList(new ArrayList<>(this.events));
     }
 
-	@Override
-	public int getCurrentSetence() {
-		return this.currentSentence;
-	}
+    @Override
+    public int getCurrentSetence() {
+	return this.currentSentence;
+    }
 
-	@Override
-	public String toString() {
-		return "NpcSimpleImpl [name=" + name + ", typeOfNpc=" + typeOfNpc + ", sentences=" + sentences
-				+ ", currentSentence=" + currentSentence + ", events=" + events + ", triggeredEvent=" + triggeredEvent
-				+ ", position=" + position + ", isVisible=" + isVisible + ", isEnabled=" + isEnabled + "]";
-	}
+    @Override
+    public String toString() {
+	return "NpcSimpleImpl [name=" + name + ", typeOfNpc=" + typeOfNpc + ", sentences=" + sentences
+		+ ", currentSentence=" + currentSentence + ", events=" + events + ", triggeredEvent=" + triggeredEvent
+		+ ", position=" + position + ", isVisible=" + isVisible + ", isEnabled=" + isEnabled + "]";
+    }
 
 }
