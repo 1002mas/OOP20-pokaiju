@@ -192,6 +192,10 @@ public class GameEventsTest {
 	assertTrue(map.getEventAt(eventPosition).get().isActive());
 	monsterEvent.activate();
 	assertTrue(monsterEvent.isBattle());
+
+	monsterEvent.setActivity(true);
+
+	assertFalse(monsterEvent.isActive());
     }
 
 }
