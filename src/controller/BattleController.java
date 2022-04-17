@@ -140,6 +140,12 @@ public interface BattleController {
      * @return if monster has finished all PP of the moves return true, false otherwise
      */
     boolean isOverOfPP();
+    
+    /**
+     * The Monster attacks with extra move
+     * @return true if attacks with extra move, false otherwise
+     */
+    boolean attackWithExtraMove();
 
     /**
      * Get a list with all the monster's moves

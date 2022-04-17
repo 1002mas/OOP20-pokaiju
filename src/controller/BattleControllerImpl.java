@@ -105,16 +105,17 @@ public class BattleControllerImpl implements BattleController {
 
     @Override
     public boolean chooseMove(String moveName) {
-	if(monsterBattle.isOverOfPP()) {
-	    int default_value = 10;
-	    return monsterBattle.movesSelection(default_value);
-	}
 	for (int i = 0; i < monsterBattle.getCurrentPlayerMonster().getAllMoves().size(); i++) {
 	    if (monsterBattle.getCurrentPlayerMonster().getMoves(i).getName().equals(moveName)) {
 		return monsterBattle.movesSelection(i);
 	    }
 	}
 	return false;
+    }
+    
+    @Override
+    public boolean attackWithExtraMove() {
+	return this.monsterBattle.attackWithExtraMove();
     }
 
     @Override
