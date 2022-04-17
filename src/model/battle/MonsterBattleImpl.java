@@ -257,4 +257,10 @@ public class MonsterBattleImpl implements MonsterBattle {
     public Optional<NpcTrainer> getNpcEnemy() {
 	return this.enemyTrainer;
     }
+
+    @Override
+    public boolean isOverOfPP() {
+	
+	return this.areEndPP;
+    }
 }
