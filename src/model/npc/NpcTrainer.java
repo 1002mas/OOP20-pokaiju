@@ -6,19 +6,21 @@ import model.monster.Monster;
 
 public interface NpcTrainer extends NpcSimple {
 	/**
+	 * This function returns trainer monsters owned
 	 * 
-	 * @return a list of monsters owned
+	 * @return a list of monsters
 	 */
 	List<Monster> getMonstersOwned();
 
 	/**
+	 * This function returns if a trainer is defeated
 	 * 
 	 * @return true if is defeated, false otherwise
 	 */
 	public boolean isDefeated();
 
 	/**
-	 * this function set if is defeated
+	 * this function set if trainer is defeated
 	 * 
 	 * @param isDefeated
 	 */
