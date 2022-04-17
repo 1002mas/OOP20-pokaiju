@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.util.List;
+
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -69,7 +71,7 @@ public class MonsterInfoPanel extends JPanel {
 	setLabelProp(monsterImgLabel);
 
 	JLabel movesLabel = new JLabel();
-	String moves = "<html>" + "Moves Learned <br/>" + playerController.getMovesNames(monsterId) + "</html>";
+	String moves = "<html>" + "Moves Learned <br/>" + playerController.getMovesNames(monsterId).get(0) + "</html>";
 	movesLabel.setText(moves);
 	setLabelProp(movesLabel);
 	monsterInfoPanel.add(infoLabel);

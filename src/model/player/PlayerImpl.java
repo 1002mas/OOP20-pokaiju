@@ -263,7 +263,6 @@ public class PlayerImpl implements Player {
 	this.monsterBattle = Optional.empty();
 	this.npc = map.getNpcAt(pos);
 	if (npc.isPresent()) {
-	    this.triggeredEvent = npc.get().getTriggeredEvent().isPresent();
 	    if (npc.get().getTypeOfNpc() == TypeOfNpc.TRAINER) {
 		NpcTrainer trainer = (NpcTrainer) npc.get();
 		if (!trainer.isDefeated()) {

@@ -318,11 +318,13 @@ public class PlayerControllerImpl implements PlayerController {
 	@Override
 	public void nextBox() {
 		this.player.getStorage().nextBox();
+		System.out.println(this.player.getStorage().getCurrentBoxName());
 	}
 
 	@Override
 	public void previousBox() {
 		this.player.getStorage().previousBox();
+		System.out.println(this.player.getStorage().getCurrentBoxName());
 	}
 
 	@Override
