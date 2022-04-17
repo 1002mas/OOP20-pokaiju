@@ -2,15 +2,12 @@ package controller.json;
 
 import java.util.List;
 
-import controller.json.saver.NpcDataSaver;
 import model.battle.Moves;
 import model.gameevents.GameEvent;
 import model.gameitem.GameItem;
-import model.map.GameMapData;
 import model.monster.Monster;
 import model.monster.MonsterSpecies;
 import model.npc.NpcSimple;
-import model.player.MonsterStorage;
 import model.player.Player;
 
 public interface DataLoaderController {
@@ -86,7 +83,7 @@ public interface DataLoaderController {
      * @return a npc
      */
 
-    public NpcSimple getNpc(String name);
+ //   public NpcSimple getNpc(String name);
 
     /**
      * 
@@ -94,7 +91,7 @@ public interface DataLoaderController {
      * @return an item
      */
 
-    public GameItem getItem(String name);
+ //   public GameItem getItem(String name);
 
     /**
      * 
@@ -102,7 +99,7 @@ public interface DataLoaderController {
      * @return an event
      */
 
-    public GameEvent getEvent(int id);
+ //   public GameEvent getEvent(int id);
 
     /**
      * set a new Player
