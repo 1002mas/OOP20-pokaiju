@@ -27,6 +27,15 @@ public class GameMapDataImpl implements GameMapData {
     private final Map<GameMapData, Pair<Integer, Integer>> linkedMapsStartingPosition;
     private final List<MonsterSpecies> wildMonsters;
 
+    /**
+     * 
+     * @param id                  map id
+     * @param minimumMonsterLevel minimum wild monsters level.
+     * @param maximumMonsterLevel maximum wild monsters level.
+     * @param name                map name.
+     * @param blocks              data about accessible zones.
+     * @param wildMonsters        a list of wild monsters that may spawn in the map.
+     */
     public GameMapDataImpl(int id, int minimumMonsterLevel, int maximumMonsterLevel, String name,
 	    Map<Pair<Integer, Integer>, MapBlockType> blocks, List<MonsterSpecies> wildMonsters) {
 	this.id = id;

@@ -7,6 +7,12 @@ import model.gameevents.GameEvent;
 import model.monster.MonsterSpecies;
 import model.npc.NpcSimple;
 
+/**
+ * It contains raw data about a map.
+ * 
+ * @author sam
+ *
+ */
 public interface GameMapData {
     /**
      * @return map id

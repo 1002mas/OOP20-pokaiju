@@ -20,6 +20,10 @@ public class GameMapImpl implements GameMap {
     private GameMapData map;
     private Optional<Pair<Integer, Integer>> enteringStartPosition;
 
+    /**
+     * 
+     * @param map the map data used by this class.
+     */
     public GameMapImpl(GameMapData map) {
 	this.map = map;
 	enteringStartPosition = Optional.empty();
