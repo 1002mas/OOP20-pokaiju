@@ -16,7 +16,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import controller.PlayerController;
-import gui.GameFrame;
+
 
 public class GameItemPanel extends JPanel {
     private static final long serialVersionUID = -5473716174748395743L;
@@ -25,12 +25,16 @@ public class GameItemPanel extends JPanel {
     private final static int NUMBEROFELEMENTS = 10;
     private final static int WIDTH = 50;
     private final int size;
-    private final GameFrame gui;
+    private SelectMosterPanel selection;
 
-    public GameItemPanel(PlayerController playerController, int size, GameFrame gui) {
+    public GameItemPanel(PlayerController playerController, int size) {
 	this.playerController = playerController;
 	this.size = size;
-	this.gui = gui;
+	selection = new SelectMosterPanel(playerController, this);
+	selection.getBackButton().addActionListener(e -> {
+	    update();
+	    this.cardlayout.show(this, "ITEMS");
+	});
     }
 
     private void init() {
@@ -43,7 +47,6 @@ public class GameItemPanel extends JPanel {
 	setTopPanel(topPanel);
 
 	JPanel subPanel = new JPanel(new GridLayout(0, 5));
-	SelectMosterPanel selection = new SelectMosterPanel(playerController, this, this.gui);
 
 	for (String itemName : listItemsName) {
 	    JTextArea nameItem = new JTextArea();
@@ -101,6 +104,7 @@ public class GameItemPanel extends JPanel {
     public void update() {
 	this.removeAll();
 	init();
+	this.validate();
     }
 
     private void setButtonProp(JButton button, String itemName) {
@@ -113,7 +117,7 @@ public class GameItemPanel extends JPanel {
 
     private void setTopPanel(JPanel topPanel) {
 	topPanel.setBorder(BorderFactory.createLineBorder(Color.red));
-	JLabel nameLabel = new JLabel("NAMEITEM : ");
+	JLabel nameLabel = new JLabel("ITEM : ");
 	JLabel quantityLabel = new JLabel("QUANTITY : ");
 	JLabel descriptionLabel = new JLabel("DESCRIPTION : ");
 	JLabel typeLabel = new JLabel("TYPE : ");
