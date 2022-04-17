@@ -6,7 +6,6 @@ import java.util.Optional;
 
 import model.gameitem.GameItem;
 import model.monster.Monster;
-import model.monster.MonsterStats;
 import model.monster.MonsterType;
 import model.npc.NpcTrainer;
 import model.player.Player;
@@ -41,7 +40,7 @@ public class MonsterBattleImpl implements MonsterBattle {
 	this.enemyTeam = new ArrayList<>(enemyTeam);
 	this.enemy = enemyTeam.get(0);
 	this.extraMoves = new MovesImpl("Testata", 30, MonsterType.NONE, 999);
-	this.areEndPP = true;
+	this.areEndPP = false;
     }
 
     public MonsterBattleImpl(Player trainer, NpcTrainer enemyTrainer) {
@@ -128,19 +127,9 @@ public class MonsterBattleImpl implements MonsterBattle {
     @Override
     public boolean movesSelection(int moveIndex) {
 
-	for (int c = 0; c < this.playerCurrentMonster.getNumberOfMoves(); c++) {
-	    if (!this.playerCurrentMonster.isOutOfPP(playerCurrentMonster.getMoves(c))) {
-		this.areEndPP = false;
-	    }
-	}
-	if (this.areEndPP) {
-	    this.turn(extraMoves);
-	    return true;
-	}
 	if (!this.playerCurrentMonster.isOutOfPP(playerCurrentMonster.getMoves(moveIndex)) && this.battleStatus
 		&& this.playerCurrentMonster.isAlive()) {
 
-	    this.playerCurrentMonster.decMovePP(playerCurrentMonster.getMoves(moveIndex));
 	    this.turn(this.playerCurrentMonster.getMoves(moveIndex));
 
 	    return true;
@@ -158,7 +147,7 @@ public class MonsterBattleImpl implements MonsterBattle {
 	} else {
 	    monsterAttack(enemy, playerCurrentMonster, enemyAttack());
 	    if (playerCurrentMonster.isAlive()) {
-		monsterAttack(playerCurrentMonster, enemy, enemyAttack());
+		monsterAttack(playerCurrentMonster, enemy, monsterMove);
 	    }
 	}
 	if (!enemy.isAlive()) {
@@ -176,7 +165,7 @@ public class MonsterBattleImpl implements MonsterBattle {
 
 	    trainer.setMoney(trainer.getMoney() + MONEY_WON);
 	    if (this.enemyTrainer.isPresent()) {
-		enemyTrainer.get().isDefeated();
+		enemyTrainer.get().setDefeated(true);
 	    }
 	    this.battleStatus = false;
 	    trainer.evolveMonsters();
@@ -194,8 +183,11 @@ public class MonsterBattleImpl implements MonsterBattle {
 	if (damage < 1) {
 	    damage = 1;
 	}
-	m1.decMovePP(move);
-	m2.getStats().setHealth(m2.getStats().getHealth() - damage);
+	if (move != extraMoves) {
+	    m1.decMovePP(move);
+	}
+
+	m2.setHealth(m2.getStats().getHealth() - damage);
     }
 
     private boolean areThereEnemies() {
@@ -257,5 +249,30 @@ public class MonsterBattleImpl implements MonsterBattle {
     @Override
     public Optional<NpcTrainer> getNpcEnemy() {
 	return this.enemyTrainer;
+    }
+
+    @Override
+    public boolean isOverOfPP() {
+	this.areEndPP = true;
+	for (int c = 0; c < this.playerCurrentMonster.getNumberOfMoves(); c++) {
+	    if (!this.playerCurrentMonster.isOutOfPP(playerCurrentMonster.getMoves(c))) {
+		this.areEndPP = false;
+	    }
+	}
+	return this.areEndPP;
+    }
+
+    @Override
+    public boolean attackWithExtraMove() {
+
+	if (this.battleStatus && this.playerCurrentMonster.isAlive()) {
+
+	    this.turn(extraMoves);
+
+	    return true;
+	}
+	throwExceptionIfItIsOver();
+	return false;
+
     }
 }

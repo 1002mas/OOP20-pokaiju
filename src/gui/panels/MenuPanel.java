@@ -66,7 +66,7 @@ public class MenuPanel extends JPanel {
 
 	BoxPanel boxPanel = new BoxPanel(this.playerController);
 
-	GameItemPanel gameItemPanel = new GameItemPanel(this.playerController, size, this.gui);
+	GameItemPanel gameItemPanel = new GameItemPanel(this.playerController, size);
 
 	PlayerInfoPanel playerInfoPanel = new PlayerInfoPanel(this.playerController);
 

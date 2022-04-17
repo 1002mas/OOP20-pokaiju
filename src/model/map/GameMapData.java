@@ -7,10 +7,12 @@ import model.gameevents.GameEvent;
 import model.monster.MonsterSpecies;
 import model.npc.NpcSimple;
 
-/*
- * GameMapData contains all map info as walkable blocks, npcs in the maps.
+/**
+ * It contains raw data about a map.
  * 
- * */
+ * @author sam
+ *
+ */
 public interface GameMapData {
     /**
      * @return map id
@@ -26,6 +28,13 @@ public interface GameMapData {
      * @param characterSpawn  the player position when the map is changed to map
      */
     void addMapLink(GameMapData map, Pair<Integer, Integer> mapLinkPosition, Pair<Integer, Integer> characterSpawn);
+
+    /**
+     * It adds the npc in the map.
+     * 
+     * @param npc the npc you want to add to the map
+     */
+    void addNpc(NpcSimple npc);
 
     /**
      * @return a pair containing the minimum and maximum level for monsters in the

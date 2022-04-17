@@ -29,7 +29,6 @@ public class PlayerImpl implements Player {
     private List<Monster> team;
     private Map<GameItem, Integer> gameItems;
     private int money;
-    private List<Pair<MonsterSpecies, MonsterSpecies>> evolutionList;
     private GameMap map;
     private boolean hasMapChanged;
     private Optional<NpcSimple> npc;
@@ -215,7 +214,6 @@ public class PlayerImpl implements Player {
     public void evolveMonsters() {
 	for (Monster m : this.team) {
 	    if (m.canEvolveByLevel()) {
-		addMonsterToEvolutionList(m);
 		m.evolve();
 	    }
 	}
@@ -224,20 +222,9 @@ public class PlayerImpl implements Player {
     @Override
     public void evolveMonster(Monster monster, GameItem i) {
 	if (monster.canEvolveByItem(i)) {
-	    addMonsterToEvolutionList(monster);
+	    useItemOnMonster(i, monster);
 	    monster.evolve();
 	}
-    }
-
-    private void addMonsterToEvolutionList(Monster monster) {
-	MonsterSpecies base = monster.getSpecies();
-	evolutionList.add(new Pair<MonsterSpecies, MonsterSpecies>(base, base.getEvolution().get()));
-    }
-
-    public List<Pair<MonsterSpecies, MonsterSpecies>> getEvolutionList() {
-	List<Pair<MonsterSpecies, MonsterSpecies>> temp = this.evolutionList;
-	this.evolutionList = new ArrayList<>();
-	return temp;
     }
 
     private boolean move(int x, int y) {

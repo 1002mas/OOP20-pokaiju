@@ -112,6 +112,11 @@ public class BattleControllerImpl implements BattleController {
 	}
 	return false;
     }
+    
+    @Override
+    public boolean attackWithExtraMove() {
+	return this.monsterBattle.attackWithExtraMove();
+    }
 
     @Override
     public int getCurrentPP(String moveName) {
@@ -123,6 +128,11 @@ public class BattleControllerImpl implements BattleController {
     public boolean checkPP(String moveName) {
 	return monsterBattle.getCurrentPlayerMonster().isOutOfPP(monsterBattle.getCurrentPlayerMonster().getAllMoves()
 		.stream().filter(m -> m.getName().equals(moveName)).findAny().get());
+    }
+    
+    @Override
+    public boolean isOverOfPP() {
+	return this.monsterBattle.isOverOfPP();
     }
 
     @Override
