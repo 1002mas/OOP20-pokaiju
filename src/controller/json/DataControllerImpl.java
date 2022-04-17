@@ -104,6 +104,10 @@ public class DataControllerImpl implements DataLoaderController {
 	this.gameMapData.add(mapData);
     }
 
+    private GameMapData getMapDataByMapID(int id) {
+	return this.gameMapData.stream().filter(map -> map.getMapId() == id).findAny().get();
+    }
+
     @Override
     public void setPlayer(String name, String gender, int trainerNumber) {
 	gender = gender.toLowerCase();
