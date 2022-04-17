@@ -99,5 +99,12 @@ public interface MonsterBattle {
 	 * @return the enemy trainer
 	 */
 	Optional<NpcTrainer> getNpcEnemy();
+	/***
+	 * 
+	 * the function return the player's monster finished the PP in all moves
+	 * 
+	 * @return true the PPs are over, false otherwhise
+	 */
+	boolean isOverOfPP();
 	
 }
