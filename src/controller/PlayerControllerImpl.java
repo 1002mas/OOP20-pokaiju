@@ -13,7 +13,6 @@ import model.battle.MonsterBattle;
 import model.battle.Moves;
 import model.gameitem.GameItem;
 import model.monster.Monster;
-import model.monster.MonsterSpecies;
 import model.npc.NpcMerchant;
 import model.npc.NpcSimple;
 import model.npc.TypeOfNpc;
@@ -25,11 +24,9 @@ public class PlayerControllerImpl implements PlayerController {
 	private Direction currentDirection = Direction.DOWN;
 	private Optional<MonsterBattle> battle = Optional.empty();
 	private DataLoaderController dataController;
-	private List<Pair<MonsterSpecies, MonsterSpecies>> evolutionList;
 	private boolean hasTriggeredEvent;
 
 	public PlayerControllerImpl(DataLoaderController dataController) {
-		this.evolutionList = new ArrayList<>();
 		this.dataController = dataController;
 	}
 
@@ -77,13 +74,8 @@ public class PlayerControllerImpl implements PlayerController {
 	}
 
 	@Override
-	public boolean hasTriggeredEvent() {
-		return this.hasTriggeredEvent || this.player.isTriggeredEvent();
-	}
-
-	@Override
 	public boolean hasPlayerTriggeredEvent() {
-		return this.player.isTriggeredEvent();
+		return this.hasTriggeredEvent || this.player.isTriggeredEvent();
 	}
 	// -- PLAYER MOVEMENT
 
@@ -369,6 +361,20 @@ public class PlayerControllerImpl implements PlayerController {
 		return moves;
 	}
 
+	@Override
+	public int getMovePP(String moveName, int monsterID) {
+		Optional<Monster> monster = getMonster(monsterID);
+		if (monster.isPresent()) {
+			for (Moves move : monster.get().getAllMoves()) {
+				if (move.getName().equals(moveName)) {
+					return move.getPP();
+				}
+			}
+		}
+
+		return -1;
+	}
+
 	// --ITEMS--
 
 	@Override
@@ -431,17 +437,6 @@ public class PlayerControllerImpl implements PlayerController {
 	}
 
 	@Override
-	public Optional<Pair<String, String>> evolveByLevel(int monsterId) {
-		Optional<Monster> monster = player.getAllMonsters().stream().filter(i -> i.getId() == monsterId).findAny();
-		if (monster.isPresent() && monster.get().canEvolveByLevel()) {
-			String monsterName = monster.get().getName();
-			monster.get().evolve();
-			return Optional.of(new Pair<>(monsterName, monster.get().getName()));
-		}
-		return Optional.empty();
-	}
-
-	@Override
 	public void addItem(String item) {
 		player.addItem(dataController.getItem(item));
 	}
@@ -458,23 +453,6 @@ public class PlayerControllerImpl implements PlayerController {
 	}
 
 	@Override
-	public boolean hasAnyMonsterEvolved() {
-		evolutionList.addAll(player.getEvolutionList());
-		return !evolutionList.isEmpty();
-	}
-
-	@Override
-	public Pair<String, String> getEvolvedMonster() {
-		if (hasAnyMonsterEvolved()) {
-			Pair<String, String> p = new Pair<>(evolutionList.get(0).getFirst().getName(),
-					evolutionList.get(0).getSecond().getName());
-			this.evolutionList.remove(0);
-			return p;
-		}
-		return null;
-	}
-
-	@Override
 	public int getBoxNumbers() {
 		return this.player.getStorage().getMaxNumberOfBox();
 	}
@@ -487,6 +465,16 @@ public class PlayerControllerImpl implements PlayerController {
 	@Override
 	public int getMonstersForEachBox() {
 		return this.player.getStorage().getMaxNumberOfBox();
+	}
+
+	@Override
+	public boolean isItemPresent(String name) {
+		for (var item : this.player.getAllItems().entrySet()) {
+			if (item.getKey().getNameItem().equals(name)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

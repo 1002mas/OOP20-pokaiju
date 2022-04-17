@@ -264,36 +264,20 @@ public interface PlayerController {
 	Optional<Pair<String, String>> evolveByItem(String nameItem, int monsterId);
 
 	/**
-	 * Evolve a monster by level
+	 * This function returns a move PPs
 	 * 
-	 * @param monsterId
-	 * @return current name and evolution name
-	 * @author Luca Barattini
+	 * @param moveName
+	 * @param monterID
+	 * @return move PPs
+	 * @author Andrea Castorina
 	 */
-	Optional<Pair<String, String>> evolveByLevel(int monsterId);
+	int getMovePP(String moveName, int monsterID);
 
 	/**
-	 * This function returns true if evolutionList is not empty, false otherwise
+	 * This function returns if an item is present
 	 * 
-	 * @return true if evolutionList is not empty, false otherwise
-	 * @author Luca Barattini
+	 * @param name
+	 * @return true if item id present, false otherwise
 	 */
-	boolean hasAnyMonsterEvolved();
-
-	/**
-	 * This function returns current name and evolution name of a monster in
-	 * evolutionList
-	 * 
-	 * @return current name and evolution name of a monster in evolutionList
-	 * @author Luca Barattini
-	 */
-	Pair<String, String> getEvolvedMonster();
-
-	/**
-	 * This function returns if player has a event triggered
-	 * 
-	 * @return true if has a event triggered, false otherwise
-	 */
-	boolean hasTriggeredEvent();
-
+	boolean isItemPresent(String name);
 }
