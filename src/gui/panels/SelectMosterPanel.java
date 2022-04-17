@@ -11,20 +11,21 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import controller.PlayerController;
-import gui.GameFrame;
-import model.gameitem.GameItemTypes;
 
 public class SelectMosterPanel extends JPanel {
     private static final long serialVersionUID = 8185263432699574937L;
     private final PlayerController playerController;
-    private final JPanel parentPanel;
+    private JPanel parentPanel;
     private String itemName;
-    private final GameFrame gui;
+    private JButton backButton = new JButton("BACK");
 
-    public SelectMosterPanel(PlayerController playerController, JPanel parentPanel, GameFrame gui) {
+    public JButton getBackButton() {
+	return backButton;
+    }
+
+    public SelectMosterPanel(PlayerController playerController, JPanel parentPanel) {
 	this.playerController = playerController;
 	this.parentPanel = parentPanel;
-	this.gui = gui;
     }
 
     private void init() {
@@ -45,24 +46,20 @@ public class SelectMosterPanel extends JPanel {
 
 	    JButton checkButton = new JButton("USE ON THIS MONSTER");
 	    checkButton.addActionListener(e -> {
-		//TODO controllare la quantità dell'item se è zero
+		// TODO controllare la quantità dell'item se è zero
 		if (this.playerController.canEvolveByItem(itemName, monsterId)) {
 		    this.playerController.evolveByItem(itemName, monsterId);
 		    this.playerController.useItemOnMonster(this.itemName, monsterId);
 		} else {
 		    this.playerController.useItemOnMonster(this.itemName, monsterId);
 		}
-		   update();
+		update();
 	    });
-
 	    allMonsterPanel.add(singleMonsterLabel);
 	    allMonsterPanel.add(checkButton);
 	}
 
 	setPanelProp(allMonsterPanel, monsterIds.size());
-
-	JButton backButton = new JButton("BACK");
-	backButton.addActionListener(e -> c1.show(this.parentPanel, "ITEMS"));
 
 	containerPanel.add(allMonsterPanel, BorderLayout.CENTER);
 	containerPanel.add(backButton, BorderLayout.SOUTH);
