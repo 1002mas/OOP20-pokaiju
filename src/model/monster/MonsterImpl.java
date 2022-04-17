@@ -71,7 +71,6 @@ public class MonsterImpl implements Monster {
     public void setHealth(int health) {
 	this.stats.setHealth(health <= this.getMaxHealth() ? health : this.getMaxHealth());
 	this.stats.setHealth(health <= 0 ? 0 : health);
-	System.out.println(this.stats.getHealth());
     }
 
     @Override

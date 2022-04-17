@@ -255,32 +255,36 @@ public interface PlayerController {
     boolean canEvolveByItem(String nameItem, int monsterId);
 
     /**
+     * Evolve a monster by item
      * 
      * @param nameItem
      * @param monsterId
-     * @return
+     * @return current name and evolution name
      * @author Luca Barattini
      */
     Optional<Pair<String, String>> evolveByItem(String nameItem, int monsterId);
 
     /**
+     * Evolve a monster by level
      * 
      * @param monsterId
-     * @return
+     * @return current name and evolution name
      * @author Luca Barattini
      */
     Optional<Pair<String, String>> evolveByLevel(int monsterId);
 
     /**
+     * This function returns true if evolutionList is not empty, false otherwise
      * 
-     * @return
+     * @return true if evolutionList is not empty, false otherwise
      * @author Luca Barattini
      */
     boolean hasAnyMonsterEvolved();
 
     /**
+     * This function returns current name and evolution name of a monster in evolutionList
      * 
-     * @return
+     * @return current name and evolution name of a monster in evolutionList
      * @author Luca Barattini
      */
     Pair<String, String> getEvolvedMonster();
