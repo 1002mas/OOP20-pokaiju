@@ -3,13 +3,11 @@ package model.player;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-
 import model.Pair;
 import model.battle.MonsterBattle;
 import model.gameitem.*;
 import model.map.GameMap;
 import model.monster.Monster;
-import model.monster.MonsterSpecies;
 import model.npc.NpcSimple;
 
 public interface Player {
@@ -164,13 +162,6 @@ public interface Player {
      * @param Monster, GameItem to be used
      */
     void evolveMonster(Monster monster, GameItem i);
-
-    /**
-     * This function gets the EvolutionList
-     * 
-     * @return List of evolvedMonsters and base
-     */
-    List<Pair<MonsterSpecies, MonsterSpecies>> getEvolutionList();
 
     /**
      * Moves Player up

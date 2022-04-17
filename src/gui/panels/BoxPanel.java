@@ -35,9 +35,6 @@ public class BoxPanel extends JPanel {
     public BoxPanel(PlayerController playerController) {
 	this.playerController = playerController;
 	setButtons();
-	
-	init();
-	
     }
 
     private void setList() {
@@ -85,11 +82,12 @@ public class BoxPanel extends JPanel {
 	take.setEnabled(false);
 
 	JPanel playerMonstersPanel = new JPanel(new GridLayout(0, 1));
-	playerMonstersPanel.setPreferredSize(new Dimension(200, getPreferredSize().height));
+	playerMonstersPanel.setPreferredSize(new Dimension(300, getPreferredSize().height));
 
 	for (int playerMonsterid : playerMonsterIdList) {
 	    playerMonstersPanel.add(setMonsterPanel(playerMonsterid, playerMonstersPanel, true));
 	}
+	setPanelProp(playerMonstersPanel, playerMonsterIdList.size());
 
 	JPanel boxPanel = new JPanel();
 	boxPanel.setLayout(cardLayout);
@@ -126,7 +124,7 @@ public class BoxPanel extends JPanel {
 	JLabel team = new JLabel("team");
 	setLabelProp(team);
 	team.setBorder(BorderFactory.createLineBorder(Color.black));
-	team.setPreferredSize(new Dimension(200, getPreferredSize().height));
+	team.setPreferredSize(new Dimension(3, getPreferredSize().height));
 
 	titlePanel.add(box, BorderLayout.CENTER);
 	titlePanel.add(team, BorderLayout.EAST);
@@ -230,6 +228,16 @@ public class BoxPanel extends JPanel {
 	panel.add(checkBoxPlayer);
 	return panel;
 
+    }
+
+    private void setPanelProp(JPanel panel, int numberOfMonster) {
+	int cont = 6 - numberOfMonster;
+	while (cont > 0) {
+	    JLabel label = new JLabel();
+	    label.setVisible(false);
+	    panel.add(label);
+	    cont--;
+	}
     }
 
     private void setLabelProp(JLabel label) {

@@ -13,6 +13,7 @@ import javax.swing.SwingConstants;
 
 import controller.PlayerController;
 import gui.ImagesLoader;
+import model.monster.MonsterImpl;
 
 public class MonsterInfoPanel extends JPanel {
     private static final long serialVersionUID = -5191191420756038008L;
@@ -53,11 +54,12 @@ public class MonsterInfoPanel extends JPanel {
 	JPanel monsterInfoPanel = new JPanel(new GridLayout(1, 3));
 	JLabel infoLabel = new JLabel();
 	String stats = "<html>" + "name : " + this.playerController.getMonsterNameById(monsterId) + "<br/>" + "Level : "
-		+ playerController.getMonsterLevel(monsterId) + "<br/>" + "Hp : "
+		+ playerController.getMonsterLevel(monsterId) + "<br/>" + "Exp :"
+		+ playerController.getMonsterExp(monsterId) + "/" + MonsterImpl.EXP_CAP + "<br/>" + "Hp : "
 		+ playerController.getMonsterHealth(monsterId) + "/" + playerController.getMonsterMaxHealth(monsterId)
 		+ "<br/>" + "Atk : " + playerController.getMonsterAttack(monsterId) + "<br/>" + "Defence : "
 		+ playerController.getMonsterDefense(monsterId) + "<br/>" + "Speed : "
-		+ playerController.getMonsterSpeed(monsterId) + "</html>";
+		+ playerController.getMonsterSpeed(monsterId) + "<br/>" + "</html>";
 	infoLabel.setText(stats);
 	setLabelProp(infoLabel);
 

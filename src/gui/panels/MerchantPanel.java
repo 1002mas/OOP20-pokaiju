@@ -59,13 +59,13 @@ public class MerchantPanel extends JPanel {
 	});
 
 	JPanel itemPanel = new JPanel();
-	// init();
 	this.add(itemPanel, BorderLayout.CENTER);
 	this.add(actionPanel, BorderLayout.SOUTH);
 	this.add(balanceLabel, BorderLayout.NORTH);
 	this.addComponentListener(new ComponentListener() {
 	    @Override
 	    public void componentShown(ComponentEvent e) {
+		System.out.println("INIT");
 		init();
 		updateItemList(itemPanel);
 	    }
@@ -131,5 +131,6 @@ public class MerchantPanel extends JPanel {
 	    });
 
 	}
+	itemPanel.validate();
     }
 }

@@ -66,21 +66,22 @@ public class MonsterStorageImpl implements MonsterStorage {
 
 	@Override
 	public boolean depositMonster(Monster monster) {
-		if (this.player.removeMonster(monster)) {
-			getCurrentBox().addMonster(monster);
-			return true;
+		if (this.player.getAllMonsters().size() <= 1) {
+			if (this.player.removeMonster(monster)) {
+				getCurrentBox().addMonster(monster);
+				return true;
+			}
 		}
 		return false;
 	}
 
 	@Override
 	public boolean withdrawMonster(int monsterID) {
-		if (isInBox(monsterID)) {
+		if (isInBox(monsterID) && !this.player.isTeamFull()) {
 			getCurrentBox().removeMonster(monsterID);
-			if (!this.player.isTeamFull()) {
-				this.player.addMonster(getCurrentBox().getMonster(monsterID).get());
-				return true;
-			}
+			this.player.addMonster(getCurrentBox().getMonster(monsterID).get());
+			return true;
+
 		}
 		return false;
 	}
@@ -103,6 +104,8 @@ public class MonsterStorageImpl implements MonsterStorage {
 		if (isInBox(monsterID)) {
 			Optional<Monster> m = getCurrentBox().exchange(monster, monsterID);
 			if (m.isPresent()) {
+				this.player.addMonster(m.get());
+				this.player.removeMonster(monster);
 				return true;
 			}
 		}
