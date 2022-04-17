@@ -83,7 +83,7 @@ public interface DataLoaderController {
      * @return a npc
      */
 
- //   public NpcSimple getNpc(String name);
+    public NpcSimple getNpc(String name);
 
     /**
      * 
@@ -91,7 +91,7 @@ public interface DataLoaderController {
      * @return an item
      */
 
- //   public GameItem getItem(String name);
+    public GameItem getItem(String name);
 
     /**
      * 
@@ -99,7 +99,7 @@ public interface DataLoaderController {
      * @return an event
      */
 
- //   public GameEvent getEvent(int id);
+    public GameEvent getEvent(int id);
 
     /**
      * set a new Player
