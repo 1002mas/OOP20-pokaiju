@@ -30,7 +30,7 @@ public class NpcSimpleImpl implements NpcSimple {
 	this.isVisible = isVisible;
 	this.isEnabled = isEnabled;
 	this.events = new ArrayList<>();
-	triggeredEvent = Optional.empty();
+	this.triggeredEvent = Optional.empty();
     }
 
     public NpcSimpleImpl(String name, List<String> sentences, Pair<Integer, Integer> position,
@@ -45,14 +45,14 @@ public class NpcSimpleImpl implements NpcSimple {
     @Override
     public Optional<String> interactWith() {
 	if (isEnabled) {
-	    Optional<GameEvent> activeEvent = events.stream().filter(ge -> ge.isActive()).findFirst();
+		Optional<String> result = Optional.of(sentences.get(currentSentence));
+		Optional<GameEvent> activeEvent = events.stream().filter(ge -> ge.isActive()).findFirst();
 	    if (activeEvent.isPresent()) {
 		this.triggeredEvent = activeEvent;
 		activeEvent.get().activate();
 	    } else {
 		this.triggeredEvent = Optional.empty();
 	    }
-	    Optional<String> result = Optional.of(sentences.get(currentSentence));
 	    return result;
 	}
 	return Optional.empty();

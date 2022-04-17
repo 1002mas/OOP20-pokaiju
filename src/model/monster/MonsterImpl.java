@@ -19,12 +19,12 @@ public class MonsterImpl implements Monster {
      * Monster's maximum experience
      */
     public static final int EXP_CAP = 1000;
-    
+
     /**
      * Monster's maximum level
      */
     public static final int MAX_LVL = 100;
-    
+
     /**
      * Maximum number of moves of a monster
      */
@@ -109,7 +109,9 @@ public class MonsterImpl implements Monster {
     @Override
     public void incExp(int experience) {
 	int incLevel = (this.exp + experience) / EXP_CAP;
+	int oldLevel = this.level;
 	setLevel(incLevel + level);
+	incLevel = this.level - oldLevel;
 	this.exp = (this.exp + experience) % EXP_CAP;
 	if (this.level == MAX_LVL) {
 	    this.exp = 0;
@@ -121,14 +123,12 @@ public class MonsterImpl implements Monster {
 
     private void onLevelUp(int incLevel) {
 	Random rand = new Random();
+	this.maxStats.setHealth(this.maxStats.getHealth() + rand.nextInt(MAX_HP_STEP - MIN_HP_STEP) + MIN_HP_STEP);
 	this.maxStats
-		.setHealth(this.maxStats.getHealth() + rand.nextInt(MAX_HP_STEP - MIN_HP_STEP) + MIN_HP_STEP);
-	this.maxStats.setAttack(
-		this.maxStats.getAttack() + rand.nextInt(MAX_STAT_STEP - MIN_STAT_STEP) + MIN_STAT_STEP);
-	this.maxStats.setDefense(
-		this.maxStats.getDefense() + rand.nextInt(MAX_STAT_STEP - MIN_STAT_STEP) + MIN_STAT_STEP);
-	this.maxStats.setSpeed(
-		this.maxStats.getSpeed() + rand.nextInt(MAX_STAT_STEP - MIN_STAT_STEP) + MIN_STAT_STEP);
+		.setAttack(this.maxStats.getAttack() + rand.nextInt(MAX_STAT_STEP - MIN_STAT_STEP) + MIN_STAT_STEP);
+	this.maxStats
+		.setDefense(this.maxStats.getDefense() + rand.nextInt(MAX_STAT_STEP - MIN_STAT_STEP) + MIN_STAT_STEP);
+	this.maxStats.setSpeed(this.maxStats.getSpeed() + rand.nextInt(MAX_STAT_STEP - MIN_STAT_STEP) + MIN_STAT_STEP);
 	restoreStats();
     }
 
@@ -185,21 +185,17 @@ public class MonsterImpl implements Monster {
 
     @Override
     public void restoreAllMovesPP() {
-	for(var p : movesList) {
+	for (var p : movesList) {
 	    restoreMovePP(p.getFirst());
 	}
     }
 
     @Override
     public void decMovePP(Moves move) {
-	System.out.println(move);
-	System.out.println(movesList);
-	System.out.println(getId());
 	int index = getIndexOfMove(move);
 	Pair<Moves, Integer> p = movesList.get(index);
 	movesList.remove(index);
 	movesList.add(index, new Pair<>(p.getFirst(), p.getSecond() - 1));
-	System.out.println(movesList);
     }
 
     private int getIndexOfMove(Moves move) {

@@ -230,9 +230,8 @@ public class GameFrameImpl extends JFrame implements GameFrame {
 
 	GridBagConstraints rows = new GridBagConstraints();
 	rows.gridy = 1;
-	underPanel.add(nameLabel, rows);
 	rows.insets = new Insets(0, 0, SPACE, 0);
-	rows.fill = GridBagConstraints.HORIZONTAL;
+	rows.fill = GridBagConstraints.BOTH;
 	underPanel.add(nameLabel, rows);
 	underPanel.add(nameField, rows);
 	rows.gridy++;
@@ -265,7 +264,7 @@ public class GameFrameImpl extends JFrame implements GameFrame {
 	    public void componentHidden(ComponentEvent e) {
 	    }
 	});
-	panel.add(topPanel, BorderLayout.LINE_START);
+	panel.add(topPanel, BorderLayout.NORTH);
 	panel.add(underPanel, BorderLayout.CENTER);
 	return panel;
     }

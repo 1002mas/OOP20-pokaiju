@@ -225,6 +225,7 @@ public class PlayerImpl implements Player {
     public void evolveMonster(Monster monster, GameItem i) {
 	if (monster.canEvolveByItem(i)) {
 	    addMonsterToEvolutionList(monster);
+	    useItemOnMonster(i, monster);
 	    monster.evolve();
 	}
     }
@@ -234,11 +235,6 @@ public class PlayerImpl implements Player {
 	evolutionList.add(new Pair<MonsterSpecies, MonsterSpecies>(base, base.getEvolution().get()));
     }
 
-    public List<Pair<MonsterSpecies, MonsterSpecies>> getEvolutionList() {
-	List<Pair<MonsterSpecies, MonsterSpecies>> temp = this.evolutionList;
-	this.evolutionList = new ArrayList<>();
-	return temp;
-    }
 
     private boolean move(int x, int y) {
 	this.hasMapChanged = false;
