@@ -255,6 +255,7 @@ public class BattlePanel extends JPanel {
 		endBattle("You have defeated all the enemies!!");
 	    } else {
 		refresh();
+		
 	    }
 	}
     }
@@ -324,6 +325,7 @@ public class BattlePanel extends JPanel {
     }
 
     private void refresh() {
+	loadImg();
 	this.playerMonster.setText(getMonsterData(ctrl.getPlayerCurrentMonsterId()));
 	this.enemyMonster.setText(getEnemyData());
 	this.loadMoves();
