@@ -107,4 +107,6 @@ public interface MonsterBattle {
 	 */
 	boolean isOverOfPP();
 	
+	boolean attackWithExtraMove();
+	
 }

@@ -138,7 +138,7 @@ public class GameFrameImpl extends JFrame implements GameFrame {
     private boolean changeToBattle() {
 	if (playerController.hasBattleStarted()) {
 	    BattlePanel b = (BattlePanel) (this.subPanels.get(BATTLE_VIEW));
-	    b.setBattleController(this.playerController.getBattleController().get());
+	    b.setBattleController(this.playerController.getBattleController().get(),this.playerController);
 	    updateView(BATTLE_VIEW);
 	    return true;
 	}
