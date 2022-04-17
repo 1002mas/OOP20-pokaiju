@@ -1,1 +1,0 @@
-{"nameItem":"item1","description":"descrizione","type":"EVOLUTIONTOOL","healing":{}}

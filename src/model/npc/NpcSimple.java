@@ -8,96 +8,107 @@ import model.gameevents.GameEvent;
 
 public interface NpcSimple {
 
-    /**
-     * 
-     * @return npc Name
-     */
-    String getName();
+	/**
+	 * This function returns npc name
+	 * 
+	 * @return npc name
+	 */
+	String getName();
 
-    /**
-     * 
-     * @return npc statement if it is a talking one
-     */
-    Optional<String> interactWith();
+	/**
+	 * This function return npc statement if it is a talking one
+	 * 
+	 * @return an Optional<String> containing a sentence if is a talking one, an
+	 *         Optioanl.empty otherwise
+	 */
+	Optional<String> interactWith();
 
-    /**
-     * After calling the function {@ #interactWith() interactWith} an event may have been triggered.
-     * This function returns the triggered event. 
-     * 
-     * @return the event if any is triggered, Optional.empty otherwise
-     */
-    Optional<GameEvent> getTriggeredEvent();
+	/**
+	 * After calling the function {@ #interactWith() interactWith} an event may have
+	 * been triggered. This function returns the triggered event.
+	 * 
+	 * @return the event if any is triggered, Optional.empty otherwise
+	 */
+	Optional<GameEvent> getTriggeredEvent();
 
-    /**
-     * 
-     * change the interactWith string value if the npc has more than one sentence
-     * and it is active
-     * 
-     * @param textID the id of the sentence
-     */
-    void setDialogueText(int textID);
+	/**
+	 * 
+	 * This function changes the interactWith string value if the npc has more than
+	 * one sentence and it is active
+	 * 
+	 * @param textID the id of the sentence
+	 */
+	void setDialogueText(int textID);
 
-    /**
-     * 
-     * @return npc type (for more info look at @{TypeOfNpc})
-     */
-    TypeOfNpc getTypeOfNpc();
+	/**
+	 * This function returns the type of npc
+	 * 
+	 * @return npc type (for more info look at @{TypeOfNpc})
+	 */
+	TypeOfNpc getTypeOfNpc();
 
-    /**
-     * 
-     * @return NpcPosition
-     */
-    Pair<Integer, Integer> getPosition();
+	/**
+	 * This function returns npc position
+	 * 
+	 * @return NpcPosition
+	 */
+	Pair<Integer, Integer> getPosition();
 
-    /**
-     * change the npc position in the map
-     * 
-     * @param newPosition new position in the map
-     */
-    void changeNpcPosition(Pair<Integer, Integer> newPosition);
+	/**
+	 * This function changes the npc position in the map
+	 * 
+	 * @param newPosition new position
+	 */
+	void changeNpcPosition(Pair<Integer, Integer> newPosition);
 
-    /**
-     * 
-     * @return true if the npc is visible, false if it should not been showed
-     */
-    boolean isVisible();
+	/**
+	 * This function returns if the npc is visible
+	 * 
+	 * @return true if the npc is visible, false otherwise
+	 */
+	boolean isVisible();
 
-    /**
-     * Set whether the npc must be visible or not.
-     * 
-     * @param visible true it is visible, false it is not.
-     */
-    void setVisible(boolean visible);
+	/**
+	 * This function set whether the npc must be visible or not.
+	 * 
+	 * @param visible true it is visible, false it is not.
+	 */
+	void setVisible(boolean visible);
 
-    /**
-     * @return true if you can interact with the npc, false if you cannot
-     */
-    boolean isEnabled();
+	/**
+	 * This function returns if the npc is enabled to interact with player
+	 * 
+	 * @return true if player can interact with, false otherwise
+	 */
+	boolean isEnabled();
 
-    /**
-     * Set whether you can interact with the npc or not.
-     * 
-     * @param enabled
-     */
-    void setEnabled(boolean enabled);
+	/**
+	 * This function set whether player can interact with the npc or not.
+	 * 
+	 * @param enabled
+	 */
+	void setEnabled(boolean enabled);
 
-    /**
-     * Add an event that may trigger interacting with the player.
-     * 
-     * @param gameEvent the game event
-     */
-    void addGameEvent(GameEvent gameEvent);
+	/**
+	 * This function adds an event that may trigger interacting with the player.
+	 * 
+	 * @param gameEvent the game event
+	 */
+	void addGameEvent(GameEvent gameEvent);
 
-    /**
-     * 
-     * @return a list of game events triggered by interacting with the npc
-     */
-    List<GameEvent> getGameEvents();
-    
-    /**
-     * 
-     * @return the index of the current sentence 
-     */
-    int getCurrentSetence();
+	/**
+	 * This function returns a list of game events triggered by interacting with the
+	 * npc
+	 * 
+	 * @return npc game events
+	 */
+	List<GameEvent> getGameEvents();
+
+	/**
+	 * This function returns index of the current sentence
+	 * 
+	 * @return index current sentence
+	 */
+	int getCurrentSetence();
 
 }

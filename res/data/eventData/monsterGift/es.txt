@@ -1,1 +1,0 @@
-{"id":1,"isToActiveImmediatly":true,"isActive":false,"isDeactivable":false,"eventsToActivate":[5,4],"eventsToDeactivate":[4,5],"monsters":[1,2]}

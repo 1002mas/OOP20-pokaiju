@@ -93,7 +93,8 @@ public class BattlePanel extends JPanel {
 	    @Override
 	    public void actionPerformed(ActionEvent e) {
 		if(ctrl.isOverOfPP()) {
-		    attack(" ");
+		    ctrl.attackWithExtraMove();
+		    checkEnemyStatus();
 		}else {
 		  loadMoves();
 		  actionText.setText("What move do u choose?");
@@ -221,7 +222,8 @@ public class BattlePanel extends JPanel {
 		button.setEnabled(true);
 	    }
 	    button.addActionListener(e -> {
-		attack(movesMap.get(e.getSource()));
+		ctrl.chooseMove(move);
+		checkEnemyStatus();
 		
 	    });
 	    this.panelMap.get(MOVE).add(button);
@@ -233,8 +235,9 @@ public class BattlePanel extends JPanel {
 	this.panelMap.get(MOVE).add(back);
     }
     private void attack(String move) {
-	ctrl.chooseMove(move);
-
+	
+    }
+    private void checkEnemyStatus() {
 	if (!ctrl.isAlive(ctrl.getPlayerCurrentMonsterId())) {
 	    actionText.setText(ctrl.getPlayerCurrentMonsterName() + " is dead");
 	    playerMonster.setText(getMonsterData(ctrl.getPlayerCurrentMonsterId()));
