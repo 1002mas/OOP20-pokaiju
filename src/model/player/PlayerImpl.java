@@ -95,17 +95,6 @@ public class PlayerImpl implements Player {
 	}
     }
 
-    @Override
-    public boolean buyItem(GameItem i, int price) {
-	if (getMoney() - price >= 0) {
-	    addItem(i);
-	    setMoney(getMoney() - price);
-	    return true;
-	} else {
-	    return false;
-	}
-    }
-
     public Gender getGender() {
 	return gender;
     }

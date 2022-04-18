@@ -77,14 +77,6 @@ public interface Player {
     void useItemOnMonster(GameItem i, Monster m);
 
     /**
-     * This function returns if buy GameItems is successfully or not
-     * 
-     * @param Gameitem, price
-     * @return true if player has enough money
-     */
-    boolean buyItem(GameItem i, int price);
-
-    /**
      * This function returns if add Monster is successful or not
      * 
      * @param Monster
