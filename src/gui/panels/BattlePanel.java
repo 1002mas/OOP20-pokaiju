@@ -254,8 +254,11 @@ public class BattlePanel extends JPanel {
 	    System.out.println("PERSO");
 	    actionText.setText(ctrl.getPlayerCurrentMonsterName() + " is dead");
 	    playerMonster.setText(getMonsterData(ctrl.getPlayerCurrentMonsterId()));
+	    System.out.println(ctrl.isOver());
+		System.out.println(ctrl.hasPlayerLost());
 	    if (ctrl.isOver() && ctrl.hasPlayerLost()) {
 		// ENDING BATTLE player team dead
+		
 		endingBattle("You lose...");
 
 	    } else {
@@ -330,6 +333,13 @@ public class BattlePanel extends JPanel {
 			// ENDING BATTLE
 			endingBattle("You captured the enemy!!");
 		    } else {
+			actionText.setText("you failed the capture");
+			this.paintImmediately(getBounds());
+			try {
+			    Thread.sleep(2000);
+			} catch (InterruptedException e1) {
+			    e1.printStackTrace();
+			}
 			refresh();
 		    }
 		} else {
