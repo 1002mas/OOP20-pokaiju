@@ -189,13 +189,15 @@ public class BattlePanel extends JPanel {
 
     private String getMonsterData(int monsterId) {
 	return " " + playerCtrl.getMonsterNameById(monsterId) + " " + playerCtrl.getMonsterHealth(monsterId) + "/"
-		+ playerCtrl.getMonsterMaxHealth(monsterId) + " HP " + "LVL." + playerCtrl.getMonsterLevel(monsterId);
+		+ playerCtrl.getMonsterMaxHealth(monsterId) + " HP " + "LVL." + playerCtrl.getMonsterLevel(monsterId)
+		+ " " + playerCtrl.getMonsterType(monsterId);
 
     }
 
     private String getEnemyData() {
 	return " " + ctrl.getEnemyCurrentMonsterName() + " " + ctrl.getEnemyCurrentMonsterHp() + "/"
-		+ ctrl.getEnemyCurrentMonsterMaxHealth() + " HP " + "LVL." + ctrl.getEnemyCurrentMonsterLevel();
+		+ ctrl.getEnemyCurrentMonsterMaxHealth() + " HP " + "LVL." + ctrl.getEnemyCurrentMonsterLevel() + " "
+		+ ctrl.getEnemyCurrentMonsterType();
     }
 
     private void loadImg() {
@@ -212,7 +214,8 @@ public class BattlePanel extends JPanel {
 	Map<JButton, String> movesMap = new HashMap<>();
 	this.panelMap.get(MOVE).removeAll();
 	for (var move : ctrl.getMoves()) {
-	    JButton button = new JButton("" + move + " " + playerCtrl.getMovePP(move, ctrl.getPlayerCurrentMonsterId()) + " PP");
+	    JButton button = new JButton(
+		    "" + move + " " + playerCtrl.getMovePP(move, ctrl.getPlayerCurrentMonsterId()) + " PP");
 	    movesMap.put(button, move);
 	    if (this.ctrl.checkPP(move)) {
 		button.setEnabled(false);
@@ -281,9 +284,12 @@ public class BattlePanel extends JPanel {
 	    if (!this.ctrl.isAlive(monsterId)) {
 		button.setEnabled(false);
 	    }
-	    if (monsterId == this.ctrl.getPlayerCurrentMonsterId()) {
-		button.setEnabled(false);
+	    if (!this.itemsFlag) {
+		if (monsterId == this.ctrl.getPlayerCurrentMonsterId()) {
+		    button.setEnabled(false);
+		}
 	    }
+
 	    button.addActionListener(e -> {
 		if (itemsFlag) {
 
@@ -319,7 +325,15 @@ public class BattlePanel extends JPanel {
 		    this.ctrl.useItem(itemUsed, 0);
 		    if (ctrl.isEnemyCaught()) {
 			// ENDING BATTLE
-			endBattle("You have captured a new Monster!!");
+			refresh();
+			this.actionText.setText("You captured the enemy!!");
+			this.paintImmediately(getBounds());
+			try {
+			    Thread.sleep(3000);
+			} catch (InterruptedException e1) {
+			    e1.printStackTrace();
+			}
+			this.gameFrame.updateView(GameFrameImpl.MAP_VIEW);
 		    } else {
 			refresh();
 		    }

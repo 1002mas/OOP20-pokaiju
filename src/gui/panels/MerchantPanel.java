@@ -65,7 +65,6 @@ public class MerchantPanel extends JPanel {
 	this.addComponentListener(new ComponentListener() {
 	    @Override
 	    public void componentShown(ComponentEvent e) {
-		System.out.println("INIT");
 		init();
 		updateItemList(itemPanel);
 	    }
@@ -89,8 +88,8 @@ public class MerchantPanel extends JPanel {
      * reset items quantity and get current player balance
      */
     private void init() {
-	this.balanceLabel.setText("Player's balance: " + this.playerController.getPlayerMoney());
-	this.totalPriceField.setText("0");
+	this.balanceLabel.setText("Player's balance: " + this.playerController.getPlayerMoney() + "$");
+	this.totalPriceField.setText("0$");
 	for (SpinnerModel spinner : this.itemQuantity) {
 	    spinner.setValue(0);
 	}
@@ -112,7 +111,9 @@ public class MerchantPanel extends JPanel {
 	    // Description
 	    itemPanel.add(new JLabel(playerController.getItemDescription(gameItem)));
 	    // Price
-	    itemPanel.add(new JLabel(Integer.toString(playerController.getMerchantItemPrice(gameItem))));
+	    JLabel priceLabel = new JLabel(Integer.toString(playerController.getMerchantItemPrice(gameItem)) + "$");
+	    priceLabel.setHorizontalAlignment(JLabel.CENTER);
+	    itemPanel.add(priceLabel);
 
 	    // Quantity
 	    SpinnerModel model = new SpinnerNumberModel(0, MINIMUM_QUANTITY, MAXIMUM_QUANTITY, 1);
@@ -125,7 +126,7 @@ public class MerchantPanel extends JPanel {
 		int totalPrice = playerController.getMerchantTotalPrice(buyedItems);
 		boolean canbuy = playerController.canPlayerBuyFromMerchant(buyedItems);
 		buyButton.setEnabled(canbuy);
-		totalPriceField.setText(Integer.toString(totalPrice));
+		totalPriceField.setText(Integer.toString(totalPrice) + "$");
 		totalPriceField.setForeground(canbuy ? Color.BLACK : Color.RED);
 
 	    });
