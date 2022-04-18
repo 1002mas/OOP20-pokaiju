@@ -109,4 +109,6 @@ public interface MonsterBattle {
 	
 	boolean attackWithExtraMove();
 	
+	boolean hasPlayerLost();
+	
 }
