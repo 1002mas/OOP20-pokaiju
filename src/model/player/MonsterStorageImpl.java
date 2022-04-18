@@ -19,9 +19,9 @@ public class MonsterStorageImpl implements MonsterStorage {
 	public MonsterStorageImpl(Player player, List<MonsterBox> boxes) {
 		this.player = player;
 		this.monsterBoxes = new ArrayList<>(boxes);
-		this.currentMonsterBoxIndex = 1;
+		this.currentMonsterBoxIndex = 0;
 		if (monsterBoxes.size() > MAX_NUMBER_OF_BOX) {
-			this.monsterBoxes = monsterBoxes.subList(0, MAX_NUMBER_OF_BOX);
+			this.monsterBoxes = monsterBoxes.subList(1, MAX_NUMBER_OF_BOX);
 		} else {
 			generateBoxs(monsterBoxes.size());
 		}
@@ -121,9 +121,7 @@ public class MonsterStorageImpl implements MonsterStorage {
 
 	@Override
 	public void previousBox() {
-		if (this.currentMonsterBoxIndex > 1) {
-			this.currentMonsterBoxIndex--;
-		}
+		this.currentMonsterBoxIndex = (this.currentMonsterBoxIndex  - 1) % MAX_SIZE_OF_BOX;
 	}
 
 	@Override
