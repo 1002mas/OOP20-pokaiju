@@ -212,7 +212,7 @@ public class BattlePanel extends JPanel {
 	Map<JButton, String> movesMap = new HashMap<>();
 	this.panelMap.get(MOVE).removeAll();
 	for (var move : ctrl.getMoves()) {
-	    JButton button = new JButton("" + move + " " + ctrl.getCurrentPP(move) + " PP");
+	    JButton button = new JButton("" + move + " " + playerCtrl.getMovePP(move, ctrl.getPlayerCurrentMonsterId()) + " PP");
 	    movesMap.put(button, move);
 	    if (this.ctrl.checkPP(move)) {
 		button.setEnabled(false);
@@ -239,7 +239,15 @@ public class BattlePanel extends JPanel {
 	    playerMonster.setText(getMonsterData(ctrl.getPlayerCurrentMonsterId()));
 	    if (ctrl.isOver()) {
 		// ENDING BATTLE player team dead
-		endBattle("You lose...");
+		refresh();
+		this.actionText.setText("You lose...");
+		this.paintImmediately(getBounds());
+		try {
+		    Thread.sleep(3000);
+		} catch (InterruptedException e1) {
+		    e1.printStackTrace();
+		}
+		this.gameFrame.updateView(GameFrameImpl.MAP_VIEW);
 
 	    } else {
 		loadMonsters();
@@ -248,7 +256,15 @@ public class BattlePanel extends JPanel {
 	} else {
 	    if (ctrl.isOver()) {
 		// ENDING BATTLE enemy team dead
-		endBattle("You have defeated all the enemies!!");
+		refresh();
+		this.actionText.setText("You have defeated all the enemies!!");
+		this.paintImmediately(getBounds());
+		try {
+		    Thread.sleep(3000);
+		} catch (InterruptedException e1) {
+		    e1.printStackTrace();
+		}
+		this.gameFrame.updateView(GameFrameImpl.MAP_VIEW);
 	    } else {
 		refresh();
 
@@ -343,15 +359,4 @@ public class BattlePanel extends JPanel {
 
     }
 
-    private void endBattle(String text) {
-	refresh();
-	this.actionText.setText(text);
-	this.paintImmediately(getBounds());
-	try {
-	    Thread.sleep(3000);
-	} catch (InterruptedException e1) {
-	    e1.printStackTrace();
-	}
-	this.gameFrame.updateView(GameFrameImpl.MAP_VIEW);
-    }
 }

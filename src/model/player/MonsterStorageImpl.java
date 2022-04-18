@@ -83,8 +83,8 @@ public class MonsterStorageImpl implements MonsterStorage {
 	@Override
 	public boolean withdrawMonster(int monsterID) {
 		if (isInBox(monsterID) && !this.player.isTeamFull()) {
-			getCurrentBox().removeMonster(monsterID);
 			this.player.addMonster(getCurrentBox().getMonster(monsterID).get());
+			getCurrentBox().removeMonster(monsterID);
 			return true;
 
 		}
