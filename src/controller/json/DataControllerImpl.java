@@ -7,7 +7,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -53,13 +52,12 @@ public class DataControllerImpl implements DataLoaderController {
     private List<GameMapData> gameMapData = new ArrayList<>();
 
     public DataControllerImpl() {
+	createMoves();
+	createMonsterSpecies();
+	createMapData();
+    }
 
-	NpcSimple npc1 = new NpcSimpleImpl("Bob", List.of("Hola", "Hello", "Konichiwa"), new Pair<>(15, 15), true,
-		true);
-	NpcSimple npc2 = new NpcMerchantImpl("Steve", List.of("Wanna buy something?"), new Pair<>(9, 6), true, true,
-		getInventory());
-	npcs.add(npc1);
-	npcs.add(npc2);
+    private void createMoves() {
 	Moves m1 = new MovesImpl("Fire punch", 50, MonsterType.FIRE, 10);
 	Moves m2 = new MovesImpl("Water spear", 20, MonsterType.WATER, 5);
 	Moves m3 = new MovesImpl("Fire breath", 50, MonsterType.FIRE, 15);
@@ -68,44 +66,52 @@ public class DataControllerImpl implements DataLoaderController {
 	Moves m6 = new MovesImpl("Grass headbutt", 80, MonsterType.GRASS, 5);
 	Moves m7 = new MovesImpl("Grass shoot", 20, MonsterType.GRASS, 15);
 	Moves m8 = new MovesImpl("Water bomb", 60, MonsterType.WATER, 5);
+	moves.add(m1);
+	moves.add(m2);
+	moves.add(m3);
+	moves.add(m4);
+	moves.add(m5);
+	moves.add(m6);
+	moves.add(m7);
 	moves.add(m8);
+    }
+
+    private void createMonsterSpecies() {
 	MonsterSpecies species1 = new MonsterSpeciesBuilderImpl().name("bibol").info("His name is bibol")
-		.monsterType(MonsterType.FIRE).health(60).attack(20).defense(5).speed(10).movesList(List.of(m1, m3, m8))
-		.build();
+		.monsterType(MonsterType.FIRE).health(60).attack(20).defense(5).speed(10)
+		.movesList(getMovesByType(MonsterType.FIRE)).build();
 	MonsterSpecies species2 = new MonsterSpeciesBuilderImpl().name("greyfish").info("is a fish")
-		.monsterType(MonsterType.WATER).health(100).attack(8).defense(5).speed(8).movesList(List.of(m2, m4, m8))
-		.build();
+		.monsterType(MonsterType.WATER).health(100).attack(8).defense(5).speed(8)
+		.movesList(getMovesByType(MonsterType.WATER)).build();
 	MonsterSpecies species6 = new MonsterSpeciesBuilderImpl().name("kratres").info("cute thing3")
-		.monsterType(MonsterType.GRASS).health(70).attack(25).defense(2).speed(5).movesList(List.of(m5, m6, m7))
-		.build();
+		.monsterType(MonsterType.GRASS).health(70).attack(25).defense(2).speed(5)
+		.movesList(getMovesByType(MonsterType.GRASS)).build();
 	MonsterSpecies species4 = new MonsterSpeciesBuilderImpl().name("krados").info("cute thing 2")
 		.monsterType(MonsterType.GRASS).health(70).attack(25).defense(2).speed(5)
-		.movesList(List.of(m5, m6, m7, m8)).evolution(species6).gameItem(gameItems.get(5)).build();
+		.movesList(getMovesByType(MonsterType.GRASS)).evolution(species6).gameItem(gameItems.get(5)).build();
 	MonsterSpecies species3 = new MonsterSpeciesBuilderImpl().name("kracez").info("cute thing")
-		.monsterType(MonsterType.GRASS).health(70).attack(25).defense(2).speed(5).movesList(List.of(m5, m6, m7))
-		.evolution(species4).evolutionLevel(10).build();
+		.monsterType(MonsterType.GRASS).health(70).attack(25).defense(2).speed(5)
+		.movesList(getMovesByType(MonsterType.GRASS)).evolution(species4).evolutionLevel(10).build();
 	MonsterSpecies species5 = new MonsterSpeciesBuilderImpl().name("yepicon").info("cute thing")
-		.monsterType(MonsterType.GRASS).health(70).attack(25).defense(2).speed(5).movesList(List.of(m5, m6, m7))
-		.build();
+		.monsterType(MonsterType.GRASS).health(70).attack(25).defense(2).speed(5)
+		.movesList(getMovesByType(MonsterType.GRASS)).build();
 	monsterSpecies.add(species1);
 	monsterSpecies.add(species2);
 	monsterSpecies.add(species3);
 	monsterSpecies.add(species5);
-	Monster monster3 = new MonsterBuilderImpl().species(monsterSpecies.get(2)).level(5)
-		.movesList(moves.stream().map(m -> new Pair<>(m, m.getPP())).collect(Collectors.toList())).build();
-	Monster monster2 = new MonsterBuilderImpl().species(monsterSpecies.get(1)).level(5)
-		.movesList(moves.stream().map(m -> new Pair<>(m, m.getPP())).collect(Collectors.toList())).build();
-	NpcSimple trainer = new NpcTrainerImpl("Giorgio", List.of("Let's battle", "I lost..."), new Pair<>(1, 10), true,
-		true, List.of(monster2, monster3), false);
-	npcs.add(trainer);
-	GameMapData mapData = new GameMapDataImpl(INITIAL_GAME_MAP_ID, 1, 10, "MAP1",
-		getMapBlocksById(INITIAL_GAME_MAP_ID), monsterSpecies);
-	this.npcs.forEach(npc -> mapData.addNpc(npc));
-	this.gameMapData.add(mapData);
+	;
+
     }
 
-    private GameMapData getMapDataByMapID(int id) {
-	return this.gameMapData.stream().filter(map -> map.getMapId() == id).findAny().get();
+    private void createMapData() {
+	GameMapData mapData = new GameMapDataImpl(INITIAL_GAME_MAP_ID, 1, 10, "MAP1",
+		getMapBlocksById(INITIAL_GAME_MAP_ID), monsterSpecies);
+	GameMapData house = new GameMapDataImpl(2, 1, 99, "MAP2", getMapBlocksById(2), new ArrayList<>());
+	this.gameMapData.get(0).addMapLink(house, new Pair<>(5, 10), new Pair<>(10, 14));
+	house.addMapLink(mapData, new Pair<>(10, 16), new Pair<>(5, 12));
+	house.addMapLink(mapData, new Pair<>(9, 16), new Pair<>(5, 12));
+	this.gameMapData.add(mapData);
+	this.gameMapData.add(house);
     }
 
     @Override
@@ -119,27 +125,53 @@ public class DataControllerImpl implements DataLoaderController {
 	}
 	this.player = new PlayerImpl(name, playerGender, trainerNumber, INITIAL_PLAYER_POSITION,
 		new GameMapImpl(gameMapData.stream().filter(e -> e.getMapId() == INITIAL_GAME_MAP_ID).findAny().get()));
+	createMonsters();
+	createNpcs();
+	addNpcsToMap();
 	this.player.setMoney(60000);
-	setHealerNpcAndMap();
+	this.player.addMonster(this.monster.get(this.monster.size() - 1));
+	/*TODO some events to show off*/
     }
 
-    private void setHealerNpcAndMap() {
-	NpcSimple healerNpc = new NpcHealerImpl("Mom", List.of("Let me heal your Pokaiju"), new Pair<>(10, 5),
-		this.player, true, true);
-	GameMapData house = new GameMapDataImpl(2, 1, 99, "MAP2", getMapBlocksById(2), new ArrayList<>());
-	this.gameMapData.get(0).addMapLink(house, new Pair<>(5, 10), new Pair<>(10, 14));
-	house.addMapLink(this.gameMapData.get(0), new Pair<>(10, 16), new Pair<>(5, 12));
-	house.addMapLink(this.gameMapData.get(0), new Pair<>(9, 16), new Pair<>(5, 12));
-	this.gameMapData.add(house);
-	this.npcs.add(healerNpc);
-	house.addNpc(healerNpc);
-
+    private void createMonsters() {
+	Monster monster3 = new MonsterBuilderImpl().species(monsterSpecies.get(2)).level(5)
+		.movesList(moves.stream().map(m -> new Pair<>(m, m.getPP())).collect(Collectors.toList())).build();
+	Monster monster2 = new MonsterBuilderImpl().species(monsterSpecies.get(1)).level(5)
+		.movesList(moves.stream().map(m -> new Pair<>(m, m.getPP())).collect(Collectors.toList())).build();
 	Monster monster = new MonsterBuilderImpl().species(monsterSpecies.get(0)).level(100)
 		.movesList(moves.stream().map(m -> new Pair<>(m, m.getPP())).collect(Collectors.toList())).build();
 	monster.setHealth(150);
 
-	this.player.addMonster(monster);
+	this.monster.add(monster2);
+	this.monster.add(monster3);
+	this.monster.add(monster);
+    }
 
+    private void createNpcs() {
+	NpcSimple npc1 = new NpcSimpleImpl("Bob", List.of("Hola", "Hello", "Konichiwa"), new Pair<>(15, 15), true,
+		true);
+	NpcSimple npc2 = new NpcMerchantImpl("Steve", List.of("Wanna buy something?"), new Pair<>(9, 6), true, true,
+		getInventory());
+	NpcSimple trainer = new NpcTrainerImpl("Giorgio", List.of("Let's battle", "I lost..."), new Pair<>(1, 10), true,
+		true, List.of(this.monster.get(0), this.monster.get(1)), false);
+	NpcSimple healerNpc = new NpcHealerImpl("Mom", List.of("Let me heal your Pokaiju"), new Pair<>(10, 5),
+		this.player, true, true);
+	this.npcs.add(healerNpc);
+	npcs.add(npc1);
+	npcs.add(npc2);
+	npcs.add(trainer);
+    }
+
+    private void addNpcsToMap() {
+	/*TODO add npcs to map*/
+    }
+
+    private List<Moves> getMovesByType(MonsterType type) {
+	return this.moves.stream().filter(move -> move.getType() == type).collect(Collectors.toList());
+    }
+
+    private GameMapData getMapDataByMapID(int id) {
+	return this.gameMapData.stream().filter(map -> map.getMapId() == id).findAny().get();
     }
 
     private Map<GameItem, Integer> getInventory() {
