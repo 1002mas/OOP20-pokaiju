@@ -199,4 +199,9 @@ public class BattleControllerImpl implements BattleController {
     public boolean isOver() {
 	return monsterBattle.isOver();
     }
+
+    @Override
+    public boolean hasPlayerLost() {
+	return monsterBattle.hasPlayerLost();
+    }
 }

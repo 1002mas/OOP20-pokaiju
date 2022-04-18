@@ -175,7 +175,7 @@ public class DataControllerImpl implements DataLoaderController {
 	Monster greyfish = new MonsterBuilderImpl().species(getSpeciesByName("greyfish")).level(5)
 		.movesList(getMovesByTypeWithPP(MonsterType.WATER)).build();
 	Monster bibol = new MonsterBuilderImpl().species(getSpeciesByName("bibol")).level(10)
-		.movesList(getMovesByTypeWithPP(MonsterType.GRASS)).build();
+		.movesList(getMovesByTypeWithPP(MonsterType.FIRE)).build();
 	// bibol.setHealth(150);
 	Monster puppin = new MonsterBuilderImpl().species(getSpeciesByName("puppin")).level(10)
 		.movesList(getMovesByTypeWithPP(MonsterType.FIRE)).build();
