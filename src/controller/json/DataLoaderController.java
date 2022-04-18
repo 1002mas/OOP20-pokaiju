@@ -2,7 +2,6 @@ package controller.json;
 
 import java.util.List;
 
-import controller.json.saver.NpcDataSaver;
 import model.battle.Moves;
 import model.gameevents.GameEvent;
 import model.gameitem.GameItem;
