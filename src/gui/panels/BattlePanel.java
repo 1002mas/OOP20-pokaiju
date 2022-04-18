@@ -133,10 +133,22 @@ public class BattlePanel extends JPanel {
 	    public void actionPerformed(ActionEvent e) {
 		if (ctrl.flee()) {
 		    actionText.setText("You successfully escaped");
+		    paintImmediately(getBounds());
+		    try {
+			    Thread.sleep(2000);
+			} catch (InterruptedException e1) {
+			    e1.printStackTrace();
+			}
 		    gameFrame.updateView(GameFrameImpl.MAP_VIEW);
 
 		} else {
 		    actionText.setText("You failed to escaped");
+		    paintImmediately(getBounds());
+		    try {
+			    Thread.sleep(2000);
+			} catch (InterruptedException e1) {
+			    e1.printStackTrace();
+			}
 		    refresh();
 		}
 	    }
