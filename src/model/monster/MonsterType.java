@@ -46,7 +46,6 @@ public enum MonsterType {
     }
 
     public double damageTo(MonsterType type) {
-	System.out.println(damageMultiplier.get(type.getName()));
 	return damageMultiplier.get(type.getName());
     }
 }

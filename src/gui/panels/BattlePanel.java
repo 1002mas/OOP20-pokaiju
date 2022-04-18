@@ -45,14 +45,14 @@ public class BattlePanel extends JPanel {
 
     private BattleController ctrl;
     private PlayerController playerCtrl;
-   
+
     private ImagesLoader img;
     private GameFrame gameFrame;
 
-    public BattlePanel(ImagesLoader img,GameFrame frame) {
+    public BattlePanel(ImagesLoader img, GameFrame frame) {
 	this.img = img;
 	this.gameFrame = frame;
-	this.setLayout(new BorderLayout());
+	setLayout(new BorderLayout());
 	JPanel topPanel = new JPanel();
 	topPanel.setLayout(new GridLayout());
 	this.cLayout = new CardLayout();
@@ -73,34 +73,33 @@ public class BattlePanel extends JPanel {
 	JPanel itemsPanel = new JPanel();
 	itemsPanel.setLayout(new GridLayout());
 	this.panelMap.put(ITEM, itemsPanel);
-	
+
 	this.playerMonster = new JTextField();
 	this.playerMonster.setEditable(false);
 	this.enemyMonster = new JTextField();
 	this.enemyMonster.setEditable(false);
-	
+
 	topPanel.add(playerMonster);
 	topPanel.add(enemyMonster);
-	
+
 	this.actionText = new JTextField();
 	this.actionText.setEditable(false);
 	centerPanel.add(actionText, BorderLayout.SOUTH);
-	
 
 	JButton leftNorthButton = new JButton("Attack");
 	leftNorthButton.addActionListener(new ActionListener() {
 
 	    @Override
 	    public void actionPerformed(ActionEvent e) {
-		if(ctrl.isOverOfPP()) {
+		if (ctrl.isOverOfPP()) {
 		    ctrl.attackWithExtraMove();
 		    checkEnemyStatus();
-		}else {
-		  loadMoves();
-		  actionText.setText("What move do u choose?");
-		  cLayout.show(southPanel, MOVE);  
+		} else {
+		    loadMoves();
+		    actionText.setText("What move do u choose?");
+		    cLayout.show(southPanel, MOVE);
 		}
-		
+
 	    }
 
 	});
@@ -141,7 +140,7 @@ public class BattlePanel extends JPanel {
 		}
 	    }
 	});
-	
+
 	choosePanel.add(leftNorthButton);
 	choosePanel.add(rightNorthButton);
 	choosePanel.add(leftSouthButton);
@@ -155,30 +154,30 @@ public class BattlePanel extends JPanel {
 	this.add(topPanel, BorderLayout.NORTH);
 	this.add(centerPanel, BorderLayout.CENTER);
 	this.add(southPanel, BorderLayout.SOUTH);
-	
+
 	this.addComponentListener(new ComponentListener() {
-	    
+
 	    @Override
 	    public void componentShown(ComponentEvent e) {
 		start();
 	    }
-	    
+
 	    @Override
 	    public void componentResized(ComponentEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	    }
-	    
+
 	    @Override
 	    public void componentMoved(ComponentEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	    }
-	    
+
 	    @Override
 	    public void componentHidden(ComponentEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	    }
 	});
     }
@@ -188,25 +187,24 @@ public class BattlePanel extends JPanel {
 	this.playerCtrl = playerCtrl;
     }
 
-   
-   
     private String getMonsterData(int monsterId) {
 	return " " + playerCtrl.getMonsterNameById(monsterId) + " " + playerCtrl.getMonsterHealth(monsterId) + "/"
 		+ playerCtrl.getMonsterMaxHealth(monsterId) + " HP " + "LVL." + playerCtrl.getMonsterLevel(monsterId);
-	
+
     }
-    
+
     private String getEnemyData() {
-	return " " + ctrl.getEnemyCurrentMonsterName() + " " + ctrl.getEnemyCurrentMonsterHp()+ "/"
+	return " " + ctrl.getEnemyCurrentMonsterName() + " " + ctrl.getEnemyCurrentMonsterHp() + "/"
 		+ ctrl.getEnemyCurrentMonsterMaxHealth() + " HP " + "LVL." + ctrl.getEnemyCurrentMonsterLevel();
     }
+
     private void loadImg() {
 	playerMonsterImg.setIcon(new ImageIcon(img.getMonster(ctrl.getPlayerCurrentMonsterName())));
 	this.panelMap.get(CENTER_PANEL).add(playerMonsterImg, BorderLayout.WEST);
 	enemyMonsterImg.setIcon(new ImageIcon(img.getMonster(ctrl.getEnemyCurrentMonsterName())));
 	this.panelMap.get(CENTER_PANEL).add(enemyMonsterImg, BorderLayout.EAST);
 	this.panelMap.get(CENTER_PANEL).repaint();
-	this.validate();
+	validate();
 
     }
 
@@ -224,7 +222,7 @@ public class BattlePanel extends JPanel {
 	    button.addActionListener(e -> {
 		ctrl.chooseMove(move);
 		checkEnemyStatus();
-		
+
 	    });
 	    this.panelMap.get(MOVE).add(button);
 	}
@@ -234,9 +232,7 @@ public class BattlePanel extends JPanel {
 	});
 	this.panelMap.get(MOVE).add(back);
     }
-    private void attack(String move) {
-	
-    }
+
     private void checkEnemyStatus() {
 	if (!ctrl.isAlive(ctrl.getPlayerCurrentMonsterId())) {
 	    actionText.setText(ctrl.getPlayerCurrentMonsterName() + " is dead");
@@ -244,7 +240,7 @@ public class BattlePanel extends JPanel {
 	    if (ctrl.isOver()) {
 		// ENDING BATTLE player team dead
 		endBattle("You lose...");
-		
+
 	    } else {
 		loadMonsters();
 		cLayout.show(this.panelMap.get(SOUTH_PANEL), MONSTER);
@@ -255,10 +251,11 @@ public class BattlePanel extends JPanel {
 		endBattle("You have defeated all the enemies!!");
 	    } else {
 		refresh();
-		
+
 	    }
 	}
     }
+
     private void loadMonsters() {
 	this.panelMap.get(MONSTER).removeAll();
 	Map<JButton, Integer> monsterMap = new HashMap<>();
@@ -268,7 +265,7 @@ public class BattlePanel extends JPanel {
 	    if (!this.ctrl.isAlive(monsterId)) {
 		button.setEnabled(false);
 	    }
-	    if(monsterId == this.ctrl.getPlayerCurrentMonsterId()) {
+	    if (monsterId == this.ctrl.getPlayerCurrentMonsterId()) {
 		button.setEnabled(false);
 	    }
 	    button.addActionListener(e -> {
@@ -330,7 +327,7 @@ public class BattlePanel extends JPanel {
 	loadImg();
 	this.playerMonster.setText(getMonsterData(ctrl.getPlayerCurrentMonsterId()));
 	this.enemyMonster.setText(getEnemyData());
-	this.loadMoves();
+	loadMoves();
 	cLayout.show(this.panelMap.get(SOUTH_PANEL), CHOOSE);
 	this.actionText.setText("What do you want to do?...");
 
@@ -343,13 +340,12 @@ public class BattlePanel extends JPanel {
 	this.enemyMonster.setText(getEnemyData());
 	this.actionText.setText("What do you want to do?...");
 	cLayout.show(this.panelMap.get(SOUTH_PANEL), CHOOSE);
-	
-	
 
     }
+
     private void endBattle(String text) {
 	refresh();
-	actionText.setText(text);
+	this.actionText.setText(text);
 	this.paintImmediately(getBounds());
 	try {
 	    Thread.sleep(3000);
