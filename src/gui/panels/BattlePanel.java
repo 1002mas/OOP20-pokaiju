@@ -137,6 +137,7 @@ public class BattlePanel extends JPanel {
 
 		} else {
 		    actionText.setText("You failed to escaped");
+		    refresh();
 		}
 	    }
 	});
@@ -238,6 +239,7 @@ public class BattlePanel extends JPanel {
 
     private void checkEnemyStatus() {
 	if (!ctrl.isAlive(ctrl.getPlayerCurrentMonsterId())) {
+	    System.out.println("PERSO");
 	    actionText.setText(ctrl.getPlayerCurrentMonsterName() + " is dead");
 	    playerMonster.setText(getMonsterData(ctrl.getPlayerCurrentMonsterId()));
 	    if (ctrl.isOver()) {
