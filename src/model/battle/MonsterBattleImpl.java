@@ -67,19 +67,17 @@ public class MonsterBattleImpl implements MonsterBattle {
     public boolean capture() {
 	throwExceptionIfItIsOver();
 	if (!enemy.getWild()) {
-	    System.out.println("non puoi catturare");
 	    return false;
 	}
 
 	int attempt = (int) (Math.random() * CAPTURE_RANGE);
 	if (attempt <= CAPTURE_DIFFICULT) {
-	    trainer.addMonster(enemy);
+	    this.trainer.addMonster(enemy);
 	    int expReached = enemy.getLevel() * EXP_MULTIPLER;
-	    playerCurrentMonster.incExp(expReached);
+	    this.playerCurrentMonster.incExp(expReached);
 	    this.battleStatus = false;
 	    return true;
 	}
-	System.out.println("cattura fallita");
 	return false;
 
     }
@@ -115,7 +113,7 @@ public class MonsterBattleImpl implements MonsterBattle {
 	    }
 	}
 	if (changingMonster.isAlive()) {
-	    playerCurrentMonster = changingMonster;
+	    this.playerCurrentMonster = changingMonster;
 
 	    return true;
 	}
@@ -130,7 +128,7 @@ public class MonsterBattleImpl implements MonsterBattle {
 	if (!this.playerCurrentMonster.isOutOfPP(playerCurrentMonster.getMoves(moveIndex)) && this.battleStatus
 		&& this.playerCurrentMonster.isAlive()) {
 
-	    this.turn(this.playerCurrentMonster.getMoves(moveIndex));
+	    turn(this.playerCurrentMonster.getMoves(moveIndex));
 
 	    return true;
 	}
@@ -157,18 +155,18 @@ public class MonsterBattleImpl implements MonsterBattle {
 	    this.battleStatus = false;
 	    this.trainer.setMoney(trainer.getMoney() - MONEY_LOST);
 	    restoreAllMonsters();
-	    trainer.evolveMonsters();
+	    this.trainer.evolveMonsters();
 	}
 
 	if (!areThereEnemies()) {
 	    // ending battle
 
-	    trainer.setMoney(trainer.getMoney() + MONEY_WON);
+	    this.trainer.setMoney(trainer.getMoney() + MONEY_WON);
 	    if (this.enemyTrainer.isPresent()) {
 		enemyTrainer.get().setDefeated(true);
 	    }
 	    this.battleStatus = false;
-	    trainer.evolveMonsters();
+	    this.trainer.evolveMonsters();
 	} else {
 	    this.enemy = enemyTeam.stream().filter(m -> m.isAlive()).findAny().get(); // change enemy's
 										      // monster
