@@ -121,7 +121,7 @@ public class GameMapImpl implements GameMap {
     @Override
     public Optional<GameEvent> getEventAt(Pair<Integer, Integer> position) {
 	Optional<GameEvent> event = this.map.getEvent(position);
-	return event.isPresent() ? event : Optional.empty();
+	return event.isPresent() && event.get().isActive() ? event : Optional.empty();
     }
 
 }

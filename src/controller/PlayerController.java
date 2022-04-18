@@ -135,7 +135,7 @@ public interface PlayerController {
 	void useItem(String item);
 
 	/**
-	 * This function asks model to use anitem on a monster
+	 * This function asks model to use an item on a monster
 	 * 
 	 * @param i
 	 * @param monsterId
@@ -410,6 +410,13 @@ public interface PlayerController {
 	 */
 	int getMaximumBlocksInColumn();
 
+	/**
+	 * This function tries to evolve a monster using an item
+	 * 
+	 * @param nameItem
+	 * @param monsterId
+	 * @return true if monster can evolve, false otherwise
+	 */
 	boolean canEvolveByItem(String nameItem, int monsterId);
 
 	/**
@@ -439,4 +446,5 @@ public interface PlayerController {
 	 * @return true if item id present, false otherwise
 	 */
 	boolean isItemPresent(String name);
+
 }
