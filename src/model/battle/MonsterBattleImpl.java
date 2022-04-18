@@ -21,6 +21,7 @@ public class MonsterBattleImpl implements MonsterBattle {
 
     private boolean battleStatus; // true if the battle enemy/player team is defeat, false otherwise
     private boolean areEndPP;
+    private boolean playerLose;
     private Monster playerCurrentMonster;
     private Monster enemy;
     private List<Monster> playerTeam;
@@ -34,6 +35,7 @@ public class MonsterBattleImpl implements MonsterBattle {
     private MonsterBattleImpl(Player trainer, List<Monster> enemyTeam) {
 	this.trainer = trainer;
 	this.battleStatus = true;
+	this.playerLose = false;
 	this.enemyTrainer = Optional.empty();
 	this.playerTeam = trainer.getAllMonsters();
 	this.playerCurrentMonster = playerTeam.get(0);
@@ -153,6 +155,7 @@ public class MonsterBattleImpl implements MonsterBattle {
 	}
 	if (allPlayerMonsterDeafeted()) { // player's team defeated
 	    this.battleStatus = false;
+	    this.playerLose = true;
 	    this.trainer.setMoney(trainer.getMoney() - MONEY_LOST);
 	    restoreAllMonsters();
 	    this.trainer.evolveMonsters();
@@ -272,5 +275,8 @@ public class MonsterBattleImpl implements MonsterBattle {
 	throwExceptionIfItIsOver();
 	return false;
 
+    }
+    public boolean hasPlayerLost(){
+	return this.playerLose;
     }
 }

@@ -137,6 +137,7 @@ public class BattlePanel extends JPanel {
 
 		} else {
 		    actionText.setText("You failed to escaped");
+		    refresh();
 		}
 	    }
 	});
@@ -238,19 +239,12 @@ public class BattlePanel extends JPanel {
 
     private void checkEnemyStatus() {
 	if (!ctrl.isAlive(ctrl.getPlayerCurrentMonsterId())) {
+	    System.out.println("PERSO");
 	    actionText.setText(ctrl.getPlayerCurrentMonsterName() + " is dead");
 	    playerMonster.setText(getMonsterData(ctrl.getPlayerCurrentMonsterId()));
 	    if (ctrl.isOver()) {
 		// ENDING BATTLE player team dead
-		refresh();
-		this.actionText.setText("You lose...");
-		this.paintImmediately(getBounds());
-		try {
-		    Thread.sleep(3000);
-		} catch (InterruptedException e1) {
-		    e1.printStackTrace();
-		}
-		this.gameFrame.updateView(GameFrameImpl.MAP_VIEW);
+		endingBattle("You lose...");
 
 	    } else {
 		loadMonsters();
@@ -259,15 +253,8 @@ public class BattlePanel extends JPanel {
 	} else {
 	    if (ctrl.isOver()) {
 		// ENDING BATTLE enemy team dead
-		refresh();
-		this.actionText.setText("You have defeated all the enemies!!");
-		this.paintImmediately(getBounds());
-		try {
-		    Thread.sleep(3000);
-		} catch (InterruptedException e1) {
-		    e1.printStackTrace();
-		}
-		this.gameFrame.updateView(GameFrameImpl.MAP_VIEW);
+		
+		endingBattle("You have defeated all the enemies!!");
 	    } else {
 		refresh();
 
@@ -281,7 +268,7 @@ public class BattlePanel extends JPanel {
 	for (var monsterId : ctrl.getPlayerTeam()) {
 	    JButton button = new JButton(getMonsterData(monsterId));
 	    monsterMap.put(button, monsterId);
-	    if (!this.ctrl.isAlive(monsterId)) {
+	    if (!this.ctrl.isAlive(monsterId) && !this.itemsFlag) {
 		button.setEnabled(false);
 	    }
 	    if (!this.itemsFlag) {
@@ -289,6 +276,7 @@ public class BattlePanel extends JPanel {
 		    button.setEnabled(false);
 		}
 	    }
+	    
 
 	    button.addActionListener(e -> {
 		if (itemsFlag) {
@@ -305,11 +293,14 @@ public class BattlePanel extends JPanel {
 	    });
 	    this.panelMap.get(MONSTER).add(button);
 	}
-	JButton back = new JButton("Back");
-	back.addActionListener(e -> {
-	    refresh();
-	});
-	this.panelMap.get(MONSTER).add(back);
+	if (!ctrl.isAlive(ctrl.getEnemyCurrentMonsterId())) {
+	    JButton back = new JButton("Back");
+	    back.addActionListener(e -> {
+		refresh();
+	    });
+	    this.panelMap.get(MONSTER).add(back);
+	}
+
     }
 
     private void loadItems() {
@@ -325,15 +316,7 @@ public class BattlePanel extends JPanel {
 		    this.ctrl.useItem(itemUsed, 0);
 		    if (ctrl.isEnemyCaught()) {
 			// ENDING BATTLE
-			refresh();
-			this.actionText.setText("You captured the enemy!!");
-			this.paintImmediately(getBounds());
-			try {
-			    Thread.sleep(3000);
-			} catch (InterruptedException e1) {
-			    e1.printStackTrace();
-			}
-			this.gameFrame.updateView(GameFrameImpl.MAP_VIEW);
+			endingBattle("You captured the enemy!!");
 		    } else {
 			refresh();
 		    }
@@ -371,6 +354,18 @@ public class BattlePanel extends JPanel {
 	this.actionText.setText("What do you want to do?...");
 	cLayout.show(this.panelMap.get(SOUTH_PANEL), CHOOSE);
 
+    }
+
+    private void endingBattle(String text) {
+	refresh();
+	this.actionText.setText(text);
+	this.paintImmediately(getBounds());
+	try {
+	    Thread.sleep(3000);
+	} catch (InterruptedException e1) {
+	    e1.printStackTrace();
+	}
+	this.gameFrame.updateView(GameFrameImpl.MAP_VIEW);
     }
 
 }
