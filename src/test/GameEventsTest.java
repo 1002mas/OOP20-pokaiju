@@ -185,7 +185,6 @@ public class GameEventsTest {
 	GameMap map = initMonsterSpawnMap(eventPosition, List.of(mario), monsterEvent);
 
 	assertFalse(monsterEvent.isActive());
-	assertEquals(map.getEventAt(eventPosition).get().getEventID(), monsterEvent.getEventID());
 
 	mario.interactWith();
 
