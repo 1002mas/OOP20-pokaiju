@@ -135,8 +135,9 @@ public class DataControllerImpl implements DataLoaderController {
 
     private void createMapData() {
 	GameMapData mapData = new GameMapDataImpl(INITIAL_GAME_MAP_ID, 1, 10, "MAP1",
-		getMapBlocksById(INITIAL_GAME_MAP_ID), monsterSpecies.stream()
-			.filter(i -> !i.getName().equals("ponix") && !i.getName().equals("puppin")).collect(Collectors.toList()));
+		getMapBlocksById(INITIAL_GAME_MAP_ID),
+		monsterSpecies.stream().filter(i -> !i.getName().equals("ponix") && !i.getName().equals("puppin"))
+			.collect(Collectors.toList()));
 	GameMapData house = new GameMapDataImpl(2, 1, 99, "MAP2", getMapBlocksById(2), new ArrayList<>());
 	mapData.addMapLink(house, new Pair<>(5, 10), new Pair<>(10, 14));
 	house.addMapLink(mapData, new Pair<>(10, 16), new Pair<>(5, 12));
@@ -191,10 +192,10 @@ public class DataControllerImpl implements DataLoaderController {
 
     private void createNpcs() {
 	String s = "This game was developed by ";
-	List<String> stringList = new ArrayList<>(List.of("Barattini Luca", "Carafassi Samuele", "Castorina Andrea", "Guo Jia Hao", "Pierantoni Michael"));
-	stringList = stringList.stream().map(name -> s+name).collect(Collectors.toList());
-	NpcSimple npc1 = new NpcSimpleImpl("Unibo", stringList, new Pair<>(15, 15), true,
-		true);
+	List<String> stringList = new ArrayList<>(List.of("Barattini Luca", "Carafassi Samuele", "Castorina Andrea",
+		"Guo Jia Hao", "Pierantoni Michael"));
+	stringList = stringList.stream().map(name -> s + name).collect(Collectors.toList());
+	NpcSimple npc1 = new NpcSimpleImpl("Unibo", stringList, new Pair<>(15, 15), true, true);
 	NpcSimple npc2 = new NpcMerchantImpl("Steve", List.of("Wanna buy something?"), new Pair<>(9, 6), true, true,
 		getInventory());
 	NpcSimple trainer = new NpcTrainerImpl("Giorgio", List.of("Let's battle", "I lost..."), new Pair<>(1, 10), true,
@@ -239,17 +240,23 @@ public class DataControllerImpl implements DataLoaderController {
 	GameEvent g = new UniqueMonsterEvent(INITIAL_GAME_MAP_ID, true, true, monster.get(1));
 	this.gameMapData.stream().filter(i -> i.getMapId() == 1).findAny().get().addEventAt(g, new Pair<>(16, 15));
     }
-    
+
     private void developerTextTest() {
-	GameEvent g1 = new NpcTextChanger(123, true, true, true, npcs.get(1), 1);
-	GameEvent g2 = new NpcTextChanger(124, false, true, true, npcs.get(1), 2);
-	GameEvent g3 = new NpcTextChanger(125, false, true, true, npcs.get(1), 3);
-	GameEvent g4 = new NpcTextChanger(126, false, true, true, npcs.get(1), 0);
-	npcs.get(5).addGameEvent(g1);
+	GameEvent g1 = new NpcTextChanger(123, true, true, false, npcs.get(1), 1);
+	GameEvent g2 = new NpcTextChanger(124, false, true, false, npcs.get(1), 2);
+	GameEvent g3 = new NpcTextChanger(125, false, true, false, npcs.get(1), 3);
+	GameEvent g4 = new NpcTextChanger(126, false, true, false, npcs.get(1), 4);
+	GameEvent g5 = new NpcTextChanger(127, false, true, false, npcs.get(1), 0);
+	npcs.get(1).addGameEvent(g1);
+	npcs.get(1).addGameEvent(g2);
+	npcs.get(1).addGameEvent(g3);
+	npcs.get(1).addGameEvent(g4);
+	npcs.get(1).addGameEvent(g5);
 	g1.addSuccessiveGameEvent(g2);
 	g2.addSuccessiveGameEvent(g3);
 	g3.addSuccessiveGameEvent(g4);
-	g4.addSuccessiveGameEvent(g1);
+	g4.addSuccessiveGameEvent(g5);
+	g5.addSuccessiveGameEvent(g1);
     }
 
     private List<Moves> getMovesByType(MonsterType type) {
@@ -257,7 +264,7 @@ public class DataControllerImpl implements DataLoaderController {
     }
 
     private List<Pair<Moves, Integer>> getMovesByTypeWithPP(MonsterType type) {
-	return getMovesByType(type).stream().map(i->new Pair<>(i, i.getPP())).collect(Collectors.toList());
+	return getMovesByType(type).stream().map(i -> new Pair<>(i, i.getPP())).collect(Collectors.toList());
     }
 
     private GameMapData getMapDataByMapID(int id) {

@@ -3,8 +3,6 @@ package gui.panels;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,7 +23,7 @@ import model.Pair;
 public class PlayerPanel extends JPanel {
     private static final long serialVersionUID = -7016352522753786674L;
     private static final int CHARACTER_STEP = 1;
-    private static final int STEP_TIME = 400;// ms
+    private static final int STEP_TIME = 300;// ms 
     private static final int CHARACTER_TURN_TIME = 60;// ms
 
     private final ImagesLoader imgLoader;
