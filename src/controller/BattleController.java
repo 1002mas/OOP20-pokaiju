@@ -220,4 +220,11 @@ public interface BattleController {
      * @return if the battle ends
      */
     boolean isOver();
+    
+    /**
+     * Returns true if the player has lost the battle, false otherwise
+     * 
+     * @return if the player has lost the battle
+     */
+    boolean hasPlayerLost();
 }
