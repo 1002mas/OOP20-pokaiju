@@ -62,7 +62,7 @@ public class BoxPanel extends JPanel {
 	});
 	take.addActionListener(new ActionListener() {
 	    public void actionPerformed(ActionEvent e) {
-		if (playerController.getMonstersId().size() < 6) {
+		if (!playerController.isTeamFull()) {
 		    playerController.withdrawMonster(idBoxMonster);
 		} else {
 		    JOptionPane.showMessageDialog(null, "You can take if your team is not full");
