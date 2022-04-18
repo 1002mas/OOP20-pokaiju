@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import controller.PlayerController;
+import model.gameitem.GameItemTypes;
 
 public class SelectMosterPanel extends JPanel {
     private static final long serialVersionUID = 8185263432699574937L;
@@ -48,16 +49,20 @@ public class SelectMosterPanel extends JPanel {
 	    JButton checkButton = new JButton("USE ON THIS MONSTER");
 	    checkButton.addActionListener(e -> {
 		if (this.playerController.isItemPresent(itemName)) {
-		    if (this.playerController.canEvolveByItem(itemName, monsterId)) {
-			this.playerController.evolveByItem(itemName, monsterId);
-			this.playerController.useItemOnMonster(this.itemName, monsterId);
+		    if (this.playerController.getItemtype(itemName).equals(GameItemTypes.EVOLUTIONTOOL.toString())) {
+			if (this.playerController.canEvolveByItem(itemName, monsterId)) {
+			    this.playerController.evolveByItem(itemName, monsterId);
+			    this.playerController.useItemOnMonster(this.itemName, monsterId);
+			} else {
+			    JOptionPane.showMessageDialog(null, "Can't be evolved by this Item");
+			    backButton.doClick();
+			}
 		    } else {
 			this.playerController.useItemOnMonster(this.itemName, monsterId);
 		    }
 		} else {
 		    JOptionPane.showMessageDialog(null, "Item finished");
-		    update();
-		    c1.show(parentPanel, "ITEMS");
+		    backButton.doClick();
 		}
 		update();
 	    });

@@ -4,15 +4,12 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
-import java.util.List;
-
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-
 import controller.PlayerController;
 import gui.ImagesLoader;
 import model.monster.MonsterImpl;
@@ -52,6 +49,14 @@ public class MonsterInfoPanel extends JPanel {
 	label.setBorder(BorderFactory.createLineBorder(Color.red));
     }
 
+    private String getStringMovesNameAndPP() {
+	String moves = "<html>" + "Moves Learned <br/>";
+	for (String moveName : this.playerController.getMovesNames(monsterId)) {
+	    moves += moveName + " PP : " + this.playerController.getMovePP(moveName, monsterId) + "<br/>";
+	}
+	return moves + "</html>";
+    }
+
     private JPanel setContentPanel() {
 	JPanel monsterInfoPanel = new JPanel(new GridLayout(1, 3));
 	JLabel infoLabel = new JLabel();
@@ -71,8 +76,7 @@ public class MonsterInfoPanel extends JPanel {
 	setLabelProp(monsterImgLabel);
 
 	JLabel movesLabel = new JLabel();
-	String moves = "<html>" + "Moves Learned <br/>" + playerController.getMovesNames(monsterId).get(0) + "</html>";
-	movesLabel.setText(moves);
+	movesLabel.setText(getStringMovesNameAndPP());
 	setLabelProp(movesLabel);
 	monsterInfoPanel.add(infoLabel);
 	monsterInfoPanel.add(monsterImgLabel);
