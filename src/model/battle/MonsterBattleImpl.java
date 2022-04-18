@@ -276,4 +276,7 @@ public class MonsterBattleImpl implements MonsterBattle {
 	return false;
 
     }
+    public boolean hasPlayerLost(){
+	return this.playerLose;
+    }
 }
