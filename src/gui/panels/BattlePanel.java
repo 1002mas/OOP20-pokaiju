@@ -305,7 +305,7 @@ public class BattlePanel extends JPanel {
 	    });
 	    this.panelMap.get(MONSTER).add(button);
 	}
-	if (!ctrl.isAlive(ctrl.getPlayerCurrentMonsterId())) {
+	if (ctrl.isAlive(ctrl.getPlayerCurrentMonsterId()) ) {
 	    JButton back = new JButton("Back");
 	    back.addActionListener(e -> {
 		refresh();
