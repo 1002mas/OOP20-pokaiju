@@ -1,9 +1,7 @@
 package model.monster;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -48,7 +46,6 @@ public enum MonsterType {
     }
 
     public double damageTo(MonsterType type) {
-	System.out.println(damageMultiplier.get(type.getName()));
 	return damageMultiplier.get(type.getName());
     }
 }
