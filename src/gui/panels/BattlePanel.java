@@ -189,13 +189,13 @@ public class BattlePanel extends JPanel {
 
     private String getMonsterData(int monsterId) {
 	return " " + playerCtrl.getMonsterNameById(monsterId) + " " + playerCtrl.getMonsterHealth(monsterId) + "/"
-		+ playerCtrl.getMonsterMaxHealth(monsterId) + " HP " + "LVL." + playerCtrl.getMonsterLevel(monsterId);
+		+ playerCtrl.getMonsterMaxHealth(monsterId) + " HP " + "LVL." + playerCtrl.getMonsterLevel(monsterId) + " " +playerCtrl.getMonsterType(monsterId);
 
     }
 
     private String getEnemyData() {
 	return " " + ctrl.getEnemyCurrentMonsterName() + " " + ctrl.getEnemyCurrentMonsterHp() + "/"
-		+ ctrl.getEnemyCurrentMonsterMaxHealth() + " HP " + "LVL." + ctrl.getEnemyCurrentMonsterLevel();
+		+ ctrl.getEnemyCurrentMonsterMaxHealth() + " HP " + "LVL." + ctrl.getEnemyCurrentMonsterLevel() + " " +ctrl.getEnemyCurrentMonsterType();
     }
 
     private void loadImg() {
@@ -319,7 +319,15 @@ public class BattlePanel extends JPanel {
 		    this.ctrl.useItem(itemUsed, 0);
 		    if (ctrl.isEnemyCaught()) {
 			// ENDING BATTLE
-			endBattle("You have captured a new Monster!!");
+			refresh();
+			this.actionText.setText("You lose...");
+			this.paintImmediately(getBounds());
+			try {
+			    Thread.sleep(3000);
+			} catch (InterruptedException e1) {
+			    e1.printStackTrace();
+			}
+			this.gameFrame.updateView(GameFrameImpl.MAP_VIEW);
 		    } else {
 			refresh();
 		    }
