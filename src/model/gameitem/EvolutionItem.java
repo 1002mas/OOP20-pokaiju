@@ -2,7 +2,7 @@ package model.gameitem;
 
 import model.monster.*;
 
-public class EvolutionItem extends GameItemImpl {
+public class EvolutionItem extends AbstractGameItem {
 
     public EvolutionItem(String nameItem, String description) {
 	super(nameItem, description, GameItemTypes.EVOLUTIONTOOL);

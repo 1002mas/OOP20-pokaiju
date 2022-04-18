@@ -368,7 +368,7 @@ public class PlayerControllerImpl implements PlayerController {
 		if (monster.isPresent()) {
 			for (Moves move : monster.get().getAllMoves()) {
 				if (move.getName().equals(moveName)) {
-					return move.getPP();
+					return monster.get().getCurrentPPByMove(move);
 				}
 			}
 		}
