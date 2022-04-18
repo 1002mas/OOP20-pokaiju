@@ -250,12 +250,13 @@ public class BattlePanel extends JPanel {
     }
 
     private void checkEnemyStatus() {
+	System.out.println(ctrl.isOver());
+		System.out.println(ctrl.hasPlayerLost());
 	if (!ctrl.isAlive(ctrl.getPlayerCurrentMonsterId())) {
 	    System.out.println("PERSO");
 	    actionText.setText(ctrl.getPlayerCurrentMonsterName() + " is dead");
 	    playerMonster.setText(getMonsterData(ctrl.getPlayerCurrentMonsterId()));
-	    System.out.println(ctrl.isOver());
-		System.out.println(ctrl.hasPlayerLost());
+	    
 	    if (ctrl.isOver() && ctrl.hasPlayerLost()) {
 		// ENDING BATTLE player team dead
 		
