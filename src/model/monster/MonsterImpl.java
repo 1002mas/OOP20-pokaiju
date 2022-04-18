@@ -70,7 +70,7 @@ public class MonsterImpl implements Monster {
     @Override
     public void setHealth(int health) {
 	this.stats.setHealth(health <= this.getMaxHealth() ? health : this.getMaxHealth());
-	this.stats.setHealth(health <= 0 ? 0 : health);
+	this.stats.setHealth(health <= 0 ? 0 : this.stats.getHealth());
     }
 
     @Override
