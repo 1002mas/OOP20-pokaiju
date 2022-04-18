@@ -88,7 +88,7 @@ public class DataControllerImpl implements DataLoaderController {
 		.movesList(getMovesByType(MonsterType.GRASS)).build();
 	MonsterSpecies species4 = new MonsterSpeciesBuilderImpl().name("krados").info("cute thing 2")
 		.monsterType(MonsterType.GRASS).health(70).attack(25).defense(2).speed(5)
-		.movesList(getMovesByType(MonsterType.GRASS)).evolution(species6).gameItem(gameItems.get(5)).build();
+		.movesList(getMovesByType(MonsterType.GRASS)).evolution(species6).gameItem(gameItems.get(4)).build();
 	MonsterSpecies species3 = new MonsterSpeciesBuilderImpl().name("kracez").info("cute thing")
 		.monsterType(MonsterType.GRASS).health(70).attack(25).defense(2).speed(5)
 		.movesList(getMovesByType(MonsterType.GRASS)).evolution(species4).evolutionLevel(10).build();
