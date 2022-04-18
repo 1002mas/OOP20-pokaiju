@@ -11,7 +11,7 @@ public interface MonsterStorage {
 	 * 
 	 * @param monster to add in storage
 	 */
-	public void addMonster(Monster monster);
+	public boolean addMonster(Monster monster);
 
 	/**
 	 * This function tries to deposit a monster in the current monster box and to
