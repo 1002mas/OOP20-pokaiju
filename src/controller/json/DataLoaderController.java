@@ -12,101 +12,114 @@ import model.player.Player;
 
 public interface DataLoaderController {
 
-    /**
-     * 
-     * @return a list of all moves existing
-     */
-    public List<Moves> getMoves();
+	/**
+	 * This function returns a list of all moves existing
+	 * 
+	 * @return a list of moves
+	 */
+	public List<Moves> getMoves();
 
-    /**
-     * 
-     * @return a list of all npcs existing
-     */
-    public List<NpcSimple> getNpcs();
+	/**
+	 * This function returns a list of all npc existing
+	 * 
+	 * @return a list of npcs
+	 */
+	public List<NpcSimple> getNpcs();
 
-    /**
-     * 
-     * @return a list of all items existing
-     */
-    public List<GameItem> getGameItems();
+	/**
+	 * This function returns a list of items existing
+	 * 
+	 * @return a list of items
+	 */
+	public List<GameItem> getGameItems();
 
-    /**
-     * 
-     * @return a list of all Events
-     */
-    public List<GameEvent> getEvents();
+	/**
+	 * This function returns a list of all events
+	 * 
+	 * @return a list of Events
+	 */
+	public List<GameEvent> getEvents();
 
-    /**
-     * 
-     * @return a list of monsterSpecies
-     */
-    public List<MonsterSpecies> getMonstersSpecies();
+	/**
+	 * This function returns a list of monsterSpecies
+	 * 
+	 * @return a list of monsterSpecies
+	 */
+	public List<MonsterSpecies> getMonstersSpecies();
 
-    /**
-     * 
-     * @return the player
-     */
-    public Player getPlayer();
+	/**
+	 * This function returns the player
+	 * 
+	 * @return the player
+	 */
+	public Player getPlayer();
 
-    /**
-     * 
-     * @return max column value
-     */
+	/**
+	 * This function returns max column value
+	 * 
+	 * @return max column value
+	 */
 
-    public int getMaximumBlockInColumn();
+	public int getMaximumBlockInColumn();
 
-    /**
-     * 
-     * @return max row value
-     */
-    public int getMaximumBlockInRow();
+	/**
+	 * This function returns max row value
+	 * 
+	 * @return max row value
+	 */
+	public int getMaximumBlockInRow();
 
-    /**
-     * 
-     * @param name
-     * @return a move
-     */
+	/**
+	 * This function returns a move
+	 * 
+	 * @param name
+	 * @return a move
+	 */
 
-    public Moves getMove(String name);
+	public Moves getMove(String name);
 
-    /**
-     * 
-     * @param id
-     * @return a monster
-     */
+	/**
+	 * This function returns a monster
+	 * 
+	 * @param id
+	 * @return a monster
+	 */
 
-    public Monster getMonster(int id);
+	public Monster getMonster(int id);
 
-    /**
-     * 
-     * @param name
-     * @return a npc
-     */
+	/**
+	 * This function returns a npc
+	 * 
+	 * @param name
+	 * @return a npc
+	 */
 
-    public NpcSimple getNpc(String name);
+	public NpcSimple getNpc(String name);
 
-    /**
-     * 
-     * @param name
-     * @return an item
-     */
+	/**
+	 * This function returns an item
+	 * 
+	 * @param name
+	 * @return an item
+	 */
 
-    public GameItem getItem(String name);
+	public GameItem getItem(String name);
 
-    /**
-     * 
-     * @param id
-     * @return an event
-     */
+	/**
+	 * This function returns an event
+	 * 
+	 * @param id
+	 * @return an event
+	 */
 
-    public GameEvent getEvent(int id);
+	public GameEvent getEvent(int id);
 
-    /**
-     * set a new Player
-     * 
-     * @param name,gender,trainer
-     * 
-     */
-    public void setPlayer(String name, String gender, int trainerNumber);
+	/**
+	 * This function set a new player
+	 * 
+	 * @param name,gender,trainer
+	 * 
+	 */
+	public void setPlayer(String name, String gender, int trainerNumber);
 
 }

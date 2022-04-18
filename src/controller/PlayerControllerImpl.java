@@ -477,4 +477,12 @@ public class PlayerControllerImpl implements PlayerController {
 		return false;
 	}
 
+	@Override
+	public Optional<String> getNpcName() {
+		if(this.player.getLastInteractionWithNpc().isPresent()) {
+			return Optional.of(this.player.getLastInteractionWithNpc().get().getName());
+		}
+		return Optional.empty();
+	}
+
 }

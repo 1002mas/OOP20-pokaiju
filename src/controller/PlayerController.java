@@ -88,22 +88,24 @@ public interface PlayerController {
 	boolean buyMerchantItems(Map<String, Integer> buyItem);
 
 	/**
+	 * This function returns a map containing all visible npcs and their position
 	 * 
-	 * @return a list containing all visible npcs and their location
+	 * @return a map of visible npcs with position
 	 */
 	Map<String, Pair<Integer, Integer>> getAllNpcs();
 
 	/**
+	 * This function returns player position
+	 * 
 	 * @return player position
 	 */
 	Pair<Integer, Integer> getPlayerPosition();
 
 	/**
-	 * set new Player
+	 * This function returns if player has changed map
 	 * 
-	 * @param new name, gender, trainerNumber
+	 * @return true if player has changed map, false otherwise
 	 */
-
 	boolean hasPlayerChangedMap();
 
 	/**
@@ -340,25 +342,28 @@ public interface PlayerController {
 	List<Integer> getBoxMonsters();
 
 	/**
+	 * This function returns maximum boxes in a monster
 	 * 
 	 * @return maximum boxes
 	 */
 	int getBoxNumbers();
 
 	/**
+	 * This function returns maximum monster in a box
 	 * 
 	 * @return maximum monster in a box
 	 */
 	int getMonstersForEachBox();
 
 	/**
+	 * This function returns if player has one monster left
 	 * 
-	 * @return true if player has one monster left
+	 * @return true if player has one monster left, false otherwise
 	 */
 	boolean isPlayerLastMonsterLeft();
 
 	/**
-	 * This function returns quantity of a player item
+	 * This function returns quantity of a player's item
 	 * 
 	 * @param item
 	 * @return item quantity
@@ -392,7 +397,7 @@ public interface PlayerController {
 	 * This function asks model to use an item
 	 * 
 	 * @param item
-	 * @return true if item is used false otherwise
+	 * @return true if item is used, false otherwise
 	 */
 	boolean canUseItem(String item);
 
@@ -430,12 +435,11 @@ public interface PlayerController {
 	Optional<Pair<String, String>> evolveByItem(String nameItem, int monsterId);
 
 	/**
-	 * This function returns a move PPs
+	 * This function returns PPs of a move
 	 * 
 	 * @param moveName
 	 * @param monterID
 	 * @return move PPs
-	 * @author Andrea Castorina
 	 */
 	int getMovePP(String moveName, int monsterID);
 
@@ -443,8 +447,16 @@ public interface PlayerController {
 	 * This function returns if an item is present
 	 * 
 	 * @param name
-	 * @return true if item id present, false otherwise
+	 * @return true if item id is present, false otherwise
 	 */
 	boolean isItemPresent(String name);
+
+	/**
+	 * This function returns an optional of last npc name that player interacted
+	 * with, optional.empty if player has not interacted with any npc
+	 * 
+	 * @return if present optional string of npc name, optional.empty otherwise
+	 */
+	Optional<String> getNpcName();
 
 }
