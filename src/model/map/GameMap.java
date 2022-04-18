@@ -38,9 +38,9 @@ public interface GameMap {
      * @return true if the player is in a block linked to another map
      */
     boolean canChangeMap(Pair<Integer, Integer> playerPosition);
-
+ 
     /**
-     * @return true if the player is in a block linked to another map
+     * @return the player position if the player went to another map, Optional.empty otherwise
      */
     Optional<Pair<Integer, Integer>> getPlayerMapPosition();
 

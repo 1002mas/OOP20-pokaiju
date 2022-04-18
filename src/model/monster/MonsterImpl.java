@@ -185,8 +185,9 @@ public class MonsterImpl implements Monster {
 
     @Override
     public void restoreAllMovesPP() {
-	for (var p : movesList) {
-	    restoreMovePP(p.getFirst());
+	List<Moves> moves = movesList.stream().map(i->i.getFirst()).collect(Collectors.toList());
+ 	for (var p : moves) {
+	    restoreMovePP(p);
 	}
     }
 

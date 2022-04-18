@@ -2,6 +2,7 @@ package model.gameevents;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import model.monster.Monster;
 
@@ -115,4 +116,27 @@ public abstract class AbstractGameEvent implements GameEvent {
      * In this function you need to implement the event action.
      */
     protected abstract void activateEvent();
+
+    @Override
+    public int hashCode() {
+	return Objects.hash(id);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+	if (this == obj)
+	    return true;
+	if (obj == null)
+	    return false;
+	if (getClass() != obj.getClass())
+	    return false;
+	AbstractGameEvent other = (AbstractGameEvent) obj;
+	return id == other.id;
+    }
+
+    @Override
+    public String toString() {
+	return "AbstractGameEvent [id=" + id + ", isActive=" + isActive + "]";
+    }
+
 }
