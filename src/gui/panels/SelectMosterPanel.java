@@ -8,6 +8,7 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import controller.PlayerController;
@@ -46,12 +47,17 @@ public class SelectMosterPanel extends JPanel {
 
 	    JButton checkButton = new JButton("USE ON THIS MONSTER");
 	    checkButton.addActionListener(e -> {
-		// TODO controllare la quantità dell'item se è zero
-		if (this.playerController.canEvolveByItem(itemName, monsterId)) {
-		    this.playerController.evolveByItem(itemName, monsterId);
-		    this.playerController.useItemOnMonster(this.itemName, monsterId);
+		if (this.playerController.isItemPresent(itemName)) {
+		    if (this.playerController.canEvolveByItem(itemName, monsterId)) {
+			this.playerController.evolveByItem(itemName, monsterId);
+			this.playerController.useItemOnMonster(this.itemName, monsterId);
+		    } else {
+			this.playerController.useItemOnMonster(this.itemName, monsterId);
+		    }
 		} else {
-		    this.playerController.useItemOnMonster(this.itemName, monsterId);
+		    JOptionPane.showMessageDialog(null, "Item finished");
+		    update();
+		    c1.show(parentPanel, "ITEMS");
 		}
 		update();
 	    });

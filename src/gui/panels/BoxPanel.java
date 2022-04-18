@@ -129,7 +129,7 @@ public class BoxPanel extends JPanel {
 	JLabel box = new JLabel(this.playerController.getCurrentBoxName());
 	setLabelProp(box);
 	box.setBorder(BorderFactory.createLineBorder(Color.black));
-	JLabel team = new JLabel("team");
+	JLabel team = new JLabel("Team");
 	setLabelProp(team);
 	team.setBorder(BorderFactory.createLineBorder(Color.black));
 	team.setPreferredSize(new Dimension(300, getPreferredSize().height));
