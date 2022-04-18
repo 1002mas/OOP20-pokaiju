@@ -149,7 +149,7 @@ public class BoxPanel extends JPanel {
 
     private JPanel setBottomPanel(JPanel boxPanel) {
 	JPanel bottomPanel = new JPanel(new GridLayout(1, 2));
-	JButton previusPage = new JButton("Previews box");
+	JButton previusPage = new JButton("Previous box");
 	JButton nextPage = new JButton("Next box");
 	bottomPanel.add(previusPage);
 	bottomPanel.add(nextPage);
