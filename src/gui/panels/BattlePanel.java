@@ -268,7 +268,9 @@ public class BattlePanel extends JPanel {
 	    if (!this.ctrl.isAlive(monsterId)) {
 		button.setEnabled(false);
 	    }
-
+	    if(monsterId == this.ctrl.getPlayerCurrentMonsterId()) {
+		button.setEnabled(false);
+	    }
 	    button.addActionListener(e -> {
 		if (itemsFlag) {
 

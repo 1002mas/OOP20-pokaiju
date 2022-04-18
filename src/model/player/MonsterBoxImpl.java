@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+
 import model.monster.Monster;
 
 public class MonsterBoxImpl implements MonsterBox {
