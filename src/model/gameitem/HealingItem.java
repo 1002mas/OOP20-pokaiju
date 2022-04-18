@@ -2,7 +2,7 @@ package model.gameitem;
 
 import model.monster.*;
 
-public class HealingItem extends GameItemImpl {
+public class HealingItem extends AbstractGameItem {
     private static final int DEFAULTHEALINGPOINT = 50;
     private int healedHp;
 

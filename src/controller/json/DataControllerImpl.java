@@ -21,7 +21,7 @@ import model.gameevents.NpcVisibilityChanger;
 import model.gameevents.UniqueMonsterEvent;
 import model.gameitem.EvolutionItem;
 import model.gameitem.GameItem;
-import model.gameitem.GameItemImpl;
+import model.gameitem.CaptureItem;
 import model.gameitem.HealingItem;
 import model.map.GameMapData;
 import model.map.GameMapDataImpl;
@@ -64,7 +64,7 @@ public class DataControllerImpl implements DataLoaderController {
     }
 
     private void createItems() {
-	GameItem monsterBall = new GameItemImpl("Monster Ball", "This item allows the player to capture a monster");
+	GameItem monsterBall = new CaptureItem("Monster Ball", "This item allows the player to capture a monster");
 	GameItem healingPotion = new HealingItem("Healing potion", "This item heal a monster for 50 HP");
 	GameItem superHealingPotion = new HealingItem("Super healing potion", "This item heal a monster for 250 HP",
 		250);

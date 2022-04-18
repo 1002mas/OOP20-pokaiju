@@ -18,7 +18,7 @@ import model.battle.MovesImpl;
 import model.gameevents.GameEvent;
 import model.gameevents.MonsterGift;
 import model.gameitem.GameItem;
-import model.gameitem.GameItemImpl;
+import model.gameitem.CaptureItem;
 import model.monster.Monster;
 import model.monster.MonsterBuilderImpl;
 import model.monster.MonsterSpecies;
@@ -67,8 +67,8 @@ public class NpcTest {
 		// event
 
 		// item
-		item1 = new GameItemImpl("pietra", "descrizione");
-		item2 = new GameItemImpl("carta", "descrizione");
+		item1 = new CaptureItem("pietra", "descrizione");
+		item2 = new CaptureItem("carta", "descrizione");
 		Map<GameItem, Integer> inventory = new HashMap<>();
 		inventory.put(item1, 4);
 		inventory.put(item2, 3);
