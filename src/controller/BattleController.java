@@ -2,6 +2,8 @@ package controller;
 
 import java.util.List;
 
+import model.monster.MonsterType;
+
 public interface BattleController {
 
     /**
@@ -80,6 +82,13 @@ public interface BattleController {
      * @return monster max health points
      */
     int getEnemyCurrentMonsterMaxHealth();
+    
+    /**
+     * Get the type of the current enemy monster
+     * 
+     * @return monster type
+     */
+    MonsterType getEnemyCurrentMonsterType();
 
     /**
      * Get the level of the current enemy monster

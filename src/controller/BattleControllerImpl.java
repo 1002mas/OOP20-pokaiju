@@ -8,6 +8,7 @@ import model.battle.MonsterBattle;
 import model.gameitem.GameItem;
 import model.gameitem.GameItemTypes;
 import model.monster.Monster;
+import model.monster.MonsterType;
 
 public class BattleControllerImpl implements BattleController {
 
@@ -76,6 +77,11 @@ public class BattleControllerImpl implements BattleController {
     @Override
     public int getEnemyCurrentMonsterLevel() {
 	return monsterBattle.getCurrentEnemyMonster().getLevel();
+    }
+    
+    @Override
+    public MonsterType getEnemyCurrentMonsterType() {
+	return monsterBattle.getCurrentEnemyMonster().getType();
     }
 
     @Override
