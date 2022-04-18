@@ -24,7 +24,6 @@ import gui.GameFrameImpl;
 public class MerchantPanel extends JPanel {
     private static final long serialVersionUID = -8620443097250013546L;
     private static final int MINIMUM_QUANTITY = 0;
-    private static final int MAXIMUM_QUANTITY = 99;
 
     private final PlayerController playerController;
     private final Map<String, Integer> buyedItems = new HashMap<>();
@@ -116,13 +115,13 @@ public class MerchantPanel extends JPanel {
 	    itemPanel.add(priceLabel);
 
 	    // Quantity
-	    SpinnerModel model = new SpinnerNumberModel(0, MINIMUM_QUANTITY, MAXIMUM_QUANTITY, 1);
+	    SpinnerModel model = new SpinnerNumberModel(0, MINIMUM_QUANTITY, Integer.MAX_VALUE, 1);
 	    this.itemQuantity.add(model);
 	    JSpinner spinner = new JSpinner(model);
 	    itemPanel.add(spinner);
+	    spinner.setEditor(new JSpinner.DefaultEditor(spinner));
 	    spinner.addChangeListener(e -> {
 		buyedItems.put(gameItem, (int) model.getValue());
-
 		int totalPrice = playerController.getMerchantTotalPrice(buyedItems);
 		boolean canbuy = playerController.canPlayerBuyFromMerchant(buyedItems);
 		buyButton.setEnabled(canbuy);
