@@ -64,7 +64,6 @@ public class PlayerControllerImpl implements PlayerController {
 		boolean isNpcPresent = this.player.interactAt(coord);
 		if (isNpcPresent) {
 			this.battle = this.player.getPlayerBattle();
-			System.out.println(this.battle);
 			NpcSimple npc = this.player.getLastInteractionWithNpc().get();
 			Optional<String> result = npc.interactWith();
 			this.hasTriggeredEvent = npc.getTriggeredEvent().isPresent();
@@ -477,6 +476,14 @@ public class PlayerControllerImpl implements PlayerController {
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public Optional<String> getNpcName() {
+		if(this.player.getLastInteractionWithNpc().isPresent()) {
+			return Optional.of(this.player.getLastInteractionWithNpc().get().getName());
+		}
+		return Optional.empty();
 	}
 
 }

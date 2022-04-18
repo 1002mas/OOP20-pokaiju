@@ -36,9 +36,14 @@ public class MonsterStorageImpl implements MonsterStorage {
 		MonsterBox box;
 		for (int i = n; i < MAX_NUMBER_OF_BOX; i++) {
 
-			box = new MonsterBoxImpl(INITIAL_BOX_NAME + i, MAX_SIZE_OF_BOX);
+			box = new MonsterBoxImpl(INITIAL_BOX_NAME + (i + 1), MAX_SIZE_OF_BOX);
 			this.monsterBoxes.add(box);
 		}
+	}
+
+	private void calculateNewIndex(int n) {
+		this.currentMonsterBoxIndex = (((this.currentMonsterBoxIndex + n) % MAX_SIZE_OF_BOX) + MAX_SIZE_OF_BOX)
+				% MAX_SIZE_OF_BOX;
 	}
 
 	private MonsterBox getFirstBoxFree() {
@@ -52,16 +57,16 @@ public class MonsterStorageImpl implements MonsterStorage {
 	}
 
 	@Override
-	public void addMonster(Monster monster) {
-		if (!this.getCurrentBox().isFull()) {
-			this.getCurrentBox().addMonster(monster);
+	public boolean addMonster(Monster monster) {
+		if (this.getCurrentBox().addMonster(monster)) {
+			return true;
 		} else {
 			MonsterBox monsterBox = getFirstBoxFree();
 			if (monsterBox != null) {
-				monsterBox.addMonster(monster);
+				return monsterBox.addMonster(monster);
 			}
 		}
-
+		return false;
 	}
 
 	@Override
@@ -115,13 +120,14 @@ public class MonsterStorageImpl implements MonsterStorage {
 
 	@Override
 	public void nextBox() {
-		this.currentMonsterBoxIndex = (this.currentMonsterBoxIndex + 1) % MAX_SIZE_OF_BOX;
+		calculateNewIndex(1);
 
 	}
 
 	@Override
 	public void previousBox() {
-		this.currentMonsterBoxIndex = (this.currentMonsterBoxIndex  - 1) % MAX_SIZE_OF_BOX;
+		calculateNewIndex(-1);
+
 	}
 
 	@Override

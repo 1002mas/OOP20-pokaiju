@@ -13,42 +13,49 @@ import model.player.Player;
 public interface DataLoaderController {
 
 	/**
+	 * This function returns a list of all moves existing
 	 * 
-	 * @return a list of all moves existing
+	 * @return a list of moves
 	 */
 	public List<Moves> getMoves();
 
 	/**
+	 * This function returns a list of all npc existing
 	 * 
-	 * @return a list of all npcs existing
+	 * @return a list of npcs
 	 */
 	public List<NpcSimple> getNpcs();
 
 	/**
+	 * This function returns a list of items existing
 	 * 
-	 * @return a list of all items existing
+	 * @return a list of items
 	 */
 	public List<GameItem> getGameItems();
 
 	/**
+	 * This function returns a list of all events
 	 * 
-	 * @return a list of all Events
+	 * @return a list of Events
 	 */
 	public List<GameEvent> getEvents();
 
 	/**
+	 * This function returns a list of monsterSpecies
 	 * 
 	 * @return a list of monsterSpecies
 	 */
 	public List<MonsterSpecies> getMonstersSpecies();
 
 	/**
+	 * This function returns the player
 	 * 
 	 * @return the player
 	 */
 	public Player getPlayer();
 
 	/**
+	 * This function returns max column value
 	 * 
 	 * @return max column value
 	 */
@@ -56,12 +63,14 @@ public interface DataLoaderController {
 	public int getMaximumBlockInColumn();
 
 	/**
+	 * This function returns max row value
 	 * 
 	 * @return max row value
 	 */
 	public int getMaximumBlockInRow();
 
 	/**
+	 * This function returns a move
 	 * 
 	 * @param name
 	 * @return a move
@@ -70,6 +79,7 @@ public interface DataLoaderController {
 	public Moves getMove(String name);
 
 	/**
+	 * This function returns a monster
 	 * 
 	 * @param id
 	 * @return a monster
@@ -78,6 +88,7 @@ public interface DataLoaderController {
 	public Monster getMonster(int id);
 
 	/**
+	 * This function returns a npc
 	 * 
 	 * @param name
 	 * @return a npc
@@ -86,6 +97,7 @@ public interface DataLoaderController {
 	public NpcSimple getNpc(String name);
 
 	/**
+	 * This function returns an item
 	 * 
 	 * @param name
 	 * @return an item
@@ -94,6 +106,7 @@ public interface DataLoaderController {
 	public GameItem getItem(String name);
 
 	/**
+	 * This function returns an event
 	 * 
 	 * @param id
 	 * @return an event
@@ -102,7 +115,7 @@ public interface DataLoaderController {
 	public GameEvent getEvent(int id);
 
 	/**
-	 * set a new Player
+	 * This function set a new player
 	 * 
 	 * @param name,gender,trainer
 	 * 
