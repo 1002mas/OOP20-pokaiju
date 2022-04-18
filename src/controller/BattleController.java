@@ -128,14 +128,6 @@ public interface BattleController {
     boolean chooseMove(String moveName);
 
     /**
-     * Returns the PP of a move
-     * 
-     * @param moveName
-     * @return move's PP
-     */
-    int getCurrentPP(String moveName);
-
-    /**
      * Check the PP of a move
      * 
      * @param moveName
