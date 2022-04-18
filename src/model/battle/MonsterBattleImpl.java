@@ -90,15 +90,12 @@ public class MonsterBattleImpl implements MonsterBattle {
 	if (!enemy.getWild()) {
 
 	    return false;
-	}
-	int attempt = (int) (Math.random() * ESCAPE_RANGE);
-	if (attempt <= ESCAPE_DIFFICULT) {
-
+	}else{
 	    this.battleStatus = false;
 	    return true;
 	}
 
-	return false;
+	
 
     }
 

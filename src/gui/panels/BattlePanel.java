@@ -242,7 +242,7 @@ public class BattlePanel extends JPanel {
 	    System.out.println("PERSO");
 	    actionText.setText(ctrl.getPlayerCurrentMonsterName() + " is dead");
 	    playerMonster.setText(getMonsterData(ctrl.getPlayerCurrentMonsterId()));
-	    if (ctrl.isOver()) {
+	    if (ctrl.isOver() && ctrl.hasPlayerLost()) {
 		// ENDING BATTLE player team dead
 		endingBattle("You lose...");
 
@@ -251,7 +251,7 @@ public class BattlePanel extends JPanel {
 		cLayout.show(this.panelMap.get(SOUTH_PANEL), MONSTER);
 	    }
 	} else {
-	    if (ctrl.isOver()) {
+	    if (ctrl.isOver() && !ctrl.hasPlayerLost()) {
 		// ENDING BATTLE enemy team dead
 		
 		endingBattle("You have defeated all the enemies!!");
@@ -293,7 +293,7 @@ public class BattlePanel extends JPanel {
 	    });
 	    this.panelMap.get(MONSTER).add(button);
 	}
-	if (!ctrl.isAlive(ctrl.getEnemyCurrentMonsterId())) {
+	if (!ctrl.isAlive(ctrl.getPlayerCurrentMonsterId())) {
 	    JButton back = new JButton("Back");
 	    back.addActionListener(e -> {
 		refresh();
