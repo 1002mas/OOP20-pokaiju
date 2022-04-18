@@ -174,21 +174,6 @@ public class BattleControllerImpl implements BattleController {
 		.isPresent();
     }
 
-    public boolean canOneMonsterEvolve() {
-	return getIdOfEvolvingMonster().isPresent();
-    }
-
-    public Optional<Integer> getIdOfEvolvingMonster() {
-	Iterator<Monster> i = monsterBattle.getPlayer().getAllMonsters().iterator();
-	while (i.hasNext()) {
-	    Monster m = i.next();
-	    if (m.canEvolveByLevel()) {
-		return Optional.of(m.getId());
-	    }
-	}
-	return Optional.empty();
-    }
-
     @Override
     public boolean isAlive(int monsterId) {
 	return monsterBattle.getPlayer().getAllMonsters().stream().filter(i -> i.getId() == monsterId).findAny().get()

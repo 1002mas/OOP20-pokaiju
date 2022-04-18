@@ -126,52 +126,172 @@ public interface PlayerController {
 	 */
 	int getCurrentMapID();
 
+	/**
+	 * This function asks model to use an item
+	 * 
+	 * @param item
+	 */
+
 	void useItem(String item);
 
+	/**
+	 * This function asks model to use an item on a monster
+	 * 
+	 * @param i
+	 * @param monsterId
+	 */
 	void useItemOnMonster(String i, int monsterId);
 
+	/**
+	 * This function asks model to remove an item from player's bag
+	 * 
+	 * @param i
+	 */
 	void removeItem(String i);
 
+	/**
+	 * This function adds a monster
+	 * 
+	 * @param idMonster
+	 * @return true iff monster is added, false otherwise
+	 */
 	boolean addMonster(int idMonster);
 
+	/**
+	 * This function create a new player
+	 * 
+	 * @param name
+	 * @param gender
+	 * @param trainerNumber
+	 */
 	void createNewPlayer(String name, String gender, int trainerNumber);
 
+	/**
+	 * This function get player name
+	 * 
+	 * @return player name
+	 */
 	String getPlayerName();
 
+	/**
+	 * This function get player trainer number
+	 * 
+	 * @return trainer number
+	 */
 	int getTrainerNumber();
 
+	/**
+	 * This function get player gender
+	 * 
+	 * @return player gender
+	 */
 	String getPlayerGender();
 
+	/**
+	 * This function get player money
+	 * 
+	 * @return player money
+	 */
 	int getPlayerMoney();
 
+	/**
+	 * This function returns a List of player items name
+	 * 
+	 * @return list of player items name
+	 */
 	List<String> getPlayerItemsName();
 
+	/**
+	 * This function returns if player team is full
+	 * 
+	 * @return true if player team is full, false otherwise
+	 */
 	boolean isTeamFull();
 
+	/**
+	 * This function returns monster name
+	 * 
+	 * @param monsterId
+	 * @return monster name
+	 */
 	String getMonsterNameById(int monsterId);
 
+	/**
+	 * This function get a list of player monsters id
+	 * 
+	 * @return player monster id list
+	 */
 	List<Integer> getMonstersId();
 
+	/**
+	 * This function returns monster exp
+	 * 
+	 * @param monsterId
+	 * @return monster exp
+	 */
 	int getMonsterExp(int monsterId);
 
+	/**
+	 * This function returns monster level
+	 * 
+	 * @param monsterId
+	 * @return monster level
+	 */
 	int getMonsterLevel(int monsterId);
 
+	/**
+	 * This function returns monster max health
+	 * 
+	 * @param monsterId
+	 * @return monster max health
+	 */
 	int getMonsterMaxHealth(int monsterId);
 
+	/**
+	 * This function returns monster type
+	 * 
+	 * @param monsterId
+	 * @return monster type
+	 */
 	String getMonsterType(int monsterId);
 
+	/**
+	 * This function returns a list of moves name of a monster
+	 * 
+	 * @param monsterId
+	 * @return moves names list
+	 */
 	List<String> getMovesNames(int monsterId);
 
+	/**
+	 * This function returns monster health value
+	 * 
+	 * @param monsterId
+	 * @return monster health value
+	 */
 	int getMonsterHealth(int monsterId);
 
+	/**
+	 * This function returns monster attack value
+	 * 
+	 * @param monsterId
+	 * @return monster attack value
+	 */
 	int getMonsterAttack(int monsterId);
 
+	/**
+	 * This function returns monster defense value
+	 * 
+	 * @param monsterId
+	 * @return monster defense value
+	 */
 	int getMonsterDefense(int monsterId);
 
 	/**
+	 * This function returns monster speed value
 	 * 
 	 * @param monsterId monster id
-	 * @return monster speed
+	 * @return monster speed value
 	 */
 	int getMonsterSpeed(int monsterId);
 
@@ -237,20 +357,66 @@ public interface PlayerController {
 	 */
 	boolean isPlayerLastMonsterLeft();
 
+	/**
+	 * This function returns quantity of a player item
+	 * 
+	 * @param item
+	 * @return item quantity
+	 */
 	int getItemQuantity(String item);
 
+	/**
+	 * This function returns an item description
+	 * 
+	 * @param item
+	 * @return item quantity
+	 */
 	String getItemDescription(String item);
 
+	/**
+	 * This function returns a type of an item
+	 * 
+	 * @param item
+	 * @return type of item
+	 */
 	String getItemtype(String item);
 
+	/**
+	 * This function adds an item to player's bag
+	 * 
+	 * @param item
+	 */
 	void addItem(String item);
 
+	/**
+	 * This function asks model to use an item
+	 * 
+	 * @param item
+	 * @return true if item is used false otherwise
+	 */
 	boolean canUseItem(String item);
 
+	/**
+	 * This function returns max number of rows in a block
+	 * 
+	 * @return max number of rows
+	 */
 	int getMaximumBlocksInRow();
 
+	/**
+	 * This function returns max number of columns in a row
+	 * 
+	 * @return max number of columns
+	 */
 	int getMaximumBlocksInColumn();
 
+	/**
+	 * This function tries to evolve a monster using an item
+	 * 
+	 * @param nameItem
+	 * @param monsterId
+	 * @return true if monster can evolve, false otherwise
+	 */
 	boolean canEvolveByItem(String nameItem, int monsterId);
 
 	/**
@@ -264,36 +430,21 @@ public interface PlayerController {
 	Optional<Pair<String, String>> evolveByItem(String nameItem, int monsterId);
 
 	/**
-	 * Evolve a monster by level
+	 * This function returns a move PPs
 	 * 
-	 * @param monsterId
-	 * @return current name and evolution name
-	 * @author Luca Barattini
+	 * @param moveName
+	 * @param monterID
+	 * @return move PPs
+	 * @author Andrea Castorina
 	 */
-	Optional<Pair<String, String>> evolveByLevel(int monsterId);
+	int getMovePP(String moveName, int monsterID);
 
 	/**
-	 * This function returns true if evolutionList is not empty, false otherwise
+	 * This function returns if an item is present
 	 * 
-	 * @return true if evolutionList is not empty, false otherwise
-	 * @author Luca Barattini
+	 * @param name
+	 * @return true if item id present, false otherwise
 	 */
-	boolean hasAnyMonsterEvolved();
-
-	/**
-	 * This function returns current name and evolution name of a monster in
-	 * evolutionList
-	 * 
-	 * @return current name and evolution name of a monster in evolutionList
-	 * @author Luca Barattini
-	 */
-	Pair<String, String> getEvolvedMonster();
-
-	/**
-	 * This function returns if player has a event triggered
-	 * 
-	 * @return true if has a event triggered, false otherwise
-	 */
-	boolean hasTriggeredEvent();
+	boolean isItemPresent(String name);
 
 }

@@ -29,7 +29,7 @@ public interface NpcMerchant extends NpcSimple {
 	 * @param list of items and quantity to buy
 	 * @return sum of items price
 	 */
-	public int getTotalPrice(List<Pair<GameItem, Integer>> list);
+	public int getTotalPrice(List<Pair<GameItem, Integer>> itemList);
 
 	/**
 	 * this function tries to make player buy a list of items

@@ -58,10 +58,8 @@ public class DataControllerImpl implements DataLoaderController {
 		true);
 	NpcSimple npc2 = new NpcMerchantImpl("Steve", List.of("Wanna buy something?"), new Pair<>(9, 6), true, true,
 		getInventory());
-
 	npcs.add(npc1);
 	npcs.add(npc2);
-
 	Moves m1 = new MovesImpl("Fire punch", 50, MonsterType.FIRE, 10);
 	Moves m2 = new MovesImpl("Water spear", 20, MonsterType.WATER, 5);
 	Moves m3 = new MovesImpl("Fire breath", 50, MonsterType.FIRE, 15);
@@ -74,28 +72,35 @@ public class DataControllerImpl implements DataLoaderController {
 	MonsterSpecies species1 = new MonsterSpeciesBuilderImpl().name("bibol").info("His name is bibol")
 		.monsterType(MonsterType.FIRE).health(60).attack(20).defense(5).speed(10).movesList(List.of(m1, m3, m8))
 		.build();
-
 	MonsterSpecies species2 = new MonsterSpeciesBuilderImpl().name("greyfish").info("is a fish")
 		.monsterType(MonsterType.WATER).health(100).attack(8).defense(5).speed(8).movesList(List.of(m2, m4, m8))
 		.build();
-
-	MonsterSpecies species3 = new MonsterSpeciesBuilderImpl().name("kracez").info("cute thing")
+	MonsterSpecies species6 = new MonsterSpeciesBuilderImpl().name("kratres").info("cute thing3")
 		.monsterType(MonsterType.GRASS).health(70).attack(25).defense(2).speed(5).movesList(List.of(m5, m6, m7))
 		.build();
-
+	MonsterSpecies species4 = new MonsterSpeciesBuilderImpl().name("krados").info("cute thing 2")
+		.monsterType(MonsterType.GRASS).health(70).attack(25).defense(2).speed(5)
+		.movesList(List.of(m5, m6, m7, m8)).evolution(species6).gameItem(gameItems.get(5)).build();
+	MonsterSpecies species3 = new MonsterSpeciesBuilderImpl().name("kracez").info("cute thing")
+		.monsterType(MonsterType.GRASS).health(70).attack(25).defense(2).speed(5).movesList(List.of(m5, m6, m7))
+		.evolution(species4).evolutionLevel(10).build();
+	MonsterSpecies species5 = new MonsterSpeciesBuilderImpl().name("yepicon").info("cute thing")
+		.monsterType(MonsterType.GRASS).health(70).attack(25).defense(2).speed(5).movesList(List.of(m5, m6, m7))
+		.build();
 	monsterSpecies.add(species1);
 	monsterSpecies.add(species2);
 	monsterSpecies.add(species3);
+	monsterSpecies.add(species5);
+	Monster monster3 = new MonsterBuilderImpl().species(monsterSpecies.get(2)).level(5)
+		.movesList(moves.stream().map(m -> new Pair<>(m, m.getPP())).collect(Collectors.toList())).build();
 	Monster monster2 = new MonsterBuilderImpl().species(monsterSpecies.get(1)).level(5)
 		.movesList(moves.stream().map(m -> new Pair<>(m, m.getPP())).collect(Collectors.toList())).build();
 	NpcSimple trainer = new NpcTrainerImpl("Giorgio", List.of("Let's battle", "I lost..."), new Pair<>(1, 10), true,
-		true, List.of(monster2), false);
+		true, List.of(monster2, monster3), false);
 	npcs.add(trainer);
-
 	GameMapData mapData = new GameMapDataImpl(INITIAL_GAME_MAP_ID, 1, 10, "MAP1",
 		getMapBlocksById(INITIAL_GAME_MAP_ID), monsterSpecies);
 	this.npcs.forEach(npc -> mapData.addNpc(npc));
-
 	this.gameMapData.add(mapData);
     }
 

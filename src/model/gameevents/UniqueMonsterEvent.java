@@ -24,7 +24,7 @@ public class UniqueMonsterEvent extends AbstractGameEvent {
      *                AbstractGameEvent}
      */
     public UniqueMonsterEvent(int id, boolean isActive, boolean isToActiveImmediatly, Monster monster) {
-	super(id, isActive, true, isToActiveImmediatly);
+	super(id, isActive, false, isToActiveImmediatly);
 	this.monster = monster;
     }
 
