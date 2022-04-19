@@ -5,7 +5,6 @@ import model.npc.NpcSimple;
 /**
  * This class allows to create an event that changes a npc dialogue text.
  * 
- * @author sam
  *
  */
 public class NpcTextChanger extends AbstractGameEvent {
@@ -29,13 +28,16 @@ public class NpcTextChanger extends AbstractGameEvent {
      *                             check that the id is present. Giving a wrong ID
      *                             will result in an error.
      */
-    public NpcTextChanger(int id, boolean isActive, boolean isReactivable, boolean isToActiveImmediatly, NpcSimple npc,
-	    int textID) {
+    public NpcTextChanger(final int id, final boolean isActive, final boolean isReactivable,
+	    final boolean isToActiveImmediatly, final NpcSimple npc, final int textID) {
 	super(id, isActive, isReactivable, isToActiveImmediatly);
 	this.npc = npc;
 	this.textID = textID;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void activateEvent() {
 	this.npc.setDialogueText(textID);

@@ -36,8 +36,9 @@ public class GameMapDataImpl implements GameMapData {
      * @param blocks              data about accessible zones.
      * @param wildMonsters        a list of wild monsters that may spawn in the map.
      */
-    public GameMapDataImpl(int id, int minimumMonsterLevel, int maximumMonsterLevel, String name,
-	    Map<Pair<Integer, Integer>, MapBlockType> blocks, List<MonsterSpecies> wildMonsters) {
+    public GameMapDataImpl(final int id, final int minimumMonsterLevel, final int maximumMonsterLevel,
+	    final String name, final Map<Pair<Integer, Integer>, MapBlockType> blocks,
+	    final List<MonsterSpecies> wildMonsters) {
 	this.id = id;
 	this.minimumMonsterLevel = minimumMonsterLevel;
 	this.maximumMonsterLevel = maximumMonsterLevel;
@@ -50,91 +51,140 @@ public class GameMapDataImpl implements GameMapData {
 	this.linkedMaps = new HashMap<>();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getMapId() {
 	return this.id;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void addMapLink(GameMapData map, Pair<Integer, Integer> mapLinkPosition,
-	    Pair<Integer, Integer> characterSpawn) {
+    public void addMapLink(final GameMapData map, final Pair<Integer, Integer> mapLinkPosition,
+	    final Pair<Integer, Integer> characterSpawn) {
 	this.linkedMaps.put(mapLinkPosition, map);
 	this.linkedMapsStartingPosition.put(map, characterSpawn);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void addNpc(NpcSimple npc) {
+    public void addNpc(final NpcSimple npc) {
 	if (this.npcs.contains(npc)) {
 	    this.npcs.remove(npc);
 	}
 	this.npcs.add(npc);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Pair<Integer, Integer> getWildMonsterLevelRange() {
 	return new Pair<>(this.minimumMonsterLevel, this.maximumMonsterLevel);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public MapBlockType getBlockType(Pair<Integer, Integer> block) {
+    public MapBlockType getBlockType(final Pair<Integer, Integer> block) {
 	return blocks.containsKey(block) ? blocks.get(block) : MapBlockType.OBSTACLE;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public Optional<NpcSimple> getNpc(Pair<Integer, Integer> block) {
+    public Optional<NpcSimple> getNpc(final Pair<Integer, Integer> block) {
 	return npcs.stream().filter(npc -> npc.getPosition().equals(block)).findFirst();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public Optional<GameEvent> getEvent(Pair<Integer, Integer> block) {
+    public Optional<GameEvent> getEvent(final Pair<Integer, Integer> block) {
 	return eventLocation.containsKey(block) ? Optional.of(eventLocation.get(block)) : Optional.empty();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public Optional<Pair<GameMapData, Pair<Integer, Integer>>> getNextMap(Pair<Integer, Integer> playerPosition) {
+    public Optional<Pair<GameMapData, Pair<Integer, Integer>>> getNextMap(final Pair<Integer, Integer> playerPosition) {
 	return linkedMaps.containsKey(playerPosition) ? Optional.of(new Pair<>(linkedMaps.get(playerPosition),
 		linkedMapsStartingPosition.get(linkedMaps.get(playerPosition)))) : Optional.empty();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getName() {
 	return this.name;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<MonsterSpecies> getMonstersInArea() {
 	return Collections.unmodifiableList(this.wildMonsters);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<NpcSimple> getAllNpcs() {
 	return new ArrayList<NpcSimple>(npcs);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+
     @Override
-    public void addEventAt(GameEvent e, Pair<Integer, Integer> block) {
+    public void addEventAt(final GameEvent e, final Pair<Integer, Integer> block) {
 	this.eventLocation.put(block, e);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
 	return "MapID: " + id + ", name: " + name;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
 	return Objects.hash(id);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public boolean equals(Object obj) {
-	if (this == obj)
+    public boolean equals(final Object obj) {
+	if (this == obj) {
 	    return true;
-	if (obj == null)
+	}
+	if (obj == null) {
 	    return false;
-	if (getClass() != obj.getClass())
+	}
+	if (getClass() != obj.getClass()) {
 	    return false;
-	GameMapDataImpl other = (GameMapDataImpl) obj;
+	}
+	final GameMapDataImpl other = (GameMapDataImpl) obj;
 	return id == other.id;
     }
 

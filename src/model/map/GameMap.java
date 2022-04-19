@@ -15,6 +15,8 @@ public interface GameMap {
     int getCurrentMapId();
 
     /**
+     * 
+     * @param block the block position
      * @return true if the player can access the block, false if it can't go to
      *         position block
      */
@@ -28,28 +30,34 @@ public interface GameMap {
     Optional<Monster> getWildMonster(Pair<Integer, Integer> pos);
 
     /**
-     * it changes the map if the player is near to another map
+     * It changes the map if the player is near to another map.
      * 
+     * @param playerPosition the player position to verify that it can change map
      * @throws IllegalStateException if the map can't be changed
      */
     void changeMap(Pair<Integer, Integer> playerPosition);
 
     /**
+     * @param playerPosition the position where you want to know if you can change
+     *                       map
      * @return true if the player is in a block linked to another map
      */
     boolean canChangeMap(Pair<Integer, Integer> playerPosition);
- 
+
     /**
-     * @return the player position if the player went to another map, Optional.empty otherwise
+     * @return the player position if the player went to another map, Optional.empty
+     *         otherwise
      */
     Optional<Pair<Integer, Integer>> getPlayerMapPosition();
 
     /**
+     * @param position the player position
      * @return npc at the given position if it is present, Optional.empty otherwise
      */
     Optional<NpcSimple> getNpcAt(Pair<Integer, Integer> position);
 
     /**
+     * @param position coordinates in the map
      * @return GameEvent at the given position if it is present, Optional.empty
      *         otherwise
      */

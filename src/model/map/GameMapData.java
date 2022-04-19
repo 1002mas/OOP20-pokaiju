@@ -10,7 +10,6 @@ import model.npc.NpcSimple;
 /**
  * It contains raw data about a map.
  * 
- * @author sam
  *
  */
 public interface GameMapData {
@@ -43,6 +42,7 @@ public interface GameMapData {
     Pair<Integer, Integer> getWildMonsterLevelRange();
 
     /**
+     * @param block the position
      * @return type of block (es. walkable)
      */
     MapBlockType getBlockType(Pair<Integer, Integer> block);
@@ -53,6 +53,7 @@ public interface GameMapData {
     List<MonsterSpecies> getMonstersInArea();
 
     /**
+     * @param block the position
      * @return a npc if there is in block position, otherwise Optional.empty
      */
     Optional<NpcSimple> getNpc(Pair<Integer, Integer> block);
@@ -66,6 +67,7 @@ public interface GameMapData {
     Optional<GameEvent> getEvent(Pair<Integer, Integer> block);
 
     /**
+     * @param playerPosition the position where it wants to change map
      * @return get the near map linked to the position PlayerPosition and the place
      *         where the player appears. PlayerPosition if no other maps are linked
      */
@@ -83,7 +85,8 @@ public interface GameMapData {
 
     /**
      * 
-     * @param block position where the event starts
+     * @param e     the event you want to add
+     * @param block place where the event may happens
      */
     void addEventAt(GameEvent e, Pair<Integer, Integer> block);
 

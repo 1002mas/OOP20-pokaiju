@@ -5,8 +5,6 @@ import model.npc.NpcSimple;
 /**
  * This class allows to create an event that enable or disable the interaction
  * with a npc.
- * 
- * @author sam
  *
  */
 public class NpcActivityChanger extends AbstractGameEvent {
@@ -30,13 +28,16 @@ public class NpcActivityChanger extends AbstractGameEvent {
      * @param npc                  the npc you want to disable/enable
      * @param isEnabled            false if you want to disable it
      */
-    public NpcActivityChanger(int id, boolean isActive, boolean isReactivable, boolean isToActiveImmediatly,
-	    NpcSimple npc, boolean isEnabled) {
+    public NpcActivityChanger(final int id, final boolean isActive, final boolean isReactivable,
+	    final boolean isToActiveImmediatly, final NpcSimple npc, final boolean isEnabled) {
 	super(id, isActive, isReactivable, isToActiveImmediatly);
 	this.npc = npc;
 	this.isEnabled = isEnabled;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void activateEvent() {
 	this.npc.setEnabled(isEnabled);

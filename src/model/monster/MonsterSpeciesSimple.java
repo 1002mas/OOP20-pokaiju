@@ -6,8 +6,6 @@ import java.util.Optional;
 
 import model.battle.Moves;
 
-//a single instance of this class represents a monster species  
-
 public class MonsterSpeciesSimple implements MonsterSpecies {
 
     private final Optional<MonsterSpecies> evolution;
@@ -18,59 +16,105 @@ public class MonsterSpeciesSimple implements MonsterSpecies {
     private final MonsterStats stats;
     private final List<Moves> movesList;
 
-    protected MonsterSpeciesSimple(String name, String info, MonsterType type, MonsterStats stats,
-	    Optional<MonsterSpecies> evolution, EvolutionType evolutionType, List<Moves> movesList) {
-	this.name = name;
-	this.info = info;
-	this.type = type;
-	this.stats = stats;
-	this.evolution = evolution;
-	this.evolutionType = evolutionType;
-	this.movesList = movesList;
-    }
-    
-    public MonsterSpeciesSimple(String name, String info, MonsterType type, MonsterStats stats, List<Moves> movesList) {
-   	this(name, info, type, stats, Optional.empty(), EvolutionType.NONE, movesList);
+    /**
+     * MonsterSpeciesSimple protected constructor.
+     * 
+     * @param name
+     * @param info
+     * @param type
+     * @param stats
+     * @param evolution
+     * @param evolutionType
+     * @param movesList
+     */
+    protected MonsterSpeciesSimple(final String name, final String info, final MonsterType type,
+            final MonsterStats stats, final Optional<MonsterSpecies> evolution, final EvolutionType evolutionType,
+            final List<Moves> movesList) {
+        this.name = name;
+        this.info = info;
+        this.type = type;
+        this.stats = stats;
+        this.evolution = evolution;
+        this.evolutionType = evolutionType;
+        this.movesList = movesList;
     }
 
+    /**
+     * Constructor for MonsterSpeciesSimple.
+     * 
+     * @param name
+     * @param info
+     * @param type
+     * @param stats
+     * @param movesList
+     */
+    public MonsterSpeciesSimple(final String name, final String info, final MonsterType type, final MonsterStats stats,
+            final List<Moves> movesList) {
+        this(name, info, type, stats, Optional.empty(), EvolutionType.NONE, movesList);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getName() {
-	return this.name;
+        return this.name;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getInfo() {
-	return this.info;
+        return this.info;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public MonsterType getType() {
-	return this.type;
+        return this.type;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public MonsterStats getBaseStats() {
-	return this.stats;
+        return this.stats;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public EvolutionType getEvolutionType() {
-	return this.evolutionType;
+        return this.evolutionType;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Optional<MonsterSpecies> getEvolution() {
-	return this.evolution;
-    }
-    
-    @Override
-    public List<Moves> getAllLearnableMoves() {
-	return Collections.unmodifiableList(this.movesList);
+        return this.evolution;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<Moves> getAllLearnableMoves() {
+        return Collections.unmodifiableList(this.movesList);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
-	return "Name: " + this.name.toUpperCase() + "\nType: " + this.type + "\nInfo: " + this.info;
+        return "Name: " + this.name + "\nType: " + this.type + "\nInfo: " + this.info;
     }
 
 }
