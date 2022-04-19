@@ -18,10 +18,16 @@ public class UniqueMonsterEvent extends AbstractGameEvent {
      * It creates an event that allows to create a battle with a monster. This event
      * is set to deactivate automatically after it happens.
      * 
-     * @param monster the monster you want to battle with the player
-     * 
-     *                {@link AbstractGameEvent#AbstractGameEvent(int id, boolean isActive, boolean isDeactivable, boolean isToActiveImmediatly)
-     *                AbstractGameEvent}
+     * @param id                   it is used to identify the event
+     * @param isActive             if it is active when the player interacts with a
+     *                             trigger, this event will use {@link #activate()
+     *                             activate}
+     * @param isReactivable        if the event has to be has to deactivate and
+     *                             never be reactivated after calling the function
+     *                             {@link #activate() activate}
+     * @param isToActiveImmediatly if the event has to be activated right after
+     *                             another event
+     * @param monster              the monster you want to battle with the player
      */
     public UniqueMonsterEvent(int id, boolean isActive, boolean isToActiveImmediatly, Monster monster) {
 	super(id, isActive, false, isToActiveImmediatly);

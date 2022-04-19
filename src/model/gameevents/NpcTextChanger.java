@@ -15,12 +15,19 @@ public class NpcTextChanger extends AbstractGameEvent {
     /**
      * It creates an event that allows to change a npc sentence.
      * 
-     * @param npc    the npc that changes sentence
-     * @param textID sentence ID. Be careful, this function does not check that the
-     *               id is present. Giving a wrong ID will result in an error.
-     * 
-     *               {@link AbstractGameEvent#AbstractGameEvent(int id, boolean isActive, boolean isDeactivable, boolean isToActiveImmediatly)
-     *               AbstractGameEvent}
+     * @param id                   it is used to identify the event
+     * @param isActive             if it is active when the player interacts with a
+     *                             trigger, this event will use {@link #activate()
+     *                             activate}
+     * @param isReactivable        if the event has to be has to deactivate and
+     *                             never be reactivated after calling the function
+     *                             {@link #activate() activate}
+     * @param isToActiveImmediatly if the event has to be activated right after
+     *                             another event
+     * @param npc                  the npc that changes sentence
+     * @param textID               sentence ID. Be careful, this function does not
+     *                             check that the id is present. Giving a wrong ID
+     *                             will result in an error.
      */
     public NpcTextChanger(int id, boolean isActive, boolean isReactivable, boolean isToActiveImmediatly, NpcSimple npc,
 	    int textID) {

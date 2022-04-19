@@ -15,11 +15,18 @@ public class NpcVisibilityChanger extends AbstractGameEvent {
     /**
      * It creates an event that allows to hide or show a npc.
      * 
-     * @param npc       the npc you want to hide/show
-     * @param isVisible false if you want to hide it
-     * 
-     *                  {@link AbstractGameEvent#AbstractGameEvent(int id, boolean isActive, boolean isDeactivable, boolean isToActiveImmediatly)
-     *                  AbstractGameEvent}
+     * @param id                   it is used to identify the event
+     * @param isActive             if it is active when the player interacts with a
+     *                             trigger, this event will use {@link #activate()
+     *                             activate}
+     * @param isReactivable        if the event has to be has to deactivate and
+     *                             never be reactivated after calling the function
+     *                             {@link #activate() activate}
+     * @param isToActiveImmediatly if the event has to be activated right after
+     *                             another event
+     * @param npc                  the npc you want to hide/show
+     * @param isVisible            false if you want to hide it
+     *
      */
     public NpcVisibilityChanger(int id, boolean isActive, boolean isReactivable, boolean isToActiveImmediatly,
 	    NpcSimple npc, boolean isVisible) {
