@@ -218,19 +218,19 @@ public class DataControllerImpl implements DataController {
 	npcs.add(npc1);
 	npcs.add(npc2);
 	npcs.add(trainer);
-	npcs.add(npcGift);
+	npcs.add(npcGift); 
 	npcs.add(npcGhost);
 	npcs.add(npcRunner);
     }
 
     private void addNpcsToMap() {
-	getMapDataByMapID(INITIAL_GAME_MAP_ID).addNpc(npcs.get(1));
-	getMapDataByMapID(INITIAL_GAME_MAP_ID).addNpc(npcs.get(2));
-	getMapDataByMapID(INITIAL_GAME_MAP_ID).addNpc(npcs.get(3));
-	getMapDataByMapID(INITIAL_GAME_MAP_ID).addNpc(npcs.get(5));
+	getMapDataByMapID(INITIAL_GAME_MAP_ID).addNpc(getNpcByName("Unibo"));
+	getMapDataByMapID(INITIAL_GAME_MAP_ID).addNpc(getNpcByName("Steve"));
+	getMapDataByMapID(INITIAL_GAME_MAP_ID).addNpc(getNpcByName("Giorgio"));
+	getMapDataByMapID(INITIAL_GAME_MAP_ID).addNpc(getNpcByName("Pippo"));
 	getMapDataByMapID(INITIAL_GAME_MAP_ID).addNpc(getNpcByName("Bolt"));
-	getMapDataByMapID(HOUSE_GAME_MAP_ID).addNpc(npcs.get(4));
-	getMapDataByMapID(HOUSE_GAME_MAP_ID).addNpc(npcs.get(0));
+	getMapDataByMapID(HOUSE_GAME_MAP_ID).addNpc(getNpcByName("Puppin"));
+	getMapDataByMapID(HOUSE_GAME_MAP_ID).addNpc(getNpcByName("Mom"));
     }
 
     private void giftTest() {
