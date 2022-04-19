@@ -149,16 +149,9 @@ public class DataControllerImpl implements DataController {
     }
 
     @Override
-    public void setPlayer(String name, String gender, int trainerNumber) {
+    public void setPlayer(String name, Gender gender, int trainerNumber) {
 	cleanData();
-	gender = gender.toLowerCase();
-	Gender playerGender = null;
-	for (Gender g : Gender.values()) {
-	    if (g.toString().equals(gender)) {
-		playerGender = g;
-	    }
-	}
-	this.player = new PlayerImpl(name, playerGender, trainerNumber, INITIAL_PLAYER_POSITION,
+	this.player = new PlayerImpl(name, gender, trainerNumber, INITIAL_PLAYER_POSITION,
 		new GameMapImpl(gameMapData.stream().filter(e -> e.getMapId() == INITIAL_GAME_MAP_ID).findAny().get()));
 	createMonsters();
 	createNpcs();

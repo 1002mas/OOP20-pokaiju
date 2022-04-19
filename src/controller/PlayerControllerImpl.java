@@ -6,9 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import com.sun.tools.javac.jvm.Gen;
-
 import model.Pair;
 import model.battle.MonsterBattle;
 import model.battle.Moves;
@@ -36,7 +33,14 @@ public class PlayerControllerImpl implements PlayerController {
 
 	@Override
 	public void createNewPlayer(String name, String gender, int trainerNumber) {
-		dataController.setPlayer(name, gender, trainerNumber);
+	    	Gender g = null;
+	    	for(Gender h : Gender.values()) {
+	    	    if(h.toString().equals(gender)) {
+	    		g = h;
+	    		break;
+	    	    }
+	    	}
+		dataController.setPlayer(name, g, trainerNumber);
 		this.player = dataController.getPlayer();
 	}
 
@@ -592,7 +596,6 @@ public class PlayerControllerImpl implements PlayerController {
 	@Override
 	public int getMaximumBlocksInColumn() {
 		return dataController.getMaximumBlockInColumn();
-	}
-	
+	    }
 
-}
+	}

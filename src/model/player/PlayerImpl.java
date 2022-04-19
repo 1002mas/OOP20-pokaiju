@@ -18,7 +18,7 @@ import model.npc.NpcTrainer;
 import model.npc.TypeOfNpc;
 
 public class PlayerImpl implements Player {
-    private static final int STARTMONEY = 1000;
+    private static final int START_MONEY = 1000;
     private static final int STEP = 1;
     private String name;
     private Gender gender;
@@ -42,7 +42,7 @@ public class PlayerImpl implements Player {
 	this.position = startingPosition;
 	this.team = new ArrayList<Monster>();
 	this.gameItems = new HashMap<GameItem, Integer>();
-	this.money = STARTMONEY;
+	this.money = START_MONEY;
 	this.map = map;
 	this.npc = Optional.empty();
 	this.monsterBattle = Optional.empty();

@@ -205,7 +205,10 @@ public class GameFrameImpl extends JFrame implements GameFrame {
 	nameLabel.setText("Insert name :");
 
 	JLabel genderLabel = new JLabel();
-	String[] genderText = { "MALE", "FEMALE" };
+	String[] genderText = new String[this.playerController.getGender().size()];
+	for (int i = 0; i < this.playerController.getGender().size(); i++) {
+	    genderText[i] = this.playerController.getGender().get(i);
+	}
 	JComboBox<String> gender = new JComboBox<String>(genderText);
 	genderLabel.setText("Select your gender :");
 
