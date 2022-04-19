@@ -28,10 +28,10 @@ public class NpcVisibilityChanger extends AbstractGameEvent {
      *
      */
     public NpcVisibilityChanger(final int id, final boolean isActive, final boolean isReactivable,
-	    final boolean isToActiveImmediatly, final NpcSimple npc, final boolean isVisible) {
-	super(id, isActive, isReactivable, isToActiveImmediatly);
-	this.npc = npc;
-	this.isVisible = isVisible;
+            final boolean isToActiveImmediatly, final NpcSimple npc, final boolean isVisible) {
+        super(id, isActive, isReactivable, isToActiveImmediatly);
+        this.npc = npc;
+        this.isVisible = isVisible;
     }
 
     /**
@@ -39,7 +39,7 @@ public class NpcVisibilityChanger extends AbstractGameEvent {
      */
     @Override
     protected void activateEvent() {
-	this.npc.setVisible(isVisible);
+        this.npc.setVisible(isVisible);
     }
 
 }

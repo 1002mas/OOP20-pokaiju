@@ -29,10 +29,10 @@ public class NpcTextChanger extends AbstractGameEvent {
      *                             will result in an error.
      */
     public NpcTextChanger(final int id, final boolean isActive, final boolean isReactivable,
-	    final boolean isToActiveImmediatly, final NpcSimple npc, final int textID) {
-	super(id, isActive, isReactivable, isToActiveImmediatly);
-	this.npc = npc;
-	this.textID = textID;
+            final boolean isToActiveImmediatly, final NpcSimple npc, final int textID) {
+        super(id, isActive, isReactivable, isToActiveImmediatly);
+        this.npc = npc;
+        this.textID = textID;
     }
 
     /**
@@ -40,7 +40,7 @@ public class NpcTextChanger extends AbstractGameEvent {
      */
     @Override
     protected void activateEvent() {
-	this.npc.setDialogueText(textID);
+        this.npc.setDialogueText(textID);
     }
 
 }

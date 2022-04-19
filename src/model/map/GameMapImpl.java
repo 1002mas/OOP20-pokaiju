@@ -25,8 +25,8 @@ public class GameMapImpl implements GameMap {
      * @param map the map data used by this class.
      */
     public GameMapImpl(final GameMapData map) {
-	this.map = map;
-	enteringStartPosition = Optional.empty();
+        this.map = map;
+        enteringStartPosition = Optional.empty();
     }
 
     /**
@@ -34,7 +34,7 @@ public class GameMapImpl implements GameMap {
      */
     @Override
     public int getCurrentMapId() {
-	return map.getMapId();
+        return map.getMapId();
     }
 
     /**
@@ -42,8 +42,8 @@ public class GameMapImpl implements GameMap {
      */
     @Override
     public boolean canPassThrough(final Pair<Integer, Integer> block) {
-	final Optional<NpcSimple> npc = map.getNpc(block);
-	return map.getBlockType(block).canPassThrough() && (npc.isEmpty() || npc.isPresent() && !npc.get().isEnabled());
+        final Optional<NpcSimple> npc = map.getNpc(block);
+        return map.getBlockType(block).canPassThrough() && (npc.isEmpty() || npc.isPresent() && !npc.get().isEnabled());
     }
 
     /**
@@ -51,7 +51,7 @@ public class GameMapImpl implements GameMap {
      */
     @Override
     public boolean canChangeMap(final Pair<Integer, Integer> playerPosition) {
-	return map.getBlockType(playerPosition) == MapBlockType.MAP_CHANGE;
+        return map.getBlockType(playerPosition) == MapBlockType.MAP_CHANGE;
     }
 
     /**
@@ -59,18 +59,18 @@ public class GameMapImpl implements GameMap {
      */
     @Override
     public void changeMap(final Pair<Integer, Integer> playerPosition) {
-	if (canChangeMap(playerPosition) && map.getNextMap(playerPosition).isPresent()) {
-	    Pair<GameMapData, Pair<Integer, Integer>> p = map.getNextMap(playerPosition).get();
-	    enteringStartPosition = Optional.of(p.getSecond());
-	    setMap(p.getFirst());
-	} else {
-	    throw new IllegalStateException();
-	}
+        if (canChangeMap(playerPosition) && map.getNextMap(playerPosition).isPresent()) {
+            final Pair<GameMapData, Pair<Integer, Integer>> p = map.getNextMap(playerPosition).get();
+            enteringStartPosition = Optional.of(p.getSecond());
+            setMap(p.getFirst());
+        } else {
+            throw new IllegalStateException();
+        }
 
     }
 
     private void setMap(final GameMapData map) {
-	this.map = map;
+        this.map = map;
     }
 
     /**
@@ -78,28 +78,28 @@ public class GameMapImpl implements GameMap {
      */
     @Override
     public Optional<Pair<Integer, Integer>> getPlayerMapPosition() {
-	final Optional<Pair<Integer, Integer>> temp = enteringStartPosition;
-	enteringStartPosition = Optional.empty();
-	return temp;
+        final Optional<Pair<Integer, Integer>> temp = enteringStartPosition;
+        enteringStartPosition = Optional.empty();
+        return temp;
     }
 
     private List<Pair<Moves, Integer>> getRandomListMoves(final MonsterSpecies species) {
-	final int maxProb = 10;
-	final int prob = 5;
-	final List<Pair<Moves, Integer>> movesList = new ArrayList<>();
-	final List<Moves> learnableMoves = species.getAllLearnableMoves();
-	final Random r = new Random();
-	for (final Moves m : learnableMoves) {
-	    if (movesList.size() < MonsterImpl.NUM_MAX_MOVES && r.nextInt(maxProb) < prob) {
-		movesList.add(new Pair<>(m, m.getPP()));
-	    } else {
-		break;
-	    }
-	}
-	if (movesList.isEmpty() && !learnableMoves.isEmpty()) {
-	    movesList.add(new Pair<>(learnableMoves.get(0), learnableMoves.get(0).getPP()));
-	}
-	return movesList;
+        final int maxProb = 10;
+        final int prob = 5;
+        final List<Pair<Moves, Integer>> movesList = new ArrayList<>();
+        final List<Moves> learnableMoves = species.getAllLearnableMoves();
+        final Random r = new Random();
+        for (final Moves m : learnableMoves) {
+            if (movesList.size() < MonsterImpl.NUM_MAX_MOVES && r.nextInt(maxProb) < prob) {
+                movesList.add(new Pair<>(m, m.getPP()));
+            } else {
+                break;
+            }
+        }
+        if (movesList.isEmpty() && !learnableMoves.isEmpty()) {
+            movesList.add(new Pair<>(learnableMoves.get(0), learnableMoves.get(0).getPP()));
+        }
+        return movesList;
     }
 
     /**
@@ -107,20 +107,20 @@ public class GameMapImpl implements GameMap {
      */
     @Override
     public Optional<Monster> getWildMonster(final Pair<Integer, Integer> pos) {
-	final List<MonsterSpecies> monsters = map.getMonstersInArea();
-	final Random r = new Random();
-	if (!map.getBlockType(pos).canMonstersAppear() || monsters.isEmpty()
-		|| r.nextInt(MAXIMUM_MONSTER_SPAWN_RATE) > MONSTER_SPAWN_RATE) {
-	    return Optional.empty();
-	}
-	final MonsterSpecies species = monsters.get(new Random().nextInt(monsters.size()));
-	final int monsterLevel = new Random()
-		.nextInt(map.getWildMonsterLevelRange().getSecond() - map.getWildMonsterLevelRange().getFirst())
-		+ map.getWildMonsterLevelRange().getFirst();
-	final Monster m = new MonsterBuilderImpl().species(species).isWild(true)
-		.level(map.getWildMonsterLevelRange().getFirst()).exp(0).level(monsterLevel)
-		.movesList(getRandomListMoves(species)).build();
-	return Optional.of(m);
+        final List<MonsterSpecies> monsters = map.getMonstersInArea();
+        final Random r = new Random();
+        if (!map.getBlockType(pos).canMonstersAppear() || monsters.isEmpty()
+                || r.nextInt(MAXIMUM_MONSTER_SPAWN_RATE) > MONSTER_SPAWN_RATE) {
+            return Optional.empty();
+        }
+        final MonsterSpecies species = monsters.get(new Random().nextInt(monsters.size()));
+        final int monsterLevel = new Random()
+                .nextInt(map.getWildMonsterLevelRange().getSecond() - map.getWildMonsterLevelRange().getFirst())
+                + map.getWildMonsterLevelRange().getFirst();
+        final Monster m = new MonsterBuilderImpl().species(species).wild(true)
+                .level(map.getWildMonsterLevelRange().getFirst()).exp(0).level(monsterLevel)
+                .movesList(getRandomListMoves(species)).build();
+        return Optional.of(m);
     }
 
     /**
@@ -128,7 +128,7 @@ public class GameMapImpl implements GameMap {
      */
     @Override
     public List<NpcSimple> getAllNpcsInCurrentMap() {
-	return this.map.getAllNpcs();
+        return this.map.getAllNpcs();
     }
 
     /**
@@ -136,11 +136,11 @@ public class GameMapImpl implements GameMap {
      */
     @Override
     public Optional<NpcSimple> getNpcAt(final Pair<Integer, Integer> position) {
-	final Optional<NpcSimple> npc = map.getNpc(position);
-	if (npc.isPresent() && !npc.get().isEnabled()) {
-	    return Optional.empty();
-	}
-	return npc;
+        final Optional<NpcSimple> npc = map.getNpc(position);
+        if (npc.isPresent() && !npc.get().isEnabled()) {
+            return Optional.empty();
+        }
+        return npc;
     }
 
     /**
@@ -148,8 +148,8 @@ public class GameMapImpl implements GameMap {
      */
     @Override
     public Optional<GameEvent> getEventAt(final Pair<Integer, Integer> position) {
-	final Optional<GameEvent> event = this.map.getEvent(position);
-	return event.isPresent() && event.get().isActive() ? event : Optional.empty();
+        final Optional<GameEvent> event = this.map.getEvent(position);
+        return event.isPresent() && event.get().isActive() ? event : Optional.empty();
     }
 
 }

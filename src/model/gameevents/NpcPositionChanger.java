@@ -28,10 +28,10 @@ public class NpcPositionChanger extends AbstractGameEvent {
      * @param newPosition          the position you want to move it to.
      */
     public NpcPositionChanger(final int id, final boolean isActive, final boolean isReactivable,
-	    final boolean isToActiveImmediatly, final NpcSimple npc, final Pair<Integer, Integer> newPosition) {
-	super(id, isActive, isReactivable, isToActiveImmediatly);
-	this.npc = npc;
-	this.newPosition = newPosition;
+            final boolean isToActiveImmediatly, final NpcSimple npc, final Pair<Integer, Integer> newPosition) {
+        super(id, isActive, isReactivable, isToActiveImmediatly);
+        this.npc = npc;
+        this.newPosition = newPosition;
     }
 
     /**
@@ -39,7 +39,7 @@ public class NpcPositionChanger extends AbstractGameEvent {
      */
     @Override
     protected void activateEvent() {
-	this.npc.changeNpcPosition(newPosition);
+        this.npc.changeNpcPosition(newPosition);
     }
 
 }

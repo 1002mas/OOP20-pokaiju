@@ -37,18 +37,18 @@ public class GameMapDataImpl implements GameMapData {
      * @param wildMonsters        a list of wild monsters that may spawn in the map.
      */
     public GameMapDataImpl(final int id, final int minimumMonsterLevel, final int maximumMonsterLevel,
-	    final String name, final Map<Pair<Integer, Integer>, MapBlockType> blocks,
-	    final List<MonsterSpecies> wildMonsters) {
-	this.id = id;
-	this.minimumMonsterLevel = minimumMonsterLevel;
-	this.maximumMonsterLevel = maximumMonsterLevel;
-	this.name = name;
-	this.blocks = blocks;
-	this.wildMonsters = wildMonsters == null ? new ArrayList<>() : wildMonsters;
-	this.linkedMapsStartingPosition = new HashMap<>();
-	this.eventLocation = new HashMap<>();
-	this.npcs = new HashSet<>();
-	this.linkedMaps = new HashMap<>();
+            final String name, final Map<Pair<Integer, Integer>, MapBlockType> blocks,
+            final List<MonsterSpecies> wildMonsters) {
+        this.id = id;
+        this.minimumMonsterLevel = minimumMonsterLevel;
+        this.maximumMonsterLevel = maximumMonsterLevel;
+        this.name = name;
+        this.blocks = blocks;
+        this.wildMonsters = wildMonsters == null ? new ArrayList<>() : wildMonsters;
+        this.linkedMapsStartingPosition = new HashMap<>();
+        this.eventLocation = new HashMap<>();
+        this.npcs = new HashSet<>();
+        this.linkedMaps = new HashMap<>();
     }
 
     /**
@@ -56,7 +56,7 @@ public class GameMapDataImpl implements GameMapData {
      */
     @Override
     public int getMapId() {
-	return this.id;
+        return this.id;
     }
 
     /**
@@ -64,9 +64,9 @@ public class GameMapDataImpl implements GameMapData {
      */
     @Override
     public void addMapLink(final GameMapData map, final Pair<Integer, Integer> mapLinkPosition,
-	    final Pair<Integer, Integer> characterSpawn) {
-	this.linkedMaps.put(mapLinkPosition, map);
-	this.linkedMapsStartingPosition.put(map, characterSpawn);
+            final Pair<Integer, Integer> characterSpawn) {
+        this.linkedMaps.put(mapLinkPosition, map);
+        this.linkedMapsStartingPosition.put(map, characterSpawn);
     }
 
     /**
@@ -74,10 +74,10 @@ public class GameMapDataImpl implements GameMapData {
      */
     @Override
     public void addNpc(final NpcSimple npc) {
-	if (this.npcs.contains(npc)) {
-	    this.npcs.remove(npc);
-	}
-	this.npcs.add(npc);
+        if (this.npcs.contains(npc)) {
+            this.npcs.remove(npc);
+        }
+        this.npcs.add(npc);
     }
 
     /**
@@ -85,7 +85,7 @@ public class GameMapDataImpl implements GameMapData {
      */
     @Override
     public Pair<Integer, Integer> getWildMonsterLevelRange() {
-	return new Pair<>(this.minimumMonsterLevel, this.maximumMonsterLevel);
+        return new Pair<>(this.minimumMonsterLevel, this.maximumMonsterLevel);
     }
 
     /**
@@ -93,7 +93,7 @@ public class GameMapDataImpl implements GameMapData {
      */
     @Override
     public MapBlockType getBlockType(final Pair<Integer, Integer> block) {
-	return blocks.containsKey(block) ? blocks.get(block) : MapBlockType.OBSTACLE;
+        return blocks.containsKey(block) ? blocks.get(block) : MapBlockType.OBSTACLE;
     }
 
     /**
@@ -101,7 +101,7 @@ public class GameMapDataImpl implements GameMapData {
      */
     @Override
     public Optional<NpcSimple> getNpc(final Pair<Integer, Integer> block) {
-	return npcs.stream().filter(npc -> npc.getPosition().equals(block)).findFirst();
+        return npcs.stream().filter(npc -> npc.getPosition().equals(block)).findFirst();
     }
 
     /**
@@ -109,7 +109,7 @@ public class GameMapDataImpl implements GameMapData {
      */
     @Override
     public Optional<GameEvent> getEvent(final Pair<Integer, Integer> block) {
-	return eventLocation.containsKey(block) ? Optional.of(eventLocation.get(block)) : Optional.empty();
+        return eventLocation.containsKey(block) ? Optional.of(eventLocation.get(block)) : Optional.empty();
     }
 
     /**
@@ -117,8 +117,8 @@ public class GameMapDataImpl implements GameMapData {
      */
     @Override
     public Optional<Pair<GameMapData, Pair<Integer, Integer>>> getNextMap(final Pair<Integer, Integer> playerPosition) {
-	return linkedMaps.containsKey(playerPosition) ? Optional.of(new Pair<>(linkedMaps.get(playerPosition),
-		linkedMapsStartingPosition.get(linkedMaps.get(playerPosition)))) : Optional.empty();
+        return linkedMaps.containsKey(playerPosition) ? Optional.of(new Pair<>(linkedMaps.get(playerPosition),
+                linkedMapsStartingPosition.get(linkedMaps.get(playerPosition)))) : Optional.empty();
     }
 
     /**
@@ -126,7 +126,7 @@ public class GameMapDataImpl implements GameMapData {
      */
     @Override
     public String getName() {
-	return this.name;
+        return this.name;
     }
 
     /**
@@ -134,7 +134,7 @@ public class GameMapDataImpl implements GameMapData {
      */
     @Override
     public List<MonsterSpecies> getMonstersInArea() {
-	return Collections.unmodifiableList(this.wildMonsters);
+        return Collections.unmodifiableList(this.wildMonsters);
     }
 
     /**
@@ -142,7 +142,7 @@ public class GameMapDataImpl implements GameMapData {
      */
     @Override
     public List<NpcSimple> getAllNpcs() {
-	return new ArrayList<NpcSimple>(npcs);
+        return new ArrayList<NpcSimple>(npcs);
     }
 
     /**
@@ -151,7 +151,7 @@ public class GameMapDataImpl implements GameMapData {
 
     @Override
     public void addEventAt(final GameEvent e, final Pair<Integer, Integer> block) {
-	this.eventLocation.put(block, e);
+        this.eventLocation.put(block, e);
     }
 
     /**
@@ -159,7 +159,7 @@ public class GameMapDataImpl implements GameMapData {
      */
     @Override
     public String toString() {
-	return "MapID: " + id + ", name: " + name;
+        return "MapID: " + id + ", name: " + name;
     }
 
     /**
@@ -167,7 +167,7 @@ public class GameMapDataImpl implements GameMapData {
      */
     @Override
     public int hashCode() {
-	return Objects.hash(id);
+        return Objects.hash(id);
     }
 
     /**
@@ -175,17 +175,17 @@ public class GameMapDataImpl implements GameMapData {
      */
     @Override
     public boolean equals(final Object obj) {
-	if (this == obj) {
-	    return true;
-	}
-	if (obj == null) {
-	    return false;
-	}
-	if (getClass() != obj.getClass()) {
-	    return false;
-	}
-	final GameMapDataImpl other = (GameMapDataImpl) obj;
-	return id == other.id;
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final GameMapDataImpl other = (GameMapDataImpl) obj;
+        return id == other.id;
     }
 
 }
