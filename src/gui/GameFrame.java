@@ -16,7 +16,7 @@ public interface GameFrame {
     boolean playerInteraction();
 
     /**
-     * ends the interaction if it was talking
+     * ends the interaction if it was talking.
      */
     void endPlayerInteraction();
 

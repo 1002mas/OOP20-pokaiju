@@ -17,9 +17,11 @@ import java.awt.event.FocusListener;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -30,6 +32,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.UIDefaults;
 import javax.swing.UIManager;
+
 import controller.Direction;
 import controller.PlayerController;
 import gui.panels.BattlePanel;
@@ -40,14 +43,39 @@ import gui.panels.PlayerPanel;
 import gui.panels.TwoLayersPanel;
 
 public class GameFrameImpl extends JFrame implements GameFrame {
+    /**
+     * Constant used in {@link #updateView(String) updateView(String)} to change to
+     * Map view.
+     */
+    public static final String MAP_VIEW = "map panel";
+    /**
+     * Constant used in {@link #updateView(String) updateView(String)} to change to
+     * main menu view.
+     */
+    public static final String LOGIN_VIEW = "login panel";
+    /**
+     * Constant used in {@link #updateView(String) updateView(String)} to change to
+     * new character view.
+     */
+    public static final String NEW_GAME_VIEW = "new game";
+    /**
+     * Constant used in {@link #updateView(String) updateView(String)} to change to
+     * game menu view.
+     */
+    public static final String MENU_VIEW = "menu";
+    /**
+     * Constant used in {@link #updateView(String) updateView(String)} to change to
+     * battle view.
+     */
+    public static final String BATTLE_VIEW = "battle panel";
+    /**
+     * Constant used in {@link #updateView(String) updateView(String)} to change to
+     * merchant shop view.
+     */
+    public static final String MERCHANT_VIEW = "merchant panel";
+
     private static final long serialVersionUID = -7927156597267134363L;
     private static final int SPACE = 50;
-    public static final String MAP_VIEW = "map panel";
-    public static final String LOGIN_VIEW = "login panel";
-    public static final String NEW_GAME_VIEW = "new game";
-    public static final String MENU_VIEW = "menu";
-    public static final String BATTLE_VIEW = "battle panel";
-    public static final String MERCHANT_VIEW = "merchant panel";
     private final int size;
     private final CardLayout cLayout = new CardLayout();
     private final Map<String, JPanel> subPanels = new HashMap<>();
@@ -76,7 +104,7 @@ public class GameFrameImpl extends JFrame implements GameFrame {
         final LoginPanel loginPanel = new LoginPanel();
 
         loginPanel.getnewGame().addActionListener(e -> updateView(NEW_GAME_VIEW));
-        loginPanel.getquitGame().addActionListener(e -> System.exit(0));
+        loginPanel.getquitGame().addActionListener(e -> dispose());
 
         final JPanel newGamePanel = newGamePanel();
 
@@ -111,6 +139,7 @@ public class GameFrameImpl extends JFrame implements GameFrame {
      */
     private JPanel buildMapPanel() {
         final TwoLayersPanel mapPanel = new TwoLayersPanel(playerController, imgLoad, size, size);
+        mapPanel.setMapImage(imgLoad.getMapByID(playerController.getCurrentMapID()));
         mapPanel.addKeyListener(new PlayerCommands(this));
         mapPanel.addFocusListener(new FocusListener() {
             @Override
@@ -182,7 +211,9 @@ public class GameFrameImpl extends JFrame implements GameFrame {
         final PlayerPanel topPanel = p.getTopPanel();
         final Optional<String> text = playerController.interact();
         if (text.isPresent()) {
-            topPanel.showText(playerController.getNpcName().get().toUpperCase() + ": " + text.get());
+            String npcName = playerController.getNpcName().get();
+            npcName = npcName.toUpperCase(Locale.ENGLISH);
+            topPanel.showText(npcName + ": " + text.get());
 
         }
         if (playerController.hasPlayerTriggeredEvent()) {
@@ -252,7 +283,6 @@ public class GameFrameImpl extends JFrame implements GameFrame {
                 subPanels.put(MENU_VIEW, menuPanel);
                 subPanels.put(BATTLE_VIEW, battlePanel);
                 subPanels.put(MAP_VIEW, gamePanel);
-
                 updateView(GameFrameImpl.MAP_VIEW);
             }
         });
@@ -289,7 +319,6 @@ public class GameFrameImpl extends JFrame implements GameFrame {
                 nameField.setText("");
             }
 
-            @Override
             public void componentResized(final ComponentEvent e) {
             }
 
