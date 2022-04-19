@@ -3,7 +3,7 @@ package model.map;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import model.Pair;
 import model.battle.Moves;
@@ -88,9 +88,8 @@ public class GameMapImpl implements GameMap {
         final int prob = 5;
         final List<Pair<Moves, Integer>> movesList = new ArrayList<>();
         final List<Moves> learnableMoves = species.getAllLearnableMoves();
-        final Random r = new Random();
         for (final Moves m : learnableMoves) {
-            if (movesList.size() < MonsterImpl.NUM_MAX_MOVES && r.nextInt(maxProb) < prob) {
+            if (movesList.size() < MonsterImpl.NUM_MAX_MOVES && ThreadLocalRandom.current().nextInt(maxProb) < prob) {
                 movesList.add(new Pair<>(m, m.getPP()));
             } else {
                 break;
@@ -108,14 +107,12 @@ public class GameMapImpl implements GameMap {
     @Override
     public Optional<Monster> getWildMonster(final Pair<Integer, Integer> pos) {
         final List<MonsterSpecies> monsters = map.getMonstersInArea();
-        final Random r = new Random();
         if (!map.getBlockType(pos).canMonstersAppear() || monsters.isEmpty()
-                || r.nextInt(MAXIMUM_MONSTER_SPAWN_RATE) > MONSTER_SPAWN_RATE) {
+                || ThreadLocalRandom.current().nextInt(MAXIMUM_MONSTER_SPAWN_RATE) > MONSTER_SPAWN_RATE) {
             return Optional.empty();
         }
-        final MonsterSpecies species = monsters.get(new Random().nextInt(monsters.size()));
-        final int monsterLevel = new Random()
-                .nextInt(map.getWildMonsterLevelRange().getSecond() - map.getWildMonsterLevelRange().getFirst())
+        final MonsterSpecies species = monsters.get(ThreadLocalRandom.current().nextInt(monsters.size()));
+        final int monsterLevel = ThreadLocalRandom.current().nextInt(map.getWildMonsterLevelRange().getSecond() - map.getWildMonsterLevelRange().getFirst())
                 + map.getWildMonsterLevelRange().getFirst();
         final Monster m = new MonsterBuilderImpl().species(species).wild(true)
                 .level(map.getWildMonsterLevelRange().getFirst()).exp(0).level(monsterLevel)
