@@ -12,7 +12,7 @@ public class HealingItem extends AbstractGameItem {
      * @param description
      */
     public HealingItem(final String nameItem, final String description) {
-	this(nameItem, description, DEFAULT_HEALING_POINTS);
+        this(nameItem, description, DEFAULT_HEALING_POINTS);
     }
 
     /**
@@ -23,11 +23,11 @@ public class HealingItem extends AbstractGameItem {
      * 
      */
     public HealingItem(final String nameItem, final String description, final int healedHp) {
-	super(nameItem, description, GameItemTypes.HEAL);
-	if (healedHp < 0) {
-	    throw new IllegalArgumentException("Healed Hp must be greater than zero");
-	}
-	this.healedHp = healedHp;
+        super(nameItem, description, GameItemTypes.HEAL);
+        if (healedHp < 0) {
+            throw new IllegalArgumentException("Healed Hp must be greater than zero");
+        }
+        this.healedHp = healedHp;
     }
 
     /**
@@ -35,11 +35,11 @@ public class HealingItem extends AbstractGameItem {
      */
     @Override
     public boolean use(final Monster m) {
-	if (m.getStats().getHealth() == m.getMaxHealth()) {
-	    return false;
-	}
-	m.setHealth(healedHp + m.getStats().getHealth());
-	return true;
+        if (m.getStats().getHealth() == m.getMaxHealth()) {
+            return false;
+        }
+        m.setHealth(healedHp + m.getStats().getHealth());
+        return true;
     }
 
 }

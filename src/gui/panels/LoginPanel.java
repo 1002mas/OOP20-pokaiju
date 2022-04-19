@@ -13,24 +13,32 @@ public class LoginPanel extends JPanel {
     private final JButton quitGame = new JButton(" QUIT GAME ");
 
     public LoginPanel() {
-	this.setLayout(new GridBagLayout());
-	final GridBagConstraints cons = new GridBagConstraints();
-	cons.gridy = 0;
-	cons.fill = GridBagConstraints.HORIZONTAL;
-	cons.ipady = 50;
-	cons.weightx = 0;
-	cons.insets = new Insets(SPACE, 0, 0, 0);
-	this.add(newGame, cons);
-	cons.gridy++;
-	this.add(quitGame, cons);
+        this.setLayout(new GridBagLayout());
+        final GridBagConstraints cons = new GridBagConstraints();
+        cons.gridy = 0;
+        cons.fill = GridBagConstraints.HORIZONTAL;
+        cons.ipady = SPACE;
+        cons.weightx = 0;
+        cons.insets = new Insets(SPACE, 0, 0, 0);
+        this.add(newGame, cons);
+        cons.gridy++;
+        this.add(quitGame, cons);
     }
 
+    /**
+     * 
+     * @return newGameButton
+     */
     public JButton getnewGame() {
-	return this.newGame;
+        return this.newGame;
     }
 
+    /**
+     * 
+     * @return quitButton
+     */
     public JButton getquitGame() {
-	return this.quitGame;
+        return this.quitGame;
     }
 
 }

@@ -35,306 +35,327 @@ public class BoxPanel extends JPanel {
 
     /**
      * 
-     * @param playerController the game controller
+     * @param playerController the game controller.
      */
     public BoxPanel(final PlayerController playerController) {
-	this.playerController = playerController;
-	setButtons();
+        this.playerController = playerController;
+        setButtons();
     }
 
     /**
-     * update team and box after an operation
+     * update team and box after an operation.
      * 
      */
     private void setList() {
-	playerMonsterIdList = this.playerController.getMonstersId();
-	boxMonsterIdList = this.playerController.getBoxMonsters();
+        playerMonsterIdList = this.playerController.getMonstersId();
+        boxMonsterIdList = this.playerController.getBoxMonsters();
     }
 
     /**
-     * set buttons action
+     * set buttons action.
      * 
      */
     private void setButtons() {
-	exchange.addActionListener(new ActionListener() {
-	    public void actionPerformed(final ActionEvent e) {
-		playerController.exchangeMonster(idPlayerMonster, idBoxMonster);
-		update();
-	    }
-	});
-	deposit.addActionListener(new ActionListener() {
-	    public void actionPerformed(final ActionEvent e) {
-		if (playerController.getMonstersId().size() > 1) {
-		    playerController.depositMonster(idPlayerMonster);
-		} else {
-		    JOptionPane.showMessageDialog(null, "You can deposit if you have more than one monster");
-		}
-		update();
+        exchange.addActionListener(new ActionListener() {
+            public void actionPerformed(final ActionEvent e) {
+                playerController.exchangeMonster(idPlayerMonster, idBoxMonster);
+                update();
+            }
+        });
+        deposit.addActionListener(new ActionListener() {
+            public void actionPerformed(final ActionEvent e) {
+                if (playerController.getMonstersId().size() > 1) {
+                    playerController.depositMonster(idPlayerMonster);
+                } else {
+                    JOptionPane.showMessageDialog(null, "You can deposit if you have more than one monster");
+                }
+                update();
 
-	    }
-	});
-	take.addActionListener(new ActionListener() {
-	    public void actionPerformed(final ActionEvent e) {
-		if (!playerController.isTeamFull()) {
-		    playerController.withdrawMonster(idBoxMonster);
-		} else {
-		    JOptionPane.showMessageDialog(null, "You can take if your team is not full");
-		}
-		update();
-	    }
-	});
-	cancel.addActionListener(new ActionListener() {
-	    public void actionPerformed(final ActionEvent e) {
-		final int result = JOptionPane.showConfirmDialog(null, "Sure cancel?", "Warning", JOptionPane.YES_NO_OPTION,
-			JOptionPane.QUESTION_MESSAGE);
-		if (result == JOptionPane.YES_OPTION) {
-		    update();
-		}
-	    }
-	});
+            }
+        });
+        take.addActionListener(new ActionListener() {
+            public void actionPerformed(final ActionEvent e) {
+                if (!playerController.isTeamFull()) {
+                    playerController.withdrawMonster(idBoxMonster);
+                } else {
+                    JOptionPane.showMessageDialog(null, "You can take if your team is not full");
+                }
+                update();
+            }
+        });
+        cancel.addActionListener(new ActionListener() {
+            public void actionPerformed(final ActionEvent e) {
+                final int result = JOptionPane.showConfirmDialog(null, "Sure cancel?", "Warning",
+                        JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                if (result == JOptionPane.YES_OPTION) {
+                    update();
+                }
+            }
+        });
     }
 
     /**
-     * Initialize content area
+     * Initialize content area.
      * 
      */
     private void init() {
-	this.setLayout(new BorderLayout());
-	setList();
-	exchangeCont = 0;
-	exchange.setEnabled(false);
-	deposit.setEnabled(false);
-	take.setEnabled(false);
+        this.setLayout(new BorderLayout());
+        setList();
+        exchangeCont = 0;
+        exchange.setEnabled(false);
+        deposit.setEnabled(false);
+        take.setEnabled(false);
 
-	final JPanel playerMonstersPanel = new JPanel(new GridLayout(0, 1));
-	playerMonstersPanel.setPreferredSize(new Dimension(400, getPreferredSize().height));
+        final JPanel playerMonstersPanel = new JPanel(new GridLayout(0, 1));
+        playerMonstersPanel.setPreferredSize(new Dimension(400, getPreferredSize().height));
 
-	for (final int playerMonsterid : playerMonsterIdList) {
-	    playerMonstersPanel.add(monsterPanelArea(playerMonsterid, playerMonstersPanel, true));
-	}
-	setPanelProp(playerMonstersPanel, playerMonsterIdList.size());
+        for (final int playerMonsterid : playerMonsterIdList) {
+            playerMonstersPanel.add(monsterPanelArea(playerMonsterid, playerMonstersPanel, true));
+        }
+        setPanelProp(playerMonstersPanel, playerMonsterIdList.size());
 
-	final JPanel boxPanel = new JPanel();
-	boxPanel.setLayout(cardLayout);
-	final List<JPanel> contentPanel = new ArrayList<>();
+        final JPanel boxPanel = new JPanel();
+        boxPanel.setLayout(cardLayout);
+        final List<JPanel> contentPanel = new ArrayList<>();
 
-	for (int a = 0; a < playerController.getBoxNumbers(); a++) {
-	    final JPanel pagePanel = new JPanel(new GridLayout(this.playerController.getMonstersForEachBox(), 1));
-	    for (int b = 0; b < this.boxMonsterIdList.size(); b++) {
-		pagePanel.add(monsterPanelArea(boxMonsterIdList.get(b), boxPanel, false));
-	    }
-	    contentPanel.add(pagePanel);
-	}
+        for (int a = 0; a < playerController.getBoxNumbers(); a++) {
+            final JPanel pagePanel = new JPanel(new GridLayout(this.playerController.getMonstersForEachBox(), 1));
+            for (int b = 0; b < this.boxMonsterIdList.size(); b++) {
+                pagePanel.add(monsterPanelArea(boxMonsterIdList.get(b), boxPanel, false));
+            }
+            contentPanel.add(pagePanel);
+        }
 
-	int index = 1;
-	for (final JPanel panel : contentPanel) {
-	    boxPanel.add(panel, Integer.toString(index));
-	    index++;
-	}
+        int index = 1;
+        for (final JPanel panel : contentPanel) {
+            boxPanel.add(panel, Integer.toString(index));
+            index++;
+        }
 
-	this.add(topPanelArea(), BorderLayout.NORTH);
-	this.add(boxPanel, BorderLayout.CENTER);
-	this.add(playerMonstersPanel, BorderLayout.EAST);
-	this.add(bottomPanelArea(boxPanel), BorderLayout.SOUTH);
+        this.add(topPanelArea(), BorderLayout.NORTH);
+        this.add(boxPanel, BorderLayout.CENTER);
+        this.add(playerMonstersPanel, BorderLayout.EAST);
+        this.add(bottomPanelArea(boxPanel), BorderLayout.SOUTH);
     }
 
     /**
-     * set the top part of content area
+     * set the top part of content area.
      * 
      */
     private JPanel topPanelArea() {
-	final JPanel topPanel = new JPanel(new GridLayout(2, 1));
-	final JPanel buttonPanel = new JPanel(new GridLayout(1, 4));
-	final JPanel titlePanel = new JPanel(new BorderLayout());
+        final JPanel topPanel = new JPanel(new GridLayout(2, 1));
+        final JPanel buttonPanel = new JPanel(new GridLayout(1, 4));
+        final JPanel titlePanel = new JPanel(new BorderLayout());
 
-	final JLabel box = new JLabel(this.playerController.getCurrentBoxName());
-	setLabelProp(box);
-	box.setBorder(BorderFactory.createLineBorder(Color.black));
-	final JLabel team = new JLabel("Team");
-	setLabelProp(team);
-	team.setBorder(BorderFactory.createLineBorder(Color.black));
-	team.setPreferredSize(new Dimension(400, getPreferredSize().height));
+        final JLabel box = new JLabel(this.playerController.getCurrentBoxName());
+        setLabelProp(box);
+        box.setBorder(BorderFactory.createLineBorder(Color.black));
+        final JLabel team = new JLabel("Team");
+        setLabelProp(team);
+        team.setBorder(BorderFactory.createLineBorder(Color.black));
+        team.setPreferredSize(new Dimension(400, getPreferredSize().height));
 
-	titlePanel.add(box, BorderLayout.CENTER);
-	titlePanel.add(team, BorderLayout.EAST);
+        titlePanel.add(box, BorderLayout.CENTER);
+        titlePanel.add(team, BorderLayout.EAST);
 
-	buttonPanel.add(exchange);
-	buttonPanel.add(deposit);
-	buttonPanel.add(take);
-	buttonPanel.add(cancel);
+        buttonPanel.add(exchange);
+        buttonPanel.add(deposit);
+        buttonPanel.add(take);
+        buttonPanel.add(cancel);
 
-	topPanel.add(buttonPanel);
-	topPanel.add(titlePanel);
-	return topPanel;
+        topPanel.add(buttonPanel);
+        topPanel.add(titlePanel);
+        return topPanel;
     }
 
     /**
-     * set the bottom part of content area
+     * set the bottom part of content area.
      * 
      * @param boxPanel JPanel
      * 
      */
     private JPanel bottomPanelArea(final JPanel boxPanel) {
-	final JPanel bottomPanel = new JPanel(new GridLayout(1, 2));
-	final JButton previusPage = new JButton("Previous box");
-	final JButton nextPage = new JButton("Next box");
-	bottomPanel.add(previusPage);
-	bottomPanel.add(nextPage);
+        final JPanel bottomPanel = new JPanel(new GridLayout(1, 2));
+        final JButton previusPage = new JButton("Previous box");
+        final JButton nextPage = new JButton("Next box");
+        bottomPanel.add(previusPage);
+        bottomPanel.add(nextPage);
 
-	nextPage.addActionListener(e -> {
-	    this.playerController.nextBox();
-	    update();
-	    cardLayout.next(boxPanel);
-	});
-	previusPage.addActionListener(e -> {
-	    this.playerController.previousBox();
-	    update();
-	    cardLayout.previous(boxPanel);
-	});
-	return bottomPanel;
+        nextPage.addActionListener(e -> {
+            this.playerController.nextBox();
+            update();
+            cardLayout.next(boxPanel);
+        });
+        previusPage.addActionListener(e -> {
+            this.playerController.previousBox();
+            update();
+            cardLayout.previous(boxPanel);
+        });
+        return bottomPanel;
     }
 
     /**
-     * set JCheckBox's properties
+     * set JCheckBox's properties.
      * 
      * @param checkbox JCheckBox
      */
     private void setJCheckBoxProp(final JCheckBox checkbox) {
-	checkbox.setBorder(BorderFactory.createLineBorder(Color.blue));
-	checkbox.setBorderPainted(true);
-	checkbox.setHorizontalAlignment(SwingConstants.CENTER);
-	checkbox.setVerticalAlignment(SwingConstants.CENTER);
+        checkbox.setBorder(BorderFactory.createLineBorder(Color.blue));
+        checkbox.setBorderPainted(true);
+        checkbox.setHorizontalAlignment(SwingConstants.CENTER);
+        checkbox.setVerticalAlignment(SwingConstants.CENTER);
     }
 
     /**
-     * enable or disable panel's components
+     * enable or disable panel's components.
      * 
      * @param cont      container of components
      * @param isEnabled condition for enable or disable
      */
     private void setPanelEnabled(final java.awt.Container cont, final Boolean isEnabled) {
-	cont.setEnabled(isEnabled);
+        cont.setEnabled(isEnabled);
 
-	final java.awt.Component[] components = cont.getComponents();
+        final java.awt.Component[] components = cont.getComponents();
 
-	for (int i = 0; i < components.length; i++) {
-	    if (components[i] instanceof java.awt.Container) {
-		setPanelEnabled((java.awt.Container) components[i], isEnabled);
-	    }
-	    components[i].setEnabled(isEnabled);
-	}
+        for (int i = 0; i < components.length; i++) {
+            if (components[i] instanceof java.awt.Container) {
+                setPanelEnabled((java.awt.Container) components[i], isEnabled);
+            }
+            components[i].setEnabled(isEnabled);
+        }
     }
 
     /**
-     * set box's monster which will be took, exchanged
+     * set box's monster which will be took, exchanged.
      * 
      * @param idBoxMonster Box's monster's id
      */
     private void setIdBoxMonster(final int idBoxMonster) {
-	this.idBoxMonster = idBoxMonster;
+        this.idBoxMonster = idBoxMonster;
     }
 
     /**
-     * set team's monster which will be deposited, exchanged
+     * set team's monster which will be deposited, exchanged.
      * 
      * @param idPlayerMonster Player's monster's id
      */
     private void setIdPlayerMonster(final int idPlayerMonster) {
-	this.idPlayerMonster = idPlayerMonster;
+        this.idPlayerMonster = idPlayerMonster;
     }
 
     /**
-     * set team and box area
+     * set team and box area.
      * 
      * @param monsterId
      * @param monsterPanel box/team's panel
      * @param isTeam       condition that specifies which panel will be set up
      */
     private JPanel monsterPanelArea(final int monsterId, final JPanel monsterPanel, final boolean isTeam) {
-	final JPanel panel = new JPanel(new GridLayout(1, 2));
-	panel.setBorder(BorderFactory.createLineBorder(Color.black));
-	final JLabel label = new JLabel();
-	label.setText(getMonsterInfo(monsterId));
-	setLabelProp(label);
-	final JCheckBox checkBoxPlayer = new JCheckBox();
-	setJCheckBoxProp(checkBoxPlayer);
-	checkBoxPlayer.setText(Integer.toString(monsterId));
-	checkBoxPlayer.addActionListener(new ActionListener() {
-	    public void actionPerformed(final ActionEvent e) {
-		final JCheckBox cb = (JCheckBox) e.getSource();
-		final int result = JOptionPane.showConfirmDialog(null, "Sure?", "Warning", JOptionPane.YES_NO_OPTION,
-			JOptionPane.QUESTION_MESSAGE);
-		if (result == JOptionPane.YES_OPTION) {
-		    if (cb.isSelected()) {
-			if (isTeam) {
-			    setIdPlayerMonster(Integer.parseInt(cb.getText()));
-			    deposit.setEnabled(true);
-			} else {
-			    setIdBoxMonster(Integer.parseInt(cb.getText()));
-			    take.setEnabled(true);
-			}
-			setPanelEnabled(monsterPanel, false);
-			exchangeCont++;
-			if (exchangeCont == 2) {
-			    exchange.setEnabled(true);
-			}
-		    }
-		} else {
-		    cb.setSelected(false);
-		}
-	    }
-	});
-	panel.add(label);
-	panel.add(checkBoxPlayer);
-	return panel;
+        final JPanel panel = new JPanel(new GridLayout(1, 2));
+        panel.setBorder(BorderFactory.createLineBorder(Color.black));
+        final JLabel label = new JLabel();
+        label.setText(getMonsterInfo(monsterId));
+        setLabelProp(label);
+        panel.add(label);
+        panel.add(createCheckBox(monsterId, isTeam, monsterPanel));
+        return panel;
 
     }
 
     /**
-     * get text about monster general info
+     * create JCheckBox.
+     * 
+     * @param monsterId
+     * @param isTeam
+     * @param monsterPanel
+     * @return
+     */
+    private JCheckBox createCheckBox(final int monsterId, final boolean isTeam, final JPanel monsterPanel) {
+        final JCheckBox checkBoxPlayer = new JCheckBox();
+        setJCheckBoxProp(checkBoxPlayer);
+        checkBoxPlayer.setText(Integer.toString(monsterId));
+        checkBoxPlayer.addActionListener(createJCheckBoxActionListener(isTeam, monsterPanel));
+        return checkBoxPlayer;
+    }
+
+    /**
+     * create ActionListener for JChecBox.
+     * 
+     * @param isTeam
+     * @param monsterPanel
+     * @return
+     */
+    private ActionListener createJCheckBoxActionListener(final boolean isTeam, final JPanel monsterPanel) {
+        return e -> {
+            final JCheckBox cb = (JCheckBox) e.getSource();
+            final int result = JOptionPane.showConfirmDialog(null, "Sure?", "Warning", JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE);
+            if (result == JOptionPane.YES_OPTION) {
+                if (cb.isSelected()) {
+                    if (isTeam) {
+                        setIdPlayerMonster(Integer.parseInt(cb.getText()));
+                        deposit.setEnabled(true);
+                    } else {
+                        setIdBoxMonster(Integer.parseInt(cb.getText()));
+                        take.setEnabled(true);
+                    }
+                    setPanelEnabled(monsterPanel, false);
+                    exchangeCont++;
+                    if (exchangeCont == 2) {
+                        exchange.setEnabled(true);
+                    }
+                }
+            } else {
+                cb.setSelected(false);
+            }
+        };
+    }
+
+    /**
+     * get text about monster general info.
      * 
      * @return monster general info
      */
     private String getMonsterInfo(final int monsterId) {
-	return "<html> Name : " + this.playerController.getMonsterNameById(monsterId) + "<br/>" + " Lv : "
-		+ this.playerController.getMonsterLevel(monsterId) + "<br/>" + " Hp : "
-		+ this.playerController.getMonsterHealth(monsterId) + "/"
-		+ this.playerController.getMonsterMaxHealth(monsterId) + "</html>";
+        return "<html> Name : " + this.playerController.getMonsterNameById(monsterId) + "<br/>" + " Lv : "
+                + this.playerController.getMonsterLevel(monsterId) + "<br/>" + " Hp : "
+                + this.playerController.getMonsterHealth(monsterId) + "/"
+                + this.playerController.getMonsterMaxHealth(monsterId) + "</html>";
     }
 
     /**
-     * set JPanel's properties
+     * set JPanel's properties.
      * 
      * @param panel           JPanel
      * @param numberOfMonster Number of Monster present in player's team
      */
     private void setPanelProp(final JPanel panel, final int numberOfMonster) {
-	int cont = NUMBER_OF_MONSTERS_IN_TEAM - numberOfMonster;
-	while (cont > 0) {
-	    final JLabel label = new JLabel();
-	    label.setVisible(false);
-	    panel.add(label);
-	    cont--;
-	}
+        int cont = NUMBER_OF_MONSTERS_IN_TEAM - numberOfMonster;
+        while (cont > 0) {
+            final JLabel label = new JLabel();
+            label.setVisible(false);
+            panel.add(label);
+            cont--;
+        }
     }
 
     /**
-     * set JLabel's properties
+     * set JLabel's properties.
      * 
      * @param label JLabel
      */
     private void setLabelProp(final JLabel label) {
-	label.setHorizontalAlignment(SwingConstants.CENTER);
-	label.setVerticalAlignment(SwingConstants.CENTER);
+        label.setHorizontalAlignment(SwingConstants.CENTER);
+        label.setVerticalAlignment(SwingConstants.CENTER);
     }
 
     /**
-     * update content area
+     * update content area.
      */
     public void update() {
-	this.removeAll();
-	this.init();
-	this.validate();
+        this.removeAll();
+        this.init();
+        this.validate();
     }
 
 }

@@ -52,7 +52,7 @@ public class MenuPanel extends JPanel {
     }
 
     /**
-     * initialize menu panel
+     * initialize menu panel.
      */
     private void init() {
         final CardLayout cLayout = (CardLayout) this.gui.getContentPane().getLayout();
@@ -79,7 +79,7 @@ public class MenuPanel extends JPanel {
 
         final GameItemPanel gameItemPanel = new GameItemPanel(this.playerController, size);
 
-        final PlayerInfoPanel playerInfoPanel = new PlayerInfoPanel(this.playerController);
+        final PlayerInfoPanel playerInfoPanel = new PlayerInfoPanel(this.playerController, this.gui);
 
         bottomPanel.add(monsterPanel);
         bottomPanel.add(boxPanel);

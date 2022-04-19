@@ -1,23 +1,22 @@
 package model.gameitem;
 
 /**
- * Type of gameitem
+ * Type of gameItem.
  * 
- * @author Guo jiahao
  */
 public enum GameItemTypes {
     /**
-     * Restore Life points
+     * Restore Life points.
      * 
      */
     HEAL("Heal", true, true),
     /**
-     * it's used to evolve monster
+     * it's used to evolve monster.
      * 
      */
     EVOLUTIONTOOL("EvolutionTool", false, true),
     /**
-     * it's used to catch monster
+     * it's used to catch monster.
      * 
      */
     MONSTERBALL("MonsterBall", true, false);
@@ -27,20 +26,20 @@ public enum GameItemTypes {
     private boolean useBag;
 
     GameItemTypes(final String name, final boolean useBattle, final boolean useBag) {
-	this.name = name;
-	this.useBattle = useBattle;
-	this.useBag = useBag;
+        this.name = name;
+        this.useBattle = useBattle;
+        this.useBag = useBag;
     }
 
     public String toString() {
-	return this.name;
+        return this.name;
     }
 
     public boolean isConsumableInBag() {
-	return useBag;
+        return useBag;
     }
 
     public boolean isConsumableInBattle() {
-	return useBattle;
+        return useBattle;
     }
 }

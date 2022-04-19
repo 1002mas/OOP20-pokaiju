@@ -1,7 +1,6 @@
 package model.gameitem;
 
 import java.util.Objects;
-
 import model.monster.Monster;
 
 public abstract class AbstractGameItem implements GameItem {
@@ -16,30 +15,30 @@ public abstract class AbstractGameItem implements GameItem {
      * @param type
      */
     public AbstractGameItem(final String nameItem, final String description, final GameItemTypes type) {
-	this.nameItem = nameItem;
-	this.description = description;
-	this.type = type;
+        this.nameItem = nameItem;
+        this.description = description;
+        this.type = type;
     }
 
     /**
      * {@inheritDoc}
      */
     public String getNameItem() {
-	return nameItem;
+        return nameItem;
     }
 
     /**
      * {@inheritDoc}
      */
     public String getDescription() {
-	return description;
+        return description;
     }
 
     /**
      * {@inheritDoc}
      */
     public GameItemTypes getType() {
-	return type;
+        return type;
     }
 
     /**
@@ -52,7 +51,7 @@ public abstract class AbstractGameItem implements GameItem {
      */
     @Override
     public String toString() {
-	return "nameItem=" + nameItem + ", description=" + description + ", type=" + type;
+        return "nameItem=" + nameItem + ", description=" + description + ", type=" + type;
     }
 
     /**
@@ -60,7 +59,7 @@ public abstract class AbstractGameItem implements GameItem {
      */
     @Override
     public int hashCode() {
-	return Objects.hash(nameItem, type);
+        return Objects.hash(nameItem, type);
     }
 
     /**
@@ -68,17 +67,16 @@ public abstract class AbstractGameItem implements GameItem {
      */
     @Override
     public boolean equals(final Object obj) {
-	if (this == obj) {
-	    return true;
-	}
-	if (obj == null) {
-	    return false;
-	}
-	if (getClass() != obj.getClass()) {
-	    return false;
-	}
-	final AbstractGameItem other = (AbstractGameItem) obj;
-	return Objects.equals(nameItem, other.nameItem) && type == other.type;
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final AbstractGameItem other = (AbstractGameItem) obj;
+        return Objects.equals(nameItem, other.nameItem) && type == other.type;
     }
-
 }
