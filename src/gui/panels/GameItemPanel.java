@@ -17,7 +17,6 @@ import javax.swing.JTextArea;
 
 import controller.PlayerController;
 
-
 public class GameItemPanel extends JPanel {
     private static final long serialVersionUID = -5473716174748395743L;
     private final PlayerController playerController;
@@ -27,6 +26,10 @@ public class GameItemPanel extends JPanel {
     private final int size;
     private SelectMosterPanel selection;
 
+    /**
+     * @param playerController the game controller
+     * @param size
+     */
     public GameItemPanel(PlayerController playerController, int size) {
 	this.playerController = playerController;
 	this.size = size;
@@ -37,6 +40,10 @@ public class GameItemPanel extends JPanel {
 	});
     }
 
+    /**
+     * Initialize content area
+     * 
+     */
     private void init() {
 	this.setLayout(cardlayout);
 
@@ -90,6 +97,12 @@ public class GameItemPanel extends JPanel {
 
     }
 
+    /**
+     * set the view properties of content area
+     * 
+     * @param listItemsName the list of Item's name
+     * @param subPanel      JPanel
+     */
     private void setShowProp(List<String> listItemsName, JPanel subPanel) {
 	if (NUMBEROFELEMENTS > listItemsName.size()) {
 	    int n = (NUMBEROFELEMENTS - listItemsName.size()) * 5;
@@ -101,20 +114,39 @@ public class GameItemPanel extends JPanel {
 	}
     }
 
+    /**
+     * update content area
+     */
     public void update() {
 	this.removeAll();
 	init();
 	this.validate();
     }
 
+    /**
+     * set JButton's properties
+     * 
+     * @param button   JButton
+     * @param itemName Item which will be verified if it can be used in bag
+     */
     private void setButtonProp(JButton button, String itemName) {
 	button.setEnabled(this.playerController.canUseItem(itemName));
     }
 
+    /**
+     * Change panel
+     * 
+     * @param panelName panel which will be showed
+     */
     public void changePanel(String panelName) {
 	cardlayout.show(this, panelName);
     }
 
+    /**
+     * set the top part of content area
+     * 
+     * @param topPanel JPanel
+     */
     private void setTopPanel(JPanel topPanel) {
 	topPanel.setBorder(BorderFactory.createLineBorder(Color.red));
 	JLabel nameLabel = new JLabel("ITEM : ");

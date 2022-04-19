@@ -20,6 +20,7 @@ import controller.PlayerController;
 
 public class BoxPanel extends JPanel {
     private static final long serialVersionUID = 67133453355728035L;
+    private static final int NUMBERMONSTERSINTEAM = 6;
     private final PlayerController playerController;
     private final CardLayout cardLayout = new CardLayout();
     private List<Integer> playerMonsterIdList = new ArrayList<Integer>();
@@ -30,18 +31,30 @@ public class BoxPanel extends JPanel {
     private final JButton deposit = new JButton("Deposit");
     private final JButton take = new JButton("Take");
     private final JButton cancel = new JButton("Cancel");
-    private int exchangecont;
+    private int exchangeCont;
 
+    /**
+     * 
+     * @param playerController the game controller
+     */
     public BoxPanel(PlayerController playerController) {
 	this.playerController = playerController;
 	setButtons();
     }
 
+    /**
+     * update team and box after an operation
+     * 
+     */
     private void setList() {
 	playerMonsterIdList = this.playerController.getMonstersId();
 	boxMonsterIdList = this.playerController.getBoxMonsters();
     }
 
+    /**
+     * set buttons action
+     * 
+     */
     private void setButtons() {
 	exchange.addActionListener(new ActionListener() {
 	    public void actionPerformed(ActionEvent e) {
@@ -81,10 +94,14 @@ public class BoxPanel extends JPanel {
 	});
     }
 
+    /**
+     * Initialize content area
+     * 
+     */
     private void init() {
 	this.setLayout(new BorderLayout());
 	setList();
-	exchangecont = 0;
+	exchangeCont = 0;
 	exchange.setEnabled(false);
 	deposit.setEnabled(false);
 	take.setEnabled(false);
@@ -121,6 +138,10 @@ public class BoxPanel extends JPanel {
 	this.add(setBottomPanel(boxPanel), BorderLayout.SOUTH);
     }
 
+    /**
+     * set the top part of content area
+     * 
+     */
     private JPanel setTopPanel() {
 	JPanel topPanel = new JPanel(new GridLayout(2, 1));
 	JPanel buttonPanel = new JPanel(new GridLayout(1, 4));
@@ -147,6 +168,12 @@ public class BoxPanel extends JPanel {
 	return topPanel;
     }
 
+    /**
+     * set the bottom part of content area
+     * 
+     * @param boxPanel JPanel
+     * 
+     */
     private JPanel setBottomPanel(JPanel boxPanel) {
 	JPanel bottomPanel = new JPanel(new GridLayout(1, 2));
 	JButton previusPage = new JButton("Previous box");
@@ -167,6 +194,11 @@ public class BoxPanel extends JPanel {
 	return bottomPanel;
     }
 
+    /**
+     * set JCheckBox's properties
+     * 
+     * @param checkbox JCheckBox
+     */
     private void setJCheckBoxProp(JCheckBox checkbox) {
 	checkbox.setBorder(BorderFactory.createLineBorder(Color.blue));
 	checkbox.setBorderPainted(true);
@@ -174,6 +206,12 @@ public class BoxPanel extends JPanel {
 	checkbox.setVerticalAlignment(SwingConstants.CENTER);
     }
 
+    /**
+     * enable or disable panel's components
+     * 
+     * @param cont      container of components
+     * @param isEnabled condition for enable or disable
+     */
     private void setPanelEnabled(java.awt.Container cont, Boolean isEnabled) {
 	cont.setEnabled(isEnabled);
 
@@ -187,14 +225,31 @@ public class BoxPanel extends JPanel {
 	}
     }
 
+    /**
+     * set box's monster which will be took, exchanged
+     * 
+     * @param idBoxMonster Box's monster's id
+     */
     private void setIdBoxMonster(int idBoxMonster) {
 	this.idBoxMonster = idBoxMonster;
     }
 
+    /**
+     * set team's monster which will be deposited, exchanged
+     * 
+     * @param idPlayerMonster Player's monster's id
+     */
     private void setIdPlayerMonster(int idPlayerMonster) {
 	this.idPlayerMonster = idPlayerMonster;
     }
 
+    /**
+     * set team and box area
+     * 
+     * @param monsterId
+     * @param MonstersPanel box/team's panel
+     * @param isTeam        condition that specifies which panel will be set up
+     */
     private JPanel setMonsterPanel(int monsterId, JPanel MonstersPanel, boolean isTeam) {
 	JPanel panel = new JPanel(new GridLayout(1, 2));
 	panel.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -222,8 +277,8 @@ public class BoxPanel extends JPanel {
 			    take.setEnabled(true);
 			}
 			setPanelEnabled(MonstersPanel, false);
-			exchangecont++;
-			if (exchangecont == 2) {
+			exchangeCont++;
+			if (exchangeCont == 2) {
 			    exchange.setEnabled(true);
 			}
 		    }
@@ -238,8 +293,14 @@ public class BoxPanel extends JPanel {
 
     }
 
+    /**
+     * set JPanel's properties
+     * 
+     * @param panel           JPanel
+     * @param numberOfMonster Number of Monster present in player's team
+     */
     private void setPanelProp(JPanel panel, int numberOfMonster) {
-	int cont = 6 - numberOfMonster;
+	int cont = NUMBERMONSTERSINTEAM - numberOfMonster;
 	while (cont > 0) {
 	    JLabel label = new JLabel();
 	    label.setVisible(false);
@@ -248,11 +309,19 @@ public class BoxPanel extends JPanel {
 	}
     }
 
+    /**
+     * set JLabel's properties
+     * 
+     * @param label JLabel
+     */
     private void setLabelProp(JLabel label) {
 	label.setHorizontalAlignment(SwingConstants.CENTER);
 	label.setVerticalAlignment(SwingConstants.CENTER);
     }
 
+    /**
+     * update content area
+     */
     public void update() {
 	this.removeAll();
 	this.init();
