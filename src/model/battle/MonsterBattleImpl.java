@@ -12,8 +12,6 @@ import model.player.Player;
 
 public class MonsterBattleImpl implements MonsterBattle {
     private final static int EXP_MULTIPLER = 100;
-    private final static int ESCAPE_RANGE = 10;
-    private final static int ESCAPE_DIFFICULT = 5;
     private final static int CAPTURE_RANGE = 10;
     private final static int CAPTURE_DIFFICULT = 3;
     private final static int MONEY_WON = 70;
