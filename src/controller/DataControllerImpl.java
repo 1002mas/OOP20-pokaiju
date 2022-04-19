@@ -16,6 +16,8 @@ import model.battle.Moves;
 import model.battle.MovesImpl;
 import model.gameevents.GameEvent;
 import model.gameevents.MonsterGift;
+import model.gameevents.NpcActivityChanger;
+import model.gameevents.NpcPositionChanger;
 import model.gameevents.NpcTextChanger;
 import model.gameevents.NpcVisibilityChanger;
 import model.gameevents.UniqueMonsterEvent;
@@ -47,6 +49,8 @@ public class DataControllerImpl implements DataController {
     private final static int INITIAL_GAME_MAP_ID = 1;
     private final static int HOUSE_GAME_MAP_ID = 2;
     private final static Pair<Integer, Integer> INITIAL_PLAYER_POSITION = new Pair<>(13, 13);
+    private final List<Pair<Integer, Integer>> map_1_angles = List.of(new Pair<>(1, 2), new Pair<>(18, 2),
+	    new Pair<>(18, 17), new Pair<>(1, 17));
     private List<Moves> moves = new ArrayList<Moves>();
     private List<GameItem> gameItems = new ArrayList<GameItem>();
     private List<MonsterSpecies> monsterSpecies = new ArrayList<>();
@@ -67,8 +71,7 @@ public class DataControllerImpl implements DataController {
 	GameItem healingPotion = new HealingItem("Healing potion", "This item heal a monster for 50 HP");
 	GameItem superHealingPotion = new HealingItem("Super healing potion", "This item heal a monster for 250 HP",
 		250);
-	GameItem ultraHealingPotion = new HealingItem("Ultra healing potion",
-		"This item heal a monster for 400 HP");
+	GameItem ultraHealingPotion = new HealingItem("Ultra healing potion", "This item heal a monster for 400 HP");
 	GameItem kracStone = new EvolutionItem("KracezStone", "This item evolves krados");
 
 	this.gameItems.add(monsterBall);
@@ -164,9 +167,11 @@ public class DataControllerImpl implements DataController {
 	npcGhostTest();
 	uniqueMonsterTest();
 	developerTextTest();
+	npcRunnerTest();
 	this.player.setMoney(60000);
 	this.player.addMonster(this.monster.get(this.monster.size() - 1));
     }
+
     private void cleanData() {
 	this.monster = new ArrayList<>();
 	this.npcs = new ArrayList<>();
@@ -204,38 +209,43 @@ public class DataControllerImpl implements DataController {
 		true, List.of(this.monster.get(2), this.monster.get(3)), false);
 	NpcSimple healerNpc = new NpcHealerImpl("Mom", List.of("Let me heal your Pokaiju"), new Pair<>(10, 6),
 		this.player, true, true);
-	NpcSimple npcGift = new NpcSimpleImpl("Gianni", List.of("Your gift", "I have no more gifts"),
-		new Pair<>(15, 15), true, true);
+	NpcSimple npcGift = new NpcSimpleImpl("Puppin", List.of("I will come with you"), new Pair<>(15, 15), true,
+		true);
 	NpcSimple npcGhost = new NpcSimpleImpl("Pippo", List.of("How did you find me?", "I was hidden very well"),
 		new Pair<>(17, 17), false, true);
+	NpcSimple npcRunner = new NpcSimpleImpl("Bolt", List.of("Catch me!"), map_1_angles.get(0), true, true);
 	this.npcs.add(healerNpc);
 	npcs.add(npc1);
 	npcs.add(npc2);
 	npcs.add(trainer);
 	npcs.add(npcGift);
 	npcs.add(npcGhost);
+	npcs.add(npcRunner);
     }
 
     private void addNpcsToMap() {
 	getMapDataByMapID(INITIAL_GAME_MAP_ID).addNpc(npcs.get(1));
 	getMapDataByMapID(INITIAL_GAME_MAP_ID).addNpc(npcs.get(2));
 	getMapDataByMapID(INITIAL_GAME_MAP_ID).addNpc(npcs.get(3));
+	getMapDataByMapID(INITIAL_GAME_MAP_ID).addNpc(npcs.get(5));
+	getMapDataByMapID(INITIAL_GAME_MAP_ID).addNpc(getNpcByName("Bolt"));
 	getMapDataByMapID(HOUSE_GAME_MAP_ID).addNpc(npcs.get(4));
 	getMapDataByMapID(HOUSE_GAME_MAP_ID).addNpc(npcs.get(0));
-	getMapDataByMapID(INITIAL_GAME_MAP_ID).addNpc(npcs.get(5));
     }
 
     private void giftTest() {
+	NpcSimple npc = getNpcByName("Puppin");
 	GameEvent g = new MonsterGift(4185, true, false, true, List.of(monster.get(0)), player);
-	g.addSuccessiveGameEvent(new NpcTextChanger(4584, false, false, true, npcs.get(4), 1));
-	npcs.get(4).addGameEvent(g);
-	npcs.add(npcs.get(4));
+	g.addSuccessiveGameEvent(new NpcVisibilityChanger(4584, false, false, true, npc, false));
+	g.addSuccessiveGameEvent(new NpcActivityChanger(4585, false, false, true, npc, false));
+	npc.addGameEvent(g);
     }
 
     private void npcGhostTest() {
-	GameEvent g = new NpcVisibilityChanger(165, true, false, false, npcs.get(5), true);
-	g.addSuccessiveGameEvent(new NpcTextChanger(465, false, false, true, npcs.get(5), 1));
-	npcs.get(5).addGameEvent(g);
+	NpcSimple npc = getNpcByName("Pippo");
+	GameEvent g = new NpcVisibilityChanger(165, true, false, false, npc, true);
+	g.addSuccessiveGameEvent(new NpcTextChanger(465, false, false, true, npc, 1));
+	npc.addGameEvent(g);
     }
 
     private void uniqueMonsterTest() {
@@ -244,21 +254,38 @@ public class DataControllerImpl implements DataController {
     }
 
     private void developerTextTest() {
-	GameEvent g1 = new NpcTextChanger(123, true, true, false, npcs.get(1), 1);
-	GameEvent g2 = new NpcTextChanger(124, false, true, false, npcs.get(1), 2);
-	GameEvent g3 = new NpcTextChanger(125, false, true, false, npcs.get(1), 3);
-	GameEvent g4 = new NpcTextChanger(126, false, true, false, npcs.get(1), 4);
-	GameEvent g5 = new NpcTextChanger(127, false, true, false, npcs.get(1), 0);
-	npcs.get(1).addGameEvent(g1);
-	npcs.get(1).addGameEvent(g2);
-	npcs.get(1).addGameEvent(g3);
-	npcs.get(1).addGameEvent(g4);
-	npcs.get(1).addGameEvent(g5);
+	NpcSimple npc = getNpcByName("Unibo");
+	GameEvent g1 = new NpcTextChanger(123, true, true, false, npc, 1);
+	GameEvent g2 = new NpcTextChanger(124, false, true, false, npc, 2);
+	GameEvent g3 = new NpcTextChanger(125, false, true, false, npc, 3);
+	GameEvent g4 = new NpcTextChanger(126, false, true, false, npc, 4);
+	GameEvent g5 = new NpcTextChanger(127, false, true, false, npc, 0);
+	getNpcByName("Unibo").addGameEvent(g1);
+	npc.addGameEvent(g2);
+	npc.addGameEvent(g3);
+	npc.addGameEvent(g4);
+	npc.addGameEvent(g5);
 	g1.addSuccessiveGameEvent(g2);
 	g2.addSuccessiveGameEvent(g3);
 	g3.addSuccessiveGameEvent(g4);
 	g4.addSuccessiveGameEvent(g5);
 	g5.addSuccessiveGameEvent(g1);
+    }
+
+    private void npcRunnerTest() {
+	NpcSimple npc = getNpcByName("Bolt");
+	GameEvent prevEv = null;
+	for (int i = 0; i < this.map_1_angles.size(); i++) {
+	    GameEvent currEv = new NpcPositionChanger(300100 + i, i == 0, true, false, npc,
+		    this.map_1_angles.get((i + 1) % this.map_1_angles.size()));
+	    npc.addGameEvent(currEv);
+	    if (prevEv != null) {
+		prevEv.addSuccessiveGameEvent(currEv);
+	    }
+	    prevEv = currEv;
+	}
+	prevEv.addSuccessiveGameEvent(
+		npc.getGameEvents().stream().filter(e -> e.getEventID() == 300100).findAny().get());
     }
 
     private List<Moves> getMovesByType(MonsterType type) {
@@ -320,6 +347,10 @@ public class DataControllerImpl implements DataController {
 	return map;
     }
 
+    private NpcSimple getNpcByName(String name) {
+	return this.npcs.stream().filter(npc -> npc.getName().equals(name)).findAny().get();
+    }
+
     @Override
     public Player getPlayer() {
 	return this.player;
@@ -334,7 +365,6 @@ public class DataControllerImpl implements DataController {
     public int getMaximumBlockInRow() {
 	return MAXIMUM_BLOCK_IN_ROW;
     }
-   
 
     @Override
     public MonsterSpecies getSpeciesByName(String name) {

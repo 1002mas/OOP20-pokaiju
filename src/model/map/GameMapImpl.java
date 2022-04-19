@@ -36,7 +36,9 @@ public class GameMapImpl implements GameMap {
 
     @Override
     public boolean canPassThrough(Pair<Integer, Integer> block) {
-	return map.getBlockType(block).canPassThrough() && map.getNpc(block).isEmpty();
+	Optional<NpcSimple> npc = map.getNpc(block);
+	return map.getBlockType(block).canPassThrough()
+		&& (npc.isEmpty() || (npc.isPresent() && !npc.get().isEnabled()));
     }
 
     @Override

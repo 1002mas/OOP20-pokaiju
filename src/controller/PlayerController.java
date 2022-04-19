@@ -66,7 +66,8 @@ public interface PlayerController {
 	int getMerchantTotalPrice(Map<String, Integer> buyItem);
 
 	/**
-	 * the price are of the merchant that player has interacted with.
+	 * This function returns if player can buy a list of itemswith relative
+	 * quantities from merchant.
 	 * 
 	 * @param merchant merchant's name.
 	 * @param buyItem  a map of item name and item quantity
@@ -153,15 +154,6 @@ public interface PlayerController {
 	 */
 	void removeItem(String itemName);
 
-	/**
-	 * This function adds a monster to player team
-	 * 
-	 * @param idMonster
-	 * @return true iff monster is added, false otherwise
-	 */
-	/*
-	 * boolean addMonster(int idMonster);
-	 */
 	/**
 	 * This function creates a new player
 	 * 
