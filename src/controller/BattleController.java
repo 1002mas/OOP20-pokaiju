@@ -219,4 +219,9 @@ public interface BattleController {
      * @return if the player has lost the battle
      */
     boolean hasPlayerLost();
+    
+    /**
+     * This function sets money and restore stats at the end of the battle
+     */
+    void endingBattle();
 }

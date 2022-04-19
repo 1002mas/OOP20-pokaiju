@@ -198,4 +198,9 @@ public class BattleControllerImpl implements BattleController {
     public boolean hasPlayerLost() {
 	return monsterBattle.hasPlayerLost();
     }
+
+    @Override
+    public void endingBattle() {
+	monsterBattle.EndingBattle();
+    }
 }
