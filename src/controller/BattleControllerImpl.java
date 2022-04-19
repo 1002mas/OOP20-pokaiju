@@ -201,6 +201,6 @@ public class BattleControllerImpl implements BattleController {
 
     @Override
     public void endingBattle() {
-	monsterBattle.EndingBattle();
+	monsterBattle.endingBattle();
     }
 }

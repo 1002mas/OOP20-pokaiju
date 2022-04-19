@@ -90,7 +90,7 @@ public class BoxPanel extends JPanel {
 	take.setEnabled(false);
 
 	JPanel playerMonstersPanel = new JPanel(new GridLayout(0, 1));
-	playerMonstersPanel.setPreferredSize(new Dimension(300, getPreferredSize().height));
+	playerMonstersPanel.setPreferredSize(new Dimension(400, getPreferredSize().height));
 
 	for (int playerMonsterid : playerMonsterIdList) {
 	    playerMonstersPanel.add(setMonsterPanel(playerMonsterid, playerMonstersPanel, true));
@@ -132,7 +132,7 @@ public class BoxPanel extends JPanel {
 	JLabel team = new JLabel("Team");
 	setLabelProp(team);
 	team.setBorder(BorderFactory.createLineBorder(Color.black));
-	team.setPreferredSize(new Dimension(300, getPreferredSize().height));
+	team.setPreferredSize(new Dimension(400, getPreferredSize().height));
 
 	titlePanel.add(box, BorderLayout.CENTER);
 	titlePanel.add(team, BorderLayout.EAST);
