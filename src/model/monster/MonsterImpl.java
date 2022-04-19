@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 import model.Pair;
@@ -139,7 +139,7 @@ public class MonsterImpl implements Monster {
     public void levelUp() {
         this.level++;
         this.exp = 0;
-        onLevelUp();
+        onLevelUp(1);
     }
 
     /**
@@ -156,18 +156,21 @@ public class MonsterImpl implements Monster {
             this.exp = 0;
         }
         if (incLevel > 0) {
-            onLevelUp();
+            onLevelUp(incLevel);
         }
     }
 
-    private void onLevelUp() {
-        final Random rand = new Random();
-        this.maxStats.setHealth(this.maxStats.getHealth() + rand.nextInt(MAX_HP_STEP - MIN_HP_STEP) + MIN_HP_STEP);
-        this.maxStats
-                .setAttack(this.maxStats.getAttack() + rand.nextInt(MAX_STAT_STEP - MIN_STAT_STEP) + MIN_STAT_STEP);
-        this.maxStats
-                .setDefense(this.maxStats.getDefense() + rand.nextInt(MAX_STAT_STEP - MIN_STAT_STEP) + MIN_STAT_STEP);
-        this.maxStats.setSpeed(this.maxStats.getSpeed() + rand.nextInt(MAX_STAT_STEP - MIN_STAT_STEP) + MIN_STAT_STEP);
+    private void onLevelUp(final int level) {
+        for (int i = 0; i < level; i++) {
+            this.maxStats.setHealth(this.maxStats.getHealth()
+                    + ThreadLocalRandom.current().nextInt(MAX_HP_STEP - MIN_HP_STEP) + MIN_HP_STEP);
+            this.maxStats.setAttack(this.maxStats.getAttack()
+                    + ThreadLocalRandom.current().nextInt(MAX_STAT_STEP - MIN_STAT_STEP) + MIN_STAT_STEP);
+            this.maxStats.setDefense(this.maxStats.getDefense()
+                    + ThreadLocalRandom.current().nextInt(MAX_STAT_STEP - MIN_STAT_STEP) + MIN_STAT_STEP);
+            this.maxStats.setSpeed(this.maxStats.getSpeed()
+                    + ThreadLocalRandom.current().nextInt(MAX_STAT_STEP - MIN_STAT_STEP) + MIN_STAT_STEP);
+        }
         restoreStats();
     }
 
