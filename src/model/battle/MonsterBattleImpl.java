@@ -66,7 +66,7 @@ public class MonsterBattleImpl implements MonsterBattle {
     @Override
     public boolean capture() {
 	throwExceptionIfItIsOver();
-	if (!enemy.getWild()) {
+	if (!enemy.isWild()) {
 	    return false;
 	}
 
@@ -83,7 +83,7 @@ public class MonsterBattleImpl implements MonsterBattle {
     @Override
     public boolean escape() {
 	throwExceptionIfItIsOver();
-	if (!enemy.getWild()) {
+	if (!enemy.isWild()) {
 
 	    return false;
 	} else {
