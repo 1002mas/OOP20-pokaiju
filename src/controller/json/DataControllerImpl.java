@@ -175,7 +175,7 @@ public class DataControllerImpl implements DataLoaderController {
 	Monster greyfish = new MonsterBuilderImpl().species(getSpeciesByName("greyfish")).level(5)
 		.movesList(getMovesByTypeWithPP(MonsterType.WATER)).build();
 	Monster bibol = new MonsterBuilderImpl().species(getSpeciesByName("bibol")).level(10)
-		.movesList(getMovesByTypeWithPP(MonsterType.GRASS)).build();
+		.movesList(getMovesByTypeWithPP(MonsterType.FIRE)).build();
 	// bibol.setHealth(150);
 	Monster puppin = new MonsterBuilderImpl().species(getSpeciesByName("puppin")).level(10)
 		.movesList(getMovesByTypeWithPP(MonsterType.FIRE)).build();
@@ -318,30 +318,7 @@ public class DataControllerImpl implements DataLoaderController {
 	return map;
     }
 
-    @Override
-    public List<Moves> getMoves() {
-	return this.moves;
-    }
-
-    @Override
-    public List<NpcSimple> getNpcs() {
-	return this.npcs;
-    }
-
-    @Override
-    public List<GameItem> getGameItems() {
-	return this.gameItems;
-    }
-
-    @Override
-    public List<GameEvent> getEvents() {
-	return this.events;
-    }
-
-    @Override
-    public List<MonsterSpecies> getMonstersSpecies() {
-	return this.monsterSpecies;
-    }
+   
 
     @Override
     public Player getPlayer() {
@@ -357,7 +334,7 @@ public class DataControllerImpl implements DataLoaderController {
     public int getMaximumBlockInRow() {
 	return MAXIMUM_BLOCK_IN_ROW;
     }
-
+    /*
     @Override
     public Moves getMove(String name) {
 	return this.moves.stream().filter(e -> e.getName().equals(name)).findFirst().get();
@@ -377,11 +354,8 @@ public class DataControllerImpl implements DataLoaderController {
     public GameItem getItem(String name) {
 	return this.gameItems.stream().filter(e -> e.getNameItem().equals(name)).findFirst().get();
     }
-
-    @Override
-    public GameEvent getEvent(int id) {
-	return this.events.stream().filter(e -> e.getEventID() == id).findFirst().get();
-    }
+    */
+   
 
     @Override
     public MonsterSpecies getSpeciesByName(String name) {

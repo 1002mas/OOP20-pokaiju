@@ -128,14 +128,6 @@ public interface BattleController {
     boolean chooseMove(String moveName);
 
     /**
-     * Returns the PP of a move
-     * 
-     * @param moveName
-     * @return move's PP
-     */
-    int getCurrentPP(String moveName);
-
-    /**
      * Check the PP of a move
      * 
      * @param moveName
@@ -220,4 +212,16 @@ public interface BattleController {
      * @return if the battle ends
      */
     boolean isOver();
+    
+    /**
+     * Returns true if the player has lost the battle, false otherwise
+     * 
+     * @return if the player has lost the battle
+     */
+    boolean hasPlayerLost();
+    
+    /**
+     * This function sets money and restore stats at the end of the battle
+     */
+    void endingBattle();
 }

@@ -64,6 +64,9 @@ public class GameMapDataImpl implements GameMapData {
 
     @Override
     public void addNpc(NpcSimple npc) {
+	if (this.npcs.contains(npc)) {
+	    this.npcs.remove(npc);
+	}
 	this.npcs.add(npc);
     }
 
