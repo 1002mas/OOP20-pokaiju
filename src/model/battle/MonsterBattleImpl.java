@@ -90,12 +90,10 @@ public class MonsterBattleImpl implements MonsterBattle {
 	if (!enemy.getWild()) {
 
 	    return false;
-	}else{
+	} else {
 	    this.battleStatus = false;
 	    return true;
 	}
-
-	
 
     }
 
@@ -153,20 +151,17 @@ public class MonsterBattleImpl implements MonsterBattle {
 	if (allPlayerMonsterDeafeted()) { // player's team defeated
 	    this.battleStatus = false;
 	    this.playerLose = true;
-	    this.trainer.setMoney(trainer.getMoney() - MONEY_LOST);
-	    restoreAllMonsters();
-	    this.trainer.evolveMonsters();
+
 	}
 
 	if (!areThereEnemies()) {
 	    // ending battle
 
-	    this.trainer.setMoney(trainer.getMoney() + MONEY_WON);
+	    
 	    if (this.enemyTrainer.isPresent()) {
 		enemyTrainer.get().setDefeated(true);
 	    }
 	    this.battleStatus = false;
-	    this.trainer.evolveMonsters();
 	} else {
 	    this.enemy = enemyTeam.stream().filter(m -> m.isAlive()).findAny().get(); // change enemy's
 										      // monster
@@ -273,7 +268,20 @@ public class MonsterBattleImpl implements MonsterBattle {
 	return false;
 
     }
-    public boolean hasPlayerLost(){
+
+    public boolean hasPlayerLost() {
 	return this.playerLose;
+    }
+
+    @Override
+    public void EndingBattle() {
+	if (hasPlayerLost()) {
+	    this.trainer.setMoney(trainer.getMoney() - MONEY_LOST);
+
+	} else {
+	    this.trainer.setMoney(trainer.getMoney() + MONEY_WON);
+	}
+	restoreAllMonsters();
+	this.trainer.evolveMonsters();
     }
 }

@@ -120,5 +120,11 @@ public interface MonsterBattle {
 	 * @return true the player has lost, false otherwise
 	 */
 	boolean hasPlayerLost();
+	/***
+	 * 
+	 * this function set the player data after the battle and restore the monsters
+	 * 
+	 */
+	void EndingBattle();
 	
 }
