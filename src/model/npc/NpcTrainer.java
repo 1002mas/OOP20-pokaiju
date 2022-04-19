@@ -20,7 +20,7 @@ public interface NpcTrainer extends NpcSimple {
 	 boolean isDefeated();
 
 	/**
-	 * this function set if trainer is defeated
+	 * This function set if trainer is defeated
 	 * 
 	 * @param isDefeated
 	 */
