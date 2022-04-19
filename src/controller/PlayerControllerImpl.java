@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import controller.json.DataLoaderController;
 import model.Pair;
 import model.battle.MonsterBattle;
 import model.battle.Moves;
@@ -23,10 +22,10 @@ public class PlayerControllerImpl implements PlayerController {
 	private Player player;
 	private Direction currentDirection = Direction.DOWN;
 	private Optional<MonsterBattle> battle = Optional.empty();
-	private DataLoaderController dataController;
+	private DataController dataController;
 	private boolean hasTriggeredEvent;
 
-	public PlayerControllerImpl(DataLoaderController dataController) {
+	public PlayerControllerImpl(DataController dataController) {
 		this.dataController = dataController;
 	}
 

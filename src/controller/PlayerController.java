@@ -32,7 +32,7 @@ public interface PlayerController {
 	 * While this is true the player won't be able to interact with other npcs or
 	 * move around.
 	 * 
-	 * @return true if in the last interact() call the player interacted with a
+	 * @return true if in the last {@link #interact() interact()} call the player interacted with a
 	 *         merchant
 	 */
 	boolean hasMerchantInteractionOccurred();
@@ -111,7 +111,7 @@ public interface PlayerController {
 	boolean hasPlayerChangedMap();
 
 	/**
-	 * It may be turn true after calling interact() or walking in wild monsters area
+	 * It may be turn true after calling {@link #interact() interact()} or walking in wild monsters area
 	 * 
 	 * @return true if a battle began
 	 */

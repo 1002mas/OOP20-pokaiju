@@ -1,7 +1,7 @@
 package test;
 
+import controller.DataControllerImpl;
 import controller.PlayerControllerImpl;
-import controller.json.DataControllerImpl;
 import gui.GameFrameImpl;
 
 public class GuiTest {

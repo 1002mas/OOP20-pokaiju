@@ -20,10 +20,16 @@ import controller.Direction;
 import gui.ImagesLoader;
 import model.Pair;
 
+/**
+ * Panel with no background containing player and npcs.
+ * 
+ * @author sam
+ *
+ */
 public class PlayerPanel extends JPanel {
     private static final long serialVersionUID = -7016352522753786674L;
     private static final int CHARACTER_STEP = 1;
-    private static final int STEP_TIME = 300;// ms 
+    private static final int STEP_TIME = 300;// ms
     private static final int CHARACTER_TURN_TIME = 60;// ms
 
     private final ImagesLoader imgLoader;
@@ -41,6 +47,14 @@ public class PlayerPanel extends JPanel {
     private int speed = 1;
     private boolean leftLeg = false;
 
+    /**
+     * 
+     * @param playerPos            current player pos
+     * @param imgLoader            images loader
+     * @param player_gender        player gender to change between player sprites
+     * @param maximumCellsInRow    maximum map height
+     * @param maximumCellsInColumn maximum map width
+     */
     public PlayerPanel(Pair<Integer, Integer> playerPos, ImagesLoader imgLoader, String player_gender,
 	    int maximumCellsInRow, int maximumCellsInColumn) {
 	super();
@@ -52,7 +66,6 @@ public class PlayerPanel extends JPanel {
 	this.player_gender = player_gender;
 	this.add(player);
 	this.setOpaque(false);
-	
 
 	this.textLabel.setOpaque(true);
 	this.textLabel.setBackground(Color.WHITE);
@@ -96,14 +109,31 @@ public class PlayerPanel extends JPanel {
 	this.repaint();
     }
 
+    /**
+     * It changes the player image
+     * 
+     * @param img image that the player will take
+     */
     public void setPlayerImage(Icon img) {
 	this.player.setIcon(img);
     }
 
+    /**
+     * 
+     * @return the player sprite in a JLabel
+     */
     public JLabel getPlayerComponent() {
 	return this.player;
     }
 
+    /**
+     * It is used when the player goes around the map. DO NOT use on map change, use
+     * {@link #staticMove() staticMove()} instead.
+     * 
+     * @param dir     direction where the player is going to.
+     * @param canMove if the player cannot move, it will just turn in the given
+     *                direction
+     */
     public void animatedMove(Direction dir, boolean canMove) {
 	// face the next step direction
 	player.setIcon(new ImageIcon(imgLoader.getPlayerImages(dir, player_gender).get(0)));
@@ -150,6 +180,9 @@ public class PlayerPanel extends JPanel {
 	}
     }
 
+    /**
+     * It is used to just change the player position.
+     */
     public void staticMove() {
 	this.playerPos = this.playerNextPos;
 	this.paintImmediately(this.getBounds());
@@ -161,10 +194,20 @@ public class PlayerPanel extends JPanel {
 	return new Pair<>(targetX, targetY);
     }
 
+    /**
+     * It set the position where the player will have to go.
+     * 
+     * @param nextPos the next position
+     */
     public void setNextPosition(Pair<Integer, Integer> nextPos) {
 	this.playerNextPos = calculateViewPosition(nextPos);
     }
 
+    /**
+     * It substitutes the npc in the map with the given ones.
+     * 
+     * @param npcsPosition the npc name and its position
+     */
     public void setNpcs(Map<String, Pair<Integer, Integer>> npcsPosition) {
 	for (JLabel l : npcsLabels.keySet()) {
 	    this.remove(l);
@@ -180,11 +223,20 @@ public class PlayerPanel extends JPanel {
 	this.repaint();
     }
 
+    /**
+     * It display a text in the bottom page.
+     * 
+     * @param text the text to be displayed
+     */
     public void showText(String text) {
 	textLabel.setText(text);
 	textLabel.setVisible(true);
     }
 
+    /**
+     * It hides the displayed text in the bottom page.
+     * 
+     */
     public void hideText() {
 	textLabel.setVisible(false);
 	this.paintImmediately(this.getBounds());

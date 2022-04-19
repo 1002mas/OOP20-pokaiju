@@ -1,9 +1,9 @@
-package controller.json;
+package controller;
 
 import model.monster.MonsterSpecies;
 import model.player.Player;
 
-public interface DataLoaderController {
+public interface DataController {
 
 	/**
 	 * This function returns the player

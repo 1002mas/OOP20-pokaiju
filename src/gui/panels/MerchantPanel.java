@@ -35,6 +35,11 @@ public class MerchantPanel extends JPanel {
     private JLabel totalPriceField = new JLabel();
     private List<SpinnerModel> itemQuantity = new ArrayList<>();
 
+    /**
+     * 
+     * @param frame            the parent view
+     * @param playerController the game controller
+     */
     public MerchantPanel(GameFrame frame, PlayerController playerController) {
 	this.setLayout(new BorderLayout());
 	this.playerController = playerController;
