@@ -19,9 +19,9 @@ import model.gameevents.MonsterGift;
 import model.gameevents.NpcTextChanger;
 import model.gameevents.NpcVisibilityChanger;
 import model.gameevents.UniqueMonsterEvent;
+import model.gameitem.CaptureItem;
 import model.gameitem.EvolutionItem;
 import model.gameitem.GameItem;
-import model.gameitem.CaptureItem;
 import model.gameitem.HealingItem;
 import model.map.GameMapData;
 import model.map.GameMapDataImpl;
@@ -52,7 +52,6 @@ public class DataControllerImpl implements DataLoaderController {
     private List<MonsterSpecies> monsterSpecies = new ArrayList<>();
     private List<Monster> monster = new ArrayList<>();
     private List<NpcSimple> npcs = new ArrayList<>();
-    private List<GameEvent> events = new ArrayList<>();
     private Player player;
     private List<GameMapData> gameMapData = new ArrayList<>();
 
@@ -148,6 +147,7 @@ public class DataControllerImpl implements DataLoaderController {
 
     @Override
     public void setPlayer(String name, String gender, int trainerNumber) {
+	cleanData();
 	gender = gender.toLowerCase();
 	Gender playerGender = null;
 	for (Gender g : Gender.values()) {
@@ -168,13 +168,17 @@ public class DataControllerImpl implements DataLoaderController {
 	this.player.addMonster(this.monster.get(this.monster.size() - 1));
 	/* TODO some events to show off */
     }
+    private void cleanData() {
+	this.monster = new ArrayList<>();
+	this.npcs = new ArrayList<>();
+    }
 
     private void createMonsters() {
 	Monster kracez = new MonsterBuilderImpl().species(getSpeciesByName("kracez")).level(5)
 		.movesList(getMovesByTypeWithPP(MonsterType.GRASS)).build();
 	Monster greyfish = new MonsterBuilderImpl().species(getSpeciesByName("greyfish")).level(5)
 		.movesList(getMovesByTypeWithPP(MonsterType.WATER)).build();
-	Monster bibol = new MonsterBuilderImpl().species(getSpeciesByName("bibol")).level(10)
+	Monster bibol = new MonsterBuilderImpl().species(getSpeciesByName("bibol")).level(100)
 		.movesList(getMovesByTypeWithPP(MonsterType.FIRE)).build();
 	// bibol.setHealth(150);
 	Monster puppin = new MonsterBuilderImpl().species(getSpeciesByName("puppin")).level(10)
