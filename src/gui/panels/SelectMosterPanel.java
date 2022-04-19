@@ -27,8 +27,8 @@ public class SelectMosterPanel extends JPanel {
      * @param parentPanel      the parentPanel
      */
     public SelectMosterPanel(final PlayerController playerController, final JPanel parentPanel) {
-	this.playerController = playerController;
-	this.parentPanel = parentPanel;
+        this.playerController = playerController;
+        this.parentPanel = parentPanel;
     }
 
     /**
@@ -36,51 +36,58 @@ public class SelectMosterPanel extends JPanel {
      * 
      */
     private void init() {
-	final CardLayout c1 = (CardLayout) this.parentPanel.getLayout();
-	this.setLayout(c1);
-	final JPanel containerPanel = new JPanel(new BorderLayout());
-	final List<Integer> monsterIds = this.playerController.getMonstersId();
+        final CardLayout c1 = (CardLayout) this.parentPanel.getLayout();
+        this.setLayout(c1);
+        final JPanel containerPanel = new JPanel(new BorderLayout());
+        final List<Integer> monsterIds = this.playerController.getMonstersId();
 
-	final JPanel allMonsterPanel = new JPanel(new GridLayout(0, 2));
-	for (final int monsterId : monsterIds) {
-	    final JLabel singleMonsterLabel = new JLabel();
-	    final String stats = "<html>" + "name : " + this.playerController.getMonsterNameById(monsterId) + "<br/>"
-		    + "Level : " + playerController.getMonsterLevel(monsterId) + "<br/>" + "Hp : "
-		    + playerController.getMonsterHealth(monsterId) + "/"
-		    + playerController.getMonsterMaxHealth(monsterId) + "</html>";
-	    singleMonsterLabel.setText(stats);
-	    setLabelProp(singleMonsterLabel);
+        final JPanel allMonsterPanel = new JPanel(new GridLayout(0, 2));
+        for (final int monsterId : monsterIds) {
+            final JLabel singleMonsterLabel = new JLabel();
+            singleMonsterLabel.setText(getInfoText(monsterId));
+            setLabelProp(singleMonsterLabel);
+            final JButton checkButton = new JButton("USE ON THIS MONSTER");
+            checkButton.addActionListener(e -> {
+                if (this.playerController.isItemPresent(itemName)) {
+                    if (this.playerController.getItemtype(itemName).equals(GameItemTypes.EVOLUTIONTOOL.toString())) {
+                        if (this.playerController.canEvolveByItem(itemName, monsterId)) {
+                            this.playerController.evolveByItem(itemName, monsterId);
+                            this.playerController.useItemOnMonster(this.itemName, monsterId);
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Can't be evolved by this Item");
+                            backButton.doClick();
+                        }
+                    } else {
+                        this.playerController.useItemOnMonster(this.itemName, monsterId);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Item finished");
+                    backButton.doClick();
+                }
+                update();
+            });
+            allMonsterPanel.add(singleMonsterLabel);
+            allMonsterPanel.add(checkButton);
+        }
 
-	    final JButton checkButton = new JButton("USE ON THIS MONSTER");
-	    checkButton.addActionListener(e -> {
-		if (this.playerController.isItemPresent(itemName)) {
-		    if (this.playerController.getItemtype(itemName).equals(GameItemTypes.EVOLUTIONTOOL.toString())) {
-			if (this.playerController.canEvolveByItem(itemName, monsterId)) {
-			    this.playerController.evolveByItem(itemName, monsterId);
-			    this.playerController.useItemOnMonster(this.itemName, monsterId);
-			} else {
-			    JOptionPane.showMessageDialog(null, "Can't be evolved by this Item");
-			    backButton.doClick();
-			}
-		    } else {
-			this.playerController.useItemOnMonster(this.itemName, monsterId);
-		    }
-		} else {
-		    JOptionPane.showMessageDialog(null, "Item finished");
-		    backButton.doClick();
-		}
-		update();
-	    });
-	    allMonsterPanel.add(singleMonsterLabel);
-	    allMonsterPanel.add(checkButton);
-	}
+        setPanelProp(allMonsterPanel, monsterIds.size());
 
-	setPanelProp(allMonsterPanel, monsterIds.size());
+        containerPanel.add(allMonsterPanel, BorderLayout.CENTER);
+        containerPanel.add(backButton, BorderLayout.SOUTH);
+        this.add(containerPanel);
 
-	containerPanel.add(allMonsterPanel, BorderLayout.CENTER);
-	containerPanel.add(backButton, BorderLayout.SOUTH);
-	this.add(containerPanel);
+    }
 
+    /**
+     * get info text
+     * 
+     * @return text of statistics of monster
+     */
+    private String getInfoText(final int monsterId) {
+        return "<html>" + "name : " + this.playerController.getMonsterNameById(monsterId) + "<br/>" + "Level : "
+                + playerController.getMonsterLevel(monsterId) + "<br/>" + "Hp : "
+                + playerController.getMonsterHealth(monsterId) + "/" + playerController.getMonsterMaxHealth(monsterId)
+                + "</html>";
     }
 
     /**
@@ -89,7 +96,7 @@ public class SelectMosterPanel extends JPanel {
      * @param ItemName
      */
     public void setItemName(final String itemName) {
-	this.itemName = itemName;
+        this.itemName = itemName;
     }
 
     /**
@@ -99,25 +106,25 @@ public class SelectMosterPanel extends JPanel {
      * @param numberOfMonster Number of Monster present in player's team
      */
     private void setPanelProp(final JPanel panel, final int numberOfMonster) {
-	int cont = 6 - numberOfMonster;
-	while (cont > 0) {
-	    final JLabel label = new JLabel();
-	    final JButton button = new JButton();
-	    label.setVisible(false);
-	    button.setVisible(false);
-	    panel.add(label);
-	    panel.add(button);
-	    cont--;
-	}
+        int cont = 6 - numberOfMonster;
+        while (cont > 0) {
+            final JLabel label = new JLabel();
+            final JButton button = new JButton();
+            label.setVisible(false);
+            button.setVisible(false);
+            panel.add(label);
+            panel.add(button);
+            cont--;
+        }
     }
 
     /**
      * update content area
      */
     public void update() {
-	this.removeAll();
-	init();
-	this.validate();
+        this.removeAll();
+        init();
+        this.validate();
     }
 
     /**
@@ -126,9 +133,9 @@ public class SelectMosterPanel extends JPanel {
      * @param label JLabel
      */
     private void setLabelProp(final JLabel label) {
-	label.setBorder(BorderFactory.createLineBorder(Color.blue));
-	label.setHorizontalAlignment(SwingConstants.CENTER);
-	label.setVerticalAlignment(SwingConstants.CENTER);
+        label.setBorder(BorderFactory.createLineBorder(Color.blue));
+        label.setHorizontalAlignment(SwingConstants.CENTER);
+        label.setVerticalAlignment(SwingConstants.CENTER);
     }
 
     /**
@@ -137,6 +144,6 @@ public class SelectMosterPanel extends JPanel {
      * return backButton
      */
     public JButton getBackButton() {
-	return backButton;
+        return backButton;
     }
 }
