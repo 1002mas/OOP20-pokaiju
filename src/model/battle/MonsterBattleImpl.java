@@ -11,7 +11,7 @@ import model.npc.NpcTrainer;
 import model.player.Player;
 
 public class MonsterBattleImpl implements MonsterBattle {
-    private static final int EXP_MULTIPLER = 100;
+    private static final int EXP_MULTIPLER = 1000; //100
     private static final int CAPTURE_RANGE = 10;
     private static final int CAPTURE_DIFFICULT = 3;
     private static final int MONEY_WON = 70;
