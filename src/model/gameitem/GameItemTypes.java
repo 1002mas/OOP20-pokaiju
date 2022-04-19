@@ -7,7 +7,7 @@ package model.gameitem;
  */
 public enum GameItemTypes {
     /**
-     * Restore Life point
+     * Restore Life points
      * 
      */
     HEAL("Heal", true, true),
@@ -26,7 +26,7 @@ public enum GameItemTypes {
     private boolean useBattle;
     private boolean useBag;
 
-    GameItemTypes(String name, boolean useBattle, boolean useBag) {
+    GameItemTypes(final String name, final boolean useBattle, final boolean useBag) {
 	this.name = name;
 	this.useBattle = useBattle;
 	this.useBag = useBag;

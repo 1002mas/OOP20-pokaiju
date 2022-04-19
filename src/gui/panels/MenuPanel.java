@@ -21,7 +21,7 @@ import gui.ImagesLoader;
 public class MenuPanel extends JPanel {
     private static final long serialVersionUID = 5503139907518499045L;
     private final ImagesLoader imgLoad;
-    private int size;
+    private final int size;
     private final GameFrameImpl gui;
     private final PlayerController playerController;
     private static final String MONSTER_PANEL = "MONSTER";
@@ -35,7 +35,8 @@ public class MenuPanel extends JPanel {
     private final JButton quit = new JButton(" QUIT MENU ");
     private final JButton backToMainMenu = new JButton(" BACK TO MAIN MENU ");
 
-    public MenuPanel(PlayerController playerController, ImagesLoader imgLoad, int size, GameFrameImpl gui) {
+    public MenuPanel(final PlayerController playerController, final ImagesLoader imgLoad, final int size,
+	    final GameFrameImpl gui) {
 	this.playerController = playerController;
 	this.imgLoad = imgLoad;
 	this.size = size;
@@ -44,11 +45,11 @@ public class MenuPanel extends JPanel {
     }
 
     private void init() {
-	CardLayout cLayout = (CardLayout) this.gui.getContentPane().getLayout();
+	final CardLayout cLayout = (CardLayout) this.gui.getContentPane().getLayout();
 
 	this.setLayout(new BorderLayout());
 
-	JPanel topPanel = new JPanel(new FlowLayout());
+	final JPanel topPanel = new JPanel(new FlowLayout());
 	topPanel.setBorder(BorderFactory.createLineBorder(Color.blue));
 
 	topPanel.add(monster);
@@ -58,17 +59,17 @@ public class MenuPanel extends JPanel {
 	topPanel.add(quit);
 	topPanel.add(backToMainMenu);
 
-	JPanel bottomPanel = new JPanel();
+	final JPanel bottomPanel = new JPanel();
 	bottomPanel.setBorder(BorderFactory.createLineBorder(Color.red));
 	bottomPanel.setLayout(cLayout);
 
-	MonsterPanel monsterPanel = new MonsterPanel(this.playerController, this.imgLoad);
+	final MonsterPanel monsterPanel = new MonsterPanel(this.playerController, this.imgLoad);
 
-	BoxPanel boxPanel = new BoxPanel(this.playerController);
+	final BoxPanel boxPanel = new BoxPanel(this.playerController);
 
-	GameItemPanel gameItemPanel = new GameItemPanel(this.playerController, size);
+	final GameItemPanel gameItemPanel = new GameItemPanel(this.playerController, size);
 
-	PlayerInfoPanel playerInfoPanel = new PlayerInfoPanel(this.playerController);
+	final PlayerInfoPanel playerInfoPanel = new PlayerInfoPanel(this.playerController);
 
 	bottomPanel.add(monsterPanel);
 	bottomPanel.add(boxPanel);
@@ -95,8 +96,8 @@ public class MenuPanel extends JPanel {
 	});
 
 	backToMainMenu.addActionListener(new ActionListener() {
-	    public void actionPerformed(ActionEvent e) {
-		int result = JOptionPane.showConfirmDialog(null, "Sure? You want to exit?", "Warning",
+	    public void actionPerformed(final ActionEvent e) {
+		final int result = JOptionPane.showConfirmDialog(null, "Sure? You want to exit?", "Warning",
 			JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 		if (result == JOptionPane.YES_OPTION) {
 		    gui.updateView(GameFrameImpl.LOGIN_VIEW);
@@ -112,7 +113,7 @@ public class MenuPanel extends JPanel {
 	this.addComponentListener(new ComponentListener() {
 
 	    @Override
-	    public void componentShown(ComponentEvent e) {
+	    public void componentShown(final ComponentEvent e) {
 		monsterPanel.update();
 		gameItemPanel.update();
 		playerInfoPanel.update();
@@ -120,15 +121,15 @@ public class MenuPanel extends JPanel {
 	    }
 
 	    @Override
-	    public void componentResized(ComponentEvent e) {
+	    public void componentResized(final ComponentEvent e) {
 	    }
 
 	    @Override
-	    public void componentMoved(ComponentEvent e) {
+	    public void componentMoved(final ComponentEvent e) {
 	    }
 
 	    @Override
-	    public void componentHidden(ComponentEvent e) {
+	    public void componentHidden(final ComponentEvent e) {
 	    }
 	});
 	this.add(topPanel, BorderLayout.NORTH);

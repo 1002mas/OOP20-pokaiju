@@ -28,7 +28,7 @@ public class MonsterPanel extends JPanel {
      * @param playerController the game controller
      * @param imgLoad          the game ImagesLoader
      */
-    public MonsterPanel(PlayerController playerController, ImagesLoader imgLoad) {
+    public MonsterPanel(final PlayerController playerController, final ImagesLoader imgLoad) {
 	this.playerController = playerController;
 	this.imgLoad = imgLoad;
     }
@@ -39,25 +39,25 @@ public class MonsterPanel extends JPanel {
      */
     private void init() {
 	this.setLayout(cardlayout);
-	JPanel allMonsterPanel = new JPanel(new GridLayout(2, 3));
-	List<JPanel> monsterStatsPanel = new ArrayList<>();
-	List<Integer> monsterIds = this.playerController.getMonstersId();
+	final JPanel allMonsterPanel = new JPanel(new GridLayout(2, 3));
+	final List<JPanel> monsterStatsPanel = new ArrayList<>();
+	final List<Integer> monsterIds = this.playerController.getMonstersId();
 
-	for (Integer id : monsterIds) {
-	    MonsterInfoPanel monsterInfoPanel = new MonsterInfoPanel(this, id, playerController, imgLoad);
+	for (final Integer id : monsterIds) {
+	    final MonsterInfoPanel monsterInfoPanel = new MonsterInfoPanel(this, id, playerController, imgLoad);
 	    monsterStatsPanel.add(monsterInfoPanel);
 	}
 
 	int index = 1;
-	for (Integer id : monsterIds) {
-	    allMonsterPanel.add(setMonsterPanel(id, index));
+	for (final Integer id : monsterIds) {
+	    allMonsterPanel.add(monsterPanelArea(id, index));
 	    index++;
 	}
 	setPanelProp(allMonsterPanel, monsterIds.size());
 	this.add(allMonsterPanel, Integer.toString(0));
 
 	index = 1;
-	for (JPanel p : monsterStatsPanel) {
+	for (final JPanel p : monsterStatsPanel) {
 	    this.add(p, Integer.toString(index));
 	    index++;
 	}
@@ -69,7 +69,7 @@ public class MonsterPanel extends JPanel {
      * 
      * @param panelName panel which will be showed
      */
-    public void changePanel(String panelName) {
+    public void changePanel(final String panelName) {
 	cardlayout.show(this, panelName);
     }
 
@@ -79,14 +79,14 @@ public class MonsterPanel extends JPanel {
      * @param monsterId Monster
      * @param index     panel that contain all statistics of Monster
      */
-    private JPanel setMonsterPanel(int monsterId, int index) {
-	JPanel panel = new JPanel(new BorderLayout());
-	JLabel singleMonsterInfoLabel = new JLabel();
-	JLabel monsterImgLabel = new JLabel();
-	JButton statsButton = new JButton("STATS");
+    private JPanel monsterPanelArea(final int monsterId, final int index) {
+	final JPanel panel = new JPanel(new BorderLayout());
+	final JLabel singleMonsterInfoLabel = new JLabel();
+	final JLabel monsterImgLabel = new JLabel();
+	final JButton statsButton = new JButton("STATS");
 
-	String stats = "<html>" + "name : " + this.playerController.getMonsterNameById(monsterId) + "<br/>" + "Level : "
-		+ playerController.getMonsterLevel(monsterId) + "<br/>" + "Hp : "
+	final String stats = "<html>" + "name : " + this.playerController.getMonsterNameById(monsterId) + "<br/>"
+		+ "Level : " + playerController.getMonsterLevel(monsterId) + "<br/>" + "Hp : "
 		+ playerController.getMonsterHealth(monsterId) + "/" + playerController.getMonsterMaxHealth(monsterId)
 		+ "</html>";
 	singleMonsterInfoLabel.setText(stats);
@@ -109,10 +109,10 @@ public class MonsterPanel extends JPanel {
      * @param panel           JPanel
      * @param numberOfMonster Number of Monster present in player's team
      */
-    private void setPanelProp(JPanel panel, int numberOfMonster) {
+    private void setPanelProp(final JPanel panel, final int numberOfMonster) {
 	int cont = 6 - numberOfMonster;
 	while (cont > 0) {
-	    JLabel label = new JLabel();
+	    final JLabel label = new JLabel();
 	    label.setVisible(false);
 	    panel.add(label);
 	    cont--;
@@ -133,7 +133,7 @@ public class MonsterPanel extends JPanel {
      * 
      * @param label JLabel
      */
-    private void setLabelProp(JLabel label) {
+    private void setLabelProp(final JLabel label) {
 	label.setBorder(BorderFactory.createLineBorder(Color.blue));
 	label.setHorizontalAlignment(SwingConstants.CENTER);
 	label.setVerticalAlignment(SwingConstants.CENTER);
