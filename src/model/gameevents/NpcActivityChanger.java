@@ -29,10 +29,10 @@ public class NpcActivityChanger extends AbstractGameEvent {
      * @param isEnabled            false if you want to disable it
      */
     public NpcActivityChanger(final int id, final boolean isActive, final boolean isReactivable,
-	    final boolean isToActiveImmediatly, final NpcSimple npc, final boolean isEnabled) {
-	super(id, isActive, isReactivable, isToActiveImmediatly);
-	this.npc = npc;
-	this.isEnabled = isEnabled;
+            final boolean isToActiveImmediatly, final NpcSimple npc, final boolean isEnabled) {
+        super(id, isActive, isReactivable, isToActiveImmediatly);
+        this.npc = npc;
+        this.isEnabled = isEnabled;
     }
 
     /**
@@ -40,7 +40,7 @@ public class NpcActivityChanger extends AbstractGameEvent {
      */
     @Override
     public void activateEvent() {
-	this.npc.setEnabled(isEnabled);
+        this.npc.setEnabled(isEnabled);
     }
 
 }

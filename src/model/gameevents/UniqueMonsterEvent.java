@@ -25,9 +25,10 @@ public class UniqueMonsterEvent extends AbstractGameEvent {
      *                             another event
      * @param monster              the monster you want to battle with the player
      */
-    public UniqueMonsterEvent(final int id, final boolean isActive, final boolean isToActiveImmediatly, final Monster monster) {
-	super(id, isActive, false, isToActiveImmediatly);
-	this.monster = monster;
+    public UniqueMonsterEvent(final int id, final boolean isActive, final boolean isToActiveImmediatly,
+            final Monster monster) {
+        super(id, isActive, false, isToActiveImmediatly);
+        this.monster = monster;
     }
 
     /**
@@ -35,7 +36,7 @@ public class UniqueMonsterEvent extends AbstractGameEvent {
      */
     @Override
     public List<Monster> getMonster() {
-	return List.of(monster);
+        return List.of(monster);
     }
 
     @Override
@@ -47,6 +48,6 @@ public class UniqueMonsterEvent extends AbstractGameEvent {
      */
     @Override
     public boolean isBattle() {
-	return true;
+        return true;
     }
 }

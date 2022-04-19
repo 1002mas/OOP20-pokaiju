@@ -31,10 +31,10 @@ public class MonsterGift extends AbstractGameEvent {
      * @param player               the player receiving the monsters.
      */
     public MonsterGift(final int id, final boolean isActive, final boolean isReactivable,
-	    final boolean isToActiveImmediatly, final List<Monster> monsters, final Player player) {
-	super(id, isActive, isReactivable, isToActiveImmediatly);
-	this.monsters = monsters;
-	this.player = player;
+            final boolean isToActiveImmediatly, final List<Monster> monsters, final Player player) {
+        super(id, isActive, isReactivable, isToActiveImmediatly);
+        this.monsters = monsters;
+        this.player = player;
     }
 
     /**
@@ -42,9 +42,9 @@ public class MonsterGift extends AbstractGameEvent {
      */
     @Override
     public void activateEvent() {
-	for (final Monster m : monsters) {
-	    player.addMonster(m);
-	}
+        for (final Monster m : monsters) {
+            player.addMonster(m);
+        }
     }
 
     /**
@@ -52,6 +52,6 @@ public class MonsterGift extends AbstractGameEvent {
      */
     @Override
     public List<Monster> getMonster() {
-	return Collections.unmodifiableList(this.monsters);
+        return Collections.unmodifiableList(this.monsters);
     }
 }

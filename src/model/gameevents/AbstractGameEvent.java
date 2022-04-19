@@ -33,12 +33,12 @@ public abstract class AbstractGameEvent implements GameEvent {
      *                             another event
      */
     public AbstractGameEvent(final int id, final boolean isActive, final boolean isReactivable,
-	    final boolean isToActiveImmediatly) {
-	this.id = id;
-	this.isToActiveImmediatly = isToActiveImmediatly;
-	this.isActive = isActive;
-	this.isReactivable = isReactivable;
-	this.hasBeenActivated = isActive;
+            final boolean isToActiveImmediatly) {
+        this.id = id;
+        this.isToActiveImmediatly = isToActiveImmediatly;
+        this.isActive = isActive;
+        this.isReactivable = isReactivable;
+        this.hasBeenActivated = isActive;
     }
 
     /**
@@ -46,7 +46,7 @@ public abstract class AbstractGameEvent implements GameEvent {
      */
     @Override
     public int getEventID() {
-	return this.id;
+        return this.id;
     }
 
     /**
@@ -54,7 +54,7 @@ public abstract class AbstractGameEvent implements GameEvent {
      */
     @Override
     public void addDependentGameEvent(final GameEvent e) {
-	this.eventsToDeactivate.add(e);
+        this.eventsToDeactivate.add(e);
     }
 
     /**
@@ -62,7 +62,7 @@ public abstract class AbstractGameEvent implements GameEvent {
      */
     @Override
     public void addSuccessiveGameEvent(final GameEvent e) {
-	this.eventsToActivate.add(e);
+        this.eventsToActivate.add(e);
     }
 
     /**
@@ -71,14 +71,14 @@ public abstract class AbstractGameEvent implements GameEvent {
     @Override
     public void setActivity(final boolean active) {
 
-	if (hasBeenActivated && !isReactivable) {
-	    this.isActive = false;
-	} else {
-	    this.isActive = active;
-	}
-	if (active) {
-	    hasBeenActivated = true;
-	}
+        if (hasBeenActivated && !isReactivable) {
+            this.isActive = false;
+        } else {
+            this.isActive = active;
+        }
+        if (active) {
+            hasBeenActivated = true;
+        }
     }
 
     /**
@@ -86,7 +86,7 @@ public abstract class AbstractGameEvent implements GameEvent {
      */
     @Override
     public boolean isActive() {
-	return this.isActive;
+        return this.isActive;
     }
 
     /**
@@ -94,7 +94,7 @@ public abstract class AbstractGameEvent implements GameEvent {
      */
     @Override
     public boolean isToActivateImmediatly() {
-	return this.isToActiveImmediatly;
+        return this.isToActiveImmediatly;
     }
 
     /**
@@ -102,7 +102,7 @@ public abstract class AbstractGameEvent implements GameEvent {
      */
     @Override
     public boolean isReactivable() {
-	return this.isReactivable;
+        return this.isReactivable;
     }
 
     /**
@@ -110,7 +110,7 @@ public abstract class AbstractGameEvent implements GameEvent {
      */
     @Override
     public boolean isBattle() {
-	return false;
+        return false;
     }
 
     /**
@@ -118,7 +118,7 @@ public abstract class AbstractGameEvent implements GameEvent {
      */
     @Override
     public List<Monster> getMonster() {
-	return new ArrayList<>();
+        return new ArrayList<>();
     }
 
     /**
@@ -126,20 +126,20 @@ public abstract class AbstractGameEvent implements GameEvent {
      */
     @Override
     public void activate() {
-	if (isActive()) {
-	    activateEvent();
-	    this.eventsToDeactivate.forEach(e -> e.setActivity(false));
+        if (isActive()) {
+            activateEvent();
+            this.eventsToDeactivate.forEach(e -> e.setActivity(false));
 
-	    for (final GameEvent e : eventsToActivate) {
-		e.setActivity(true);
-		if (e.isToActivateImmediatly()) {
-		    e.activate();
-		}
-	    }
+            for (final GameEvent e : eventsToActivate) {
+                e.setActivity(true);
+                if (e.isToActivateImmediatly()) {
+                    e.activate();
+                }
+            }
 
-	    this.setActivity(false);
+            this.setActivity(false);
 
-	}
+        }
     }
 
     /**
@@ -152,7 +152,7 @@ public abstract class AbstractGameEvent implements GameEvent {
      */
     @Override
     public int hashCode() {
-	return Objects.hash(id);
+        return Objects.hash(id);
     }
 
     /**
@@ -160,17 +160,17 @@ public abstract class AbstractGameEvent implements GameEvent {
      */
     @Override
     public boolean equals(final Object obj) {
-	if (this == obj) {
-	    return true;
-	}
-	if (obj == null) {
-	    return false;
-	}
-	if (getClass() != obj.getClass()) {
-	    return false;
-	}
-	final AbstractGameEvent other = (AbstractGameEvent) obj;
-	return id == other.id;
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final AbstractGameEvent other = (AbstractGameEvent) obj;
+        return id == other.id;
     }
 
     /**
@@ -178,7 +178,7 @@ public abstract class AbstractGameEvent implements GameEvent {
      */
     @Override
     public String toString() {
-	return "AbstractGameEvent [id=" + id + ", isActive=" + isActive + "]";
+        return "AbstractGameEvent [id=" + id + ", isActive=" + isActive + "]";
     }
 
 }
