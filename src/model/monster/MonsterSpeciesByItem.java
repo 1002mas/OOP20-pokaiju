@@ -8,15 +8,29 @@ import model.gameitem.GameItem;
 
 public class MonsterSpeciesByItem extends MonsterSpeciesSimple {
 
-    private GameItem evolutionItem;
+    private final GameItem evolutionItem;
 
-    public MonsterSpeciesByItem(String name, String info, MonsterType type, MonsterStats stats, MonsterSpecies evolution,
-	    GameItem evolutionItem, List<Moves> movesList) {
-	super(name, info, type, stats, Optional.of(evolution), EvolutionType.ITEM, movesList);
-	this.evolutionItem = evolutionItem;
+    /**
+     * MonsterSpeciesByItem constructor.
+     * 
+     * @param name
+     * @param info
+     * @param type
+     * @param stats
+     * @param evolution
+     * @param evolutionItem
+     * @param movesList
+     */
+    public MonsterSpeciesByItem(final String name, final String info, final MonsterType type, final MonsterStats stats,
+            final MonsterSpecies evolution, final GameItem evolutionItem, final List<Moves> movesList) {
+        super(name, info, type, stats, Optional.of(evolution), EvolutionType.ITEM, movesList);
+        this.evolutionItem = evolutionItem;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public GameItem getItem() {
-	return this.evolutionItem;
+        return this.evolutionItem;
     }
 }

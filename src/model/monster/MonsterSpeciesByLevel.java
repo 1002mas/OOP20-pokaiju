@@ -7,14 +7,29 @@ import model.battle.Moves;
 
 public class MonsterSpeciesByLevel extends MonsterSpeciesSimple {
 
-    private int evolutionLevel;
+    private final int evolutionLevel;
 
-    public MonsterSpeciesByLevel(String name, String info, MonsterType type, MonsterStats stats, MonsterSpecies evolution, int evolutionLevel, List<Moves> movesList) {
-	super(name, info, type, stats, Optional.of(evolution), EvolutionType.LEVEL, movesList);
-	this.evolutionLevel = evolutionLevel;
+    /**
+     * MonsterSpeciesByLevel constructor.
+     * 
+     * @param name
+     * @param info
+     * @param type
+     * @param stats
+     * @param evolution
+     * @param evolutionLevel
+     * @param movesList
+     */
+    public MonsterSpeciesByLevel(final String name, final String info, final MonsterType type, final MonsterStats stats,
+            final MonsterSpecies evolution, final int evolutionLevel, final List<Moves> movesList) {
+        super(name, info, type, stats, Optional.of(evolution), EvolutionType.LEVEL, movesList);
+        this.evolutionLevel = evolutionLevel;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public int getEvolutionLevel() {
-	return this.evolutionLevel;
+        return this.evolutionLevel;
     }
 }
