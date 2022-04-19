@@ -5,7 +5,6 @@ import model.npc.NpcSimple;
 /**
  * This class allows to create an event that changes a npc visibility.
  * 
- * @author sam
  *
  */
 public class NpcVisibilityChanger extends AbstractGameEvent {
@@ -28,16 +27,19 @@ public class NpcVisibilityChanger extends AbstractGameEvent {
      * @param isVisible            false if you want to hide it
      *
      */
-    public NpcVisibilityChanger(int id, boolean isActive, boolean isReactivable, boolean isToActiveImmediatly,
-	    NpcSimple npc, boolean isVisible) {
-	super(id, isActive, isReactivable, isToActiveImmediatly);
-	this.npc = npc;
-	this.isVisible = isVisible;
+    public NpcVisibilityChanger(final int id, final boolean isActive, final boolean isReactivable,
+            final boolean isToActiveImmediatly, final NpcSimple npc, final boolean isVisible) {
+        super(id, isActive, isReactivable, isToActiveImmediatly);
+        this.npc = npc;
+        this.isVisible = isVisible;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void activateEvent() {
-	this.npc.setVisible(isVisible);
+        this.npc.setVisible(isVisible);
     }
 
 }

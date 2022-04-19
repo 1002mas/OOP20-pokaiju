@@ -17,16 +17,16 @@ import model.gameitem.GameItemTypes;
 public class SelectMosterPanel extends JPanel {
     private static final long serialVersionUID = 8185263432699574937L;
     private final PlayerController playerController;
-    private JPanel parentPanel;
+    private final JPanel parentPanel;
     private String itemName;
-    private JButton backButton = new JButton("BACK");
+    private final JButton backButton = new JButton("BACK");
 
     /**
      * 
      * @param playerController the game controller
      * @param parentPanel      the parentPanel
      */
-    public SelectMosterPanel(PlayerController playerController, JPanel parentPanel) {
+    public SelectMosterPanel(final PlayerController playerController, final JPanel parentPanel) {
 	this.playerController = playerController;
 	this.parentPanel = parentPanel;
     }
@@ -36,22 +36,22 @@ public class SelectMosterPanel extends JPanel {
      * 
      */
     private void init() {
-	CardLayout c1 = (CardLayout) this.parentPanel.getLayout();
+	final CardLayout c1 = (CardLayout) this.parentPanel.getLayout();
 	this.setLayout(c1);
-	JPanel containerPanel = new JPanel(new BorderLayout());
-	List<Integer> monsterIds = this.playerController.getMonstersId();
+	final JPanel containerPanel = new JPanel(new BorderLayout());
+	final List<Integer> monsterIds = this.playerController.getMonstersId();
 
-	JPanel allMonsterPanel = new JPanel(new GridLayout(0, 2));
-	for (int monsterId : monsterIds) {
-	    JLabel singleMonsterLabel = new JLabel();
-	    String stats = "<html>" + "name : " + this.playerController.getMonsterNameById(monsterId) + "<br/>"
+	final JPanel allMonsterPanel = new JPanel(new GridLayout(0, 2));
+	for (final int monsterId : monsterIds) {
+	    final JLabel singleMonsterLabel = new JLabel();
+	    final String stats = "<html>" + "name : " + this.playerController.getMonsterNameById(monsterId) + "<br/>"
 		    + "Level : " + playerController.getMonsterLevel(monsterId) + "<br/>" + "Hp : "
 		    + playerController.getMonsterHealth(monsterId) + "/"
 		    + playerController.getMonsterMaxHealth(monsterId) + "</html>";
 	    singleMonsterLabel.setText(stats);
 	    setLabelProp(singleMonsterLabel);
 
-	    JButton checkButton = new JButton("USE ON THIS MONSTER");
+	    final JButton checkButton = new JButton("USE ON THIS MONSTER");
 	    checkButton.addActionListener(e -> {
 		if (this.playerController.isItemPresent(itemName)) {
 		    if (this.playerController.getItemtype(itemName).equals(GameItemTypes.EVOLUTIONTOOL.toString())) {
@@ -88,8 +88,8 @@ public class SelectMosterPanel extends JPanel {
      * 
      * @param ItemName
      */
-    public void setItemName(String ItemName) {
-	this.itemName = ItemName;
+    public void setItemName(final String itemName) {
+	this.itemName = itemName;
     }
 
     /**
@@ -98,11 +98,11 @@ public class SelectMosterPanel extends JPanel {
      * @param panel           JPanel
      * @param numberOfMonster Number of Monster present in player's team
      */
-    private void setPanelProp(JPanel panel, int numberOfMonster) {
+    private void setPanelProp(final JPanel panel, final int numberOfMonster) {
 	int cont = 6 - numberOfMonster;
 	while (cont > 0) {
-	    JLabel label = new JLabel();
-	    JButton button = new JButton();
+	    final JLabel label = new JLabel();
+	    final JButton button = new JButton();
 	    label.setVisible(false);
 	    button.setVisible(false);
 	    panel.add(label);
@@ -125,7 +125,7 @@ public class SelectMosterPanel extends JPanel {
      * 
      * @param label JLabel
      */
-    private void setLabelProp(JLabel label) {
+    private void setLabelProp(final JLabel label) {
 	label.setBorder(BorderFactory.createLineBorder(Color.blue));
 	label.setHorizontalAlignment(SwingConstants.CENTER);
 	label.setVerticalAlignment(SwingConstants.CENTER);

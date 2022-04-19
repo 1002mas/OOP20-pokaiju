@@ -23,95 +23,124 @@ public class MonsterBuilderImpl implements MonsterBuilder {
     private MonsterStats stats = new MonsterStatsImpl(-1, -1, -1, -1);
 
     static {
-	InputStream fileStream = MonsterBuilderImpl.class.getClassLoader().getResourceAsStream(LASTIDPATH);
-	try (BufferedReader in = new BufferedReader(new InputStreamReader(fileStream));) {
-	    id = Integer.parseInt(in.readLine());
-	} catch (IOException e) {
-	    e.printStackTrace();
-	}
-
+        final InputStream fileStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(LASTIDPATH);
+        try (BufferedReader in = new BufferedReader(new InputStreamReader(fileStream));) {
+            id = Integer.parseInt(in.readLine());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public MonsterBuilder species(MonsterSpecies species) {
-	this.species = species;
-	return this;
+    public MonsterBuilder species(final MonsterSpecies species) {
+        this.species = species;
+        return this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public MonsterBuilder level(int lvl) {
-	if (lvl < MIN_LEVEL || lvl > MonsterImpl.MAX_LVL) {
-	    throw new IllegalArgumentException();
-	}
-	this.level = lvl;
-	return this;
+    public MonsterBuilder level(final int lvl) {
+        if (lvl < MIN_LEVEL || lvl > MonsterImpl.MAX_LVL) {
+            throw new IllegalArgumentException();
+        }
+        this.level = lvl;
+        return this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public MonsterBuilder health(int health) {
-	this.stats.setHealth(health);
-	return this;
+    public MonsterBuilder health(final int health) {
+        this.stats.setHealth(health);
+        return this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public MonsterBuilder attack(int atk) {
-	this.stats.setAttack(atk);
-	return this;
+    public MonsterBuilder attack(final int atk) {
+        this.stats.setAttack(atk);
+        return this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public MonsterBuilder defense(int dfs) {
-	this.stats.setDefense(dfs);
-	return this;
+    public MonsterBuilder defense(final int defense) {
+        this.stats.setDefense(defense);
+        return this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public MonsterBuilder speed(int spd) {
-	this.stats.setSpeed(spd);
-	return this;
+    public MonsterBuilder speed(final int speed) {
+        this.stats.setSpeed(speed);
+        return this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public MonsterBuilder exp(int exp) {
-	if (exp < 0 || exp > MonsterImpl.EXP_CAP) {
-	    throw new IllegalArgumentException();
-	}
-	this.exp = exp;
-	return this;
+    public MonsterBuilder exp(final int exp) {
+        if (exp < 0 || exp > MonsterImpl.EXP_CAP) {
+            throw new IllegalArgumentException();
+        }
+        this.exp = exp;
+        return this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public MonsterBuilder isWild(boolean isWild) {
-	this.isWild = isWild;
-	return this;
+    public MonsterBuilder wild(final boolean isWild) {
+        this.isWild = isWild;
+        return this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public MonsterBuilder movesList(List<Pair<Moves, Integer>> movesList) {
-	this.movesList = new ArrayList<>(movesList);
-	this.movesList = this.movesList.subList(0,
-		movesList.size() < MonsterImpl.NUM_MAX_MOVES ? movesList.size() : MonsterImpl.NUM_MAX_MOVES);
-	return this;
+    public MonsterBuilder movesList(final List<Pair<Moves, Integer>> movesList) {
+        this.movesList = new ArrayList<>(movesList);
+        this.movesList = this.movesList.subList(0,
+                movesList.size() < MonsterImpl.NUM_MAX_MOVES ? movesList.size() : MonsterImpl.NUM_MAX_MOVES);
+        return this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Monster build() {
-	if (id <= 0 || this.species == null || this.movesList.isEmpty()) {
-	    throw new IllegalStateException();
-	}
-	Monster monster = new MonsterImpl(id, this.species.getBaseStats(), 0, MIN_LEVEL, this.isWild, this.species,
-		this.movesList);
-	id++;
-	for (int i = MIN_LEVEL; i < this.level; i++) {
-	    monster.levelUp();
-	}
-	monster.incExp(exp);
-	stats.getStatsAsMap().entrySet().forEach(e -> {
-	    if (e.getValue() > 0) {
-		monster.getStats().getStatsAsMap().put(e.getKey(), e.getValue());
-		monster.getMaxStats().getStatsAsMap().put(e.getKey(), e.getValue());
-	    }
-	});
-	return monster;
+        if (id <= 0 || this.species == null || this.movesList.isEmpty()) {
+            throw new IllegalStateException();
+        }
+        final Monster monster = new MonsterImpl(id, this.species.getBaseStats(), 0, MIN_LEVEL, this.isWild,
+                this.species, this.movesList);
+        id++;
+        for (int i = MIN_LEVEL; i < this.level; i++) {
+            monster.levelUp();
+        }
+        monster.incExp(exp);
+        stats.getStatsAsMap().entrySet().forEach(e -> {
+            if (e.getValue() > 0) {
+                monster.getStats().getStatsAsMap().put(e.getKey(), e.getValue());
+                monster.getMaxStats().getStatsAsMap().put(e.getKey(), e.getValue());
+            }
+        });
+        return monster;
     }
 }

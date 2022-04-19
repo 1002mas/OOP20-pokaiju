@@ -16,7 +16,7 @@ import model.monster.MonsterImpl;
 
 public class MonsterInfoPanel extends JPanel {
     private static final long serialVersionUID = -5191191420756038008L;
-    private JPanel parentPanel;
+    private final JPanel parentPanel;
     private final int monsterId;
     private final PlayerController playerController;
     private final ImagesLoader imgLoad;
@@ -27,8 +27,8 @@ public class MonsterInfoPanel extends JPanel {
      * @param playerController the game controller
      * @param imgLoad          the game ImagesLoader
      */
-    public MonsterInfoPanel(JPanel parentPanel, int monsterId, PlayerController playerController,
-	    ImagesLoader imgLoad) {
+    public MonsterInfoPanel(final JPanel parentPanel, final int monsterId, final PlayerController playerController,
+	    final ImagesLoader imgLoad) {
 	this.parentPanel = parentPanel;
 	this.monsterId = monsterId;
 	this.playerController = playerController;
@@ -41,15 +41,15 @@ public class MonsterInfoPanel extends JPanel {
      * 
      */
     private void init() {
-	CardLayout c1 = (CardLayout) this.parentPanel.getLayout();
+	final CardLayout c1 = (CardLayout) this.parentPanel.getLayout();
 	this.setLayout(c1);
-	JPanel containerPanel = new JPanel(new BorderLayout());
+	final JPanel containerPanel = new JPanel(new BorderLayout());
 
-	JButton backButton = new JButton("Back");
+	final JButton backButton = new JButton("Back");
 	backButton.addActionListener(e -> c1.show(this.parentPanel, Integer.toString(0)));
 
 	containerPanel.add(backButton, BorderLayout.SOUTH);
-	containerPanel.add(setContentPanel(), BorderLayout.CENTER);
+	containerPanel.add(contentPanelArea(), BorderLayout.CENTER);
 	this.add(containerPanel);
 
     }
@@ -59,7 +59,7 @@ public class MonsterInfoPanel extends JPanel {
      * 
      * @param label JLabel
      */
-    private void setLabelProp(JLabel label) {
+    private void setLabelProp(final JLabel label) {
 	label.setHorizontalAlignment(SwingConstants.CENTER);
 	label.setVerticalAlignment(SwingConstants.CENTER);
 	label.setBorder(BorderFactory.createLineBorder(Color.red));
@@ -72,7 +72,7 @@ public class MonsterInfoPanel extends JPanel {
      */
     private String getStringMovesNameAndPP() {
 	String moves = "<html>" + "Moves Learned <br/>";
-	for (String moveName : this.playerController.getMovesNames(monsterId)) {
+	for (final String moveName : this.playerController.getMovesNames(monsterId)) {
 	    moves += moveName + " PP : " + this.playerController.getMovePP(moveName, monsterId) + "<br/>";
 	}
 	return moves + "</html>";
@@ -82,10 +82,10 @@ public class MonsterInfoPanel extends JPanel {
      * set content area
      * 
      */
-    private JPanel setContentPanel() {
-	JPanel monsterInfoPanel = new JPanel(new GridLayout(1, 3));
-	JLabel infoLabel = new JLabel();
-	String stats = "<html>" + "Name : " + this.playerController.getMonsterNameById(monsterId) + "<br/>" + "Level : "
+    private JPanel contentPanelArea() {
+	final JPanel monsterInfoPanel = new JPanel(new GridLayout(1, 3));
+	final JLabel infoLabel = new JLabel();
+	final String stats = "<html>" + "Name : " + this.playerController.getMonsterNameById(monsterId) + "<br/>" + "Level : "
 		+ playerController.getMonsterLevel(monsterId) + "<br/>" + "Exp :"
 		+ playerController.getMonsterExp(monsterId) + "/" + MonsterImpl.EXP_CAP + "<br/>" + "Hp : "
 		+ playerController.getMonsterHealth(monsterId) + "/" + playerController.getMonsterMaxHealth(monsterId)
@@ -95,12 +95,13 @@ public class MonsterInfoPanel extends JPanel {
 	infoLabel.setText(stats);
 	setLabelProp(infoLabel);
 
-	JLabel monsterImgLabel = new JLabel();
-	ImageIcon iconLogo = new ImageIcon(imgLoad.getMonster(this.playerController.getMonsterNameById(monsterId)));
+	final JLabel monsterImgLabel = new JLabel();
+	final ImageIcon iconLogo = new ImageIcon(
+		imgLoad.getMonster(this.playerController.getMonsterNameById(monsterId)));
 	monsterImgLabel.setIcon(iconLogo);
 	setLabelProp(monsterImgLabel);
 
-	JLabel movesLabel = new JLabel();
+	final JLabel movesLabel = new JLabel();
 	movesLabel.setText(getStringMovesNameAndPP());
 	setLabelProp(movesLabel);
 	monsterInfoPanel.add(infoLabel);

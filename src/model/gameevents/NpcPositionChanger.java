@@ -6,8 +6,6 @@ import model.npc.NpcSimple;
 /**
  * This class allows to create an event that changes a npc position in the same
  * map it is located.
- * 
- * @author sam
  *
  */
 public class NpcPositionChanger extends AbstractGameEvent {
@@ -29,16 +27,19 @@ public class NpcPositionChanger extends AbstractGameEvent {
      * @param npc                  the npc you want to move.
      * @param newPosition          the position you want to move it to.
      */
-    public NpcPositionChanger(int id, boolean isActive, boolean isReactivable, boolean isToActiveImmediatly,
-	    NpcSimple npc, Pair<Integer, Integer> newPosition) {
-	super(id, isActive, isReactivable, isToActiveImmediatly);
-	this.npc = npc;
-	this.newPosition = newPosition;
+    public NpcPositionChanger(final int id, final boolean isActive, final boolean isReactivable,
+            final boolean isToActiveImmediatly, final NpcSimple npc, final Pair<Integer, Integer> newPosition) {
+        super(id, isActive, isReactivable, isToActiveImmediatly);
+        this.npc = npc;
+        this.newPosition = newPosition;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void activateEvent() {
-	this.npc.changeNpcPosition(newPosition);
+        this.npc.changeNpcPosition(newPosition);
     }
 
 }

@@ -82,7 +82,7 @@ public interface BattleController {
      * @return monster max health points
      */
     int getEnemyCurrentMonsterMaxHealth();
-    
+
     /**
      * Get the type of the current enemy monster.
      * 
@@ -134,14 +134,15 @@ public interface BattleController {
      * @return if PP are below zero returns false, true otherwise
      */
     boolean checkPP(String moveName);
-    
+
     /**
      * This function returns if monster has finished all PP of the moves.
      * 
-     * @return if monster has finished all PP of the moves return true, false otherwise
+     * @return if monster has finished all PP of the moves return true, false
+     *         otherwise
      */
     boolean isOverOfPP();
-    
+
     /**
      * The Monster attacks with extra move.
      * 
@@ -181,7 +182,7 @@ public interface BattleController {
 
     /**
      * Returns if an item is a capture item.
-     * 
+     * @param gameItemName
      * @return true if is a capture item, false otherwise
      */
     boolean isCaptureItem(String gameItemName);
@@ -214,14 +215,14 @@ public interface BattleController {
      * @return if the battle ends
      */
     boolean isOver();
-    
+
     /**
      * Returns true if the player has lost the battle, false otherwise.
      * 
      * @return if the player has lost the battle
      */
     boolean hasPlayerLost();
-    
+
     /**
      * This function sets money and restore statistics at the end of the battle.
      */

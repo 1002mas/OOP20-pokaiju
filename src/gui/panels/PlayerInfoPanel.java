@@ -18,7 +18,7 @@ public class PlayerInfoPanel extends JPanel {
      * 
      * @param playerController the game controller
      */
-    public PlayerInfoPanel(PlayerController playerController) {
+    public PlayerInfoPanel(final PlayerController playerController) {
 	this.playerController = playerController;
     }
 
@@ -28,10 +28,10 @@ public class PlayerInfoPanel extends JPanel {
      */
     private void init() {
 	this.setLayout(new GridLayout(4, 0));
-	JLabel playerName = new JLabel("Name :  " + this.playerController.getPlayerName());
-	JLabel trainerNumber = new JLabel("Trainer number :  " + this.playerController.getTrainerNumber());
-	JLabel gender = new JLabel("Gender :  " + this.playerController.getPlayerGender());
-	JLabel money = new JLabel("Money :  " + this.playerController.getPlayerMoney() + " $ ");
+	final JLabel playerName = new JLabel("Name :  " + this.playerController.getPlayerName());
+	final JLabel trainerNumber = new JLabel("Trainer number :  " + this.playerController.getTrainerNumber());
+	final JLabel gender = new JLabel("Gender :  " + this.playerController.getPlayerGender());
+	final JLabel money = new JLabel("Money :  " + this.playerController.getPlayerMoney() + " $ ");
 	setLabelProperties(playerName);
 	setLabelProperties(trainerNumber);
 	setLabelProperties(gender);
@@ -47,7 +47,7 @@ public class PlayerInfoPanel extends JPanel {
      * 
      * @param label JLabel
      */
-    private void setLabelProperties(JLabel label) {
+    private void setLabelProperties(final JLabel label) {
 	label.setFont(new Font("SansSerif Bold Italic", Font.PLAIN, 22));
 	label.setBorder(BorderFactory.createLineBorder(Color.black));
 	label.setHorizontalAlignment(JLabel.CENTER);

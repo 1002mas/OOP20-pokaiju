@@ -9,7 +9,6 @@ import model.player.Player;
 /**
  * This class allows to create an event gives one or more monster to the player.
  * 
- * @author sam
  *
  */
 public class MonsterGift extends AbstractGameEvent {
@@ -31,22 +30,28 @@ public class MonsterGift extends AbstractGameEvent {
      * @param monsters             the list of monsters the player will receive.
      * @param player               the player receiving the monsters.
      */
-    public MonsterGift(int id, boolean isActive, boolean isReactivable, boolean isToActiveImmediatly,
-	    List<Monster> monsters, Player player) {
-	super(id, isActive, isReactivable, isToActiveImmediatly);
-	this.monsters = monsters;
-	this.player = player;
+    public MonsterGift(final int id, final boolean isActive, final boolean isReactivable,
+            final boolean isToActiveImmediatly, final List<Monster> monsters, final Player player) {
+        super(id, isActive, isReactivable, isToActiveImmediatly);
+        this.monsters = monsters;
+        this.player = player;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void activateEvent() {
-	for (Monster m : monsters) {
-	    player.addMonster(m);
-	}
+        for (final Monster m : monsters) {
+            player.addMonster(m);
+        }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<Monster> getMonster() {
-	return Collections.unmodifiableList(this.monsters);
+        return Collections.unmodifiableList(this.monsters);
     }
 }

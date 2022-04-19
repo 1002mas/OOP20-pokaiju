@@ -1,6 +1,6 @@
 package model.monster;
 
-import model.gameitem.*;
+import model.gameitem.GameItem;
 
 import java.util.List;
 
@@ -152,7 +152,7 @@ public interface Monster {
      * 
      * @return if the move set is full
      */
-    public boolean isMoveSetFull();
+    boolean isMoveSetFull();
 
     /**
      * This function returns the numbers of moves owned by the monster.

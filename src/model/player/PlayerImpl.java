@@ -25,23 +25,31 @@ public class PlayerImpl implements Player {
     private int trainerNumber;
     private Pair<Integer, Integer> position;
     private List<Monster> team;
-    private Map<GameItem, Integer> gameItems;
+    private final Map<GameItem, Integer> gameItems;
     private int money;
-    private GameMap map;
+    private final GameMap map;
     private boolean hasMapChanged;
     private Optional<NpcSimple> npc;
     private Optional<MonsterBattle> monsterBattle;
     private MonsterStorage storage = new MonsterStorageImpl(this);
     private boolean triggeredEvent;
 
-    public PlayerImpl(String name, Gender gender, int trainerNumber, Pair<Integer, Integer> startingPosition,
-	    GameMap map) {
+    /**
+     * 
+     * @param name
+     * @param gender
+     * @param trainerNumber
+     * @param startingPosition
+     * @param map
+     */
+    public PlayerImpl(final String name, final Gender gender, final int trainerNumber,
+	    final Pair<Integer, Integer> startingPosition, final GameMap map) {
 	this.name = name;
 	this.gender = gender;
 	this.trainerNumber = trainerNumber;
 	this.position = startingPosition;
-	this.team = new ArrayList<Monster>();
-	this.gameItems = new HashMap<GameItem, Integer>();
+	this.team = new ArrayList<>();
+	this.gameItems = new HashMap<>();
 	this.money = START_MONEY;
 	this.map = map;
 	this.npc = Optional.empty();
@@ -49,11 +57,19 @@ public class PlayerImpl implements Player {
 
     }
 
+    /**
+     * 
+     * {@inheritDoc}
+     */
     @Override
     public Pair<Integer, Integer> getPosition() {
 	return this.position;
     }
 
+    /**
+     * 
+     * {@inheritDoc}
+     */
     @Override
     public List<Monster> getAllMonsters() {
 	return new ArrayList<>(this.team);
@@ -65,21 +81,33 @@ public class PlayerImpl implements Player {
 
     }
 
+    /**
+     * 
+     * {@inheritDoc}
+     */
     @Override
     public Map<GameItem, Integer> getAllItems() {
 	return new HashMap<GameItem, Integer>(this.gameItems);
     }
 
+    /**
+     * 
+     * {@inheritDoc}
+     */
     @Override
-    public void addItem(GameItem i) {
+    public void addItem(final GameItem i) {
 	if (!this.gameItems.containsKey(i)) {
 	    this.gameItems.put(i, 0);
 	}
 	this.gameItems.put(i, this.gameItems.get(i) + 1);
     }
 
+    /**
+     * 
+     * {@inheritDoc}
+     */
     @Override
-    public void removeItem(GameItem i) {
+    public void removeItem(final GameItem i) {
 	if (this.gameItems.containsKey(i)) {
 	    this.gameItems.put(i, this.gameItems.get(i) - 1);
 	    if (this.gameItems.get(i) < 1) {
@@ -88,8 +116,12 @@ public class PlayerImpl implements Player {
 	}
     }
 
+    /**
+     * 
+     * {@inheritDoc}
+     */
     @Override
-    public void useItem(GameItem i) {
+    public void useItem(final GameItem i) {
 	if (getAllItems().containsKey(i) && i.use(null)) {
 	    removeItem(i);
 	}
@@ -99,7 +131,7 @@ public class PlayerImpl implements Player {
 	return gender;
     }
 
-    public void setGender(Gender gender) {
+    public void setGender(final Gender gender) {
 	this.gender = gender;
     }
 
@@ -107,7 +139,7 @@ public class PlayerImpl implements Player {
 	return trainerNumber;
     }
 
-    public void setTrainerNumber(int trainerNumber) {
+    public void setTrainerNumber(final int trainerNumber) {
 	this.trainerNumber = trainerNumber;
     }
 
@@ -115,7 +147,7 @@ public class PlayerImpl implements Player {
 	return team;
     }
 
-    public void setMonster(ArrayList<Monster> monster) {
+    public void setMonster(final List<Monster> monster) {
 	this.team = monster;
     }
 
@@ -123,16 +155,20 @@ public class PlayerImpl implements Player {
 	return new ArrayList<>(this.gameItems.keySet());
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
 	this.name = name;
     }
 
-    public void setPosition(Pair<Integer, Integer> position) {
+    public void setPosition(final Pair<Integer, Integer> position) {
 	this.position = position;
     }
 
+    /**
+     * 
+     * {@inheritDoc}
+     */
     @Override
-    public boolean addMonster(Monster m) {
+    public boolean addMonster(final Monster m) {
 	if (isTeamFull()) {
 	    this.storage.addMonster(m);
 	    return false;
@@ -146,7 +182,7 @@ public class PlayerImpl implements Player {
 	return money;
     }
 
-    public void setMoney(int money) {
+    public void setMoney(final int money) {
 	this.money = money < 0 ? 0 : money;
     }
 
@@ -154,74 +190,117 @@ public class PlayerImpl implements Player {
 	return name;
     }
 
+    /**
+     * 
+     * {@inheritDoc}
+     */
     @Override
     public boolean isTeamFull() {
 	return this.getAllMonsters().stream().count() >= 6 ? true : false;
     }
 
+    /**
+     * 
+     * {@inheritDoc}
+     */
     @Override
-    public boolean removeMonster(Monster m) {
+    public boolean removeMonster(final Monster m) {
 	if (this.getAllMonsters().contains(m)) {
 	    return this.team.remove(m);
 	}
 	return false;
     }
 
+    /**
+     * 
+     * {@inheritDoc}
+     */
     @Override
-    public void useItemOnMonster(GameItem i, Monster m) {
+    public void useItemOnMonster(final GameItem i, final Monster m) {
 	if (getAllItems().containsKey(i) && i.use(m)) {
 	    removeItem(i);
 	}
     }
 
+    /**
+     * 
+     * {@inheritDoc}
+     */
     @Override
-    public void addItem(GameItem i, int quantity) {
+    public void addItem(final GameItem i, final int quantity) {
 	if (quantity > 0) {
 	    this.gameItems.put(i, quantity);
 	}
     }
 
+    /**
+     * 
+     * {@inheritDoc}
+     */
     @Override
-    public int getItemQuantity(GameItem i) {
+    public int getItemQuantity(final GameItem i) {
 	return this.gameItems.get(i);
     }
 
+    /**
+     * 
+     * {@inheritDoc}
+     */
     @Override
     public Optional<NpcSimple> getLastInteractionWithNpc() {
 	return npc;
     }
 
+    /**
+     * 
+     * {@inheritDoc}
+     */
     @Override
     public Optional<MonsterBattle> getPlayerBattle() {
 	return monsterBattle;
     }
 
+    /**
+     * 
+     * {@inheritDoc}
+     */
     @Override
     public void evolveMonsters() {
-	for (Monster m : this.team) {
+	for (final Monster m : this.team) {
 	    if (m.canEvolveByLevel()) {
 		m.evolve();
 	    }
 	}
     }
 
+    /**
+     * 
+     * {@inheritDoc}
+     */
     @Override
-    public void evolveMonster(Monster monster, GameItem i) {
+    public void evolveMonster(final Monster monster, final GameItem i) {
 	if (monster.canEvolveByItem(i)) {
 	    useItemOnMonster(i, monster);
 	    monster.evolve();
 	}
     }
 
-    private boolean move(int x, int y) {
+    /**
+     * move operation
+     * 
+     * @param x coordinate x
+     * @param y coordinate y
+     * @return true if Player has moved
+     */
+    private boolean move(final int x, final int y) {
 	this.hasMapChanged = false;
 	this.monsterBattle = Optional.empty();
-	Pair<Integer, Integer> nextPosition = new Pair<>(position.getFirst() + x, position.getSecond() + y);
-	boolean canMove = map.canPassThrough(nextPosition);
+	final Pair<Integer, Integer> nextPosition = new Pair<>(position.getFirst() + x, position.getSecond() + y);
+	final boolean canMove = map.canPassThrough(nextPosition);
 
 	if (canMove) {
 	    this.position = nextPosition;
-	    Optional<GameEvent> gameEvent = map.getEventAt(position);
+	    final Optional<GameEvent> gameEvent = map.getEventAt(position);
 	    if (gameEvent.isPresent() && gameEvent.get().isBattle()) {
 		this.monsterBattle = Optional.of(new MonsterBattleImpl(this, gameEvent.get().getMonster().get(0)));
 		gameEvent.get().activate();
@@ -232,7 +311,7 @@ public class PlayerImpl implements Player {
 		this.position = map.getPlayerMapPosition().get();
 	    }
 	}
-	Optional<Monster> monster = map.getWildMonster(this.position);
+	final Optional<Monster> monster = map.getWildMonster(this.position);
 	if (monster.isPresent()) {
 	    this.monsterBattle = Optional.of(new MonsterBattleImpl(this, monster.get()));
 	}
@@ -240,41 +319,63 @@ public class PlayerImpl implements Player {
 	return canMove;
     }
 
+    /**
+     * 
+     * {@inheritDoc}
+     */
     @Override
     public boolean hasPlayerChangedMap() {
 	return this.hasMapChanged;
     }
 
+    /**
+     * 
+     * {@inheritDoc}
+     */
     @Override
-    public boolean interactAt(Pair<Integer, Integer> pos) {
+    public boolean interactAt(final Pair<Integer, Integer> pos) {
 	this.monsterBattle = Optional.empty();
 	this.npc = map.getNpcAt(pos);
-	if (npc.isPresent()) {
-	    if (npc.get().getTypeOfNpc() == TypeOfNpc.TRAINER) {
-		NpcTrainer trainer = (NpcTrainer) npc.get();
-		if (!trainer.isDefeated()) {
-		    this.monsterBattle = Optional.of(new MonsterBattleImpl(this, trainer));
-		}
+	if (npc.isPresent() && npc.get().getTypeOfNpc() == TypeOfNpc.TRAINER) {
+	    final NpcTrainer trainer = (NpcTrainer) npc.get();
+	    if (!trainer.isDefeated()) {
+		this.monsterBattle = Optional.of(new MonsterBattleImpl(this, trainer));
 	    }
 	}
 	return npc.isPresent();
     }
 
+    /**
+     * 
+     * {@inheritDoc}
+     */
     @Override
     public boolean moveUp() {
 	return move(0, -STEP);
     }
 
+    /**
+     * 
+     * {@inheritDoc}
+     */
     @Override
     public boolean moveDown() {
 	return move(0, STEP);
     }
 
+    /**
+     * 
+     * {@inheritDoc}
+     */
     @Override
     public boolean moveLeft() {
 	return move(-STEP, 0);
     }
 
+    /**
+     * 
+     * {@inheritDoc}
+     */
     @Override
     public boolean moveRight() {
 	return move(STEP, 0);
@@ -284,7 +385,7 @@ public class PlayerImpl implements Player {
 	return map;
     }
 
-    public void setStorage(MonsterStorage storage) {
+    public void setStorage(final MonsterStorage storage) {
 	this.storage = storage;
     }
 

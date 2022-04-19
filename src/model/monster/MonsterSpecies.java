@@ -27,7 +27,7 @@ public interface MonsterSpecies {
      * @return monster type
      */
     MonsterType getType();
-    
+
     /**
      * This function returns monster's statistics.
      * 
@@ -48,14 +48,11 @@ public interface MonsterSpecies {
      * @return next evolution monster
      */
     Optional<MonsterSpecies> getEvolution();
-    
+
     /**
      * This function returns a list of all learnable moves.
-     * 
-     * @param level
+     *
      * @return a list of all learnable moves
      */
     List<Moves> getAllLearnableMoves();
 }
-
-
