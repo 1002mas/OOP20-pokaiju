@@ -15,6 +15,7 @@ import model.monster.Monster;
 import model.npc.NpcMerchant;
 import model.npc.NpcSimple;
 import model.npc.TypeOfNpc;
+import model.player.Gender;
 import model.player.Player;
 
 public class PlayerControllerImpl implements PlayerController {
@@ -53,8 +54,22 @@ public class PlayerControllerImpl implements PlayerController {
 	}
 
 	@Override
+	public boolean isPlayerLastMonsterLeft() {
+		return (this.player.getAllMonsters().size() == 1);
+	}
+
+	@Override
 	public int getPlayerMoney() {
 		return player.getMoney();
+	}
+
+	@Override
+	public List<String> getGender() {
+		List<String> genders = new ArrayList<>();
+		for (Gender type : Gender.values()) {
+			genders.add(type.toString());
+		}
+		return genders;
 	}
 
 	@Override
@@ -146,6 +161,14 @@ public class PlayerControllerImpl implements PlayerController {
 			return false;
 		}
 		return this.player.getLastInteractionWithNpc().get().getTypeOfNpc().equals(TypeOfNpc.MERCHANT);
+	}
+
+	@Override
+	public Optional<String> getNpcName() {
+		if (this.player.getLastInteractionWithNpc().isPresent()) {
+			return Optional.of(this.player.getLastInteractionWithNpc().get().getName());
+		}
+		return Optional.empty();
 	}
 
 	@Override
@@ -252,7 +275,7 @@ public class PlayerControllerImpl implements PlayerController {
 	public String getMonsterNameById(int monsterId) {
 		return getMonster(monsterId).get().getName();
 	}
-	
+
 	@Override
 	public List<Integer> getMonstersId() {
 		List<Integer> playerMonster = new ArrayList<Integer>();
@@ -318,11 +341,21 @@ public class PlayerControllerImpl implements PlayerController {
 	}
 
 	@Override
+	public int getBoxNumbers() {
+		return this.player.getStorage().getMaxNumberOfBox();
+	}
+
+	@Override
 	public void depositMonster(int teamMonsterId) {
 		Optional<Monster> tMonster = getMonster(teamMonsterId);
 		if (tMonster.isPresent()) {
 			this.player.getStorage().depositMonster(tMonster.get());
 		}
+	}
+
+	@Override
+	public int getMonstersForEachBox() {
+		return this.player.getStorage().getMaxNumberOfBox();
 	}
 
 	@Override
@@ -495,16 +528,6 @@ public class PlayerControllerImpl implements PlayerController {
 	}
 
 	@Override
-	public int getMaximumBlocksInRow() {
-		return dataController.getMaximumBlockInRow();
-	}
-
-	@Override
-	public int getMaximumBlocksInColumn() {
-		return dataController.getMaximumBlockInColumn();
-	}
-
-	@Override
 	public Optional<Pair<String, String>> evolveByItem(String nameItem, int monsterId) {
 		Monster monster = player.getAllMonsters().stream().filter(i -> i.getId() == monsterId).findAny().get();
 
@@ -550,21 +573,6 @@ public class PlayerControllerImpl implements PlayerController {
 	}
 
 	@Override
-	public int getBoxNumbers() {
-		return this.player.getStorage().getMaxNumberOfBox();
-	}
-
-	@Override
-	public boolean isPlayerLastMonsterLeft() {
-		return (this.player.getAllMonsters().size() == 1);
-	}
-
-	@Override
-	public int getMonstersForEachBox() {
-		return this.player.getStorage().getMaxNumberOfBox();
-	}
-
-	@Override
 	public boolean isItemPresent(String name) {
 		for (var item : this.player.getAllItems().entrySet()) {
 			if (item.getKey().getNameItem().equals(name)) {
@@ -575,11 +583,13 @@ public class PlayerControllerImpl implements PlayerController {
 	}
 
 	@Override
-	public Optional<String> getNpcName() {
-		if (this.player.getLastInteractionWithNpc().isPresent()) {
-			return Optional.of(this.player.getLastInteractionWithNpc().get().getName());
-		}
-		return Optional.empty();
+	public int getMaximumBlocksInRow() {
+		return dataController.getMaximumBlockInRow();
+	}
+
+	@Override
+	public int getMaximumBlocksInColumn() {
+		return dataController.getMaximumBlockInColumn();
 	}
 
 }
