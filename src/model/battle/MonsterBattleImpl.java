@@ -73,8 +73,6 @@ public class MonsterBattleImpl implements MonsterBattle {
 	int attempt = (int) (Math.random() * CAPTURE_RANGE);
 	if (attempt <= CAPTURE_DIFFICULT) {
 	    this.trainer.addMonster(enemy);
-	    int expReached = enemy.getLevel() * EXP_MULTIPLER;
-	    this.playerCurrentMonster.incExp(expReached);
 	    this.battleStatus = false;
 	    return true;
 	}
