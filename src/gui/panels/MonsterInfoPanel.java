@@ -16,26 +16,37 @@ import model.monster.MonsterImpl;
 
 public class MonsterInfoPanel extends JPanel {
     private static final long serialVersionUID = -5191191420756038008L;
-    private JPanel mainPanel;
+    private JPanel parentPanel;
     private final int monsterId;
     private final PlayerController playerController;
     private final ImagesLoader imgLoad;
 
-    public MonsterInfoPanel(JPanel mainPanel, int monsterId, PlayerController playerController, ImagesLoader imgLoad) {
-	this.mainPanel = mainPanel;
+    /**
+     * @param parentPanel      the parentPanel
+     * @param monsterId        the Monster
+     * @param playerController the game controller
+     * @param imgLoad          the game ImagesLoader
+     */
+    public MonsterInfoPanel(JPanel parentPanel, int monsterId, PlayerController playerController,
+	    ImagesLoader imgLoad) {
+	this.parentPanel = parentPanel;
 	this.monsterId = monsterId;
 	this.playerController = playerController;
 	this.imgLoad = imgLoad;
 	init();
     }
 
+    /**
+     * Initialize content area
+     * 
+     */
     private void init() {
-	CardLayout c1 = (CardLayout) this.mainPanel.getLayout();
+	CardLayout c1 = (CardLayout) this.parentPanel.getLayout();
 	this.setLayout(c1);
 	JPanel containerPanel = new JPanel(new BorderLayout());
 
 	JButton backButton = new JButton("Back");
-	backButton.addActionListener(e -> c1.show(this.mainPanel, Integer.toString(0)));
+	backButton.addActionListener(e -> c1.show(this.parentPanel, Integer.toString(0)));
 
 	containerPanel.add(backButton, BorderLayout.SOUTH);
 	containerPanel.add(setContentPanel(), BorderLayout.CENTER);
@@ -43,12 +54,22 @@ public class MonsterInfoPanel extends JPanel {
 
     }
 
+    /**
+     * set JLabel's properties
+     * 
+     * @param label JLabel
+     */
     private void setLabelProp(JLabel label) {
 	label.setHorizontalAlignment(SwingConstants.CENTER);
 	label.setVerticalAlignment(SwingConstants.CENTER);
 	label.setBorder(BorderFactory.createLineBorder(Color.red));
     }
 
+    /**
+     * set text of moves
+     * 
+     * @return text of moves learned and remaining pp
+     */
     private String getStringMovesNameAndPP() {
 	String moves = "<html>" + "Moves Learned <br/>";
 	for (String moveName : this.playerController.getMovesNames(monsterId)) {
@@ -57,6 +78,10 @@ public class MonsterInfoPanel extends JPanel {
 	return moves + "</html>";
     }
 
+    /**
+     * set content area
+     * 
+     */
     private JPanel setContentPanel() {
 	JPanel monsterInfoPanel = new JPanel(new GridLayout(1, 3));
 	JLabel infoLabel = new JLabel();

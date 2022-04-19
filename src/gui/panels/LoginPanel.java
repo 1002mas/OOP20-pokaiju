@@ -1,6 +1,5 @@
 package gui.panels;
 
-
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -14,10 +13,6 @@ public class LoginPanel extends JPanel {
     private final JButton quitGame = new JButton(" QUIT GAME ");
 
     public LoginPanel() {
-	init();
-    }
-
-    private void init() {
 	this.setLayout(new GridBagLayout());
 	final GridBagConstraints cons = new GridBagConstraints();
 	cons.gridy = 0;
