@@ -57,7 +57,7 @@ public class GameFrameImpl extends JFrame implements GameFrame {
 
     public GameFrameImpl(PlayerController playerController) {
 	this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	Font myFont = new Font("SansSerif Bold Italic", Font.CENTER_BASELINE, 17);
+	Font myFont = new Font("Bold", 0, 16);
 	UIDefaults defaultUI = UIManager.getDefaults();
 	defaultUI.put("Button.font", myFont);
 	defaultUI.put("Label.font", myFont);
@@ -203,7 +203,6 @@ public class GameFrameImpl extends JFrame implements GameFrame {
 	trainerNumberLabel.setEnabled(false);
 
 	JButton postData = new JButton("CREATE");
-	postData.setFont(new Font("SansSerif Bold Italic", Font.CENTER_BASELINE, 20));
 	postData.addActionListener(e -> {
 	    if (nameField.getText().equals("")) {
 		JOptionPane.showMessageDialog(null, "Name can't be null", "alert", JOptionPane.WARNING_MESSAGE);
