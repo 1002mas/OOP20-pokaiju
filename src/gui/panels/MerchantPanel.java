@@ -118,7 +118,7 @@ public class MerchantPanel extends JPanel {
             // Description
             final JLabel descLabel = new JLabel("<html><p>" + playerController.getItemDescription(gameItem) + "</p></html>",
                     SwingConstants.LEFT);
-            final double heightPerc = 0.1;
+            final double heightPerc = 0.02;
             descLabel.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, (int) (heightPerc * this.frame.getHeight())));
             itemPanel.add(descLabel);
             // Price

@@ -12,196 +12,203 @@ import model.npc.NpcSimple;
 
 public interface Player {
     /**
-     * This function returns the position of the Player
+     * This function returns the position of the Player.
      * 
      * @return Player's position
      */
     Pair<Integer, Integer> getPosition();
 
     /**
-     * This function returns all player's monsters
+     * This function returns all player's monsters.
      * 
      * @return Player's list of monster
      */
     List<Monster> getAllMonsters();
 
     /**
-     * This function returns all player's GameItems
+     * This function returns all player's GameItems.
      * 
      * @return Player's list of GameItem
      */
     Map<GameItem, Integer> getAllItems();
 
     /**
-     * This function adds new GameItem to player's bag
+     * This function adds new GameItem to player's bag.
      * 
-     * @param new GameItem
+     * @param i
      */
     void addItem(GameItem i);
 
     /**
-     * This function adds new GameItems to player's bag
+     * This function adds new GameItems to player's bag.
      * 
-     * @param GameItem, quantity
+     * @param i
+     * @param quantity
      */
     void addItem(GameItem i, int quantity);
 
     /**
-     * This function returns GameItem's quantity
+     * This function returns GameItem's quantity.
      * 
-     * @return GameItem
+     * @param gameItem
+     * @return gameItem's quantity
      */
-    int getItemQuantity(GameItem i);
+    int getItemQuantity(GameItem gameItem);
 
     /**
-     * This function removes GameItem from player's bag
+     * This function removes GameItem from player's bag.
      * 
-     * @param GameItem
+     * @param gameItem
      */
-    void removeItem(GameItem i);
+    void removeItem(GameItem gameItem);
 
     /**
-     * This function uses a GameItem
+     * This function uses a GameItem.
      * 
-     * @param GameItem
-     * 
-     */
-    void useItem(GameItem i);
-
-    /**
-     * This function uses a GameItems on Monster
-     * 
-     * @param GameItem, Monster
+     * @param gameItem
      * 
      */
-    void useItemOnMonster(GameItem i, Monster m);
+    void useItem(GameItem gameItem);
 
     /**
-     * This function returns if add Monster is successful or not
+     * This function uses a GameItems on Monster.
      * 
-     * @param Monster
+     * @param gameItem
+     * @param m
+     */
+    void useItemOnMonster(GameItem gameItem, Monster m);
+
+    /**
+     * This function returns if add Monster is successful or not.
+     * 
+     * @param m
      * @return true if add is successfully
      */
     boolean addMonster(Monster m);
 
     /**
-     * This function returns if remove Monster is successful or not
+     * This function returns if remove Monster is successful or not.
      * 
-     * @param Monster
+     * @param m
      * @return true if remove is successfully
      */
     boolean removeMonster(Monster m);
 
     /**
-     * This function returns Player's name
+     * This function returns Player's name.
      * 
      * @return Player's name
      */
     String getName();
 
     /**
-     * This function returns Player's TrainerNumber
+     * This function returns Player's TrainerNumber.
      * 
      * @return Player's TrainerNumber
      */
     int getTrainerNumber();
 
     /**
-     * This function returns Player's gender
+     * This function returns Player's gender.
      * 
      * @return Player's gender
      */
     Gender getGender();
 
     /**
-     * This function returns Player's Money
+     * This function returns Player's Money.
      * 
      * @return Player's Money
      */
     int getMoney();
 
     /**
-     * This function returns if team is full or not
+     * This function returns if team is full or not.
      * 
      * @return team's state
      */
     boolean isTeamFull();
 
     /**
-     * This function sets Player's Money
+     * This function sets Player's Money.
      * 
      * @param money to be set
      */
     void setMoney(int money);
 
     /**
-     * This function sets Player's position
+     * This function sets Player's position.
      * 
      * @param position to be set
      */
     void setPosition(Pair<Integer, Integer> position);
 
     /**
-     * This function evolves Monsters after a battle
+     * This function evolves Monsters after a battle.
      * 
-     * @param position to be set
      */
     void evolveMonsters();
 
     /**
-     * This function evolves Monster using giving GameItem
+     * This function evolves Monster using giving GameItem.
      * 
-     * @param Monster, GameItem to be used
+     * @param monster
+     * @param gameItem
      */
-    void evolveMonster(Monster monster, GameItem i);
+    void evolveMonster(Monster monster, GameItem gameItem);
 
     /**
-     * Moves Player up
+     * Moves Player up.
      * 
+     * @return true if moved up
      */
     boolean moveUp();
 
     /**
-     * Moves Player down
+     * Moves Player down.
      * 
+     * @return true if moved down
      */
     boolean moveDown();
 
     /**
-     * Moves Player left
+     * Moves Player left.
      * 
+     * @return true if moved left
      */
     boolean moveLeft();
 
     /**
-     * Moves Player right
+     * Moves Player right.
      * 
+     * @return true if moved right
      */
     boolean moveRight();
 
     /**
-     * This function gets the GameMap
+     * This function gets the GameMap.
      * 
      * @return map
      */
     GameMap getMap();
 
     /**
-     * This function returns if Player has changed Map after movement
+     * This function returns if Player has changed Map after movement.
      * 
      * @return true if changed map
      */
     boolean hasPlayerChangedMap();
 
     /**
-     * This function returns if Player has interaction with Npc
+     * This function returns if Player has interaction with Npc.
      * 
+     * @param pos
      * @return true if there is a Npc
      */
     boolean interactAt(Pair<Integer, Integer> pos);
 
     /**
-     * This function returns if there was a interaction with Npc
+     * This function returns if there was a interaction with Npc.
      * 
      * @return last interacted Npc
      */
@@ -209,28 +216,28 @@ public interface Player {
 
     /**
      * This function returns a battle if a wild monster attacked while player was
-     * moving or the Player talked with a Npc
+     * moving or the Player talked with a Npc.
      * 
      * @return a battle if any is present
      */
     Optional<MonsterBattle> getPlayerBattle();
 
     /**
-     * This function updates storage
+     * This function updates storage.
      * 
      * @param storage
      */
     void setStorage(MonsterStorage storage);
 
     /**
-     * This function gets storage
+     * This function gets storage.
      * 
      * @return storage
      */
     MonsterStorage getStorage();
 
     /**
-     * This function returns if the player has triggered an event
+     * This function returns if the player has triggered an event.
      * 
      * @return true if the player has triggered an event
      */
