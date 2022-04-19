@@ -68,7 +68,7 @@ public class DataControllerImpl implements DataLoaderController {
 	GameItem superHealingPotion = new HealingItem("Super healing potion", "This item heal a monster for 250 HP",
 		250);
 	GameItem ultraHealingPotion = new HealingItem("Ultra healing potion",
-		"This item heal a monster for 400 HP,400");
+		"This item heal a monster for 400 HP");
 	GameItem kracStone = new EvolutionItem("KracezStone", "This item evolves krados");
 
 	this.gameItems.add(monsterBall);

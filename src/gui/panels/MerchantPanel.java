@@ -2,6 +2,7 @@ package gui.panels;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
@@ -16,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingConstants;
 
 import controller.PlayerController;
 import gui.GameFrame;
@@ -108,7 +110,10 @@ public class MerchantPanel extends JPanel {
 	    // name
 	    itemPanel.add(new JLabel(gameItem));
 	    // Description
-	    itemPanel.add(new JLabel(playerController.getItemDescription(gameItem)));
+	    JLabel descLabel = new JLabel("<html><p>" + playerController.getItemDescription(gameItem) + "</p></html>",
+		    SwingConstants.LEFT);
+	    descLabel.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 13));
+	    itemPanel.add(descLabel);
 	    // Price
 	    JLabel priceLabel = new JLabel(Integer.toString(playerController.getMerchantItemPrice(gameItem)) + "$");
 	    priceLabel.setHorizontalAlignment(JLabel.CENTER);
