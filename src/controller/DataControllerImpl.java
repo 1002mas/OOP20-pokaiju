@@ -1,4 +1,4 @@
-package controller.json;
+package controller;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -41,7 +41,7 @@ import model.player.Gender;
 import model.player.Player;
 import model.player.PlayerImpl;
 
-public class DataControllerImpl implements DataLoaderController {
+public class DataControllerImpl implements DataController {
     private final static int MAXIMUM_BLOCK_IN_COLUMN = 20;
     private final static int MAXIMUM_BLOCK_IN_ROW = 20;
     private final static int INITIAL_GAME_MAP_ID = 1;

@@ -149,7 +149,7 @@ public class ImagesLoaderImpl implements ImagesLoader {
 		String imgPath = basePath + fileType;
 		InputStream imgStream = this.getClass().getClassLoader().getResourceAsStream(imgPath);
 		monsterPng = ImageIO.read(imgStream);
-		double imageRatio = (double)monsterPng.getHeight() / monsterPng.getWidth();
+		double imageRatio = (double) monsterPng.getHeight() / monsterPng.getWidth();
 		int newWidth = (int) (this.width * 0.25);
 		int newHeight = (int) (imageRatio * newWidth);
 		monsterPng = resizeImage(monsterPng, newWidth, newHeight);
@@ -163,6 +163,14 @@ public class ImagesLoaderImpl implements ImagesLoader {
 
     }
 
+    /**
+     * It resizes an image.
+     * 
+     * @param originalImage the image that you want to be resized.
+     * @param targetWidth   the new image width
+     * @param targetHeight  the new image height
+     * @return the original image with the given width and height
+     */
     private BufferedImage resizeImage(BufferedImage originalImage, int targetWidth, int targetHeight) {
 	BufferedImage resizedImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.BITMASK);
 

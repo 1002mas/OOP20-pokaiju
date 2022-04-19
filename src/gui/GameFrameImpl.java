@@ -78,7 +78,6 @@ public class GameFrameImpl extends JFrame implements GameFrame {
 	loginPanel.getquitGame().addActionListener(e -> System.exit(0));
 
 	JPanel newGamePanel = newGamePanel();
-	
 
 	mainPanel.add(loginPanel, LOGIN_VIEW);
 	mainPanel.add(newGamePanel, NEW_GAME_VIEW);
@@ -92,6 +91,11 @@ public class GameFrameImpl extends JFrame implements GameFrame {
 
     }
 
+    /**
+     * It calculates the main panel size based on the smallest screen dimension.
+     * 
+     * @return the main panel size
+     */
     private int getMainPanelSize() {
 	double percScreen = 5.0 / 6.0;
 	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -100,6 +104,10 @@ public class GameFrameImpl extends JFrame implements GameFrame {
 	return s;
     }
 
+    /**
+     * 
+     * @return the panel with map, player and npc
+     */
     private JPanel buildMapPanel() {
 	TwoLayersPanel mapPanel = new TwoLayersPanel(playerController, imgLoad, size, size);
 	mapPanel.addKeyListener(new PlayerCommands(this));
@@ -143,6 +151,11 @@ public class GameFrameImpl extends JFrame implements GameFrame {
 	}
     }
 
+    /**
+     * It checks if a battle started and it changes to the battle view.
+     * 
+     * @return true if it changed to battle view
+     */
     private boolean changeToBattle() {
 	if (playerController.hasBattleStarted()) {
 	    BattlePanel b = (BattlePanel) (this.subPanels.get(BATTLE_VIEW));
@@ -276,6 +289,7 @@ public class GameFrameImpl extends JFrame implements GameFrame {
 	return panel;
     }
 
+    @Override
     public void updateView(String name) {
 	cLayout.show(mainPanel, name);
 	subPanels.get(name).requestFocusInWindow();
