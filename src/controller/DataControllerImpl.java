@@ -102,30 +102,34 @@ public class DataControllerImpl implements DataController {
     }
 
     private void createMonsterSpecies() {
+        final int monsterStats = 50;
+
         final MonsterSpecies species1 = new MonsterSpeciesBuilderImpl().name("bibol").info("His name is bibol")
-                .monsterType(MonsterType.FIRE).health(60).attack(20).defense(5).speed(10)
-                .movesList(getMovesByType(MonsterType.FIRE)).build();
+                .monsterType(MonsterType.FIRE).health(monsterStats).attack(monsterStats).defense(monsterStats)
+                .speed(monsterStats).movesList(getMovesByType(MonsterType.FIRE)).build();
         final MonsterSpecies species2 = new MonsterSpeciesBuilderImpl().name("greyfish").info("is a fish")
-                .monsterType(MonsterType.WATER).health(100).attack(8).defense(5).speed(8)
-                .movesList(getMovesByType(MonsterType.WATER)).build();
+                .monsterType(MonsterType.WATER).health(monsterStats).attack(monsterStats).defense(monsterStats)
+                .speed(monsterStats).movesList(getMovesByType(MonsterType.WATER)).build();
         final MonsterSpecies species6 = new MonsterSpeciesBuilderImpl().name("kratres").info("cute thing3")
-                .monsterType(MonsterType.GRASS).health(70).attack(25).defense(2).speed(5)
-                .movesList(getMovesByType(MonsterType.GRASS)).build();
+                .monsterType(MonsterType.GRASS).health(monsterStats).attack(monsterStats).defense(monsterStats)
+                .speed(monsterStats).movesList(getMovesByType(MonsterType.GRASS)).build();
         final MonsterSpecies species4 = new MonsterSpeciesBuilderImpl().name("krados").info("cute thing 2")
-                .monsterType(MonsterType.GRASS).health(70).attack(25).defense(2).speed(5)
-                .movesList(getMovesByType(MonsterType.GRASS)).evolution(species6).gameItem(gameItems.get(4)).build();
+                .monsterType(MonsterType.GRASS).health(monsterStats).attack(monsterStats).defense(monsterStats)
+                .speed(monsterStats).movesList(getMovesByType(MonsterType.GRASS)).evolution(species6)
+                .gameItem(gameItems.get(4)).build();
         final MonsterSpecies species3 = new MonsterSpeciesBuilderImpl().name("kracez").info("cute thing")
-                .monsterType(MonsterType.GRASS).health(70).attack(25).defense(2).speed(5)
-                .movesList(getMovesByType(MonsterType.GRASS)).evolution(species4).evolutionLevel(10).build();
+                .monsterType(MonsterType.GRASS).health(monsterStats).attack(monsterStats).defense(monsterStats)
+                .speed(monsterStats).movesList(getMovesByType(MonsterType.GRASS)).evolution(species4).evolutionLevel(10)
+                .build();
         final MonsterSpecies species5 = new MonsterSpeciesBuilderImpl().name("yepicon").info("cute thing")
-                .monsterType(MonsterType.GRASS).health(70).attack(25).defense(2).speed(5)
-                .movesList(getMovesByType(MonsterType.GRASS)).build();
+                .monsterType(MonsterType.GRASS).health(monsterStats).attack(monsterStats).defense(monsterStats)
+                .speed(monsterStats).movesList(getMovesByType(MonsterType.GRASS)).build();
         final MonsterSpecies puppin = new MonsterSpeciesBuilderImpl().name("puppin").info("This is puppin")
-                .monsterType(MonsterType.FIRE).health(60).attack(20).defense(5).speed(10)
-                .movesList(getMovesByType(MonsterType.FIRE)).build();
+                .monsterType(MonsterType.FIRE).health(monsterStats).attack(monsterStats).defense(monsterStats)
+                .speed(monsterStats).movesList(getMovesByType(MonsterType.FIRE)).build();
         final MonsterSpecies ponix = new MonsterSpeciesBuilderImpl().name("ponix").info("This is ponix")
-                .monsterType(MonsterType.FIRE).health(60).attack(20).defense(5).speed(10)
-                .movesList(getMovesByType(MonsterType.GRASS)).build();
+                .monsterType(MonsterType.FIRE).health(monsterStats).attack(monsterStats).defense(monsterStats)
+                .speed(monsterStats).movesList(getMovesByType(MonsterType.GRASS)).build();
 
         monsterSpecies.add(species1);
         monsterSpecies.add(species2);
@@ -139,12 +143,19 @@ public class DataControllerImpl implements DataController {
     private void createMapData() {
         final GameMapData mapData = new GameMapDataImpl(INITIAL_GAME_MAP_ID, 1, 10, "MAP1",
                 getMapBlocksById(INITIAL_GAME_MAP_ID),
-                monsterSpecies.stream().filter(i -> !i.getName().equals("ponix") && !i.getName().equals("puppin"))
+                monsterSpecies.stream().filter(i -> !"ponix".equals(i.getName()) && !"puppin".equals(i.getName()))
                         .collect(Collectors.toList()));
         final GameMapData house = new GameMapDataImpl(2, 1, 99, "MAP2", getMapBlocksById(2), new ArrayList<>());
-        mapData.addMapLink(house, new Pair<>(5, 10), new Pair<>(10, 14));
-        house.addMapLink(mapData, new Pair<>(10, 16), new Pair<>(5, 12));
-        house.addMapLink(mapData, new Pair<>(9, 16), new Pair<>(5, 12));
+        final Pair<Integer, Integer> mapLink1 = new Pair<>(5, 10);
+        final Pair<Integer, Integer> mapLink2 = new Pair<>(10, 16);
+        final Pair<Integer, Integer> mapLink3 = new Pair<>(9, 16);
+
+        final Pair<Integer, Integer> character1 = new Pair<>(10, 14);
+        final Pair<Integer, Integer> character2 = new Pair<>(5, 12);
+
+        mapData.addMapLink(house, mapLink1, character1);
+        house.addMapLink(mapData, mapLink2, character2);
+        house.addMapLink(mapData, mapLink3, character2);
         this.gameMapData.add(mapData);
         this.gameMapData.add(house);
     }
@@ -176,15 +187,16 @@ public class DataControllerImpl implements DataController {
     }
 
     private void createMonsters() {
-        final Monster kracez = new MonsterBuilderImpl().species(getSpeciesByName("kracez")).level(5)
+        final int level = 5;
+        final Monster kracez = new MonsterBuilderImpl().species(getSpeciesByName("kracez")).level(level)
                 .movesList(getMovesByTypeWithPP(MonsterType.GRASS)).build();
-        final Monster greyfish = new MonsterBuilderImpl().species(getSpeciesByName("greyfish")).level(5)
+        final Monster greyfish = new MonsterBuilderImpl().species(getSpeciesByName("greyfish")).level(level)
                 .movesList(getMovesByTypeWithPP(MonsterType.WATER)).build();
         final Monster bibol = new MonsterBuilderImpl().species(getSpeciesByName("bibol")).level(100)
                 .movesList(getMovesByTypeWithPP(MonsterType.FIRE)).build();
         final Monster puppin = new MonsterBuilderImpl().species(getSpeciesByName("puppin")).level(10)
                 .movesList(getMovesByTypeWithPP(MonsterType.FIRE)).build();
-        final Monster ponix = new MonsterBuilderImpl().species(getSpeciesByName("ponix")).level(50)
+        final Monster ponix = new MonsterBuilderImpl().species(getSpeciesByName("ponix")).level(level * 10)
                 .movesList(getMovesByTypeWithPP(MonsterType.GRASS)).wild(true).build();
 
         this.monster.add(puppin);
@@ -340,8 +352,8 @@ public class DataControllerImpl implements DataController {
                     default:
                         break;
                     }
-                    y = y + x / (this.getMaximumBlockInColumn() - 1);
-                    x = (x + 1) % this.getMaximumBlockInColumn();
+                    y = y + x / (MAXIMUM_BLOCK_IN_COLUMN - 1);
+                    x = (x + 1) % MAXIMUM_BLOCK_IN_COLUMN;
                 }
             } while (line != null);
         } catch (IOException e) {

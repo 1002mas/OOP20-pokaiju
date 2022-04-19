@@ -26,14 +26,14 @@ public class BattlePanel extends JPanel {
 
     private static final long serialVersionUID = -6294780864196246092L;
 
-    private final String MONSTER = "monsters";
-    private final String CENTER_PANEL = "center";
-    private final String SOUTH_PANEL = "south";
-    private final String ITEM = "items";
-    private final String CHOOSE = "choose";
-    private final String MOVE = "moves";
-    private final int TWO_SECONDS = 2000;
-    private final int THREE_SECONDS = 3000;
+    private static final String MONSTER = "monsters";
+    private static final String CENTER_PANEL = "center";
+    private static final String SOUTH_PANEL = "south";
+    private static final String ITEM = "items";
+    private static final String CHOOSE = "choose";
+    private static final String MOVE = "moves";
+    private static final int TWO_SECONDS = 2000;
+    private static final int THREE_SECONDS = 3000;
 
     private final Map<String, JPanel> panelMap = new HashMap<>();
     private final JTextField actionText;
@@ -190,9 +190,10 @@ public class BattlePanel extends JPanel {
             }
         });
     }
+
     /***
      * 
-     * @param ctrl The BattleController for this battle
+     * @param ctrl       The BattleController for this battle
      * @param playerCtrl The controller of the Player
      */
     public void setBattleController(final BattleController ctrl, final PlayerController playerCtrl) {
@@ -283,7 +284,7 @@ public class BattlePanel extends JPanel {
                 button.setEnabled(false);
             }
             if (!this.itemsFlag && monsterId == this.ctrl.getPlayerCurrentMonsterId()) {
-                    button.setEnabled(false);
+                button.setEnabled(false);
             }
 
             button.addActionListener(e -> {
@@ -315,33 +316,8 @@ public class BattlePanel extends JPanel {
         this.panelMap.get(ITEM).removeAll();
         final Map<JButton, String> itemMap = new HashMap<>();
         for (final var itemName : ctrl.getAllPlayerItems()) {
-            final JButton button = new JButton(itemName + " " + ctrl.getItemNumber(itemName));
+            final JButton button = createItemButton(itemName, itemMap);
             itemMap.put(button, itemName);
-
-            button.addActionListener(e -> {
-                this.itemUsed = itemMap.get(e.getSource());
-                if (this.ctrl.isCaptureItem(itemUsed)) {
-                    this.ctrl.useItem(itemUsed, 0);
-                    if (ctrl.isEnemyCaught()) {
-                        // ENDING BATTLE
-                        endingBattle("You captured the enemy!!");
-                    } else {
-                        actionText.setText("you failed the capture");
-                        this.paintImmediately(getBounds());
-                        try {
-                            Thread.sleep(TWO_SECONDS);
-                        } catch (InterruptedException e1) {
-                            e1.printStackTrace();
-                        }
-                        refresh();
-                    }
-                } else {
-                    this.itemsFlag = true;
-                    loadMonsters();
-                    actionText.setText("What monster do u choose?");
-                    cLayout.show(this.panelMap.get(SOUTH_PANEL), MONSTER);
-                }
-            });
             this.panelMap.get(ITEM).add(button);
         }
         final JButton back = new JButton("Back");
@@ -349,6 +325,35 @@ public class BattlePanel extends JPanel {
             refresh();
         });
         this.panelMap.get(ITEM).add(back);
+    }
+
+    private JButton createItemButton(final String itemName, final Map<JButton, String> itemMap) {
+        final JButton button = new JButton(itemName + " " + ctrl.getItemNumber(itemName));
+        button.addActionListener(e -> {
+            this.itemUsed = itemMap.get(e.getSource());
+            if (this.ctrl.isCaptureItem(itemUsed)) {
+                this.ctrl.useItem(itemUsed, 0);
+                if (ctrl.isEnemyCaught()) {
+                    // ENDING BATTLE
+                    endingBattle("You captured the enemy!!");
+                } else {
+                    actionText.setText("you failed the capture");
+                    this.paintImmediately(getBounds());
+                    try {
+                        Thread.sleep(TWO_SECONDS);
+                    } catch (InterruptedException e1) {
+                        e1.printStackTrace();
+                    }
+                    refresh();
+                }
+            } else {
+                this.itemsFlag = true;
+                loadMonsters();
+                actionText.setText("What monster do u choose?");
+                cLayout.show(this.panelMap.get(SOUTH_PANEL), MONSTER);
+            }
+        });
+        return button;
     }
 
     private void refresh() {
@@ -360,6 +365,7 @@ public class BattlePanel extends JPanel {
         this.actionText.setText("What do you want to do?...");
 
     }
+
     /***
      * this function load the initial data of the battle.
      */
