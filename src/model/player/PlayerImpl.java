@@ -19,6 +19,7 @@ import model.npc.TypeOfNpc;
 
 public class PlayerImpl implements Player {
     private static final int START_MONEY = 1000;
+    private static final int TEAM_SIZE = 6;
     private static final int STEP = 1;
     private String name;
     private Gender gender;
@@ -201,7 +202,7 @@ public class PlayerImpl implements Player {
      */
     @Override
     public boolean isTeamFull() {
-        return this.getAllMonsters().stream().count() >= 6 ? true : false;
+        return this.getAllMonsters().stream().count() >= TEAM_SIZE;
     }
 
     /**
@@ -385,7 +386,7 @@ public class PlayerImpl implements Player {
     public boolean moveRight() {
         return move(STEP, 0);
     }
-
+    
     public GameMap getMap() {
         return map;
     }

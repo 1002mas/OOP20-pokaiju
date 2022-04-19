@@ -16,6 +16,7 @@ import model.monster.MonsterImpl;
 
 public class MonsterInfoPanel extends JPanel {
     private static final long serialVersionUID = -5191191420756038008L;
+    private static final String NEW_LINE_HTML = "<br/>";
     private final JPanel parentPanel;
     private final int monsterId;
     private final PlayerController playerController;
@@ -71,11 +72,14 @@ public class MonsterInfoPanel extends JPanel {
      * @return text of moves learned and remaining pp
      */
     private String getStringMovesNameAndPP() {
-        String moves = "<html>" + "Moves Learned <br/>";
+        final String moves = "<html> Moves Learned" + NEW_LINE_HTML;
+        final StringBuilder str = new StringBuilder();
+        str.append(moves);
         for (final String moveName : this.playerController.getMovesNames(monsterId)) {
-            moves += moveName + " PP : " + this.playerController.getMovePP(moveName, monsterId) + "<br/>";
+            str.append(moveName + " PP : " + this.playerController.getMovePP(moveName, monsterId) + NEW_LINE_HTML);
         }
-        return moves + "</html>";
+        str.append("</html>");
+        return str.toString();
     }
 
     /**
@@ -85,13 +89,13 @@ public class MonsterInfoPanel extends JPanel {
     private JPanel contentPanelArea() {
         final JPanel monsterInfoPanel = new JPanel(new GridLayout(1, 3));
         final JLabel infoLabel = new JLabel();
-        final String stats = "<html>" + "Name : " + this.playerController.getMonsterNameById(monsterId) + "<br/>"
-                + "Level : " + playerController.getMonsterLevel(monsterId) + "<br/>" + "Exp :"
-                + playerController.getMonsterExp(monsterId) + "/" + MonsterImpl.EXP_CAP + "<br/>" + "Hp : "
+        final String stats = "<html>" + "Name : " + this.playerController.getMonsterNameById(monsterId) + NEW_LINE_HTML
+                + "Level : " + playerController.getMonsterLevel(monsterId) + NEW_LINE_HTML + "Exp :"
+                + playerController.getMonsterExp(monsterId) + "/" + MonsterImpl.EXP_CAP + NEW_LINE_HTML + "Hp : "
                 + playerController.getMonsterHealth(monsterId) + "/" + playerController.getMonsterMaxHealth(monsterId)
-                + "<br/>" + "Atk : " + playerController.getMonsterAttack(monsterId) + "<br/>" + "Defence : "
-                + playerController.getMonsterDefense(monsterId) + "<br/>" + "Speed : "
-                + playerController.getMonsterSpeed(monsterId) + "<br/>" + "</html>";
+                + NEW_LINE_HTML + "Atk : " + playerController.getMonsterAttack(monsterId) + NEW_LINE_HTML + "Defence : "
+                + playerController.getMonsterDefense(monsterId) + NEW_LINE_HTML + "Speed : "
+                + playerController.getMonsterSpeed(monsterId) + NEW_LINE_HTML + "</html>";
         infoLabel.setText(stats);
         setLabelProp(infoLabel);
 

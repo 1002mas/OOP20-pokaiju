@@ -3,6 +3,8 @@ package gui.panels;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -21,6 +23,7 @@ import controller.PlayerController;
 public class BoxPanel extends JPanel {
     private static final long serialVersionUID = 67133453355728035L;
     private static final int NUMBER_OF_MONSTERS_IN_TEAM = 6;
+    private static final int WIDTH = 400;
     private final PlayerController playerController;
     private final CardLayout cardLayout = new CardLayout();
     private List<Integer> playerMonsterIdList = new ArrayList<>();
@@ -107,7 +110,7 @@ public class BoxPanel extends JPanel {
         take.setEnabled(false);
 
         final JPanel playerMonstersPanel = new JPanel(new GridLayout(0, 1));
-        playerMonstersPanel.setPreferredSize(new Dimension(400, getPreferredSize().height));
+        playerMonstersPanel.setPreferredSize(new Dimension(WIDTH, getPreferredSize().height));
 
         for (final int playerMonsterid : playerMonsterIdList) {
             playerMonstersPanel.add(monsterPanelArea(playerMonsterid, playerMonstersPanel, true));
@@ -153,7 +156,7 @@ public class BoxPanel extends JPanel {
         final JLabel team = new JLabel("Team");
         setLabelProp(team);
         team.setBorder(BorderFactory.createLineBorder(Color.black));
-        team.setPreferredSize(new Dimension(400, getPreferredSize().height));
+        team.setPreferredSize(new Dimension(WIDTH, getPreferredSize().height));
 
         titlePanel.add(box, BorderLayout.CENTER);
         titlePanel.add(team, BorderLayout.EAST);
@@ -212,16 +215,15 @@ public class BoxPanel extends JPanel {
      * @param cont      container of components
      * @param isEnabled condition for enable or disable
      */
-    private void setPanelEnabled(final java.awt.Container cont, final Boolean isEnabled) {
+    private void setPanelEnabled(final Container cont, final Boolean isEnabled) {
         cont.setEnabled(isEnabled);
 
-        final java.awt.Component[] components = cont.getComponents();
-
-        for (int i = 0; i < components.length; i++) {
-            if (components[i] instanceof java.awt.Container) {
-                setPanelEnabled((java.awt.Container) components[i], isEnabled);
+        final Component[] components = cont.getComponents();
+        for (final Component compo : components) {
+            if (compo instanceof Container) {
+                setPanelEnabled((Container) compo, isEnabled);
             }
-            components[i].setEnabled(isEnabled);
+            compo.setEnabled(isEnabled);
         }
     }
 
