@@ -16,6 +16,7 @@ import model.battle.Moves;
 import model.battle.MovesImpl;
 import model.gameevents.GameEvent;
 import model.gameevents.MonsterGift;
+import model.gameevents.NpcActivityChanger;
 import model.gameevents.NpcTextChanger;
 import model.gameevents.NpcVisibilityChanger;
 import model.gameevents.UniqueMonsterEvent;
@@ -204,7 +205,7 @@ public class DataControllerImpl implements DataController {
 		true, List.of(this.monster.get(2), this.monster.get(3)), false);
 	NpcSimple healerNpc = new NpcHealerImpl("Mom", List.of("Let me heal your Pokaiju"), new Pair<>(10, 6),
 		this.player, true, true);
-	NpcSimple npcGift = new NpcSimpleImpl("Gianni", List.of("Your gift", "I have no more gifts"),
+	NpcSimple npcGift = new NpcSimpleImpl("Puppin", List.of("I will come with you"),
 		new Pair<>(15, 15), true, true);
 	NpcSimple npcGhost = new NpcSimpleImpl("Pippo", List.of("How did you find me?", "I was hidden very well"),
 		new Pair<>(17, 17), false, true);
@@ -227,7 +228,8 @@ public class DataControllerImpl implements DataController {
 
     private void giftTest() {
 	GameEvent g = new MonsterGift(4185, true, false, true, List.of(monster.get(0)), player);
-	g.addSuccessiveGameEvent(new NpcTextChanger(4584, false, false, true, npcs.get(4), 1));
+	g.addSuccessiveGameEvent(new NpcVisibilityChanger(4584, false, false, true, npcs.get(4), false));
+	g.addSuccessiveGameEvent(new NpcActivityChanger(4585, false, false, true, npcs.get(4), false));
 	npcs.get(4).addGameEvent(g);
 	npcs.add(npcs.get(4));
     }
