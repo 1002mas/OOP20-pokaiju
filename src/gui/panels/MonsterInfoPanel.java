@@ -60,7 +60,7 @@ public class MonsterInfoPanel extends JPanel {
     private JPanel setContentPanel() {
 	JPanel monsterInfoPanel = new JPanel(new GridLayout(1, 3));
 	JLabel infoLabel = new JLabel();
-	String stats = "<html>" + "name : " + this.playerController.getMonsterNameById(monsterId) + "<br/>" + "Level : "
+	String stats = "<html>" + "Name : " + this.playerController.getMonsterNameById(monsterId) + "<br/>" + "Level : "
 		+ playerController.getMonsterLevel(monsterId) + "<br/>" + "Exp :"
 		+ playerController.getMonsterExp(monsterId) + "/" + MonsterImpl.EXP_CAP + "<br/>" + "Hp : "
 		+ playerController.getMonsterHealth(monsterId) + "/" + playerController.getMonsterMaxHealth(monsterId)

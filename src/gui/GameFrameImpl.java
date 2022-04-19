@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
-
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -29,7 +28,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
+import javax.swing.UIDefaults;
+import javax.swing.UIManager;
 import controller.Direction;
 import controller.PlayerController;
 import gui.panels.BattlePanel;
@@ -57,6 +57,13 @@ public class GameFrameImpl extends JFrame implements GameFrame {
 
     public GameFrameImpl(PlayerController playerController) {
 	this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	Font myFont = new Font("SansSerif Bold Italic", Font.CENTER_BASELINE, 17);
+	UIDefaults defaultUI = UIManager.getDefaults();
+	defaultUI.put("Button.font", myFont);
+	defaultUI.put("Label.font", myFont);
+	defaultUI.put("ComboBox.font", myFont);
+	defaultUI.put("TextArea.font", myFont);
+	defaultUI.put("TextField.font", myFont);
 	this.playerController = playerController;
 
 	size = getMainPanelSize();
@@ -71,6 +78,7 @@ public class GameFrameImpl extends JFrame implements GameFrame {
 	loginPanel.getquitGame().addActionListener(e -> System.exit(0));
 
 	JPanel newGamePanel = newGamePanel();
+	
 
 	mainPanel.add(loginPanel, LOGIN_VIEW);
 	mainPanel.add(newGamePanel, NEW_GAME_VIEW);
@@ -180,24 +188,18 @@ public class GameFrameImpl extends JFrame implements GameFrame {
 	panel.setBorder(BorderFactory.createLineBorder(Color.green));
 
 	JLabel nameLabel = new JLabel();
-	nameLabel.setFont(new Font("SansSerif Bold Italic", Font.CENTER_BASELINE, 20));
 	JTextField nameField = new JTextField(10);
-	nameField.setFont(new Font("SansSerif Bold Italic", Font.CENTER_BASELINE, 20));
 	nameLabel.setText("Insert name :");
 
 	JLabel genderLabel = new JLabel();
-	genderLabel.setFont(new Font("SansSerif Bold Italic", Font.CENTER_BASELINE, 20));
 	String[] genderText = { "MALE", "FEMALE" };
 	JComboBox<String> gender = new JComboBox<String>(genderText);
 	genderLabel.setText("Select your gender :");
-	genderLabel.setFont(new Font("SansSerif Bold Italic", Font.CENTER_BASELINE, 20));
 
 	JLabel trainerNumberLabel = new JLabel();
 	trainerNumberLabel.setText("Trainer number is generated randomly : ");
-	trainerNumberLabel.setFont(new Font("SansSerif Bold Italic", Font.CENTER_BASELINE, 20));
 	JTextField trainerNumberField = new JTextField();
 	trainerNumberField.setEditable(false);
-	trainerNumberLabel.setFont(new Font("SansSerif Bold Italic", Font.CENTER_BASELINE, 20));
 	trainerNumberLabel.setEnabled(false);
 
 	JButton postData = new JButton("CREATE");
@@ -227,7 +229,6 @@ public class GameFrameImpl extends JFrame implements GameFrame {
 	});
 
 	JButton quitButton = new JButton("BACK TO MENU");
-	quitButton.setFont(new Font("SansSerif Bold Italic", Font.CENTER_BASELINE, 20));
 	quitButton.addActionListener(e -> updateView(GameFrameImpl.LOGIN_VIEW));
 
 	JPanel topPanel = new JPanel(new FlowLayout());
