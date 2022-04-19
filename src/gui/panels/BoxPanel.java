@@ -20,7 +20,7 @@ import controller.PlayerController;
 
 public class BoxPanel extends JPanel {
     private static final long serialVersionUID = 67133453355728035L;
-    private static final int NUMBERMONSTERSINTEAM = 6;
+    private static final int NUMBER_OF_MONSTERS_IN_TEAM = 6;
     private final PlayerController playerController;
     private final CardLayout cardLayout = new CardLayout();
     private List<Integer> playerMonsterIdList = new ArrayList<Integer>();
@@ -300,7 +300,7 @@ public class BoxPanel extends JPanel {
      * @param numberOfMonster Number of Monster present in player's team
      */
     private void setPanelProp(JPanel panel, int numberOfMonster) {
-	int cont = NUMBERMONSTERSINTEAM - numberOfMonster;
+	int cont = NUMBER_OF_MONSTERS_IN_TEAM - numberOfMonster;
 	while (cont > 0) {
 	    JLabel label = new JLabel();
 	    label.setVisible(false);

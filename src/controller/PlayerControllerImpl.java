@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.sun.tools.javac.jvm.Gen;
+
 import model.Pair;
 import model.battle.MonsterBattle;
 import model.battle.Moves;
@@ -15,6 +17,7 @@ import model.monster.Monster;
 import model.npc.NpcMerchant;
 import model.npc.NpcSimple;
 import model.npc.TypeOfNpc;
+import model.player.Gender;
 import model.player.Player;
 
 public class PlayerControllerImpl implements PlayerController {
@@ -581,5 +584,6 @@ public class PlayerControllerImpl implements PlayerController {
 		}
 		return Optional.empty();
 	}
+	
 
 }

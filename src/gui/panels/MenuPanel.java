@@ -24,10 +24,10 @@ public class MenuPanel extends JPanel {
     private int size;
     private final GameFrameImpl gui;
     private final PlayerController playerController;
-    private static final String MONSTERPANEL = "MONSTER";
-    private static final String BOXPANEL = "BOX";
-    private static final String GAMEITEMSPANEL = "ITEMS";
-    private static final String PLAYERINFOPANEL = "INFO";
+    private static final String MONSTER_PANEL = "MONSTER";
+    private static final String BOX_PANEL = "BOX";
+    private static final String GAME_ITEM_PANEL = "ITEMS";
+    private static final String PLAYER_INFO_PANEL = "INFO";
     private final JButton monster = new JButton("MONSTER");
     private final JButton box = new JButton(" BOX ");
     private final JButton gameItems = new JButton(" BAG ");
@@ -77,20 +77,20 @@ public class MenuPanel extends JPanel {
 
 	monster.addActionListener(e -> {
 	    monsterPanel.update();
-	    cLayout.show(bottomPanel, MONSTERPANEL);
+	    cLayout.show(bottomPanel, MONSTER_PANEL);
 	});
-	box.addActionListener(e -> cLayout.show(bottomPanel, BOXPANEL));
+	box.addActionListener(e -> cLayout.show(bottomPanel, BOX_PANEL));
 	gameItems.addActionListener(e -> {
 	    gameItemPanel.update();
-	    cLayout.show(bottomPanel, GAMEITEMSPANEL);
+	    cLayout.show(bottomPanel, GAME_ITEM_PANEL);
 	});
 	playerInfo.addActionListener(e -> {
 	    playerInfoPanel.update();
-	    cLayout.show(bottomPanel, PLAYERINFOPANEL);
+	    cLayout.show(bottomPanel, PLAYER_INFO_PANEL);
 	});
 	quit.addActionListener(e -> {
 	    monsterPanel.changePanel(Integer.toString(0));
-	    gameItemPanel.changePanel(GAMEITEMSPANEL);
+	    gameItemPanel.changePanel(GAME_ITEM_PANEL);
 	    gui.updateView(GameFrameImpl.MAP_VIEW);
 	});
 
@@ -104,10 +104,10 @@ public class MenuPanel extends JPanel {
 	    }
 	});
 
-	bottomPanel.add(monsterPanel, MONSTERPANEL);
-	bottomPanel.add(boxPanel, BOXPANEL);
-	bottomPanel.add(gameItemPanel, GAMEITEMSPANEL);
-	bottomPanel.add(playerInfoPanel, PLAYERINFOPANEL);
+	bottomPanel.add(monsterPanel, MONSTER_PANEL);
+	bottomPanel.add(boxPanel, BOX_PANEL);
+	bottomPanel.add(gameItemPanel, GAME_ITEM_PANEL);
+	bottomPanel.add(playerInfoPanel, PLAYER_INFO_PANEL);
 
 	this.addComponentListener(new ComponentListener() {
 
