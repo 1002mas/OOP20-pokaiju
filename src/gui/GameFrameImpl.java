@@ -138,7 +138,7 @@ public class GameFrameImpl extends JFrame implements GameFrame {
     private boolean changeToBattle() {
 	if (playerController.hasBattleStarted()) {
 	    BattlePanel b = (BattlePanel) (this.subPanels.get(BATTLE_VIEW));
-	    b.setBattleController(this.playerController.getBattleController().get(),this.playerController);
+	    b.setBattleController(this.playerController.getBattleController().get(), this.playerController);
 	    updateView(BATTLE_VIEW);
 	    return true;
 	}
@@ -151,7 +151,7 @@ public class GameFrameImpl extends JFrame implements GameFrame {
 	PlayerPanel topPanel = p.getTopPanel();
 	Optional<String> text = playerController.interact();
 	if (text.isPresent()) {
-	    topPanel.showText(text.get());
+	    topPanel.showText(playerController.getNpcName().get().toUpperCase() + ": " + text.get());
 
 	}
 	if (playerController.hasPlayerTriggeredEvent()) {
@@ -180,22 +180,28 @@ public class GameFrameImpl extends JFrame implements GameFrame {
 	panel.setBorder(BorderFactory.createLineBorder(Color.green));
 
 	JLabel nameLabel = new JLabel();
-	JTextField nameField = new JTextField();
+	nameLabel.setFont(new Font("SansSerif Bold Italic", Font.CENTER_BASELINE, 20));
+	JTextField nameField = new JTextField(10);
+	nameField.setFont(new Font("SansSerif Bold Italic", Font.CENTER_BASELINE, 20));
 	nameLabel.setText("Insert name :");
 
 	JLabel genderLabel = new JLabel();
+	genderLabel.setFont(new Font("SansSerif Bold Italic", Font.CENTER_BASELINE, 20));
 	String[] genderText = { "MALE", "FEMALE" };
 	JComboBox<String> gender = new JComboBox<String>(genderText);
 	genderLabel.setText("Select your gender :");
+	genderLabel.setFont(new Font("SansSerif Bold Italic", Font.CENTER_BASELINE, 20));
 
 	JLabel trainerNumberLabel = new JLabel();
 	trainerNumberLabel.setText("Trainer number is generated randomly : ");
+	trainerNumberLabel.setFont(new Font("SansSerif Bold Italic", Font.CENTER_BASELINE, 20));
 	JTextField trainerNumberField = new JTextField();
 	trainerNumberField.setEditable(false);
-	trainerNumberLabel.setFont(new Font("SansSerif Bold Italic", Font.CENTER_BASELINE, 22));
+	trainerNumberLabel.setFont(new Font("SansSerif Bold Italic", Font.CENTER_BASELINE, 20));
 	trainerNumberLabel.setEnabled(false);
 
 	JButton postData = new JButton("CREATE");
+	postData.setFont(new Font("SansSerif Bold Italic", Font.CENTER_BASELINE, 20));
 	postData.addActionListener(e -> {
 	    if (nameField.getText().equals("")) {
 		JOptionPane.showMessageDialog(null, "Name can't be null", "alert", JOptionPane.WARNING_MESSAGE);
@@ -221,6 +227,7 @@ public class GameFrameImpl extends JFrame implements GameFrame {
 	});
 
 	JButton quitButton = new JButton("BACK TO MENU");
+	quitButton.setFont(new Font("SansSerif Bold Italic", Font.CENTER_BASELINE, 20));
 	quitButton.addActionListener(e -> updateView(GameFrameImpl.LOGIN_VIEW));
 
 	JPanel topPanel = new JPanel(new FlowLayout());

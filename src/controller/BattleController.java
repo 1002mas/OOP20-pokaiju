@@ -1,7 +1,8 @@
 package controller;
 
 import java.util.List;
-import java.util.Optional;
+
+import model.monster.MonsterType;
 
 public interface BattleController {
 
@@ -81,6 +82,13 @@ public interface BattleController {
      * @return monster max health points
      */
     int getEnemyCurrentMonsterMaxHealth();
+    
+    /**
+     * Get the type of the current enemy monster
+     * 
+     * @return monster type
+     */
+    MonsterType getEnemyCurrentMonsterType();
 
     /**
      * Get the level of the current enemy monster
@@ -118,14 +126,6 @@ public interface BattleController {
      * @return true if you can choose the selected move
      */
     boolean chooseMove(String moveName);
-
-    /**
-     * Returns the PP of a move
-     * 
-     * @param moveName
-     * @return move's PP
-     */
-    int getCurrentPP(String moveName);
 
     /**
      * Check the PP of a move
@@ -212,4 +212,16 @@ public interface BattleController {
      * @return if the battle ends
      */
     boolean isOver();
+    
+    /**
+     * Returns true if the player has lost the battle, false otherwise
+     * 
+     * @return if the player has lost the battle
+     */
+    boolean hasPlayerLost();
+    
+    /**
+     * This function sets money and restore stats at the end of the battle
+     */
+    void endingBattle();
 }

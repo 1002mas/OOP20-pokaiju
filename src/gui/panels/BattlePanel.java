@@ -45,14 +45,14 @@ public class BattlePanel extends JPanel {
 
     private BattleController ctrl;
     private PlayerController playerCtrl;
-   
+
     private ImagesLoader img;
     private GameFrame gameFrame;
 
-    public BattlePanel(ImagesLoader img,GameFrame frame) {
+    public BattlePanel(ImagesLoader img, GameFrame frame) {
 	this.img = img;
 	this.gameFrame = frame;
-	this.setLayout(new BorderLayout());
+	setLayout(new BorderLayout());
 	JPanel topPanel = new JPanel();
 	topPanel.setLayout(new GridLayout());
 	this.cLayout = new CardLayout();
@@ -73,34 +73,33 @@ public class BattlePanel extends JPanel {
 	JPanel itemsPanel = new JPanel();
 	itemsPanel.setLayout(new GridLayout());
 	this.panelMap.put(ITEM, itemsPanel);
-	
+
 	this.playerMonster = new JTextField();
 	this.playerMonster.setEditable(false);
 	this.enemyMonster = new JTextField();
 	this.enemyMonster.setEditable(false);
-	
+
 	topPanel.add(playerMonster);
 	topPanel.add(enemyMonster);
-	
+
 	this.actionText = new JTextField();
 	this.actionText.setEditable(false);
 	centerPanel.add(actionText, BorderLayout.SOUTH);
-	
 
 	JButton leftNorthButton = new JButton("Attack");
 	leftNorthButton.addActionListener(new ActionListener() {
 
 	    @Override
 	    public void actionPerformed(ActionEvent e) {
-		if(ctrl.isOverOfPP()) {
+		if (ctrl.isOverOfPP()) {
 		    ctrl.attackWithExtraMove();
 		    checkEnemyStatus();
-		}else {
-		  loadMoves();
-		  actionText.setText("What move do u choose?");
-		  cLayout.show(southPanel, MOVE);  
+		} else {
+		    loadMoves();
+		    actionText.setText("What move do u choose?");
+		    cLayout.show(southPanel, MOVE);
 		}
-		
+
 	    }
 
 	});
@@ -134,14 +133,27 @@ public class BattlePanel extends JPanel {
 	    public void actionPerformed(ActionEvent e) {
 		if (ctrl.flee()) {
 		    actionText.setText("You successfully escaped");
+		    paintImmediately(getBounds());
+		    try {
+			    Thread.sleep(2000);
+			} catch (InterruptedException e1) {
+			    e1.printStackTrace();
+			}
 		    gameFrame.updateView(GameFrameImpl.MAP_VIEW);
 
 		} else {
 		    actionText.setText("You failed to escaped");
+		    paintImmediately(getBounds());
+		    try {
+			    Thread.sleep(2000);
+			} catch (InterruptedException e1) {
+			    e1.printStackTrace();
+			}
+		    refresh();
 		}
 	    }
 	});
-	
+
 	choosePanel.add(leftNorthButton);
 	choosePanel.add(rightNorthButton);
 	choosePanel.add(leftSouthButton);
@@ -155,30 +167,30 @@ public class BattlePanel extends JPanel {
 	this.add(topPanel, BorderLayout.NORTH);
 	this.add(centerPanel, BorderLayout.CENTER);
 	this.add(southPanel, BorderLayout.SOUTH);
-	
+
 	this.addComponentListener(new ComponentListener() {
-	    
+
 	    @Override
 	    public void componentShown(ComponentEvent e) {
 		start();
 	    }
-	    
+
 	    @Override
 	    public void componentResized(ComponentEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	    }
-	    
+
 	    @Override
 	    public void componentMoved(ComponentEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	    }
-	    
+
 	    @Override
 	    public void componentHidden(ComponentEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	    }
 	});
     }
@@ -188,25 +200,26 @@ public class BattlePanel extends JPanel {
 	this.playerCtrl = playerCtrl;
     }
 
-   
-   
     private String getMonsterData(int monsterId) {
 	return " " + playerCtrl.getMonsterNameById(monsterId) + " " + playerCtrl.getMonsterHealth(monsterId) + "/"
-		+ playerCtrl.getMonsterMaxHealth(monsterId) + " HP " + "LVL." + playerCtrl.getMonsterLevel(monsterId);
-	
+		+ playerCtrl.getMonsterMaxHealth(monsterId) + " HP " + "LVL." + playerCtrl.getMonsterLevel(monsterId)
+		+ " " + playerCtrl.getMonsterType(monsterId);
+
     }
-    
+
     private String getEnemyData() {
-	return " " + ctrl.getEnemyCurrentMonsterName() + " " + ctrl.getEnemyCurrentMonsterHp()+ "/"
-		+ ctrl.getEnemyCurrentMonsterMaxHealth() + " HP " + "LVL." + ctrl.getEnemyCurrentMonsterLevel();
+	return " " + ctrl.getEnemyCurrentMonsterName() + " " + ctrl.getEnemyCurrentMonsterHp() + "/"
+		+ ctrl.getEnemyCurrentMonsterMaxHealth() + " HP " + "LVL." + ctrl.getEnemyCurrentMonsterLevel() + " "
+		+ ctrl.getEnemyCurrentMonsterType();
     }
+
     private void loadImg() {
 	playerMonsterImg.setIcon(new ImageIcon(img.getMonster(ctrl.getPlayerCurrentMonsterName())));
 	this.panelMap.get(CENTER_PANEL).add(playerMonsterImg, BorderLayout.WEST);
 	enemyMonsterImg.setIcon(new ImageIcon(img.getMonster(ctrl.getEnemyCurrentMonsterName())));
 	this.panelMap.get(CENTER_PANEL).add(enemyMonsterImg, BorderLayout.EAST);
 	this.panelMap.get(CENTER_PANEL).repaint();
-	this.validate();
+	validate();
 
     }
 
@@ -214,7 +227,8 @@ public class BattlePanel extends JPanel {
 	Map<JButton, String> movesMap = new HashMap<>();
 	this.panelMap.get(MOVE).removeAll();
 	for (var move : ctrl.getMoves()) {
-	    JButton button = new JButton("" + move + " " + ctrl.getCurrentPP(move) + " PP");
+	    JButton button = new JButton(
+		    "" + move + " " + playerCtrl.getMovePP(move, ctrl.getPlayerCurrentMonsterId()) + " PP");
 	    movesMap.put(button, move);
 	    if (this.ctrl.checkPP(move)) {
 		button.setEnabled(false);
@@ -223,8 +237,10 @@ public class BattlePanel extends JPanel {
 	    }
 	    button.addActionListener(e -> {
 		ctrl.chooseMove(move);
+		System.out.println(ctrl.isOver());
+		System.out.println(ctrl.hasPlayerLost());
 		checkEnemyStatus();
-		
+
 	    });
 	    this.panelMap.get(MOVE).add(button);
 	}
@@ -234,43 +250,51 @@ public class BattlePanel extends JPanel {
 	});
 	this.panelMap.get(MOVE).add(back);
     }
-    private void attack(String move) {
-	
-    }
+
     private void checkEnemyStatus() {
+	
 	if (!ctrl.isAlive(ctrl.getPlayerCurrentMonsterId())) {
+	    System.out.println("PERSO");
 	    actionText.setText(ctrl.getPlayerCurrentMonsterName() + " is dead");
 	    playerMonster.setText(getMonsterData(ctrl.getPlayerCurrentMonsterId()));
-	    if (ctrl.isOver()) {
+	    
+	    if (ctrl.isOver() && ctrl.hasPlayerLost()) {
 		// ENDING BATTLE player team dead
-		endBattle("You lose...");
 		
+		endingBattle("You lose...");
+
 	    } else {
 		loadMonsters();
 		cLayout.show(this.panelMap.get(SOUTH_PANEL), MONSTER);
 	    }
 	} else {
-	    if (ctrl.isOver()) {
+	    if (ctrl.isOver() && !ctrl.hasPlayerLost()) {
 		// ENDING BATTLE enemy team dead
-		endBattle("You have defeated all the enemies!!");
+		
+		endingBattle("You have defeated all the enemies!!");
 	    } else {
 		refresh();
-		
+
 	    }
 	}
     }
+
     private void loadMonsters() {
 	this.panelMap.get(MONSTER).removeAll();
 	Map<JButton, Integer> monsterMap = new HashMap<>();
 	for (var monsterId : ctrl.getPlayerTeam()) {
 	    JButton button = new JButton(getMonsterData(monsterId));
 	    monsterMap.put(button, monsterId);
-	    if (!this.ctrl.isAlive(monsterId)) {
+	    if (!this.ctrl.isAlive(monsterId) && !this.itemsFlag) {
 		button.setEnabled(false);
 	    }
-	    if(monsterId == this.ctrl.getPlayerCurrentMonsterId()) {
-		button.setEnabled(false);
+	    if (!this.itemsFlag) {
+		if (monsterId == this.ctrl.getPlayerCurrentMonsterId()) {
+		    button.setEnabled(false);
+		}
 	    }
+	    
+
 	    button.addActionListener(e -> {
 		if (itemsFlag) {
 
@@ -286,11 +310,14 @@ public class BattlePanel extends JPanel {
 	    });
 	    this.panelMap.get(MONSTER).add(button);
 	}
-	JButton back = new JButton("Back");
-	back.addActionListener(e -> {
-	    refresh();
-	});
-	this.panelMap.get(MONSTER).add(back);
+	if (ctrl.isAlive(ctrl.getPlayerCurrentMonsterId()) ) {
+	    JButton back = new JButton("Back");
+	    back.addActionListener(e -> {
+		refresh();
+	    });
+	    this.panelMap.get(MONSTER).add(back);
+	}
+
     }
 
     private void loadItems() {
@@ -306,8 +333,15 @@ public class BattlePanel extends JPanel {
 		    this.ctrl.useItem(itemUsed, 0);
 		    if (ctrl.isEnemyCaught()) {
 			// ENDING BATTLE
-			endBattle("You have captured a new Monster!!");
+			endingBattle("You captured the enemy!!");
 		    } else {
+			actionText.setText("you failed the capture");
+			this.paintImmediately(getBounds());
+			try {
+			    Thread.sleep(2000);
+			} catch (InterruptedException e1) {
+			    e1.printStackTrace();
+			}
 			refresh();
 		    }
 		} else {
@@ -330,7 +364,7 @@ public class BattlePanel extends JPanel {
 	loadImg();
 	this.playerMonster.setText(getMonsterData(ctrl.getPlayerCurrentMonsterId()));
 	this.enemyMonster.setText(getEnemyData());
-	this.loadMoves();
+	loadMoves();
 	cLayout.show(this.panelMap.get(SOUTH_PANEL), CHOOSE);
 	this.actionText.setText("What do you want to do?...");
 
@@ -343,13 +377,12 @@ public class BattlePanel extends JPanel {
 	this.enemyMonster.setText(getEnemyData());
 	this.actionText.setText("What do you want to do?...");
 	cLayout.show(this.panelMap.get(SOUTH_PANEL), CHOOSE);
-	
-	
 
     }
-    private void endBattle(String text) {
+
+    private void endingBattle(String text) {
 	refresh();
-	actionText.setText(text);
+	this.actionText.setText(text);
 	this.paintImmediately(getBounds());
 	try {
 	    Thread.sleep(3000);
@@ -358,4 +391,5 @@ public class BattlePanel extends JPanel {
 	}
 	this.gameFrame.updateView(GameFrameImpl.MAP_VIEW);
     }
+
 }

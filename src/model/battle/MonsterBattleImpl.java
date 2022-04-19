@@ -21,6 +21,7 @@ public class MonsterBattleImpl implements MonsterBattle {
 
     private boolean battleStatus; // true if the battle enemy/player team is defeat, false otherwise
     private boolean areEndPP;
+    private boolean playerLose;
     private Monster playerCurrentMonster;
     private Monster enemy;
     private List<Monster> playerTeam;
@@ -34,6 +35,7 @@ public class MonsterBattleImpl implements MonsterBattle {
     private MonsterBattleImpl(Player trainer, List<Monster> enemyTeam) {
 	this.trainer = trainer;
 	this.battleStatus = true;
+	this.playerLose = false;
 	this.enemyTrainer = Optional.empty();
 	this.playerTeam = trainer.getAllMonsters();
 	this.playerCurrentMonster = playerTeam.get(0);
@@ -67,19 +69,17 @@ public class MonsterBattleImpl implements MonsterBattle {
     public boolean capture() {
 	throwExceptionIfItIsOver();
 	if (!enemy.getWild()) {
-	    System.out.println("non puoi catturare");
 	    return false;
 	}
 
 	int attempt = (int) (Math.random() * CAPTURE_RANGE);
 	if (attempt <= CAPTURE_DIFFICULT) {
-	    trainer.addMonster(enemy);
+	    this.trainer.addMonster(enemy);
 	    int expReached = enemy.getLevel() * EXP_MULTIPLER;
-	    playerCurrentMonster.incExp(expReached);
+	    this.playerCurrentMonster.incExp(expReached);
 	    this.battleStatus = false;
 	    return true;
 	}
-	System.out.println("cattura fallita");
 	return false;
 
     }
@@ -90,15 +90,10 @@ public class MonsterBattleImpl implements MonsterBattle {
 	if (!enemy.getWild()) {
 
 	    return false;
-	}
-	int attempt = (int) (Math.random() * ESCAPE_RANGE);
-	if (attempt <= ESCAPE_DIFFICULT) {
-
+	} else {
 	    this.battleStatus = false;
 	    return true;
 	}
-
-	return false;
 
     }
 
@@ -115,7 +110,7 @@ public class MonsterBattleImpl implements MonsterBattle {
 	    }
 	}
 	if (changingMonster.isAlive()) {
-	    playerCurrentMonster = changingMonster;
+	    this.playerCurrentMonster = changingMonster;
 
 	    return true;
 	}
@@ -130,7 +125,7 @@ public class MonsterBattleImpl implements MonsterBattle {
 	if (!this.playerCurrentMonster.isOutOfPP(playerCurrentMonster.getMoves(moveIndex)) && this.battleStatus
 		&& this.playerCurrentMonster.isAlive()) {
 
-	    this.turn(this.playerCurrentMonster.getMoves(moveIndex));
+	    turn(this.playerCurrentMonster.getMoves(moveIndex));
 
 	    return true;
 	}
@@ -155,20 +150,18 @@ public class MonsterBattleImpl implements MonsterBattle {
 	}
 	if (allPlayerMonsterDeafeted()) { // player's team defeated
 	    this.battleStatus = false;
-	    this.trainer.setMoney(trainer.getMoney() - MONEY_LOST);
-	    restoreAllMonsters();
-	    trainer.evolveMonsters();
+	    this.playerLose = true;
+
 	}
 
 	if (!areThereEnemies()) {
 	    // ending battle
 
-	    trainer.setMoney(trainer.getMoney() + MONEY_WON);
+	    
 	    if (this.enemyTrainer.isPresent()) {
 		enemyTrainer.get().setDefeated(true);
 	    }
 	    this.battleStatus = false;
-	    trainer.evolveMonsters();
 	} else {
 	    this.enemy = enemyTeam.stream().filter(m -> m.isAlive()).findAny().get(); // change enemy's
 										      // monster
@@ -274,5 +267,21 @@ public class MonsterBattleImpl implements MonsterBattle {
 	throwExceptionIfItIsOver();
 	return false;
 
+    }
+
+    public boolean hasPlayerLost() {
+	return this.playerLose;
+    }
+
+    @Override
+    public void EndingBattle() {
+	if (hasPlayerLost()) {
+	    this.trainer.setMoney(trainer.getMoney() - MONEY_LOST);
+
+	} else {
+	    this.trainer.setMoney(trainer.getMoney() + MONEY_WON);
+	}
+	restoreAllMonsters();
+	this.trainer.evolveMonsters();
     }
 }

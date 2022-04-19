@@ -121,5 +121,13 @@ public interface DataLoaderController {
 	 * 
 	 */
 	public void setPlayer(String name, String gender, int trainerNumber);
+	
+	/**
+	 * This function returns a monster species from the name
+	 * 
+	 * @param name
+	 * @return monsterSpecies by name
+	 */
+	MonsterSpecies getSpeciesByName(String name);
 
 }

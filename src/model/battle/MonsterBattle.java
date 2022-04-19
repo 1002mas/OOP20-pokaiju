@@ -27,14 +27,14 @@ public interface MonsterBattle {
 	 * 
 	 * this function tries to capture the enemy
 	 * 
-	 * @return true if the enemy has been captured, false otherwhise
+	 * @return true if the enemy has been captured, false otherwise
 	 */
 	boolean capture();
 	/***
 	 * 
 	 * this function return if the battle is over
 	 * 
-	 * @return true if the battle is over, false otherwhise
+	 * @return true if the battle is over, false otherwise
 	 */
 	boolean isOver();
 	/***
@@ -43,7 +43,7 @@ public interface MonsterBattle {
 	 * 
 	 * @param index the position in the list of the player's monster
 	 * 
-	 * @return true if the change has been made, false otherwhise
+	 * @return true if the change has been made, false otherwise
 	 */
 	boolean playerChangeMonster(int index);
 	/***
@@ -52,14 +52,14 @@ public interface MonsterBattle {
 	 * 
 	 * @param moveIndex the position in the list of the monster's moves
 	 * 
-	 * @return true if the move can be made, false otherwhise
+	 * @return true if the move can be made, false otherwise
 	 */
 	boolean movesSelection(int moveIndex);
 	/***
 	 * 
 	 * this function return if the monster that is fighting is alive
 	 * 
-	 * @return true if the monster is alive, false otherwhise
+	 * @return true if the monster is alive, false otherwise
 	 */
 	boolean isCurrentMonsterAlive();
 	/***
@@ -68,7 +68,7 @@ public interface MonsterBattle {
 	 * 
 	 * @param item the item that the player wants to use
 	 * 
-	 * @return true if the item has been used, false otherwhise
+	 * @return true if the item has been used, false otherwise
 	 */
 	boolean useItem(GameItem item);
 	/***
@@ -101,12 +101,30 @@ public interface MonsterBattle {
 	Optional<NpcTrainer> getNpcEnemy();
 	/***
 	 * 
-	 * the function return the player's monster finished the PP in all moves
+	 * the function return if the player's monster finished the PP in all moves
 	 * 
-	 * @return true the PPs are over, false otherwhise
+	 * @return true the PPs are over, false otherwise
 	 */
 	boolean isOverOfPP();
-	
+	/***
+	 * 
+	 * the function tries to attack the enemy monster with the extra move
+	 * 
+	 * @return true the monster did it, false otherwise
+	 */
 	boolean attackWithExtraMove();
+	/***
+	 * 
+	 * the function return if all the player's monsters are death
+	 * 
+	 * @return true the player has lost, false otherwise
+	 */
+	boolean hasPlayerLost();
+	/***
+	 * 
+	 * this function set the player data after the battle and restore the monsters
+	 * 
+	 */
+	void EndingBattle();
 	
 }

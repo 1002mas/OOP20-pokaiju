@@ -1,7 +1,6 @@
 package model.player;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,7 +13,6 @@ import model.gameevents.GameEvent;
 import model.gameitem.GameItem;
 import model.map.GameMap;
 import model.monster.Monster;
-import model.monster.MonsterSpecies;
 import model.npc.NpcSimple;
 import model.npc.NpcTrainer;
 import model.npc.TypeOfNpc;
@@ -58,8 +56,7 @@ public class PlayerImpl implements Player {
 
     @Override
     public List<Monster> getAllMonsters() {
-	List<Monster> list = new ArrayList<>(Collections.unmodifiableList(this.team));
-	return list;
+	return new ArrayList<>(this.team);
     }
 
     public String toString() {
@@ -95,17 +92,6 @@ public class PlayerImpl implements Player {
     public void useItem(GameItem i) {
 	if (getAllItems().containsKey(i) && i.use(null)) {
 	    removeItem(i);
-	}
-    }
-
-    @Override
-    public boolean buyItem(GameItem i, int price) {
-	if (getMoney() - price >= 0) {
-	    addItem(i);
-	    setMoney(getMoney() - price);
-	    return true;
-	} else {
-	    return false;
 	}
     }
 
@@ -238,6 +224,7 @@ public class PlayerImpl implements Player {
 	    Optional<GameEvent> gameEvent = map.getEventAt(position);
 	    if (gameEvent.isPresent() && gameEvent.get().isBattle()) {
 		this.monsterBattle = Optional.of(new MonsterBattleImpl(this, gameEvent.get().getMonster().get(0)));
+		gameEvent.get().activate();
 	    }
 	    if (map.canChangeMap(nextPosition)) {
 		this.hasMapChanged = true;
@@ -263,7 +250,6 @@ public class PlayerImpl implements Player {
 	this.monsterBattle = Optional.empty();
 	this.npc = map.getNpcAt(pos);
 	if (npc.isPresent()) {
-	    this.triggeredEvent = npc.get().getTriggeredEvent().isPresent();
 	    if (npc.get().getTypeOfNpc() == TypeOfNpc.TRAINER) {
 		NpcTrainer trainer = (NpcTrainer) npc.get();
 		if (!trainer.isDefeated()) {

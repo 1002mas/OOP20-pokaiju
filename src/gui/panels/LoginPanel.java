@@ -1,11 +1,11 @@
 package gui.panels;
 
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-
 
 public class LoginPanel extends JPanel {
     private static final long serialVersionUID = -7589477617567743318L;
@@ -19,6 +19,8 @@ public class LoginPanel extends JPanel {
 
     private void init() {
 	this.setLayout(new GridBagLayout());
+	this.newGame.setFont(new Font("SansSerif Bold Italic", Font.CENTER_BASELINE, 20));
+	this.quitGame.setFont(new Font("SansSerif Bold Italic", Font.CENTER_BASELINE, 20));
 	final GridBagConstraints cons = new GridBagConstraints();
 	cons.gridy = 0;
 	cons.fill = GridBagConstraints.HORIZONTAL;

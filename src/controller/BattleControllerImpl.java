@@ -1,6 +1,5 @@
 package controller;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -9,6 +8,7 @@ import model.battle.MonsterBattle;
 import model.gameitem.GameItem;
 import model.gameitem.GameItemTypes;
 import model.monster.Monster;
+import model.monster.MonsterType;
 
 public class BattleControllerImpl implements BattleController {
 
@@ -78,6 +78,11 @@ public class BattleControllerImpl implements BattleController {
     public int getEnemyCurrentMonsterLevel() {
 	return monsterBattle.getCurrentEnemyMonster().getLevel();
     }
+    
+    @Override
+    public MonsterType getEnemyCurrentMonsterType() {
+	return monsterBattle.getCurrentEnemyMonster().getType();
+    }
 
     @Override
     public String getEnemyCurrentMove() {
@@ -116,12 +121,6 @@ public class BattleControllerImpl implements BattleController {
     @Override
     public boolean attackWithExtraMove() {
 	return this.monsterBattle.attackWithExtraMove();
-    }
-
-    @Override
-    public int getCurrentPP(String moveName) {
-	return monsterBattle.getCurrentPlayerMonster().getCurrentPPByMove(monsterBattle.getCurrentPlayerMonster()
-		.getAllMoves().stream().filter(m -> m.getName().equals(moveName)).findAny().get());
     }
 
     @Override
@@ -193,5 +192,15 @@ public class BattleControllerImpl implements BattleController {
     @Override
     public boolean isOver() {
 	return monsterBattle.isOver();
+    }
+
+    @Override
+    public boolean hasPlayerLost() {
+	return monsterBattle.hasPlayerLost();
+    }
+
+    @Override
+    public void endingBattle() {
+	monsterBattle.EndingBattle();
     }
 }

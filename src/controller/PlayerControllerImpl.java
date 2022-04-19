@@ -64,7 +64,6 @@ public class PlayerControllerImpl implements PlayerController {
 		boolean isNpcPresent = this.player.interactAt(coord);
 		if (isNpcPresent) {
 			this.battle = this.player.getPlayerBattle();
-			System.out.println(this.battle);
 			NpcSimple npc = this.player.getLastInteractionWithNpc().get();
 			Optional<String> result = npc.interactWith();
 			this.hasTriggeredEvent = npc.getTriggeredEvent().isPresent();
@@ -330,11 +329,13 @@ public class PlayerControllerImpl implements PlayerController {
 	@Override
 	public void nextBox() {
 		this.player.getStorage().nextBox();
+		System.out.println(this.player.getStorage().getCurrentBoxName());
 	}
 
 	@Override
 	public void previousBox() {
 		this.player.getStorage().previousBox();
+		System.out.println(this.player.getStorage().getCurrentBoxName());
 	}
 
 	@Override
@@ -387,7 +388,7 @@ public class PlayerControllerImpl implements PlayerController {
 		if (monster.isPresent()) {
 			for (Moves move : monster.get().getAllMoves()) {
 				if (move.getName().equals(moveName)) {
-					return move.getPP();
+					return monster.get().getCurrentPPByMove(move);
 				}
 			}
 		}

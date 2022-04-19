@@ -51,14 +51,22 @@ public class BoxPanel extends JPanel {
 	});
 	deposit.addActionListener(new ActionListener() {
 	    public void actionPerformed(ActionEvent e) {
-		playerController.depositMonster(idPlayerMonster);
+		if (playerController.getMonstersId().size() > 1) {
+		    playerController.depositMonster(idPlayerMonster);
+		} else {
+		    JOptionPane.showMessageDialog(null, "You can deposit if you have more than one monster");
+		}
 		update();
 
 	    }
 	});
 	take.addActionListener(new ActionListener() {
 	    public void actionPerformed(ActionEvent e) {
-		playerController.withdrawMonster(idBoxMonster);
+		if (!playerController.isTeamFull()) {
+		    playerController.withdrawMonster(idBoxMonster);
+		} else {
+		    JOptionPane.showMessageDialog(null, "You can take if your team is not full");
+		}
 		update();
 	    }
 	});
@@ -118,13 +126,13 @@ public class BoxPanel extends JPanel {
 	JPanel buttonPanel = new JPanel(new GridLayout(1, 4));
 	JPanel titlePanel = new JPanel(new BorderLayout());
 
-	JLabel box = new JLabel("box");
+	JLabel box = new JLabel(this.playerController.getCurrentBoxName());
 	setLabelProp(box);
 	box.setBorder(BorderFactory.createLineBorder(Color.black));
-	JLabel team = new JLabel("team");
+	JLabel team = new JLabel("Team");
 	setLabelProp(team);
 	team.setBorder(BorderFactory.createLineBorder(Color.black));
-	team.setPreferredSize(new Dimension(3, getPreferredSize().height));
+	team.setPreferredSize(new Dimension(300, getPreferredSize().height));
 
 	titlePanel.add(box, BorderLayout.CENTER);
 	titlePanel.add(team, BorderLayout.EAST);
@@ -141,19 +149,19 @@ public class BoxPanel extends JPanel {
 
     private JPanel setBottomPanel(JPanel boxPanel) {
 	JPanel bottomPanel = new JPanel(new GridLayout(1, 2));
-	JButton previusPage = new JButton("Previews box");
+	JButton previusPage = new JButton("Previous box");
 	JButton nextPage = new JButton("Next box");
 	bottomPanel.add(previusPage);
 	bottomPanel.add(nextPage);
 
 	nextPage.addActionListener(e -> {
 	    this.playerController.nextBox();
-	    setList();
+	    update();
 	    cardLayout.next(boxPanel);
 	});
-	nextPage.addActionListener(e -> {
+	previusPage.addActionListener(e -> {
 	    this.playerController.previousBox();
-	    setList();
+	    update();
 	    cardLayout.previous(boxPanel);
 	});
 	return bottomPanel;
