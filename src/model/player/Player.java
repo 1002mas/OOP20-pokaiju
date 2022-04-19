@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Optional;
 import model.Pair;
 import model.battle.MonsterBattle;
-import model.gameitem.*;
+import model.gameitem.GameItem;
 import model.map.GameMap;
 import model.monster.Monster;
 import model.npc.NpcSimple;

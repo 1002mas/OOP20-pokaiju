@@ -55,10 +55,11 @@ public class GameFrameImpl extends JFrame implements GameFrame {
     private final JPanel mainPanel = new JPanel();
     private final PlayerController playerController;
 
-    public GameFrameImpl(PlayerController playerController) {
+    public GameFrameImpl(final PlayerController playerController) {
 	this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	Font myFont = new Font("Bold", 0, 16);
-	UIDefaults defaultUI = UIManager.getDefaults();
+	this.setTitle("POKAIJU");
+	final Font myFont = new Font("Bold", 0, 16);
+	final UIDefaults defaultUI = UIManager.getDefaults();
 	defaultUI.put("Button.font", myFont);
 	defaultUI.put("Label.font", myFont);
 	defaultUI.put("ComboBox.font", myFont);
@@ -72,12 +73,12 @@ public class GameFrameImpl extends JFrame implements GameFrame {
 	imgLoad = new ImagesLoaderImpl(size, size, playerController.getMaximumBlocksInRow(),
 		playerController.getMaximumBlocksInColumn());
 
-	LoginPanel loginPanel = new LoginPanel();
+	final LoginPanel loginPanel = new LoginPanel();
 
 	loginPanel.getnewGame().addActionListener(e -> updateView(NEW_GAME_VIEW));
 	loginPanel.getquitGame().addActionListener(e -> System.exit(0));
 
-	JPanel newGamePanel = newGamePanel();
+	final JPanel newGamePanel = newGamePanel();
 
 	mainPanel.add(loginPanel, LOGIN_VIEW);
 	mainPanel.add(newGamePanel, NEW_GAME_VIEW);
@@ -97,8 +98,8 @@ public class GameFrameImpl extends JFrame implements GameFrame {
      * @return the main panel size
      */
     private int getMainPanelSize() {
-	double percScreen = 5.0 / 6.0;
-	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+	final double percScreen = 5.0 / 6.0;
+	final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	int s = (int) (screenSize.getHeight() > screenSize.getWidth() ? screenSize.getWidth() : screenSize.getHeight());
 	s = (int) (s * percScreen);
 	return s;
@@ -109,31 +110,36 @@ public class GameFrameImpl extends JFrame implements GameFrame {
      * @return the panel with map, player and npc
      */
     private JPanel buildMapPanel() {
-	TwoLayersPanel mapPanel = new TwoLayersPanel(playerController, imgLoad, size, size);
+	final TwoLayersPanel mapPanel = new TwoLayersPanel(playerController, imgLoad, size, size);
 	mapPanel.addKeyListener(new PlayerCommands(this));
 	mapPanel.addFocusListener(new FocusListener() {
 	    @Override
-	    public void focusLost(FocusEvent e) {
+	    public void focusLost(final FocusEvent e) {
 		mapPanel.requestFocusInWindow();
 	    }
 
 	    @Override
-	    public void focusGained(FocusEvent e) {
+	    public void focusGained(final FocusEvent e) {
 	    }
 	});
 	return mapPanel;
     }
 
+    /**
+     * 
+     * {@inheritDoc}
+     */
     @Override
-    public void movePlayer(Direction dir) {
-	TwoLayersPanel p = (TwoLayersPanel) subPanels.get(MAP_VIEW);
-	PlayerPanel topPanel = p.getTopPanel();
+    public void movePlayer(final Direction dir) {
+	final TwoLayersPanel p = (TwoLayersPanel) subPanels.get(MAP_VIEW);
+	final PlayerPanel topPanel = p.getTopPanel();
 	boolean animationOn = true;
-	boolean canPlayerMove = this.playerController.movePlayer(dir);
+	final boolean canPlayerMove = this.playerController.movePlayer(dir);
 	if (canPlayerMove) {
 	    topPanel.setNextPosition(this.playerController.getPlayerPosition());
 	    if (playerController.hasPlayerChangedMap()) {
-		List<BufferedImage> mapImageSequence = imgLoad.getMapByID(this.playerController.getCurrentMapID());
+		final List<BufferedImage> mapImageSequence = imgLoad
+			.getMapByID(this.playerController.getCurrentMapID());
 		p.setMapImage(mapImageSequence);
 		topPanel.setNpcs(this.playerController.getAllNpcs());
 		animationOn = false;
@@ -158,7 +164,7 @@ public class GameFrameImpl extends JFrame implements GameFrame {
      */
     private boolean changeToBattle() {
 	if (playerController.hasBattleStarted()) {
-	    BattlePanel b = (BattlePanel) (this.subPanels.get(BATTLE_VIEW));
+	    final BattlePanel b = (BattlePanel) (this.subPanels.get(BATTLE_VIEW));
 	    b.setBattleController(this.playerController.getBattleController().get(), this.playerController);
 	    updateView(BATTLE_VIEW);
 	    return true;
@@ -166,11 +172,15 @@ public class GameFrameImpl extends JFrame implements GameFrame {
 	return false;
     }
 
+    /**
+     * 
+     * {@inheritDoc}
+     */
     @Override
     public boolean playerInteraction() {
-	TwoLayersPanel p = (TwoLayersPanel) subPanels.get(MAP_VIEW);
-	PlayerPanel topPanel = p.getTopPanel();
-	Optional<String> text = playerController.interact();
+	final TwoLayersPanel p = (TwoLayersPanel) subPanels.get(MAP_VIEW);
+	final PlayerPanel topPanel = p.getTopPanel();
+	final Optional<String> text = playerController.interact();
 	if (text.isPresent()) {
 	    topPanel.showText(playerController.getNpcName().get().toUpperCase() + ": " + text.get());
 
@@ -181,10 +191,14 @@ public class GameFrameImpl extends JFrame implements GameFrame {
 	return text.isEmpty();
     }
 
+    /**
+     * 
+     * {@inheritDoc}
+     */
     @Override
     public void endPlayerInteraction() {
-	TwoLayersPanel p = (TwoLayersPanel) subPanels.get(MAP_VIEW);
-	PlayerPanel topPanel = p.getTopPanel();
+	final TwoLayersPanel p = (TwoLayersPanel) subPanels.get(MAP_VIEW);
+	final PlayerPanel topPanel = p.getTopPanel();
 	topPanel.hideText();
 	changeToBattle();
 	if (this.playerController.hasMerchantInteractionOccurred()) {
@@ -197,28 +211,28 @@ public class GameFrameImpl extends JFrame implements GameFrame {
     }
 
     private JPanel newGamePanel() {
-	JPanel panel = new JPanel(new BorderLayout());
+	final JPanel panel = new JPanel(new BorderLayout());
 	panel.setBorder(BorderFactory.createLineBorder(Color.green));
 
-	JLabel nameLabel = new JLabel();
-	JTextField nameField = new JTextField(10);
+	final JLabel nameLabel = new JLabel();
+	final JTextField nameField = new JTextField(10);
 	nameLabel.setText("Insert name :");
 
-	JLabel genderLabel = new JLabel();
+	final JLabel genderLabel = new JLabel();
 	String[] genderText = new String[this.playerController.getGender().size()];
 	for (int i = 0; i < this.playerController.getGender().size(); i++) {
 	    genderText[i] = this.playerController.getGender().get(i);
 	}
-	JComboBox<String> gender = new JComboBox<String>(genderText);
+	final JComboBox<String> gender = new JComboBox<>(genderText);
 	genderLabel.setText("Select your gender :");
 
-	JLabel trainerNumberLabel = new JLabel();
+	final JLabel trainerNumberLabel = new JLabel();
 	trainerNumberLabel.setText("Trainer number is generated randomly : ");
-	JTextField trainerNumberField = new JTextField();
+	final JTextField trainerNumberField = new JTextField();
 	trainerNumberField.setEditable(false);
 	trainerNumberLabel.setEnabled(false);
 
-	JButton postData = new JButton("CREATE");
+	final JButton postData = new JButton("CREATE");
 	postData.addActionListener(e -> {
 	    if (nameField.getText().equals("")) {
 		JOptionPane.showMessageDialog(null, "Name can't be null", "alert", JOptionPane.WARNING_MESSAGE);
@@ -226,10 +240,10 @@ public class GameFrameImpl extends JFrame implements GameFrame {
 		playerController.createNewPlayer(nameField.getText(), gender.getSelectedItem().toString(),
 			Integer.parseInt(trainerNumberField.getText()));
 
-		JPanel gamePanel = buildMapPanel();
-		JPanel menuPanel = buildMenuPanel();
-		JPanel battlePanel = new BattlePanel(imgLoad, this);
-		JPanel merchantPanel = new MerchantPanel(this, playerController);
+		final JPanel gamePanel = buildMapPanel();
+		final JPanel menuPanel = buildMenuPanel();
+		final JPanel battlePanel = new BattlePanel(imgLoad, this);
+		final JPanel merchantPanel = new MerchantPanel(this, playerController);
 		mainPanel.add(gamePanel, MAP_VIEW);
 		mainPanel.add(battlePanel, BATTLE_VIEW);
 		mainPanel.add(menuPanel, MENU_VIEW);
@@ -243,13 +257,13 @@ public class GameFrameImpl extends JFrame implements GameFrame {
 	    }
 	});
 
-	JButton quitButton = new JButton("BACK TO MENU");
+	final JButton quitButton = new JButton("BACK TO MENU");
 	quitButton.addActionListener(e -> updateView(GameFrameImpl.LOGIN_VIEW));
 
-	JPanel topPanel = new JPanel(new FlowLayout());
+	final JPanel topPanel = new JPanel(new FlowLayout());
 	topPanel.add(quitButton, FlowLayout.LEFT);
 
-	JPanel underPanel = new JPanel(new GridBagLayout());
+	final JPanel underPanel = new JPanel(new GridBagLayout());
 
 	GridBagConstraints rows = new GridBagConstraints();
 	rows.gridy = 1;
@@ -269,8 +283,8 @@ public class GameFrameImpl extends JFrame implements GameFrame {
 	panel.addComponentListener(new ComponentListener() {
 	    @Override
 	    public void componentShown(ComponentEvent e) {
-		Random rand = new Random();
-		int a = rand.nextInt(999999) + 100000;
+		final Random rand = new Random();
+		final int a = rand.nextInt(999_999) + 100_000;
 		trainerNumberField.setText(Integer.toString(a));
 		nameField.setText("");
 	    }
@@ -292,8 +306,11 @@ public class GameFrameImpl extends JFrame implements GameFrame {
 	return panel;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void updateView(String name) {
+    public void updateView(final String name) {
 	cLayout.show(mainPanel, name);
 	subPanels.get(name).requestFocusInWindow();
     }

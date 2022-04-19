@@ -24,13 +24,13 @@ public class GameItemPanel extends JPanel {
     private final static int NUMBER_OF_ELEMENTS = 10;
     private final static int WIDTH = 50;
     private final int size;
-    private SelectMosterPanel selection;
+    private final SelectMosterPanel selection;
 
     /**
      * @param playerController the game controller
      * @param size
      */
-    public GameItemPanel(PlayerController playerController, int size) {
+    public GameItemPanel(final PlayerController playerController, final int size) {
 	this.playerController = playerController;
 	this.size = size;
 	selection = new SelectMosterPanel(playerController, this);
@@ -47,33 +47,33 @@ public class GameItemPanel extends JPanel {
     private void init() {
 	this.setLayout(cardlayout);
 
-	JPanel containerPanel = new JPanel(new BorderLayout());
-	List<String> listItemsName = this.playerController.getPlayerItemsName();
+	final JPanel containerPanel = new JPanel(new BorderLayout());
+	final List<String> listItemsName = this.playerController.getPlayerItemsName();
 
-	JPanel topPanel = new JPanel(new GridLayout(1, 5));
+	final JPanel topPanel = new JPanel(new GridLayout(1, 5));
 	setTopPanel(topPanel);
 
-	JPanel subPanel = new JPanel(new GridLayout(0, 5));
+	final JPanel subPanel = new JPanel(new GridLayout(0, 5));
 
-	for (String itemName : listItemsName) {
-	    JTextArea nameItem = new JTextArea();
+	for (final String itemName : listItemsName) {
+	    final JTextArea nameItem = new JTextArea();
 	    nameItem.setPreferredSize(new Dimension(WIDTH, size / NUMBER_OF_ELEMENTS));
-	    JLabel quantity = new JLabel();
-	    JTextArea description = new JTextArea();
-	    JLabel type = new JLabel();
+	    final JLabel quantity = new JLabel();
+	    final JTextArea description = new JTextArea();
+	    final JLabel type = new JLabel();
 	    nameItem.setEditable(false);
 	    description.setEditable(false);
 	    description.setLineWrap(true);
 	    type.setHorizontalAlignment(JLabel.CENTER);
 	    quantity.setHorizontalAlignment(JLabel.CENTER);
-	    JButton useItemButton = new JButton("USE THIS ITEM");
+	    final JButton useItemButton = new JButton("USE THIS ITEM");
 	    setButtonProp(useItemButton, itemName);
 	    nameItem.setText(itemName);
 	    quantity.setText(Integer.toString(this.playerController.getItemQuantity(itemName)));
 	    description.setText(this.playerController.getItemDescription(itemName));
 	    type.setText(this.playerController.getItemtype(itemName).toString());
 	    useItemButton.addActionListener(new ActionListener() {
-		public void actionPerformed(ActionEvent e) {
+		public void actionPerformed(final ActionEvent e) {
 		    selection.update();
 		    selection.setItemName(nameItem.getText());
 		    changePanel("SELECTIONPANEL");
@@ -86,7 +86,7 @@ public class GameItemPanel extends JPanel {
 	    subPanel.add(useItemButton);
 	}
 	setShowProp(listItemsName, subPanel);
-	JScrollPane scrollPane = new JScrollPane(subPanel);
+	final JScrollPane scrollPane = new JScrollPane(subPanel);
 	scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 	scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
@@ -103,11 +103,11 @@ public class GameItemPanel extends JPanel {
      * @param listItemsName the list of Item's name
      * @param subPanel      JPanel
      */
-    private void setShowProp(List<String> listItemsName, JPanel subPanel) {
+    private void setShowProp(final List<String> listItemsName, final JPanel subPanel) {
 	if (NUMBER_OF_ELEMENTS > listItemsName.size()) {
-	    int n = (NUMBER_OF_ELEMENTS - listItemsName.size()) * 5;
+	    final int n = (NUMBER_OF_ELEMENTS - listItemsName.size()) * 5;
 	    for (int q = 0; q < n; q++) {
-		JLabel label = new JLabel();
+		final JLabel label = new JLabel();
 		label.setPreferredSize(new Dimension(50, size / NUMBER_OF_ELEMENTS));
 		subPanel.add(label);
 	    }
@@ -129,7 +129,7 @@ public class GameItemPanel extends JPanel {
      * @param button   JButton
      * @param itemName Item which will be verified if it can be used in bag
      */
-    private void setButtonProp(JButton button, String itemName) {
+    private void setButtonProp(final JButton button, final String itemName) {
 	button.setEnabled(this.playerController.canUseItem(itemName));
     }
 
@@ -138,7 +138,7 @@ public class GameItemPanel extends JPanel {
      * 
      * @param panelName panel which will be showed
      */
-    public void changePanel(String panelName) {
+    public void changePanel(final String panelName) {
 	cardlayout.show(this, panelName);
     }
 
@@ -147,13 +147,13 @@ public class GameItemPanel extends JPanel {
      * 
      * @param topPanel JPanel
      */
-    private void setTopPanel(JPanel topPanel) {
+    private void setTopPanel(final JPanel topPanel) {
 	topPanel.setBorder(BorderFactory.createLineBorder(Color.red));
-	JLabel nameLabel = new JLabel("ITEM : ");
-	JLabel quantityLabel = new JLabel("QUANTITY : ");
-	JLabel descriptionLabel = new JLabel("DESCRIPTION : ");
-	JLabel typeLabel = new JLabel("TYPE : ");
-	JLabel useLabel = new JLabel("USE");
+	final JLabel nameLabel = new JLabel("ITEM : ");
+	final JLabel quantityLabel = new JLabel("QUANTITY : ");
+	final JLabel descriptionLabel = new JLabel("DESCRIPTION : ");
+	final JLabel typeLabel = new JLabel("TYPE : ");
+	final JLabel useLabel = new JLabel("USE");
 	topPanel.add(nameLabel);
 	topPanel.add(quantityLabel);
 	topPanel.add(descriptionLabel);
