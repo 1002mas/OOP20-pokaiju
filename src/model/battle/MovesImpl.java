@@ -5,59 +5,80 @@ import java.util.Objects;
 import model.monster.MonsterType;
 
 public class MovesImpl implements Moves {
-    private String name;
-    private int base;
-    private MonsterType type;
-    private int maxPP;
-    
+    private final String name;
+    private final int base;
+    private final MonsterType type;
+    private final int maxPP;
 
-    public MovesImpl(String name, int base, MonsterType type, int pp) {
+    public MovesImpl(final String name, final int base, final MonsterType type, final int pp) {
+        this.name = name;
+        this.base = base;
+        this.type = type;
+        this.maxPP = pp;
 
-	this.name = name;
-	this.base = base;
-	this.type = type;
-	this.maxPP = pp;
-	
     }
 
+    /***
+     * {@inheritDoc}.
+     */
     public String getName() {
-	return name;
+        return name;
     }
 
+    /***
+     * {@inheritDoc}.
+     */
     public int getBase() {
-	return base;
+        return base;
     }
 
+    /***
+     * {@inheritDoc}.
+     */
     public MonsterType getType() {
-	return type;
+        return type;
     }
 
+    /***
+     * {@inheritDoc}.
+     */
     public int getPP() {
-	return maxPP;
+        return maxPP;
     }
 
+    /***
+     * {@inheritDoc}.
+     */
     @Override
     public int hashCode() {
-	return Objects.hash(name);
+        return Objects.hash(name);
     }
 
+    /***
+     * {@inheritDoc}.
+     */
     @Override
-    public boolean equals(Object obj) {
-	if (this == obj)
-	    return true;
-	if (obj == null)
-	    return false;
-	if (getClass() != obj.getClass())
-	    return false;
-	MovesImpl other = (MovesImpl) obj;
-	return Objects.equals(name, other.name);
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+
+        final MovesImpl other = (MovesImpl) obj;
+        return Objects.equals(name, other.name);
     }
 
+    /***
+     * {@inheritDoc}.
+     */
     @Override
-    public int getDamage(MonsterType type) {
-	return (int) this.type.damageTo(type);
+    public int getDamage(final MonsterType type) {
+        return (int) this.type.damageTo(type);
     }
-    
-    
 
 }
