@@ -28,15 +28,14 @@ public class PlayerInfoPanel extends JPanel {
      */
     private void init() {
 	this.setLayout(new GridLayout(4, 0));
-	JLabel playerName = new JLabel("Name : " + this.playerController.getPlayerName());
-	JLabel trainerNumber = new JLabel("Trainer number : " + this.playerController.getTrainerNumber());
-	JLabel gender = new JLabel("Gender : " + this.playerController.getPlayerGender());
-	JLabel money = new JLabel("Money : " + this.playerController.getPlayerMoney() + " $ ");
+	JLabel playerName = new JLabel("Name :  " + this.playerController.getPlayerName());
+	JLabel trainerNumber = new JLabel("Trainer number :  " + this.playerController.getTrainerNumber());
+	JLabel gender = new JLabel("Gender :  " + this.playerController.getPlayerGender());
+	JLabel money = new JLabel("Money :  " + this.playerController.getPlayerMoney() + " $ ");
 	setLabelProperties(playerName);
 	setLabelProperties(trainerNumber);
 	setLabelProperties(gender);
 	setLabelProperties(money);
-
 	this.add(playerName);
 	this.add(trainerNumber);
 	this.add(gender);

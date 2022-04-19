@@ -8,7 +8,7 @@ import model.gameitem.GameItem;
 public interface MonsterSpeciesBuilder {
 
     /**
-     * Build species level
+     * Build species level.
      * 
      * @param name
      * @return a MonsterSpeciesBuilder
@@ -16,7 +16,7 @@ public interface MonsterSpeciesBuilder {
     MonsterSpeciesBuilder name(String name);
 
     /**
-     * Build species info
+     * Build species info.
      * 
      * @param info
      * @return a MonsterSpeciesBuilder
@@ -24,7 +24,7 @@ public interface MonsterSpeciesBuilder {
     MonsterSpeciesBuilder info(String info);
     
     /**
-     * Build species type
+     * Build species type.
      * 
      * @param type
      * @return a MonsterSpeciesBuilder
@@ -32,7 +32,7 @@ public interface MonsterSpeciesBuilder {
     MonsterSpeciesBuilder monsterType(MonsterType type);    
     
     /**
-     * Build species evolution
+     * Build species evolution.
      * 
      * @param evolution
      * @return a MonsterSpeciesBuilder
@@ -40,7 +40,7 @@ public interface MonsterSpeciesBuilder {
     MonsterSpeciesBuilder evolution(MonsterSpecies evolution);
     
     /**
-     * Build species evolutionLevel for evolving by level
+     * Build species evolutionLevel for evolving by level.
      * 
      * @param level
      * @return a MonsterSpeciesBuilder
@@ -48,7 +48,7 @@ public interface MonsterSpeciesBuilder {
     MonsterSpeciesBuilder evolutionLevel(int level);
     
     /**
-     * Build species health
+     * Build species health.
      * 
      * @param health
      * @return a MonsterSpeciesBuilder
@@ -56,7 +56,7 @@ public interface MonsterSpeciesBuilder {
     MonsterSpeciesBuilder health(int health);
     
     /**
-     * Build species attack
+     * Build species attack.
      * 
      * @param attack
      * @return a MonsterSpeciesBuilder
@@ -64,7 +64,7 @@ public interface MonsterSpeciesBuilder {
     MonsterSpeciesBuilder attack(int attack);
 
     /**
-     * Build species defense
+     * Build species defense.
      * 
      * @param defense
      * @return a MonsterSpeciesBuilder
@@ -72,7 +72,7 @@ public interface MonsterSpeciesBuilder {
     MonsterSpeciesBuilder defense(int defense);
 
     /**
-     * Build species speed
+     * Build species speed.
      * 
      * @param speed
      * @return a MonsterSpeciesBuilder
@@ -80,7 +80,7 @@ public interface MonsterSpeciesBuilder {
     MonsterSpeciesBuilder speed(int speed);
     
     /**
-     * Build species item for evolving by level
+     * Build species item for evolving by level.
      * 
      * @param gameItem
      * @return a MonsterSpeciesBuilder
@@ -88,7 +88,7 @@ public interface MonsterSpeciesBuilder {
     MonsterSpeciesBuilder gameItem(GameItem gameItem);
     
     /**
-     * Build species moves
+     * Build species moves.
      * 
      * @param allMoves
      * @return a  MonsterSpeciesBuilder
@@ -96,7 +96,7 @@ public interface MonsterSpeciesBuilder {
     MonsterSpeciesBuilder movesList(List<Moves> movesList);
     
     /**
-     * Build MonsterSpecies
+     * Build MonsterSpecies.
      * 
      * @throws IllegalStateException if the obligatory fields are missing
      * @return a MonsterSpecies builded

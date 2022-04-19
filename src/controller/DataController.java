@@ -1,6 +1,7 @@
 package controller;
 
 import model.monster.MonsterSpecies;
+import model.player.Gender;
 import model.player.Player;
 
 public interface DataController {
@@ -33,7 +34,7 @@ public interface DataController {
 	 * @param name,gender,trainer
 	 * 
 	 */
-	public void setPlayer(String name, String gender, int trainerNumber);
+	public void setPlayer(String name, Gender gender, int trainerNumber);
 
 	/**
 	 * This function returns a monster species from the name

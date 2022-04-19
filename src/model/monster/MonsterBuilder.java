@@ -8,16 +8,16 @@ import model.battle.Moves;
 public interface MonsterBuilder {
 
     /**
-     * Build monster level
+     * Build monster level.
      * 
      * @param monster level
-     * @throws IllegalArgumentException if level is under min level or over max level
+     * @throws IllegalArgumentException if level is under minimum level or over max level
      * @return a MonsterBuilder
      */
     MonsterBuilder level(int level);
 
     /**
-     * Build monster health
+     * Build monster health.
      * 
      * @param monster health
      * @return a MonsterBuilder
@@ -25,7 +25,7 @@ public interface MonsterBuilder {
     MonsterBuilder health(int health);
     
     /**
-     * Build monster attack
+     * Build monster attack.
      * 
      * @param monster attack
      * @return a MonsterBuilder
@@ -33,7 +33,7 @@ public interface MonsterBuilder {
     MonsterBuilder attack(int attack);    
    
     /**
-     * Build monster defense
+     * Build monster defense.
      * 
      * @param monster defense
      * @return a MonsterBuilder
@@ -41,7 +41,7 @@ public interface MonsterBuilder {
     MonsterBuilder defense(int defense);
     
     /**
-     * Build monster speed
+     * Build monster speed.
      * 
      * @param monster speed
      * @return a MonsterBuilder
@@ -49,16 +49,16 @@ public interface MonsterBuilder {
     MonsterBuilder speed(int speed);
     
     /**
-     * Build monster's experience
+     * Build monster's experience.
      * 
      * @param exp
-     * @throws IllegalArgumentException if exp is under zero or over exp cap
+     * @throws IllegalArgumentException if experience is under zero or over experience cap
      * @return a MonsterBuilder
      */
     MonsterBuilder exp(int exp);
 
     /**
-     * Build monster isWild parameter
+     * Build monster isWild parameter.
      * 
      * @param isWild
      * @return a MonsterBuilder
@@ -66,7 +66,7 @@ public interface MonsterBuilder {
     MonsterBuilder isWild(boolean isWild);
 
     /**
-     * Build monster's moves
+     * Build monster's moves.
      * 
      * @param a list of moves
      * @return a MonsterBuilder
@@ -74,7 +74,7 @@ public interface MonsterBuilder {
     MonsterBuilder movesList(List<Pair<Moves, Integer>> movesList);
 
     /**
-     * Build monster's species
+     * Build monster's species.
      * 
      * @param MonsterSpecies species
      * @return a MonsterBuilder
@@ -82,7 +82,7 @@ public interface MonsterBuilder {
     MonsterBuilder species(MonsterSpecies species);
 
     /**
-     * Build monster
+     * Build monster.
      * 
      * @throws IllegalStateException when obligatory parameters are missing
      * @return monster builded

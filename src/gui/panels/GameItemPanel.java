@@ -21,7 +21,7 @@ public class GameItemPanel extends JPanel {
     private static final long serialVersionUID = -5473716174748395743L;
     private final PlayerController playerController;
     private final CardLayout cardlayout = new CardLayout();
-    private final static int NUMBEROFELEMENTS = 10;
+    private final static int NUMBER_OF_ELEMENTS = 10;
     private final static int WIDTH = 50;
     private final int size;
     private SelectMosterPanel selection;
@@ -57,7 +57,7 @@ public class GameItemPanel extends JPanel {
 
 	for (String itemName : listItemsName) {
 	    JTextArea nameItem = new JTextArea();
-	    nameItem.setPreferredSize(new Dimension(WIDTH, size / NUMBEROFELEMENTS));
+	    nameItem.setPreferredSize(new Dimension(WIDTH, size / NUMBER_OF_ELEMENTS));
 	    JLabel quantity = new JLabel();
 	    JTextArea description = new JTextArea();
 	    JLabel type = new JLabel();
@@ -104,11 +104,11 @@ public class GameItemPanel extends JPanel {
      * @param subPanel      JPanel
      */
     private void setShowProp(List<String> listItemsName, JPanel subPanel) {
-	if (NUMBEROFELEMENTS > listItemsName.size()) {
-	    int n = (NUMBEROFELEMENTS - listItemsName.size()) * 5;
+	if (NUMBER_OF_ELEMENTS > listItemsName.size()) {
+	    int n = (NUMBER_OF_ELEMENTS - listItemsName.size()) * 5;
 	    for (int q = 0; q < n; q++) {
 		JLabel label = new JLabel();
-		label.setPreferredSize(new Dimension(50, size / NUMBEROFELEMENTS));
+		label.setPreferredSize(new Dimension(50, size / NUMBER_OF_ELEMENTS));
 		subPanel.add(label);
 	    }
 	}

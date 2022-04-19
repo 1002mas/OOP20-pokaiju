@@ -20,7 +20,7 @@ import controller.PlayerController;
 
 public class BoxPanel extends JPanel {
     private static final long serialVersionUID = 67133453355728035L;
-    private static final int NUMBERMONSTERSINTEAM = 6;
+    private static final int NUMBER_OF_MONSTERS_IN_TEAM = 6;
     private final PlayerController playerController;
     private final CardLayout cardLayout = new CardLayout();
     private List<Integer> playerMonsterIdList = new ArrayList<Integer>();
@@ -254,10 +254,7 @@ public class BoxPanel extends JPanel {
 	JPanel panel = new JPanel(new GridLayout(1, 2));
 	panel.setBorder(BorderFactory.createLineBorder(Color.black));
 	JLabel label = new JLabel();
-	label.setText(" " + this.playerController.getMonsterNameById(monsterId) + "  "
-		+ this.playerController.getMonsterLevel(monsterId) + "  "
-		+ this.playerController.getMonsterHealth(monsterId) + "/"
-		+ this.playerController.getMonsterMaxHealth(monsterId));
+	label.setText(getMonsterInfo(monsterId));
 	setLabelProp(label);
 	JCheckBox checkBoxPlayer = new JCheckBox();
 	setJCheckBoxProp(checkBoxPlayer);
@@ -294,13 +291,26 @@ public class BoxPanel extends JPanel {
     }
 
     /**
+     * get text about monster general info
+     * 
+     * @return monster general info
+     */
+    private String getMonsterInfo(int monsterId) {
+	String info = "<html> Name : " + this.playerController.getMonsterNameById(monsterId) + "<br/>" + " Lv : "
+		+ this.playerController.getMonsterLevel(monsterId) + "<br/>" + " Hp : "
+		+ this.playerController.getMonsterHealth(monsterId) + "/"
+		+ this.playerController.getMonsterMaxHealth(monsterId) + "</html>";
+	return info;
+    }
+
+    /**
      * set JPanel's properties
      * 
      * @param panel           JPanel
      * @param numberOfMonster Number of Monster present in player's team
      */
     private void setPanelProp(JPanel panel, int numberOfMonster) {
-	int cont = NUMBERMONSTERSINTEAM - numberOfMonster;
+	int cont = NUMBER_OF_MONSTERS_IN_TEAM - numberOfMonster;
 	while (cont > 0) {
 	    JLabel label = new JLabel();
 	    label.setVisible(false);

@@ -36,7 +36,7 @@ public class MonsterBattleImpl implements MonsterBattle {
 	this.playerLose = false;
 	this.enemyTrainer = Optional.empty();
 	this.playerTeam = trainer.getAllMonsters();
-	this.playerCurrentMonster = playerTeam.get(0);
+	this.playerCurrentMonster = chooseStartingMonster();
 	this.enemyTeam = new ArrayList<>(enemyTeam);
 	this.enemy = enemyTeam.get(0);
 	this.extraMoves = new MovesImpl("Testata", 30, MonsterType.NONE, 999);
@@ -66,15 +66,13 @@ public class MonsterBattleImpl implements MonsterBattle {
     @Override
     public boolean capture() {
 	throwExceptionIfItIsOver();
-	if (!enemy.getWild()) {
+	if (!enemy.isWild()) {
 	    return false;
 	}
 
 	int attempt = (int) (Math.random() * CAPTURE_RANGE);
 	if (attempt <= CAPTURE_DIFFICULT) {
 	    this.trainer.addMonster(enemy);
-	    int expReached = enemy.getLevel() * EXP_MULTIPLER;
-	    this.playerCurrentMonster.incExp(expReached);
 	    this.battleStatus = false;
 	    return true;
 	}
@@ -85,7 +83,7 @@ public class MonsterBattleImpl implements MonsterBattle {
     @Override
     public boolean escape() {
 	throwExceptionIfItIsOver();
-	if (!enemy.getWild()) {
+	if (!enemy.isWild()) {
 
 	    return false;
 	} else {
@@ -186,8 +184,8 @@ public class MonsterBattleImpl implements MonsterBattle {
 	return enemyTeam.stream().filter(m -> m.isAlive()).count() > 0;
     }
 
-    private void restoreAllMonsters() {
-	this.playerTeam.stream().forEach(m -> {
+    private void restoreAllMonsters(List <Monster> monster) {
+	monster.stream().forEach(m -> {
 	    m.restoreAllMovesPP();
 	    m.restoreStats();
 	});
@@ -275,11 +273,21 @@ public class MonsterBattleImpl implements MonsterBattle {
     public void endingBattle() {
 	if (hasPlayerLost()) {
 	    this.trainer.setMoney(trainer.getMoney() - MONEY_LOST);
-
+	    restoreAllMonsters(this.playerTeam);
+	    restoreAllMonsters(this.enemyTeam);
 	} else {
 	    this.trainer.setMoney(trainer.getMoney() + MONEY_WON);
 	}
-	restoreAllMonsters();
+	
 	this.trainer.evolveMonsters();
+    }
+    
+    private Monster chooseStartingMonster() {
+	for(var monster : this.playerTeam) {
+	    if(monster.isAlive()) {
+		return monster;
+	    }
+	}
+	return null;
     }
 }

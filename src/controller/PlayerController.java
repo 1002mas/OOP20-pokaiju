@@ -457,5 +457,11 @@ public interface PlayerController {
 	 * @return if present optional string of npc name, optional.empty otherwise
 	 */
 	Optional<String> getNpcName();
+	
+	/**
+	 * This function returns a list of genders
+	 * @return string list of genders
+	 */
+	List<String> getGender();
 
 }
