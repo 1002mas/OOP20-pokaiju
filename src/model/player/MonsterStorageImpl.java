@@ -47,7 +47,7 @@ public class MonsterStorageImpl implements MonsterStorage {
 	}
 
 	private MonsterBox getFirstBoxFree() {
-		for (int i = 1; i < MAX_NUMBER_OF_BOX; i++) {
+		for (int i = 0; i < MAX_NUMBER_OF_BOX; i++) {
 			if (!this.monsterBoxes.get(i).isFull()) {
 				return this.monsterBoxes.get(i);
 			}

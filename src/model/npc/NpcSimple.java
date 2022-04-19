@@ -16,7 +16,7 @@ public interface NpcSimple {
 	String getName();
 
 	/**
-	 * This function return npc statement if it is a talking one
+	 * This function returns npc statement if it is a talking one
 	 * 
 	 * @return an Optional<String> containing a sentence if is a talking one, an
 	 *         Optioanl.empty otherwise

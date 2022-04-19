@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
@@ -113,7 +114,7 @@ public class NpcSimpleImpl implements NpcSimple {
 	this.events.add(gameEvent);
     }
 
-    @Override
+	@Override
     public List<GameEvent> getGameEvents() {
 	return Collections.unmodifiableList(new ArrayList<>(this.events));
     }
@@ -122,6 +123,24 @@ public class NpcSimpleImpl implements NpcSimple {
     public int getCurrentSetence() {
 	return this.currentSentence;
     }
+    
+    
+    @Override
+	public int hashCode() {
+		return Objects.hash(name);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		NpcSimpleImpl other = (NpcSimpleImpl) obj;
+		return Objects.equals(name, other.name);
+	}
 
     @Override
     public String toString() {
