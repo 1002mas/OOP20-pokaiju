@@ -38,12 +38,15 @@ public enum MonsterType {
             String line;
 
             String[] splittedLine;
-            while ((line = in.readLine()) != null) {
-
-                splittedLine = line.split(" ");
+            do {
+                line = in.readLine();
+                if (line != null) {
+                    splittedLine = line.split(" ");
                 damageMultiplier.put(splittedLine[0], Double.parseDouble(splittedLine[1]));
-
+                }
             }
+            while (line != null);
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e1) {

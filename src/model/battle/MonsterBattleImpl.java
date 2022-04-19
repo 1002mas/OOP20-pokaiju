@@ -11,13 +11,13 @@ import model.npc.NpcTrainer;
 import model.player.Player;
 
 public class MonsterBattleImpl implements MonsterBattle {
-    private final static int EXP_MULTIPLER = 100;
-    private final static int CAPTURE_RANGE = 10;
-    private final static int CAPTURE_DIFFICULT = 3;
-    private final static int MONEY_WON = 70;
-    private final static int MONEY_LOST = 50;
-    private final static int EXTRA_MOVE_ATTACK = 30;
-    private final static int EXTRA_MOVE_PP = 999;
+    private static final int EXP_MULTIPLER = 100;
+    private static final int CAPTURE_RANGE = 10;
+    private static final int CAPTURE_DIFFICULT = 3;
+    private static final int MONEY_WON = 70;
+    private static final int MONEY_LOST = 50;
+    private static final int EXTRA_MOVE_ATTACK = 30;
+    private static final int EXTRA_MOVE_PP = 999;
 
     private boolean battleStatus; // true if the battle enemy/player team is defeat, false otherwise
     private boolean areEndPP;
@@ -113,19 +113,20 @@ public class MonsterBattleImpl implements MonsterBattle {
         Monster changingMonster = null;
         if (index == playerCurrentMonster.getId()) {
             return false;
-        }
-        for (final var monster : playerTeam) {
-            if (monster.getId() == index) {
-                changingMonster = monster;
+        } else {
+            for (final var monster : playerTeam) {
+                if (monster.getId() == index) {
+                    changingMonster = monster;
+                }
             }
-        }
-        if (changingMonster.isAlive()) {
-            this.playerCurrentMonster = changingMonster;
+            if (changingMonster.isAlive()) {
+                this.playerCurrentMonster = changingMonster;
 
-            return true;
-        }
+                return true;
+            }
 
-        return false;
+            return false;
+        }
 
     }
 
