@@ -9,17 +9,16 @@ import model.monster.Monster;
 /**
  * It implements some generic game event functions.
  * 
- * @author sam
  *
  */
 public abstract class AbstractGameEvent implements GameEvent {
     private final int id;
     private final boolean isToActiveImmediatly;
+    private final boolean isReactivable;
+    private final List<GameEvent> eventsToActivate = new ArrayList<>();
+    private final List<GameEvent> eventsToDeactivate = new ArrayList<>();
     private boolean isActive;
-    private boolean isReactivable;
     private boolean hasBeenActivated;
-    private List<GameEvent> eventsToActivate = new ArrayList<>();
-    private List<GameEvent> eventsToDeactivate = new ArrayList<>();
 
     /**
      * 
@@ -33,7 +32,8 @@ public abstract class AbstractGameEvent implements GameEvent {
      * @param isToActiveImmediatly if the event has to be activated right after
      *                             another event
      */
-    public AbstractGameEvent(int id, boolean isActive, boolean isReactivable, boolean isToActiveImmediatly) {
+    public AbstractGameEvent(final int id, final boolean isActive, final boolean isReactivable,
+	    final boolean isToActiveImmediatly) {
 	this.id = id;
 	this.isToActiveImmediatly = isToActiveImmediatly;
 	this.isActive = isActive;
@@ -41,23 +41,35 @@ public abstract class AbstractGameEvent implements GameEvent {
 	this.hasBeenActivated = isActive;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getEventID() {
 	return this.id;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void addDependentGameEvent(GameEvent e) {
+    public void addDependentGameEvent(final GameEvent e) {
 	this.eventsToDeactivate.add(e);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void addSuccessiveGameEvent(GameEvent e) {
+    public void addSuccessiveGameEvent(final GameEvent e) {
 	this.eventsToActivate.add(e);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void setActivity(boolean active) {
+    public void setActivity(final boolean active) {
 
 	if (hasBeenActivated && !isReactivable) {
 	    this.isActive = false;
@@ -69,38 +81,56 @@ public abstract class AbstractGameEvent implements GameEvent {
 	}
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isActive() {
 	return this.isActive;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isToActivateImmediatly() {
 	return this.isToActiveImmediatly;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isReactivable() {
 	return this.isReactivable;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isBattle() {
 	return false;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<Monster> getMonster() {
 	return new ArrayList<>();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void activate() {
 	if (isActive()) {
 	    activateEvent();
 	    this.eventsToDeactivate.forEach(e -> e.setActivity(false));
 
-	    for (GameEvent e : eventsToActivate) {
+	    for (final GameEvent e : eventsToActivate) {
 		e.setActivity(true);
 		if (e.isToActivateImmediatly()) {
 		    e.activate();
@@ -117,23 +147,35 @@ public abstract class AbstractGameEvent implements GameEvent {
      */
     protected abstract void activateEvent();
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
 	return Objects.hash(id);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public boolean equals(Object obj) {
-	if (this == obj)
+    public boolean equals(final Object obj) {
+	if (this == obj) {
 	    return true;
-	if (obj == null)
+	}
+	if (obj == null) {
 	    return false;
-	if (getClass() != obj.getClass())
+	}
+	if (getClass() != obj.getClass()) {
 	    return false;
-	AbstractGameEvent other = (AbstractGameEvent) obj;
+	}
+	final AbstractGameEvent other = (AbstractGameEvent) obj;
 	return id == other.id;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
 	return "AbstractGameEvent [id=" + id + ", isActive=" + isActive + "]";

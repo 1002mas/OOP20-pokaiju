@@ -5,26 +5,26 @@ package model.map;
  */
 public enum MapBlockType {
     /**
-     * it's an obstacle you can't walk through
+     * it's an obstacle you can't walk through.
      **/
     MAP_CHANGE(true, false),
     /**
-     * it's an area where you can't walk
+     * it's an area where you can't walk.
      */
     OBSTACLE(false, false),
     /**
-     * it's a point of connection to another map
+     * it's a point of connection to another map.
      */
     WALK(true, false),
     /**
-     * area where you can find random monster
+     * area where you can find random monster.
      */
     WILD_ZONE(true, true);
 
     private final boolean canPassThrough;
     private final boolean canSpawnMonsters;
 
-    MapBlockType(boolean canPassThrough, boolean canSpawnMonsters) {
+    MapBlockType(final boolean canPassThrough, final boolean canSpawnMonsters) {
 	this.canPassThrough = canPassThrough;
 	this.canSpawnMonsters = canSpawnMonsters;
     }

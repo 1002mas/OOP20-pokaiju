@@ -7,7 +7,6 @@ import model.monster.Monster;
 /**
  * It represents a generic game event.
  * 
- * @author sam
  *
  */
 public interface GameEvent {
