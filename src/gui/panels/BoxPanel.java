@@ -254,10 +254,7 @@ public class BoxPanel extends JPanel {
 	JPanel panel = new JPanel(new GridLayout(1, 2));
 	panel.setBorder(BorderFactory.createLineBorder(Color.black));
 	JLabel label = new JLabel();
-	label.setText(" " + this.playerController.getMonsterNameById(monsterId) + "  "
-		+ this.playerController.getMonsterLevel(monsterId) + "  "
-		+ this.playerController.getMonsterHealth(monsterId) + "/"
-		+ this.playerController.getMonsterMaxHealth(monsterId));
+	label.setText(getMonsterInfo(monsterId));
 	setLabelProp(label);
 	JCheckBox checkBoxPlayer = new JCheckBox();
 	setJCheckBoxProp(checkBoxPlayer);
@@ -291,6 +288,19 @@ public class BoxPanel extends JPanel {
 	panel.add(checkBoxPlayer);
 	return panel;
 
+    }
+
+    /**
+     * get text about monster general info
+     * 
+     * @return monster general info
+     */
+    private String getMonsterInfo(int monsterId) {
+	String info = "<html> Name : " + this.playerController.getMonsterNameById(monsterId) + "<br/>" + " Lv : "
+		+ this.playerController.getMonsterLevel(monsterId) + "<br/>" + " Hp : "
+		+ this.playerController.getMonsterHealth(monsterId) + "/"
+		+ this.playerController.getMonsterMaxHealth(monsterId) + "</html>";
+	return info;
     }
 
     /**
