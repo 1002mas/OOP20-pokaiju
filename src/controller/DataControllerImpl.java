@@ -178,7 +178,7 @@ public class DataControllerImpl implements DataController {
     }
 
     private void createMonsters() {
-	Monster kracez = new MonsterBuilderImpl().species(getSpeciesByName("kracez")).level(5)
+	Monster kracez = new MonsterBuilderImpl().species(getSpeciesByName("kracez")).level(100)
 		.movesList(getMovesByTypeWithPP(MonsterType.GRASS)).build();
 	Monster greyfish = new MonsterBuilderImpl().species(getSpeciesByName("greyfish")).level(5)
 		.movesList(getMovesByTypeWithPP(MonsterType.WATER)).build();
