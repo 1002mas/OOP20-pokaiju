@@ -17,35 +17,35 @@ public interface DataLoaderController {
 	 * 
 	 * @return a list of moves
 	 */
-	public List<Moves> getMoves();
+	// public List<Moves> getMoves();
 
 	/**
 	 * This function returns a list of all npc existing
 	 * 
 	 * @return a list of npcs
 	 */
-	public List<NpcSimple> getNpcs();
+//	public List<NpcSimple> getNpcs();
 
 	/**
 	 * This function returns a list of items existing
 	 * 
 	 * @return a list of items
 	 */
-	public List<GameItem> getGameItems();
+//	public List<GameItem> getGameItems();
 
 	/**
 	 * This function returns a list of all events
 	 * 
 	 * @return a list of Events
 	 */
-	public List<GameEvent> getEvents();
+//	public List<GameEvent> getEvents();
 
 	/**
 	 * This function returns a list of monsterSpecies
 	 * 
 	 * @return a list of monsterSpecies
 	 */
-	public List<MonsterSpecies> getMonstersSpecies();
+//	public List<MonsterSpecies> getMonstersSpecies();
 
 	/**
 	 * This function returns the player
@@ -76,7 +76,7 @@ public interface DataLoaderController {
 	 * @return a move
 	 */
 
-	public Moves getMove(String name);
+//	public Moves getMove(String name);
 
 	/**
 	 * This function returns a monster
@@ -85,7 +85,7 @@ public interface DataLoaderController {
 	 * @return a monster
 	 */
 
-	public Monster getMonster(int id);
+//	public Monster getMonster(int id); //CANCELLA addMonster(int id) in playerController
 
 	/**
 	 * This function returns a npc
@@ -94,7 +94,7 @@ public interface DataLoaderController {
 	 * @return a npc
 	 */
 
-	public NpcSimple getNpc(String name);
+//	public NpcSimple getNpc(String name);
 
 	/**
 	 * This function returns an item
@@ -103,7 +103,7 @@ public interface DataLoaderController {
 	 * @return an item
 	 */
 
-	public GameItem getItem(String name);
+//	public GameItem getItem(String name); //DI QUESTA MODIFICA OPPORTUNAMENTE LE FUNZIONI, FAI ATTENZIONE SE DEVI PRENDERE DA MERCHANT O PLAYER O CHE CAZZO NE SO
 
 	/**
 	 * This function returns an event
@@ -112,7 +112,7 @@ public interface DataLoaderController {
 	 * @return an event
 	 */
 
-	public GameEvent getEvent(int id);
+//	public GameEvent getEvent(int id);
 
 	/**
 	 * This function set a new player

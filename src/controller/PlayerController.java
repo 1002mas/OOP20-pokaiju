@@ -8,8 +8,9 @@ import model.Pair;
 
 public interface PlayerController {
 	/**
-	 * ask the model to move the player to coord
+	 * This function asks the model to move the player in a direction
 	 * 
+	 * @param direction
 	 * @return true if the player is moved, false otherwise.
 	 */
 	boolean movePlayer(Direction direction);
@@ -123,6 +124,7 @@ public interface PlayerController {
 	Optional<BattleController> getBattleController();
 
 	/**
+	 * This function returns current map id
 	 * 
 	 * @return current map id
 	 */
@@ -152,15 +154,16 @@ public interface PlayerController {
 	void removeItem(String i);
 
 	/**
-	 * This function adds a monster
+	 * This function adds a monster to player team
 	 * 
 	 * @param idMonster
 	 * @return true iff monster is added, false otherwise
 	 */
-	boolean addMonster(int idMonster);
-
+	/*
+	 * boolean addMonster(int idMonster);
+	 */
 	/**
-	 * This function create a new player
+	 * This function creates a new player
 	 * 
 	 * @param name
 	 * @param gender
@@ -197,7 +200,7 @@ public interface PlayerController {
 	int getPlayerMoney();
 
 	/**
-	 * This function returns a List of player items name
+	 * This function returns a list of player items name
 	 * 
 	 * @return list of player items name
 	 */
@@ -298,6 +301,7 @@ public interface PlayerController {
 	int getMonsterSpeed(int monsterId);
 
 	/**
+	 * This function returns current box name
 	 * 
 	 * @return current box name
 	 */
@@ -319,30 +323,33 @@ public interface PlayerController {
 	void depositMonster(int teamMonsterId);
 
 	/**
-	 * It retrieves the given box monster.
+	 * It retrieves the given box monster
 	 * 
 	 * @param boxMonsterId box monster id
 	 */
 	void withdrawMonster(int boxMonsterId);
 
 	/**
-	 * Moves to the next box
+	 *
+	 * This function moves to the next box
 	 */
 	void nextBox();
 
 	/**
-	 * Moves to the previous box
+	 * 
+	 * This function moves to the previous box
 	 */
 	void previousBox();
 
 	/**
+	 * This function returns the list of monsters id in current monster box
 	 * 
-	 * @return box monster ID
+	 * @return box monsters ID
 	 */
 	List<Integer> getBoxMonsters();
 
 	/**
-	 * This function returns maximum boxes in a monster
+	 * This function returns maximum boxes in a monster storage
 	 * 
 	 * @return maximum boxes
 	 */

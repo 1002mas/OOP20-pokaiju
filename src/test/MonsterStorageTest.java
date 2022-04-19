@@ -1,8 +1,8 @@
 package test;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 import java.util.Optional;
@@ -31,6 +31,10 @@ public class MonsterStorageTest {
 	private Monster monster1;
 	private Monster monster2;
 	private Monster monster3;
+	private Monster monster4;
+	private Monster monster5;
+	private Monster monster6;
+	private Monster monster7;
 	private Player player;
 
 	private void addMonsterList(MonsterStorage storage, int n, Monster monster) {
@@ -84,33 +88,57 @@ public class MonsterStorageTest {
 
 	@org.junit.Test
 	public void MonsterStorage() {
-
+		// add monster
 		assertEquals("BOX1", this.monsterStorage.getCurrentBoxName());
 		assertTrue(this.monsterStorage.addMonster(this.monster1));
 		assertTrue(this.monsterStorage.getCurrentBoxMonsters().contains(this.monster1));
 		assertEquals("BOX1", this.monsterStorage.getCurrentBoxName());
-
+		// previous box
 		this.monsterStorage.previousBox();
 		assertEquals("BOX10", this.monsterStorage.getCurrentBoxName());
-
+		// next box
 		this.monsterStorage.nextBox();
 		assertEquals("BOX1", this.monsterStorage.getCurrentBoxName());
 
-		addMonsterList(this.monsterStorage, monsterStorage.getMaxSizeOfBox(), monster1);
+		addMonsterList(this.monsterStorage, this.monsterStorage.getMaxSizeOfBox(), this.monster1);
 		this.monsterStorage.nextBox();
 
-		assertTrue(this.monsterStorage.getCurrentBoxMonsters().contains(monster1));
+		assertTrue(this.monsterStorage.getCurrentBoxMonsters().contains(this.monster1));
 		assertEquals(1, this.monsterStorage.getCurrentBoxMonsters().size());
+		// exchange player monster2 with box monster1
+		assertTrue(this.monsterStorage.exchange(this.monster2, this.monster1.getId()));
+		assertTrue(this.monsterStorage.getCurrentBoxMonsters().contains(this.monster2));
+		assertTrue(this.player.getAllMonsters().contains(this.monster1));
 
-		assertTrue(this.monsterStorage.exchange(monster2, this.monster1.getId()));
-		assertTrue(this.monsterStorage.getCurrentBoxMonsters().contains(monster2));
-		assertTrue(this.player.getAllMonsters().contains(monster1));
+		player.addMonster(this.monster3); // player team: monster3, monster1
+		assertTrue(this.monsterStorage.depositMonster(this.monster3));
+		assertFalse(this.player.getAllMonsters().contains(this.monster3));
+		assertTrue(this.monsterStorage.getCurrentBoxMonsters().contains(this.monster3));
 
-		player.addMonster(monster3);
-		assertTrue(this.monsterStorage.depositMonster(monster3));
-		assertFalse(this.player.getAllMonsters().contains(monster3));
-		assertTrue(this.monsterStorage.getCurrentBoxMonsters().contains(monster3));
+		// player team: monster1
+		// withDrawMonster
 
+		assertTrue(this.monsterStorage.withdrawMonster(monster3.getId()));
+		assertFalse(this.monsterStorage.withdrawMonster(monster3.getId()));
+
+		// player team: monster1, monster3
+		this.player.addMonster(this.monster4);
+		this.player.addMonster(this.monster5);
+		this.player.addMonster(this.monster6);
+		this.player.addMonster(this.monster7);
+		// player team full
+
+		// withDrawMonster
+		assertFalse(this.monsterStorage.withdrawMonster(this.monster2.getId()));
+
+	}
+
+	@org.junit.Test
+	public void MonsterStorageWithList() {
+		MonsterBox box = new MonsterBoxImpl("NEWBOX1", 4);
+		List<MonsterBox> boxList = List.of(box);
+		MonsterStorage monsterStorageWithList = new MonsterStorageImpl(player, boxList);
+		assertEquals("NEWBOX1", monsterStorageWithList.getCurrentBoxName());
 	}
 
 }
