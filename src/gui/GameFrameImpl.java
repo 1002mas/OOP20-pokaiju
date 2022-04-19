@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -79,9 +79,9 @@ public class GameFrameImpl extends JFrame implements GameFrame {
     private final int size;
     private final CardLayout cLayout = new CardLayout();
     private final Map<String, JPanel> subPanels = new HashMap<>();
-    private final ImagesLoader imgLoad;
+    private final transient ImagesLoader imgLoad;
     private final JPanel mainPanel = new JPanel();
-    private final PlayerController playerController;
+    private final transient PlayerController playerController;
 
     public GameFrameImpl(final PlayerController playerController) {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -313,8 +313,7 @@ public class GameFrameImpl extends JFrame implements GameFrame {
         panel.addComponentListener(new ComponentListener() {
             @Override
             public void componentShown(final ComponentEvent e) {
-                final Random rand = new Random();
-                final int a = rand.nextInt(999_999) + 100_000;
+                final int a = ThreadLocalRandom.current().nextInt(999_999) + 100_000;
                 trainerNumberField.setText(Integer.toString(a));
                 nameField.setText("");
             }
