@@ -23,11 +23,20 @@ public class MonsterPanel extends JPanel {
     private final PlayerController playerController;
     private final ImagesLoader imgLoad;
 
+    /**
+     *
+     * @param playerController the game controller
+     * @param imgLoad          the game ImagesLoader
+     */
     public MonsterPanel(PlayerController playerController, ImagesLoader imgLoad) {
 	this.playerController = playerController;
 	this.imgLoad = imgLoad;
     }
 
+    /**
+     * Initialize content area
+     * 
+     */
     private void init() {
 	this.setLayout(cardlayout);
 	JPanel allMonsterPanel = new JPanel(new GridLayout(2, 3));
@@ -55,10 +64,21 @@ public class MonsterPanel extends JPanel {
 
     }
 
+    /**
+     * Change panel
+     * 
+     * @param panelName panel which will be showed
+     */
     public void changePanel(String panelName) {
 	cardlayout.show(this, panelName);
     }
 
+    /**
+     * set content area
+     * 
+     * @param monsterId Monster
+     * @param index     panel that contain all statistics of Monster
+     */
     private JPanel setMonsterPanel(int monsterId, int index) {
 	JPanel panel = new JPanel(new BorderLayout());
 	JLabel singleMonsterInfoLabel = new JLabel();
@@ -83,6 +103,12 @@ public class MonsterPanel extends JPanel {
 	return panel;
     }
 
+    /**
+     * set JPanel's properties
+     * 
+     * @param panel           JPanel
+     * @param numberOfMonster Number of Monster present in player's team
+     */
     private void setPanelProp(JPanel panel, int numberOfMonster) {
 	int cont = 6 - numberOfMonster;
 	while (cont > 0) {
@@ -93,12 +119,20 @@ public class MonsterPanel extends JPanel {
 	}
     }
 
+    /**
+     * update content area
+     */
     public void update() {
 	this.removeAll();
 	init();
 	this.validate();
     }
 
+    /**
+     * set JLabel's properties
+     * 
+     * @param label JLabel
+     */
     private void setLabelProp(JLabel label) {
 	label.setBorder(BorderFactory.createLineBorder(Color.blue));
 	label.setHorizontalAlignment(SwingConstants.CENTER);

@@ -21,15 +21,20 @@ public class SelectMosterPanel extends JPanel {
     private String itemName;
     private JButton backButton = new JButton("BACK");
 
-    public JButton getBackButton() {
-	return backButton;
-    }
-
+    /**
+     * 
+     * @param playerController the game controller
+     * @param parentPanel      the parentPanel
+     */
     public SelectMosterPanel(PlayerController playerController, JPanel parentPanel) {
 	this.playerController = playerController;
 	this.parentPanel = parentPanel;
     }
 
+    /**
+     * Initialize content area
+     * 
+     */
     private void init() {
 	CardLayout c1 = (CardLayout) this.parentPanel.getLayout();
 	this.setLayout(c1);
@@ -78,10 +83,21 @@ public class SelectMosterPanel extends JPanel {
 
     }
 
+    /**
+     * set Item to be used
+     * 
+     * @param ItemName
+     */
     public void setItemName(String ItemName) {
 	this.itemName = ItemName;
     }
 
+    /**
+     * set Panel's properties
+     * 
+     * @param panel           JPanel
+     * @param numberOfMonster Number of Monster present in player's team
+     */
     private void setPanelProp(JPanel panel, int numberOfMonster) {
 	int cont = 6 - numberOfMonster;
 	while (cont > 0) {
@@ -95,16 +111,32 @@ public class SelectMosterPanel extends JPanel {
 	}
     }
 
+    /**
+     * update content area
+     */
     public void update() {
 	this.removeAll();
 	init();
 	this.validate();
     }
 
+    /**
+     * set JLabel's properties
+     * 
+     * @param label JLabel
+     */
     private void setLabelProp(JLabel label) {
 	label.setBorder(BorderFactory.createLineBorder(Color.blue));
 	label.setHorizontalAlignment(SwingConstants.CENTER);
 	label.setVerticalAlignment(SwingConstants.CENTER);
     }
 
+    /**
+     * get JButton
+     * 
+     * return backButton
+     */
+    public JButton getBackButton() {
+	return backButton;
+    }
 }
