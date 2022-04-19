@@ -125,6 +125,6 @@ public interface MonsterBattle {
 	 * this function set the player data after the battle and restore the monsters
 	 * 
 	 */
-	void EndingBattle();
+	void endingBattle();
 	
 }

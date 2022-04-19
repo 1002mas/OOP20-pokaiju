@@ -274,7 +274,7 @@ public class MonsterBattleImpl implements MonsterBattle {
     }
 
     @Override
-    public void EndingBattle() {
+    public void endingBattle() {
 	if (hasPlayerLost()) {
 	    this.trainer.setMoney(trainer.getMoney() - MONEY_LOST);
 

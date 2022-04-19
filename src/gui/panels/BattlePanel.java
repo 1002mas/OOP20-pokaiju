@@ -237,8 +237,6 @@ public class BattlePanel extends JPanel {
 	    }
 	    button.addActionListener(e -> {
 		ctrl.chooseMove(move);
-		System.out.println(ctrl.isOver());
-		System.out.println(ctrl.hasPlayerLost());
 		checkEnemyStatus();
 
 	    });
@@ -254,7 +252,6 @@ public class BattlePanel extends JPanel {
     private void checkEnemyStatus() {
 	
 	if (!ctrl.isAlive(ctrl.getPlayerCurrentMonsterId())) {
-	    System.out.println("PERSO");
 	    actionText.setText(ctrl.getPlayerCurrentMonsterName() + " is dead");
 	    playerMonster.setText(getMonsterData(ctrl.getPlayerCurrentMonsterId()));
 	    
@@ -389,6 +386,7 @@ public class BattlePanel extends JPanel {
 	} catch (InterruptedException e1) {
 	    e1.printStackTrace();
 	}
+	this.ctrl.endingBattle();
 	this.gameFrame.updateView(GameFrameImpl.MAP_VIEW);
     }
 
