@@ -1,7 +1,6 @@
 package controller;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -44,12 +43,12 @@ import model.player.Player;
 import model.player.PlayerImpl;
 
 public class DataControllerImpl implements DataController {
-    private final static int MAXIMUM_BLOCK_IN_COLUMN = 20;
-    private final static int MAXIMUM_BLOCK_IN_ROW = 20;
-    private final static int INITIAL_GAME_MAP_ID = 1;
-    private final static int HOUSE_GAME_MAP_ID = 2;
-    private final static Pair<Integer, Integer> INITIAL_PLAYER_POSITION = new Pair<>(13, 13);
-    private final List<Pair<Integer, Integer>> map_1_angles = List.of(new Pair<>(1, 2), new Pair<>(18, 2),
+    private static final int MAXIMUM_BLOCK_IN_COLUMN = 20;
+    private static final int MAXIMUM_BLOCK_IN_ROW = 20;
+    private static final int INITIAL_GAME_MAP_ID = 1;
+    private static final int HOUSE_GAME_MAP_ID = 2;
+    private static final Pair<Integer, Integer> INITIAL_PLAYER_POSITION = new Pair<>(13, 13);
+    private final List<Pair<Integer, Integer>> map1angles = List.of(new Pair<>(1, 2), new Pair<>(18, 2),
             new Pair<>(18, 17), new Pair<>(1, 17));
     private List<Moves> moves = new ArrayList<>();
     private List<GameItem> gameItems = new ArrayList<>();
@@ -67,11 +66,13 @@ public class DataControllerImpl implements DataController {
     }
 
     private void createItems() {
-        final GameItem monsterBall = new CaptureItem("Monster Ball", "This item allows the player to capture a monster");
+        final GameItem monsterBall = new CaptureItem("Monster Ball",
+                "This item allows the player to capture a monster");
         final GameItem healingPotion = new HealingItem("Healing potion", "This item heal a monster for 50 HP");
-        final GameItem superHealingPotion = new HealingItem("Super healing potion", "This item heal a monster for 250 HP",
-                250);
-        final GameItem ultraHealingPotion = new HealingItem("Ultra healing potion", "This item heal a monster for 400 HP");
+        final GameItem superHealingPotion = new HealingItem("Super healing potion",
+                "This item heal a monster for 250 HP", 250);
+        final GameItem ultraHealingPotion = new HealingItem("Ultra healing potion",
+                "This item heal a monster for 400 HP");
         final GameItem kracStone = new EvolutionItem("KracezStone", "This item evolves krados");
 
         this.gameItems.add(monsterBall);
@@ -101,30 +102,34 @@ public class DataControllerImpl implements DataController {
     }
 
     private void createMonsterSpecies() {
+        final int monsterStats = 50;
+
         final MonsterSpecies species1 = new MonsterSpeciesBuilderImpl().name("bibol").info("His name is bibol")
-                .monsterType(MonsterType.FIRE).health(60).attack(20).defense(5).speed(10)
-                .movesList(getMovesByType(MonsterType.FIRE)).build();
+                .monsterType(MonsterType.FIRE).health(monsterStats).attack(monsterStats).defense(monsterStats)
+                .speed(monsterStats).movesList(getMovesByType(MonsterType.FIRE)).build();
         final MonsterSpecies species2 = new MonsterSpeciesBuilderImpl().name("greyfish").info("is a fish")
-                .monsterType(MonsterType.WATER).health(100).attack(8).defense(5).speed(8)
-                .movesList(getMovesByType(MonsterType.WATER)).build();
+                .monsterType(MonsterType.WATER).health(monsterStats).attack(monsterStats).defense(monsterStats)
+                .speed(monsterStats).movesList(getMovesByType(MonsterType.WATER)).build();
         final MonsterSpecies species6 = new MonsterSpeciesBuilderImpl().name("kratres").info("cute thing3")
-                .monsterType(MonsterType.GRASS).health(70).attack(25).defense(2).speed(5)
-                .movesList(getMovesByType(MonsterType.GRASS)).build();
+                .monsterType(MonsterType.GRASS).health(monsterStats).attack(monsterStats).defense(monsterStats)
+                .speed(monsterStats).movesList(getMovesByType(MonsterType.GRASS)).build();
         final MonsterSpecies species4 = new MonsterSpeciesBuilderImpl().name("krados").info("cute thing 2")
-                .monsterType(MonsterType.GRASS).health(70).attack(25).defense(2).speed(5)
-                .movesList(getMovesByType(MonsterType.GRASS)).evolution(species6).gameItem(gameItems.get(4)).build();
+                .monsterType(MonsterType.GRASS).health(monsterStats).attack(monsterStats).defense(monsterStats)
+                .speed(monsterStats).movesList(getMovesByType(MonsterType.GRASS)).evolution(species6)
+                .gameItem(gameItems.get(4)).build();
         final MonsterSpecies species3 = new MonsterSpeciesBuilderImpl().name("kracez").info("cute thing")
-                .monsterType(MonsterType.GRASS).health(70).attack(25).defense(2).speed(5)
-                .movesList(getMovesByType(MonsterType.GRASS)).evolution(species4).evolutionLevel(10).build();
+                .monsterType(MonsterType.GRASS).health(monsterStats).attack(monsterStats).defense(monsterStats)
+                .speed(monsterStats).movesList(getMovesByType(MonsterType.GRASS)).evolution(species4).evolutionLevel(10)
+                .build();
         final MonsterSpecies species5 = new MonsterSpeciesBuilderImpl().name("yepicon").info("cute thing")
-                .monsterType(MonsterType.GRASS).health(70).attack(25).defense(2).speed(5)
-                .movesList(getMovesByType(MonsterType.GRASS)).build();
+                .monsterType(MonsterType.GRASS).health(monsterStats).attack(monsterStats).defense(monsterStats)
+                .speed(monsterStats).movesList(getMovesByType(MonsterType.GRASS)).build();
         final MonsterSpecies puppin = new MonsterSpeciesBuilderImpl().name("puppin").info("This is puppin")
-                .monsterType(MonsterType.FIRE).health(60).attack(20).defense(5).speed(10)
-                .movesList(getMovesByType(MonsterType.FIRE)).build();
+                .monsterType(MonsterType.FIRE).health(monsterStats).attack(monsterStats).defense(monsterStats)
+                .speed(monsterStats).movesList(getMovesByType(MonsterType.FIRE)).build();
         final MonsterSpecies ponix = new MonsterSpeciesBuilderImpl().name("ponix").info("This is ponix")
-                .monsterType(MonsterType.FIRE).health(60).attack(20).defense(5).speed(10)
-                .movesList(getMovesByType(MonsterType.GRASS)).build();
+                .monsterType(MonsterType.FIRE).health(monsterStats).attack(monsterStats).defense(monsterStats)
+                .speed(monsterStats).movesList(getMovesByType(MonsterType.GRASS)).build();
 
         monsterSpecies.add(species1);
         monsterSpecies.add(species2);
@@ -138,12 +143,19 @@ public class DataControllerImpl implements DataController {
     private void createMapData() {
         final GameMapData mapData = new GameMapDataImpl(INITIAL_GAME_MAP_ID, 1, 10, "MAP1",
                 getMapBlocksById(INITIAL_GAME_MAP_ID),
-                monsterSpecies.stream().filter(i -> !i.getName().equals("ponix") && !i.getName().equals("puppin"))
+                monsterSpecies.stream().filter(i -> !"ponix".equals(i.getName()) && !"puppin".equals(i.getName()))
                         .collect(Collectors.toList()));
         final GameMapData house = new GameMapDataImpl(2, 1, 99, "MAP2", getMapBlocksById(2), new ArrayList<>());
-        mapData.addMapLink(house, new Pair<>(5, 10), new Pair<>(10, 14));
-        house.addMapLink(mapData, new Pair<>(10, 16), new Pair<>(5, 12));
-        house.addMapLink(mapData, new Pair<>(9, 16), new Pair<>(5, 12));
+        final Pair<Integer, Integer> mapLink1 = new Pair<>(5, 10);
+        final Pair<Integer, Integer> mapLink2 = new Pair<>(10, 16);
+        final Pair<Integer, Integer> mapLink3 = new Pair<>(9, 16);
+
+        final Pair<Integer, Integer> character1 = new Pair<>(10, 14);
+        final Pair<Integer, Integer> character2 = new Pair<>(5, 12);
+
+        mapData.addMapLink(house, mapLink1, character1);
+        house.addMapLink(mapData, mapLink2, character2);
+        house.addMapLink(mapData, mapLink3, character2);
         this.gameMapData.add(mapData);
         this.gameMapData.add(house);
     }
@@ -154,6 +166,7 @@ public class DataControllerImpl implements DataController {
     @Override
     public void setPlayer(final String name, final Gender gender, final int trainerNumber) {
         cleanData();
+        final int money = 60_000;
         this.player = new PlayerImpl(name, gender, trainerNumber, INITIAL_PLAYER_POSITION,
                 new GameMapImpl(gameMapData.stream().filter(e -> e.getMapId() == INITIAL_GAME_MAP_ID).findAny().get()));
         createMonsters();
@@ -164,7 +177,7 @@ public class DataControllerImpl implements DataController {
         uniqueMonsterTest();
         developerTextTest();
         npcRunnerTest();
-        this.player.setMoney(60000);
+        this.player.setMoney(money);
         this.player.addMonster(this.monster.get(this.monster.size() - 1));
     }
 
@@ -174,15 +187,16 @@ public class DataControllerImpl implements DataController {
     }
 
     private void createMonsters() {
-        final Monster kracez = new MonsterBuilderImpl().species(getSpeciesByName("kracez")).level(5)
+        final int level = 5;
+        final Monster kracez = new MonsterBuilderImpl().species(getSpeciesByName("kracez")).level(level)
                 .movesList(getMovesByTypeWithPP(MonsterType.GRASS)).build();
-        final Monster greyfish = new MonsterBuilderImpl().species(getSpeciesByName("greyfish")).level(5)
+        final Monster greyfish = new MonsterBuilderImpl().species(getSpeciesByName("greyfish")).level(level)
                 .movesList(getMovesByTypeWithPP(MonsterType.WATER)).build();
         final Monster bibol = new MonsterBuilderImpl().species(getSpeciesByName("bibol")).level(100)
                 .movesList(getMovesByTypeWithPP(MonsterType.FIRE)).build();
         final Monster puppin = new MonsterBuilderImpl().species(getSpeciesByName("puppin")).level(10)
                 .movesList(getMovesByTypeWithPP(MonsterType.FIRE)).build();
-        final Monster ponix = new MonsterBuilderImpl().species(getSpeciesByName("ponix")).level(50)
+        final Monster ponix = new MonsterBuilderImpl().species(getSpeciesByName("ponix")).level(level * 10)
                 .movesList(getMovesByTypeWithPP(MonsterType.GRASS)).wild(true).build();
 
         this.monster.add(puppin);
@@ -199,17 +213,17 @@ public class DataControllerImpl implements DataController {
                 "Guo Jia Hao", "Pierantoni Michael"));
         stringList = stringList.stream().map(name -> s + name).collect(Collectors.toList());
         final NpcSimple npc1 = new NpcSimpleImpl("Unibo", stringList, new Pair<>(15, 15), true, true);
-        final NpcSimple npc2 = new NpcMerchantImpl("Steve", List.of("Wanna buy something?"), new Pair<>(9, 6), true, true,
-                getInventory());
-        final NpcSimple trainer = new NpcTrainerImpl("Giorgio", List.of("Let's battle", "I lost..."), new Pair<>(1, 10), true,
-                true, List.of(this.monster.get(2), this.monster.get(3)), false);
+        final NpcSimple npc2 = new NpcMerchantImpl("Steve", List.of("Wanna buy something?"), new Pair<>(9, 6), true,
+                true, getInventory());
+        final NpcSimple trainer = new NpcTrainerImpl("Giorgio", List.of("Let's battle", "I lost..."), new Pair<>(1, 10),
+                true, true, List.of(this.monster.get(2), this.monster.get(3)), false);
         final NpcSimple healerNpc = new NpcHealerImpl("Mom", List.of("Let me heal your Pokaiju"), new Pair<>(10, 6),
                 this.player, true, true);
         final NpcSimple npcGift = new NpcSimpleImpl("Puppin", List.of("I will come with you"), new Pair<>(15, 15), true,
                 true);
         final NpcSimple npcGhost = new NpcSimpleImpl("Pippo", List.of("How did you find me?", "I was hidden very well"),
                 new Pair<>(17, 17), false, true);
-        final NpcSimple npcRunner = new NpcSimpleImpl("Bolt", List.of("Catch me!"), map_1_angles.get(0), true, true);
+        final NpcSimple npcRunner = new NpcSimpleImpl("Bolt", List.of("Catch me!"), map1angles.get(0), true, true);
         this.npcs.add(healerNpc);
         npcs.add(npc1);
         npcs.add(npc2);
@@ -230,23 +244,27 @@ public class DataControllerImpl implements DataController {
     }
 
     private void giftTest() {
+        final int npcId = 4_584;
         final NpcSimple npc = getNpcByName("Puppin");
         final GameEvent g = new MonsterGift(4185, true, false, true, List.of(monster.get(0)), player);
-        g.addSuccessiveGameEvent(new NpcVisibilityChanger(4584, false, false, true, npc, false));
-        g.addSuccessiveGameEvent(new NpcActivityChanger(4585, false, false, true, npc, false));
+        g.addSuccessiveGameEvent(new NpcVisibilityChanger(npcId, false, false, true, npc, false));
+        g.addSuccessiveGameEvent(new NpcActivityChanger(npcId + 1, false, false, true, npc, false));
         npc.addGameEvent(g);
     }
 
     private void npcGhostTest() {
+        final int npcId = 165;
         final NpcSimple npc = getNpcByName("Pippo");
-        final GameEvent g = new NpcVisibilityChanger(165, true, false, false, npc, true);
-        g.addSuccessiveGameEvent(new NpcTextChanger(465, false, false, true, npc, 1));
+        final GameEvent g = new NpcVisibilityChanger(npcId, true, false, false, npc, true);
+        g.addSuccessiveGameEvent(new NpcTextChanger(npcId + 1, false, false, true, npc, 1));
         npc.addGameEvent(g);
     }
 
     private void uniqueMonsterTest() {
+        final int x = 16;
+        final int y = 15;
         final GameEvent g = new UniqueMonsterEvent(INITIAL_GAME_MAP_ID, true, true, monster.get(1));
-        this.gameMapData.stream().filter(i -> i.getMapId() == 1).findAny().get().addEventAt(g, new Pair<>(16, 15));
+        this.gameMapData.stream().filter(i -> i.getMapId() == 1).findAny().get().addEventAt(g, new Pair<>(x, y));
     }
 
     private void developerTextTest() {
@@ -256,7 +274,7 @@ public class DataControllerImpl implements DataController {
         final GameEvent g3 = new NpcTextChanger(125, false, true, false, npc, 3);
         final GameEvent g4 = new NpcTextChanger(126, false, true, false, npc, 4);
         final GameEvent g5 = new NpcTextChanger(127, false, true, false, npc, 0);
-        getNpcByName("Unibo").addGameEvent(g1);
+        npc.addGameEvent(g1);
         npc.addGameEvent(g2);
         npc.addGameEvent(g3);
         npc.addGameEvent(g4);
@@ -272,9 +290,9 @@ public class DataControllerImpl implements DataController {
         final int npcId = 300_100;
         final NpcSimple npc = getNpcByName("Bolt");
         GameEvent prevEv = null;
-        for (int i = 0; i < this.map_1_angles.size(); i++) {
+        for (int i = 0; i < this.map1angles.size(); i++) {
             final GameEvent currEv = new NpcPositionChanger(npcId + i, i == 0, true, false, npc,
-                    this.map_1_angles.get((i + 1) % this.map_1_angles.size()));
+                    this.map1angles.get((i + 1) % this.map1angles.size()));
             npc.addGameEvent(currEv);
             if (prevEv != null) {
                 prevEv.addSuccessiveGameEvent(currEv);
@@ -314,30 +332,30 @@ public class DataControllerImpl implements DataController {
             String line;
             int x = 0;
             int y = 0;
-            while ((line = reader.readLine()) != null) {
-                final int blockId = Integer.parseInt(line);
-                switch (blockId) {
-                case 0:
-                    map.put(new Pair<>(x, y), MapBlockType.MAP_CHANGE);
-                    break;
-                case 1:
-                    map.put(new Pair<>(x, y), MapBlockType.WALK);
-                    break;
-                case 2:
-                    map.put(new Pair<>(x, y), MapBlockType.OBSTACLE);
-                    break;
-                case 3:
-                    map.put(new Pair<>(x, y), MapBlockType.WILD_ZONE);
-                    break;
-                default:
-                    break;
+            do {
+                line = reader.readLine();
+                if (line != null) {
+                    final int blockId = Integer.parseInt(line);
+                    switch (blockId) {
+                    case 0:
+                        map.put(new Pair<>(x, y), MapBlockType.MAP_CHANGE);
+                        break;
+                    case 1:
+                        map.put(new Pair<>(x, y), MapBlockType.WALK);
+                        break;
+                    case 2:
+                        map.put(new Pair<>(x, y), MapBlockType.OBSTACLE);
+                        break;
+                    case 3:
+                        map.put(new Pair<>(x, y), MapBlockType.WILD_ZONE);
+                        break;
+                    default:
+                        break;
+                    }
+                    y = y + x / (MAXIMUM_BLOCK_IN_COLUMN - 1);
+                    x = (x + 1) % MAXIMUM_BLOCK_IN_COLUMN;
                 }
-                y = y + x / (this.getMaximumBlockInColumn() - 1);
-                x = (x + 1) % this.getMaximumBlockInColumn();
-
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            } while (line != null);
         } catch (IOException e) {
             e.printStackTrace();
         }

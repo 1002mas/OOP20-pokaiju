@@ -20,127 +20,130 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 
 import controller.PlayerController;
-import gui.GameFrame;
 import gui.GameFrameImpl;
 
 public class MerchantPanel extends JPanel {
     private static final long serialVersionUID = -8620443097250013546L;
     private static final int MINIMUM_QUANTITY = 0;
 
+    private final GameFrameImpl frame;
     private final PlayerController playerController;
     private final Map<String, Integer> buyedItems = new HashMap<>();
     private final JButton buyButton = new JButton("buy");
 
-    private JLabel balanceLabel = new JLabel();
-    private JLabel totalPriceField = new JLabel();
-    private List<SpinnerModel> itemQuantity = new ArrayList<>();
+    private final JLabel balanceLabel = new JLabel();
+    private final JLabel totalPriceField = new JLabel();
+    private final List<SpinnerModel> itemQuantity = new ArrayList<>();
 
     /**
      * 
      * @param frame            the parent view
      * @param playerController the game controller
      */
-    public MerchantPanel(GameFrame frame, PlayerController playerController) {
-	this.setLayout(new BorderLayout());
-	this.playerController = playerController;
+    public MerchantPanel(final GameFrameImpl frame, final PlayerController playerController) {
+        this.setLayout(new BorderLayout());
+        this.playerController = playerController;
+        this.frame = frame;
 
-	balanceLabel.setOpaque(true);
-	balanceLabel.setBackground(Color.GREEN);
-	JPanel actionPanel = new JPanel();
-	actionPanel.setLayout(new GridLayout(0, 3));
-	actionPanel.add(totalPriceField);
-	totalPriceField.setOpaque(true);
-	totalPriceField.setHorizontalAlignment(JLabel.CENTER);
-	totalPriceField.setBackground(Color.white);
-	buyButton.addActionListener(e -> {
-	    this.playerController.buyMerchantItems(buyedItems);
-	    init();
-	});
-	actionPanel.add(buyButton);
+        balanceLabel.setOpaque(true);
+        balanceLabel.setBackground(Color.GREEN);
+        final JPanel actionPanel = new JPanel();
+        actionPanel.setLayout(new GridLayout(0, 3));
+        actionPanel.add(totalPriceField);
+        totalPriceField.setOpaque(true);
+        totalPriceField.setHorizontalAlignment(JLabel.CENTER);
+        totalPriceField.setBackground(Color.white);
+        buyButton.addActionListener(e -> {
+            this.playerController.buyMerchantItems(buyedItems);
+            init();
+        });
+        actionPanel.add(buyButton);
 
-	JButton exitButton = new JButton("exit");
-	actionPanel.add(exitButton);
-	exitButton.addActionListener(e -> {
-	    frame.updateView(GameFrameImpl.MAP_VIEW);
-	});
+        final JButton exitButton = new JButton("exit");
+        actionPanel.add(exitButton);
+        exitButton.addActionListener(e -> {
+            frame.updateView(GameFrameImpl.MAP_VIEW);
+        });
 
-	JPanel itemPanel = new JPanel();
-	this.add(itemPanel, BorderLayout.CENTER);
-	this.add(actionPanel, BorderLayout.SOUTH);
-	this.add(balanceLabel, BorderLayout.NORTH);
-	this.addComponentListener(new ComponentListener() {
-	    @Override
-	    public void componentShown(ComponentEvent e) {
-		init();
-		updateItemList(itemPanel);
-	    }
+        final JPanel itemPanel = new JPanel();
+        this.add(itemPanel, BorderLayout.CENTER);
+        this.add(actionPanel, BorderLayout.SOUTH);
+        this.add(balanceLabel, BorderLayout.NORTH);
+        this.addComponentListener(new ComponentListener() {
+            @Override
+            public void componentShown(final ComponentEvent e) {
+                init();
+                updateItemList(itemPanel);
+            }
 
-	    @Override
-	    public void componentHidden(ComponentEvent e) {
-	    }
+            @Override
+            public void componentHidden(final ComponentEvent e) {
+            }
 
-	    @Override
-	    public void componentResized(ComponentEvent e) {
-	    }
+            @Override
+            public void componentResized(final ComponentEvent e) {
+            }
 
-	    @Override
-	    public void componentMoved(ComponentEvent e) {
-	    }
+            @Override
+            public void componentMoved(final ComponentEvent e) {
+            }
 
-	});
+        });
     }
 
     /**
-     * reset items quantity and get current player balance
+     * reset items quantity and get current player balance.
      */
     private void init() {
-	this.balanceLabel.setText("Player's balance: " + this.playerController.getPlayerMoney() + "$");
-	this.totalPriceField.setText("0$");
-	for (SpinnerModel spinner : this.itemQuantity) {
-	    spinner.setValue(0);
-	}
+        this.balanceLabel.setText("Player's balance: " + this.playerController.getPlayerMoney() + "$");
+        this.totalPriceField.setText("0$");
+        for (final SpinnerModel spinner : this.itemQuantity) {
+            spinner.setValue(0);
+        }
     }
 
     /**
-     * update item list on new merchant interaction
+     * update item list on new merchant interaction.
      * 
      * @param itemPanel panel where items are listed
      */
-    private void updateItemList(JPanel itemPanel) {
-	itemPanel.removeAll();
-	List<String> gameItems = playerController.getMerchantItems();
-	itemPanel.setLayout(new GridLayout(0, 4));
+    private void updateItemList(final JPanel itemPanel) {
+        itemPanel.removeAll();
+        final List<String> gameItems = playerController.getMerchantItems();
+        itemPanel.setLayout(new GridLayout(0, 4));
 
-	for (String gameItem : gameItems) {
-	    // name
-	    itemPanel.add(new JLabel(gameItem));
-	    // Description
-	    JLabel descLabel = new JLabel("<html><p>" + playerController.getItemDescription(gameItem) + "</p></html>",
-		    SwingConstants.LEFT);
-	    descLabel.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 13));
-	    itemPanel.add(descLabel);
-	    // Price
-	    JLabel priceLabel = new JLabel(Integer.toString(playerController.getMerchantItemPrice(gameItem)) + "$");
-	    priceLabel.setHorizontalAlignment(JLabel.CENTER);
-	    itemPanel.add(priceLabel);
+        for (final String gameItem : gameItems) {
+            // name
+            itemPanel.add(new JLabel(gameItem));
+            // Description
+            final JLabel descLabel = new JLabel("<html><p>" + playerController.getItemDescription(gameItem) + "</p></html>",
+                    SwingConstants.LEFT);
+            final double heightPerc = 0.02;
+            descLabel.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, (int) (heightPerc * this.frame.getHeight())));
+            itemPanel.add(descLabel);
+            // Price
+            final JLabel priceLabel = new JLabel(
+                    Integer.toString(playerController.getMerchantItemPrice(gameItem)) + "$");
+            priceLabel.setHorizontalAlignment(JLabel.CENTER);
+            itemPanel.add(priceLabel);
 
-	    // Quantity
-	    SpinnerModel model = new SpinnerNumberModel(0, MINIMUM_QUANTITY, Integer.MAX_VALUE, 1);
-	    this.itemQuantity.add(model);
-	    JSpinner spinner = new JSpinner(model);
-	    itemPanel.add(spinner);
-	    spinner.setEditor(new JSpinner.DefaultEditor(spinner));
-	    spinner.addChangeListener(e -> {
-		buyedItems.put(gameItem, (int) model.getValue());
-		int totalPrice = playerController.getMerchantTotalPrice(buyedItems);
-		boolean canbuy = playerController.canPlayerBuyFromMerchant(buyedItems);
-		buyButton.setEnabled(canbuy);
-		totalPriceField.setText(Integer.toString(totalPrice) + "$");
-		totalPriceField.setForeground(canbuy ? Color.BLACK : Color.RED);
+            // Quantity
+            final SpinnerModel model = new SpinnerNumberModel(0, MINIMUM_QUANTITY, Integer.MAX_VALUE, 1);
+            this.itemQuantity.add(model);
+            final JSpinner spinner = new JSpinner(model);
+            itemPanel.add(spinner);
+            spinner.setEditor(new JSpinner.DefaultEditor(spinner));
+            spinner.addChangeListener(e -> {
+                buyedItems.put(gameItem, (int) model.getValue());
+                final int totalPrice = playerController.getMerchantTotalPrice(buyedItems);
+                final boolean canbuy = playerController.canPlayerBuyFromMerchant(buyedItems);
+                buyButton.setEnabled(canbuy);
+                totalPriceField.setText(Integer.toString(totalPrice) + "$");
+                totalPriceField.setForeground(canbuy ? Color.BLACK : Color.RED);
 
-	    });
+            });
 
-	}
-	itemPanel.validate();
+        }
+        itemPanel.validate();
     }
 }

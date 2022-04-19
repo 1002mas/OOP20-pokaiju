@@ -21,7 +21,6 @@ import gui.ImagesLoader;
  * bottom panel has a GridLayout containing the map textures. The top panel has
  * no background and allows sprite to be over the map.
  * 
- * @author sam
  *
  */
 public class TwoLayersPanel extends JPanel {
@@ -40,57 +39,56 @@ public class TwoLayersPanel extends JPanel {
      * @param panelHeight      panel maximum height
      * @param panelWidth       panel maximum width
      */
-    public TwoLayersPanel(PlayerController playerController, ImagesLoader imgLoad, int panelHeight, int panelWidth) {
-	super();
-	this.rows = playerController.getMaximumBlocksInRow();
-	this.columns = playerController.getMaximumBlocksInColumn();
-	topPanel = new PlayerPanel(playerController.getPlayerPosition(), imgLoad, playerController.getPlayerGender(),
-		rows, columns);
-	topPanel.setPlayerImage(
-		new ImageIcon(imgLoad.getPlayerImages(Direction.DOWN, playerController.getPlayerGender()).get(0)));
-	topPanel.setNpcs(playerController.getAllNpcs());
-	this.addMouseListener(new MouseListener() {
-	    @Override
-	    public void mouseReleased(MouseEvent e) {
-		topPanel.requestFocusInWindow();
-	    }
+    public TwoLayersPanel(final PlayerController playerController, final ImagesLoader imgLoad, final int panelHeight,
+            final int panelWidth) {
+        this.rows = playerController.getMaximumBlocksInRow();
+        this.columns = playerController.getMaximumBlocksInColumn();
+        topPanel = new PlayerPanel(playerController.getPlayerPosition(), imgLoad, playerController.getPlayerGender(),
+                rows, columns);
+        topPanel.setPlayerImage(
+                new ImageIcon(imgLoad.getPlayerImages(Direction.DOWN, playerController.getPlayerGender()).get(0)));
+        topPanel.setNpcs(playerController.getAllNpcs());
+        this.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseReleased(final MouseEvent e) {
+                topPanel.requestFocusInWindow();
+            }
 
-	    @Override
-	    public void mousePressed(MouseEvent e) {
+            @Override
+            public void mousePressed(final MouseEvent e) {
 
-	    }
+            }
 
-	    @Override
-	    public void mouseExited(MouseEvent e) {
-	    }
+            @Override
+            public void mouseExited(final MouseEvent e) {
+            }
 
-	    @Override
-	    public void mouseEntered(MouseEvent e) {
-	    }
+            @Override
+            public void mouseEntered(final MouseEvent e) {
+            }
 
-	    @Override
-	    public void mouseClicked(MouseEvent e) {
-		topPanel.requestFocusInWindow();
-	    }
-	});
-	bottomPanel = new JPanel();
-	bottomPanel.setOpaque(true);
-	bottomPanel.setLayout(new GridLayout(rows, columns));
-	int maxBlocks = rows * columns;
-	for (int i = 0; i < maxBlocks; i++) {
-	    JLabel l = new JLabel();
-	    mapBlocks.add(l);
-	    bottomPanel.add(l);
-	}
-	setMapImage(imgLoad.getMapByID(playerController.getCurrentMapID()));
+            @Override
+            public void mouseClicked(final MouseEvent e) {
+                topPanel.requestFocusInWindow();
+            }
+        });
+        bottomPanel = new JPanel();
+        bottomPanel.setOpaque(true);
+        bottomPanel.setLayout(new GridLayout(rows, columns));
+        final int maxBlocks = rows * columns;
+        for (int i = 0; i < maxBlocks; i++) {
+            final JLabel l = new JLabel();
+            mapBlocks.add(l);
+            bottomPanel.add(l);
+        }
 
-	this.setLayout(null);
-	this.setBounds(0, 0, panelWidth, panelHeight);
-	topPanel.setBounds(0, 0, panelWidth, panelHeight);
-	bottomPanel.setBounds(0, 0, panelWidth, panelHeight);
-	this.add(topPanel);
-	this.add(bottomPanel);
-	this.setFocusable(true);
+        this.setLayout(null);
+        this.setBounds(0, 0, panelWidth, panelHeight);
+        topPanel.setBounds(0, 0, panelWidth, panelHeight);
+        bottomPanel.setBounds(0, 0, panelWidth, panelHeight);
+        this.add(topPanel);
+        this.add(bottomPanel);
+        this.setFocusable(true);
     }
 
     /**
@@ -98,12 +96,15 @@ public class TwoLayersPanel extends JPanel {
      * @return the panel with no background.
      */
     public PlayerPanel getTopPanel() {
-	return this.topPanel;
+        return this.topPanel;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isOptimizedDrawingEnabled() {
-	return false;
+        return false;
     }
 
     /**
@@ -111,7 +112,7 @@ public class TwoLayersPanel extends JPanel {
      * @return the panel containing the map
      */
     public JPanel getBottomPanel() {
-	return this.bottomPanel;
+        return this.bottomPanel;
     }
 
     /**
@@ -119,10 +120,10 @@ public class TwoLayersPanel extends JPanel {
      * 
      * @param imageGrid list of textures
      */
-    public void setMapImage(List<BufferedImage> imageGrid) {
-	int size = rows * columns;
-	for (int i = 0; i < size; i++) {
-	    mapBlocks.get(i).setIcon(new ImageIcon(imageGrid.get(i)));
-	}
+    public void setMapImage(final List<BufferedImage> imageGrid) {
+        final int size = rows * columns;
+        for (int i = 0; i < size; i++) {
+            mapBlocks.get(i).setIcon(new ImageIcon(imageGrid.get(i)));
+        }
     }
 }

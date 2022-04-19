@@ -9,7 +9,7 @@ public class CaptureItem extends AbstractGameItem {
      * @param description
      */
     public CaptureItem(final String nameItem, final String description) {
-	super(nameItem, description, GameItemTypes.MONSTERBALL);
+        super(nameItem, description, GameItemTypes.MONSTERBALL);
     }
 
     /**
@@ -17,7 +17,7 @@ public class CaptureItem extends AbstractGameItem {
      */
     @Override
     public boolean use(final Monster m) {
-	return true;
+        return true;
     }
 
 }

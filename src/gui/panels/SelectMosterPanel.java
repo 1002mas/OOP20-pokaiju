@@ -20,6 +20,7 @@ public class SelectMosterPanel extends JPanel {
     private final JPanel parentPanel;
     private String itemName;
     private final JButton backButton = new JButton("BACK");
+    private static final int TEAM_SIZE = 6;
 
     /**
      * 
@@ -27,116 +28,132 @@ public class SelectMosterPanel extends JPanel {
      * @param parentPanel      the parentPanel
      */
     public SelectMosterPanel(final PlayerController playerController, final JPanel parentPanel) {
-	this.playerController = playerController;
-	this.parentPanel = parentPanel;
+        this.playerController = playerController;
+        this.parentPanel = parentPanel;
     }
 
     /**
-     * Initialize content area
+     * Initialize content area.
      * 
      */
     private void init() {
-	final CardLayout c1 = (CardLayout) this.parentPanel.getLayout();
-	this.setLayout(c1);
-	final JPanel containerPanel = new JPanel(new BorderLayout());
-	final List<Integer> monsterIds = this.playerController.getMonstersId();
+        final CardLayout c1 = (CardLayout) this.parentPanel.getLayout();
+        this.setLayout(c1);
+        final JPanel containerPanel = new JPanel(new BorderLayout());
+        final List<Integer> monsterIds = this.playerController.getMonstersId();
 
-	final JPanel allMonsterPanel = new JPanel(new GridLayout(0, 2));
-	for (final int monsterId : monsterIds) {
-	    final JLabel singleMonsterLabel = new JLabel();
-	    final String stats = "<html>" + "name : " + this.playerController.getMonsterNameById(monsterId) + "<br/>"
-		    + "Level : " + playerController.getMonsterLevel(monsterId) + "<br/>" + "Hp : "
-		    + playerController.getMonsterHealth(monsterId) + "/"
-		    + playerController.getMonsterMaxHealth(monsterId) + "</html>";
-	    singleMonsterLabel.setText(stats);
-	    setLabelProp(singleMonsterLabel);
+        final JPanel allMonsterPanel = new JPanel(new GridLayout(0, 2));
+        for (final int monsterId : monsterIds) {
+            final JLabel singleMonsterLabel = new JLabel();
+            singleMonsterLabel.setText(getInfoText(monsterId));
+            setLabelProp(singleMonsterLabel);
 
-	    final JButton checkButton = new JButton("USE ON THIS MONSTER");
-	    checkButton.addActionListener(e -> {
-		if (this.playerController.isItemPresent(itemName)) {
-		    if (this.playerController.getItemtype(itemName).equals(GameItemTypes.EVOLUTIONTOOL.toString())) {
-			if (this.playerController.canEvolveByItem(itemName, monsterId)) {
-			    this.playerController.evolveByItem(itemName, monsterId);
-			    this.playerController.useItemOnMonster(this.itemName, monsterId);
-			} else {
-			    JOptionPane.showMessageDialog(null, "Can't be evolved by this Item");
-			    backButton.doClick();
-			}
-		    } else {
-			this.playerController.useItemOnMonster(this.itemName, monsterId);
-		    }
-		} else {
-		    JOptionPane.showMessageDialog(null, "Item finished");
-		    backButton.doClick();
-		}
-		update();
-	    });
-	    allMonsterPanel.add(singleMonsterLabel);
-	    allMonsterPanel.add(checkButton);
-	}
+            allMonsterPanel.add(singleMonsterLabel);
+            allMonsterPanel.add(createButton(monsterId));
+        }
 
-	setPanelProp(allMonsterPanel, monsterIds.size());
+        setPanelProp(allMonsterPanel, monsterIds.size());
 
-	containerPanel.add(allMonsterPanel, BorderLayout.CENTER);
-	containerPanel.add(backButton, BorderLayout.SOUTH);
-	this.add(containerPanel);
+        containerPanel.add(allMonsterPanel, BorderLayout.CENTER);
+        containerPanel.add(backButton, BorderLayout.SOUTH);
+        this.add(containerPanel);
 
     }
 
     /**
-     * set Item to be used
+     * get info text.
      * 
-     * @param ItemName
+     * @return text of statistics of monster
+     */
+    private String getInfoText(final int monsterId) {
+        return "<html>" + "name : " + this.playerController.getMonsterNameById(monsterId) + "<br/>" + "Level : "
+                + playerController.getMonsterLevel(monsterId) + "<br/>" + "Hp : "
+                + playerController.getMonsterHealth(monsterId) + "/" + playerController.getMonsterMaxHealth(monsterId)
+                + "</html>";
+    }
+
+    /**
+     * set Item to be used.
+     * 
+     * @param itemName
      */
     public void setItemName(final String itemName) {
-	this.itemName = itemName;
+        this.itemName = itemName;
     }
 
     /**
-     * set Panel's properties
+     * set Panel's properties.
      * 
      * @param panel           JPanel
      * @param numberOfMonster Number of Monster present in player's team
      */
     private void setPanelProp(final JPanel panel, final int numberOfMonster) {
-	int cont = 6 - numberOfMonster;
-	while (cont > 0) {
-	    final JLabel label = new JLabel();
-	    final JButton button = new JButton();
-	    label.setVisible(false);
-	    button.setVisible(false);
-	    panel.add(label);
-	    panel.add(button);
-	    cont--;
-	}
+        int cont = TEAM_SIZE - numberOfMonster;
+        while (cont > 0) {
+            final JLabel label = new JLabel();
+            final JButton button = new JButton();
+            label.setVisible(false);
+            button.setVisible(false);
+            panel.add(label);
+            panel.add(button);
+            cont--;
+        }
     }
 
     /**
-     * update content area
+     * 
+     * @param monsterId
+     * @return button
+     */
+    private JButton createButton(final int monsterId) {
+        final JButton checkButton = new JButton("USE ON THIS MONSTER");
+        checkButton.addActionListener(e -> {
+            if (this.playerController.isItemPresent(itemName)) {
+                if (this.playerController.getItemtype(itemName).equals(GameItemTypes.EVOLUTIONTOOL.toString())) {
+                    if (this.playerController.canEvolveByItem(itemName, monsterId)) {
+                        this.playerController.evolveByItem(itemName, monsterId);
+                        this.playerController.useItemOnMonster(this.itemName, monsterId);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Can't be evolved by this Item");
+                        backButton.doClick();
+                    }
+                } else {
+                    this.playerController.useItemOnMonster(this.itemName, monsterId);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Item finished");
+                backButton.doClick();
+            }
+            update();
+        });
+        return checkButton;
+    }
+
+    /**
+     * update content area.
      */
     public void update() {
-	this.removeAll();
-	init();
-	this.validate();
+        this.removeAll();
+        init();
+        this.validate();
     }
 
     /**
-     * set JLabel's properties
+     * set JLabel's properties.
      * 
      * @param label JLabel
      */
     private void setLabelProp(final JLabel label) {
-	label.setBorder(BorderFactory.createLineBorder(Color.blue));
-	label.setHorizontalAlignment(SwingConstants.CENTER);
-	label.setVerticalAlignment(SwingConstants.CENTER);
+        label.setBorder(BorderFactory.createLineBorder(Color.blue));
+        label.setHorizontalAlignment(SwingConstants.CENTER);
+        label.setVerticalAlignment(SwingConstants.CENTER);
     }
 
     /**
-     * get JButton
      * 
-     * return backButton
+     * @return backButton
      */
     public JButton getBackButton() {
-	return backButton;
+        return backButton;
     }
 }

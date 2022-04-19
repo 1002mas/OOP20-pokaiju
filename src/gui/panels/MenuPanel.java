@@ -35,105 +35,115 @@ public class MenuPanel extends JPanel {
     private final JButton quit = new JButton(" QUIT MENU ");
     private final JButton backToMainMenu = new JButton(" BACK TO MAIN MENU ");
 
+    /**
+     * 
+     * @param playerController
+     * @param imgLoad
+     * @param size
+     * @param gui
+     */
     public MenuPanel(final PlayerController playerController, final ImagesLoader imgLoad, final int size,
-	    final GameFrameImpl gui) {
-	this.playerController = playerController;
-	this.imgLoad = imgLoad;
-	this.size = size;
-	this.gui = gui;
-	init();
+            final GameFrameImpl gui) {
+        this.playerController = playerController;
+        this.imgLoad = imgLoad;
+        this.size = size;
+        this.gui = gui;
+        init();
     }
 
+    /**
+     * initialize menu panel.
+     */
     private void init() {
-	final CardLayout cLayout = (CardLayout) this.gui.getContentPane().getLayout();
+        final CardLayout cLayout = (CardLayout) this.gui.getContentPane().getLayout();
 
-	this.setLayout(new BorderLayout());
+        this.setLayout(new BorderLayout());
 
-	final JPanel topPanel = new JPanel(new FlowLayout());
-	topPanel.setBorder(BorderFactory.createLineBorder(Color.blue));
+        final JPanel topPanel = new JPanel(new FlowLayout());
+        topPanel.setBorder(BorderFactory.createLineBorder(Color.blue));
 
-	topPanel.add(monster);
-	topPanel.add(box);
-	topPanel.add(gameItems);
-	topPanel.add(playerInfo);
-	topPanel.add(quit);
-	topPanel.add(backToMainMenu);
+        topPanel.add(monster);
+        topPanel.add(box);
+        topPanel.add(gameItems);
+        topPanel.add(playerInfo);
+        topPanel.add(quit);
+        topPanel.add(backToMainMenu);
 
-	final JPanel bottomPanel = new JPanel();
-	bottomPanel.setBorder(BorderFactory.createLineBorder(Color.red));
-	bottomPanel.setLayout(cLayout);
+        final JPanel bottomPanel = new JPanel();
+        bottomPanel.setBorder(BorderFactory.createLineBorder(Color.red));
+        bottomPanel.setLayout(cLayout);
 
-	final MonsterPanel monsterPanel = new MonsterPanel(this.playerController, this.imgLoad);
+        final MonsterPanel monsterPanel = new MonsterPanel(this.playerController, this.imgLoad);
 
-	final BoxPanel boxPanel = new BoxPanel(this.playerController);
+        final BoxPanel boxPanel = new BoxPanel(this.playerController);
 
-	final GameItemPanel gameItemPanel = new GameItemPanel(this.playerController, size);
+        final GameItemPanel gameItemPanel = new GameItemPanel(this.playerController, size);
 
-	final PlayerInfoPanel playerInfoPanel = new PlayerInfoPanel(this.playerController);
+        final PlayerInfoPanel playerInfoPanel = new PlayerInfoPanel(this.playerController, this.gui);
 
-	bottomPanel.add(monsterPanel);
-	bottomPanel.add(boxPanel);
-	bottomPanel.add(gameItemPanel);
-	bottomPanel.add(playerInfoPanel);
+        bottomPanel.add(monsterPanel);
+        bottomPanel.add(boxPanel);
+        bottomPanel.add(gameItemPanel);
+        bottomPanel.add(playerInfoPanel);
 
-	monster.addActionListener(e -> {
-	    monsterPanel.update();
-	    cLayout.show(bottomPanel, MONSTER_PANEL);
-	});
-	box.addActionListener(e -> cLayout.show(bottomPanel, BOX_PANEL));
-	gameItems.addActionListener(e -> {
-	    gameItemPanel.update();
-	    cLayout.show(bottomPanel, GAME_ITEM_PANEL);
-	});
-	playerInfo.addActionListener(e -> {
-	    playerInfoPanel.update();
-	    cLayout.show(bottomPanel, PLAYER_INFO_PANEL);
-	});
-	quit.addActionListener(e -> {
-	    monsterPanel.changePanel(Integer.toString(0));
-	    gameItemPanel.changePanel(GAME_ITEM_PANEL);
-	    gui.updateView(GameFrameImpl.MAP_VIEW);
-	});
+        monster.addActionListener(e -> {
+            monsterPanel.update();
+            cLayout.show(bottomPanel, MONSTER_PANEL);
+        });
+        box.addActionListener(e -> cLayout.show(bottomPanel, BOX_PANEL));
+        gameItems.addActionListener(e -> {
+            gameItemPanel.update();
+            cLayout.show(bottomPanel, GAME_ITEM_PANEL);
+        });
+        playerInfo.addActionListener(e -> {
+            playerInfoPanel.update();
+            cLayout.show(bottomPanel, PLAYER_INFO_PANEL);
+        });
+        quit.addActionListener(e -> {
+            monsterPanel.changePanel(Integer.toString(0));
+            gameItemPanel.changePanel(GAME_ITEM_PANEL);
+            gui.updateView(GameFrameImpl.MAP_VIEW);
+        });
 
-	backToMainMenu.addActionListener(new ActionListener() {
-	    public void actionPerformed(final ActionEvent e) {
-		final int result = JOptionPane.showConfirmDialog(null, "Sure? You want to exit?", "Warning",
-			JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-		if (result == JOptionPane.YES_OPTION) {
-		    gui.updateView(GameFrameImpl.LOGIN_VIEW);
-		}
-	    }
-	});
+        backToMainMenu.addActionListener(new ActionListener() {
+            public void actionPerformed(final ActionEvent e) {
+                final int result = JOptionPane.showConfirmDialog(null, "Sure? You want to exit?", "Warning",
+                        JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                if (result == JOptionPane.YES_OPTION) {
+                    gui.updateView(GameFrameImpl.LOGIN_VIEW);
+                }
+            }
+        });
 
-	bottomPanel.add(monsterPanel, MONSTER_PANEL);
-	bottomPanel.add(boxPanel, BOX_PANEL);
-	bottomPanel.add(gameItemPanel, GAME_ITEM_PANEL);
-	bottomPanel.add(playerInfoPanel, PLAYER_INFO_PANEL);
+        bottomPanel.add(monsterPanel, MONSTER_PANEL);
+        bottomPanel.add(boxPanel, BOX_PANEL);
+        bottomPanel.add(gameItemPanel, GAME_ITEM_PANEL);
+        bottomPanel.add(playerInfoPanel, PLAYER_INFO_PANEL);
 
-	this.addComponentListener(new ComponentListener() {
+        this.addComponentListener(new ComponentListener() {
 
-	    @Override
-	    public void componentShown(final ComponentEvent e) {
-		monsterPanel.update();
-		gameItemPanel.update();
-		playerInfoPanel.update();
-		boxPanel.update();
-	    }
+            @Override
+            public void componentShown(final ComponentEvent e) {
+                monsterPanel.update();
+                gameItemPanel.update();
+                playerInfoPanel.update();
+                boxPanel.update();
+            }
 
-	    @Override
-	    public void componentResized(final ComponentEvent e) {
-	    }
+            @Override
+            public void componentResized(final ComponentEvent e) {
+            }
 
-	    @Override
-	    public void componentMoved(final ComponentEvent e) {
-	    }
+            @Override
+            public void componentMoved(final ComponentEvent e) {
+            }
 
-	    @Override
-	    public void componentHidden(final ComponentEvent e) {
-	    }
-	});
-	this.add(topPanel, BorderLayout.NORTH);
-	this.add(bottomPanel, BorderLayout.CENTER);
+            @Override
+            public void componentHidden(final ComponentEvent e) {
+            }
+        });
+        this.add(topPanel, BorderLayout.NORTH);
+        this.add(bottomPanel, BorderLayout.CENTER);
 
     }
 }
