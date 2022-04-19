@@ -143,7 +143,7 @@ public class MonsterImpl implements Monster {
     }
 
     @Override
-    public boolean getWild() {
+    public boolean isWild() {
 	return this.isWild;
     }
 

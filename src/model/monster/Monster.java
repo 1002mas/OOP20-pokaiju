@@ -86,7 +86,7 @@ public interface Monster {
      * 
      * @return if the monster is wild
      */
-    boolean getWild();
+    boolean isWild();
 
     /**
      * This function returns if the monster is alive
