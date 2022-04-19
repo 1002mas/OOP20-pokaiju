@@ -55,25 +55,25 @@ public class TestBattle {
                 .movesList(firstMonsterSpeciesMoves).build();
 
         final Monster playerMonster1 = new MonsterBuilderImpl().health(fifty).attack(fifty).defense(fifty).speed(fifty)
-                .exp(zero).level(one).isWild(false).species(species).movesList(firstListOfMoves).build();
+                .exp(zero).level(one).wild(false).species(species).movesList(firstListOfMoves).build();
 
         species = new MonsterSpeciesBuilderImpl().name("greyfish").info("Info").monsterType(MonsterType.WATER)
                 .health(fifty).attack(10).defense(10).speed(10).movesList(firstMonsterSpeciesMoves).build();
 
         this.playerMonster2 = new MonsterBuilderImpl().health(fifty).attack(fifty).defense(fifty).speed(fifty).exp(zero)
-                .level(one).isWild(false).species(species).movesList(firstListOfMoves).build();
+                .level(one).wild(false).species(species).movesList(firstListOfMoves).build();
 
         species = new MonsterSpeciesBuilderImpl().name("kracez").info("Info").monsterType(MonsterType.FIRE)
                 .health(fifty).attack(10).defense(10).speed(10).movesList(secondMonsterSpeciesMoves).build();
 
         this.wildMonster = new MonsterBuilderImpl().health(fifty).attack(fifty).defense(fifty).speed(fifty).exp(zero)
-                .level(one).isWild(true).species(species).movesList(secondListOfMoves).build();
+                .level(one).wild(true).species(species).movesList(secondListOfMoves).build();
 
         species = new MonsterSpeciesBuilderImpl().name("pirin").info("Info").monsterType(MonsterType.GRASS)
                 .health(fifty).attack(10).defense(10).speed(10).movesList(secondMonsterSpeciesMoves).build();
 
         final Monster enemyTrainerMonster = new MonsterBuilderImpl().health(fifty).attack(fifty).defense(fifty)
-                .speed(fifty).exp(zero).level(one).isWild(true).species(species).movesList(secondListOfMoves).build();
+                .speed(fifty).exp(zero).level(one).wild(true).species(species).movesList(secondListOfMoves).build();
 
         this.player = new PlayerImpl("Paolo", Gender.MAN, 0, new Pair<>(0, 0), null);
         this.player.addMonster(playerMonster1);
