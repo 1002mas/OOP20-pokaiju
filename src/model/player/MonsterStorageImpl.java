@@ -21,7 +21,7 @@ public class MonsterStorageImpl implements MonsterStorage {
 		this.monsterBoxes = new ArrayList<>(boxes);
 		this.currentMonsterBoxIndex = 0;
 		if (monsterBoxes.size() > MAX_NUMBER_OF_BOX) {
-			this.monsterBoxes = monsterBoxes.subList(1, MAX_NUMBER_OF_BOX);
+			this.monsterBoxes = monsterBoxes.subList(0, MAX_NUMBER_OF_BOX);
 		} else {
 			generateBoxs(monsterBoxes.size());
 		}
@@ -72,9 +72,9 @@ public class MonsterStorageImpl implements MonsterStorage {
 	@Override
 	public boolean depositMonster(Monster monster) {
 		if (this.player.getAllMonsters().size() > 1) {
-			if (this.player.getAllMonsters().contains(monster) && getCurrentBox().addMonster(monster)) {
-				this.player.removeMonster(monster);
-				return true;
+			if (this.player.getAllMonsters().contains(monster) && getCurrentBox().addMonster(monster)) {				
+				 this.player.removeMonster(monster);	
+				 return true;
 			}
 		}
 		return false;
