@@ -22,15 +22,15 @@ public interface MonsterSpeciesBuilder {
      * @return a MonsterSpeciesBuilder
      */
     MonsterSpeciesBuilder info(String info);
-    
+
     /**
      * Build species type.
      * 
      * @param type
      * @return a MonsterSpeciesBuilder
      */
-    MonsterSpeciesBuilder monsterType(MonsterType type);    
-    
+    MonsterSpeciesBuilder monsterType(MonsterType type);
+
     /**
      * Build species evolution.
      * 
@@ -38,7 +38,7 @@ public interface MonsterSpeciesBuilder {
      * @return a MonsterSpeciesBuilder
      */
     MonsterSpeciesBuilder evolution(MonsterSpecies evolution);
-    
+
     /**
      * Build species evolutionLevel for evolving by level.
      * 
@@ -46,7 +46,7 @@ public interface MonsterSpeciesBuilder {
      * @return a MonsterSpeciesBuilder
      */
     MonsterSpeciesBuilder evolutionLevel(int level);
-    
+
     /**
      * Build species health.
      * 
@@ -54,7 +54,7 @@ public interface MonsterSpeciesBuilder {
      * @return a MonsterSpeciesBuilder
      */
     MonsterSpeciesBuilder health(int health);
-    
+
     /**
      * Build species attack.
      * 
@@ -78,7 +78,7 @@ public interface MonsterSpeciesBuilder {
      * @return a MonsterSpeciesBuilder
      */
     MonsterSpeciesBuilder speed(int speed);
-    
+
     /**
      * Build species item for evolving by level.
      * 
@@ -86,15 +86,15 @@ public interface MonsterSpeciesBuilder {
      * @return a MonsterSpeciesBuilder
      */
     MonsterSpeciesBuilder gameItem(GameItem gameItem);
-    
+
     /**
      * Build species moves.
      * 
-     * @param allMoves
-     * @return a  MonsterSpeciesBuilder
+     * @param movesList
+     * @return a MonsterSpeciesBuilder
      */
     MonsterSpeciesBuilder movesList(List<Moves> movesList);
-    
+
     /**
      * Build MonsterSpecies.
      * 
@@ -102,5 +102,5 @@ public interface MonsterSpeciesBuilder {
      * @return a MonsterSpecies builded
      */
     MonsterSpecies build();
-    
+
 }

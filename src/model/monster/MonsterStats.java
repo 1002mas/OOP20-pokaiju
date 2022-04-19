@@ -3,7 +3,7 @@ package model.monster;
 import java.util.Map;
 
 public interface MonsterStats {
-    
+
     /**
      * This function returns monster health.
      * 
@@ -28,7 +28,7 @@ public interface MonsterStats {
     /**
      * This function set monster attack.
      * 
-     * @param monster attack
+     * @param attack
      */
     void setAttack(int attack);
 
@@ -42,7 +42,7 @@ public interface MonsterStats {
     /**
      * This function set monster defense.
      * 
-     * @param monster defense
+     * @param defense
      */
     void setDefense(int defense);
 
@@ -56,7 +56,7 @@ public interface MonsterStats {
     /**
      * This function set monster speed.
      * 
-     * @param monster speed
+     * @param speed
      */
     void setSpeed(int speed);
 

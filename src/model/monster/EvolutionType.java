@@ -1,20 +1,20 @@
 package model.monster;
 
 /**
- * Type of evolution of the monster
+ * Type of evolution of the monster.
  */
 public enum EvolutionType {
-    
+
     /**
      * Can not evolve.
      */
-    NONE, 
-    
+    NONE,
+
     /**
      * Evolve by level.
      */
-    LEVEL, 
-    
+    LEVEL,
+
     /**
      * Evolve by item.
      */

@@ -18,85 +18,123 @@ public class MonsterSpeciesBuilderImpl implements MonsterSpeciesBuilder {
     private Optional<GameItem> gameItem = Optional.empty();
     private List<Moves> movesList = new ArrayList<>();;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public MonsterSpeciesBuilder name(String name) {
-	this.name = name;
-	return this;
+    public MonsterSpeciesBuilder name(final String name) {
+        this.name = name;
+        return this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public MonsterSpeciesBuilder info(String info) {
-	this.info = info;
-	return this;
+    public MonsterSpeciesBuilder info(final String info) {
+        this.info = info;
+        return this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public MonsterSpeciesBuilder monsterType(MonsterType type) {
-	this.type = type;
-	return this;
+    public MonsterSpeciesBuilder monsterType(final MonsterType type) {
+        this.type = type;
+        return this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public MonsterSpeciesBuilder evolution(MonsterSpecies evolution) {
-	this.evolution = evolution;
-	return this;
+    public MonsterSpeciesBuilder evolution(final MonsterSpecies evolution) {
+        this.evolution = evolution;
+        return this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public MonsterSpeciesBuilder evolutionLevel(int level) {
-	this.evolutionLevel = Optional.of(level);
-	return this;
+    public MonsterSpeciesBuilder evolutionLevel(final int level) {
+        this.evolutionLevel = Optional.of(level);
+        return this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public MonsterSpeciesBuilder health(int health) {
-	this.stats.setHealth(health);
-	return this;
+    public MonsterSpeciesBuilder health(final int health) {
+        this.stats.setHealth(health);
+        return this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public MonsterSpeciesBuilder attack(int attack) {
-	this.stats.setAttack(attack);
-	return this;
+    public MonsterSpeciesBuilder attack(final int attack) {
+        this.stats.setAttack(attack);
+        return this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public MonsterSpeciesBuilder defense(int defense) {
-	this.stats.setDefense(defense);
-	return this;
+    public MonsterSpeciesBuilder defense(final int defense) {
+        this.stats.setDefense(defense);
+        return this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public MonsterSpeciesBuilder speed(int speed) {
-	this.stats.setSpeed(speed);
-	return this;
+    public MonsterSpeciesBuilder speed(final int speed) {
+        this.stats.setSpeed(speed);
+        return this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public MonsterSpeciesBuilder gameItem(GameItem gameItem) {
-	this.gameItem = Optional.of(gameItem);
-	return this;
-    }
-    
-    @Override
-    public MonsterSpeciesBuilder movesList(List<Moves> movesList) {
-	this.movesList = movesList;
-	return this;
+    public MonsterSpeciesBuilder gameItem(final GameItem gameItem) {
+        this.gameItem = Optional.of(gameItem);
+        return this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public MonsterSpeciesBuilder movesList(final List<Moves> movesList) {
+        this.movesList = movesList;
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public MonsterSpecies build() {
-	if (name == null || this.info == null || this.type == null || (this.evolution != null && this.evolutionLevel.isEmpty() && this.gameItem.isEmpty()) || this.movesList.isEmpty()) {
-	    throw new IllegalStateException();
-	}
-	if (this.evolutionLevel.isPresent()) {
-	    return new MonsterSpeciesByLevel(this.name, this.info, this.type, this.stats, this.evolution,
-		    this.evolutionLevel.get(), this.movesList);
-	}
-	if (this.gameItem.isPresent()) {
-	    return new MonsterSpeciesByItem(name, info, type, stats, evolution, this.gameItem.get(), this.movesList);
-	}
-	return new MonsterSpeciesSimple(this.name, this.info, this.type, this.stats, this.movesList);
+        if (name == null || this.info == null || this.type == null
+                || this.evolution != null && this.evolutionLevel.isEmpty() && this.gameItem.isEmpty()
+                || this.movesList.isEmpty()) {
+            throw new IllegalStateException();
+        }
+        if (this.evolutionLevel.isPresent()) {
+            return new MonsterSpeciesByLevel(this.name, this.info, this.type, this.stats, this.evolution,
+                    this.evolutionLevel.get(), this.movesList);
+        }
+        if (this.gameItem.isPresent()) {
+            return new MonsterSpeciesByItem(name, info, type, stats, evolution, this.gameItem.get(), this.movesList);
+        }
+        return new MonsterSpeciesSimple(this.name, this.info, this.type, this.stats, this.movesList);
 
     }
 }
