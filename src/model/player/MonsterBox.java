@@ -12,7 +12,8 @@ public interface MonsterBox {
 	 * 
 	 * @return list of monsters
 	 */
-	public List<Monster> getAllMonsters();
+	
+	 List<Monster> getAllMonsters();
 
 	/**
 	 * This function tries to add a monster in box
@@ -20,7 +21,7 @@ public interface MonsterBox {
 	 * @param monster to add
 	 * @return true if monster was added, false otherwise
 	 */
-	public boolean addMonster(Monster monster);
+	 boolean addMonster(Monster monster);
 
 	/**
 	 * this function tries to exchange two monsters, one from the box to player team
@@ -31,7 +32,7 @@ public interface MonsterBox {
 	 * @return an optional of monster if exchange has been done, an empty optional
 	 *         otherwise
 	 */
-	public Optional<Monster> exchange(Monster toBox, int monsterID);
+	 Optional<Monster> exchange(Monster toBox, int monsterID);
 
 	/**
 	 * This function returns a monster if it is in the box
@@ -39,27 +40,27 @@ public interface MonsterBox {
 	 * @param monsterID
 	 * @return optional of a monster if it is in box, an empty optional otherwise
 	 */
-	public Optional<Monster> getMonster(int monsterID);
+	 Optional<Monster> getMonster(int monsterID);
 
 	/**
 	 * This function returns box name
 	 * 
 	 * @return box name
 	 */
-	public String getName();
+	 String getName();
 
 	/**
 	 * This function returns if the box is full
 	 * 
 	 * @return true if box is full, false otherwise
 	 */
-	public boolean isFull();
+	 boolean isFull();
 
 	/**
 	 * This function removes a monster in box if it is present
 	 * 
 	 * @param monsterID to remove
 	 */
-	public void removeMonster(int monsterID);
+	 void removeMonster(int monsterID);
 
 }

@@ -130,6 +130,8 @@ public class MonsterStorageTest {
 
 		// withDrawMonster
 		assertFalse(this.monsterStorage.withdrawMonster(this.monster2.getId()));
+		
+		
 
 	}
 

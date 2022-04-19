@@ -72,8 +72,8 @@ public class MonsterStorageImpl implements MonsterStorage {
 	@Override
 	public boolean depositMonster(Monster monster) {
 		if (this.player.getAllMonsters().size() > 1) {
-			if (this.player.removeMonster(monster)) {
-				getCurrentBox().addMonster(monster);
+			if (this.player.getAllMonsters().contains(monster) && getCurrentBox().addMonster(monster)) {
+				this.player.removeMonster(monster);
 				return true;
 			}
 		}

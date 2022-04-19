@@ -52,7 +52,6 @@ public class DataControllerImpl implements DataLoaderController {
     private List<MonsterSpecies> monsterSpecies = new ArrayList<>();
     private List<Monster> monster = new ArrayList<>();
     private List<NpcSimple> npcs = new ArrayList<>();
-    private List<GameEvent> events = new ArrayList<>();
     private Player player;
     private List<GameMapData> gameMapData = new ArrayList<>();
 
@@ -166,7 +165,6 @@ public class DataControllerImpl implements DataLoaderController {
 	developerTextTest();
 	this.player.setMoney(60000);
 	this.player.addMonster(this.monster.get(this.monster.size() - 1));
-	/* TODO some events to show off */
     }
 
     private void createMonsters() {
@@ -176,7 +174,6 @@ public class DataControllerImpl implements DataLoaderController {
 		.movesList(getMovesByTypeWithPP(MonsterType.WATER)).build();
 	Monster bibol = new MonsterBuilderImpl().species(getSpeciesByName("bibol")).level(10)
 		.movesList(getMovesByTypeWithPP(MonsterType.FIRE)).build();
-	// bibol.setHealth(150);
 	Monster puppin = new MonsterBuilderImpl().species(getSpeciesByName("puppin")).level(10)
 		.movesList(getMovesByTypeWithPP(MonsterType.FIRE)).build();
 	Monster ponix = new MonsterBuilderImpl().species(getSpeciesByName("ponix")).level(50)
@@ -318,8 +315,6 @@ public class DataControllerImpl implements DataLoaderController {
 	return map;
     }
 
-   
-
     @Override
     public Player getPlayer() {
 	return this.player;
@@ -334,27 +329,6 @@ public class DataControllerImpl implements DataLoaderController {
     public int getMaximumBlockInRow() {
 	return MAXIMUM_BLOCK_IN_ROW;
     }
-    /*
-    @Override
-    public Moves getMove(String name) {
-	return this.moves.stream().filter(e -> e.getName().equals(name)).findFirst().get();
-    }
-
-    @Override
-    public Monster getMonster(int id) {
-	return this.monster.stream().filter(e -> e.getId() == id).findFirst().get();
-    }
-
-    @Override
-    public NpcSimple getNpc(String name) {
-	return this.npcs.stream().filter(e -> e.getName().equals(name)).findFirst().get();
-    }
-
-    @Override
-    public GameItem getItem(String name) {
-	return this.gameItems.stream().filter(e -> e.getNameItem().equals(name)).findFirst().get();
-    }
-    */
    
 
     @Override

@@ -133,25 +133,25 @@ public interface PlayerController {
 	/**
 	 * This function asks model to use an item
 	 * 
-	 * @param item
+	 * @param itemName
 	 */
 
-	void useItem(String item);
+	void useItem(String itemName);
 
 	/**
 	 * This function asks model to use an item on a monster
 	 * 
-	 * @param i
+	 * @param itemName
 	 * @param monsterId
 	 */
-	void useItemOnMonster(String i, int monsterId);
+	void useItemOnMonster(String itemName, int monsterId);
 
 	/**
 	 * This function asks model to remove an item from player's bag
 	 * 
-	 * @param i
+	 * @param itemName
 	 */
-	void removeItem(String i);
+	void removeItem(String itemName);
 
 	/**
 	 * This function adds a monster to player team
@@ -165,11 +165,11 @@ public interface PlayerController {
 	/**
 	 * This function creates a new player
 	 * 
-	 * @param name
+	 * @param itemName
 	 * @param gender
 	 * @param trainerNumber
 	 */
-	void createNewPlayer(String name, String gender, int trainerNumber);
+	void createNewPlayer(String itemName, String gender, int trainerNumber);
 
 	/**
 	 * This function get player name
@@ -372,41 +372,41 @@ public interface PlayerController {
 	/**
 	 * This function returns quantity of a player's item
 	 * 
-	 * @param item
+	 * @param itemName
 	 * @return item quantity
 	 */
-	int getItemQuantity(String item);
+	int getItemQuantity(String itemName);
 
 	/**
 	 * This function returns an item description
 	 * 
-	 * @param item
+	 * @param itemName
 	 * @return item quantity
 	 */
-	String getItemDescription(String item);
+	String getItemDescription(String itemName);
 
 	/**
 	 * This function returns a type of an item
 	 * 
-	 * @param item
+	 * @param itemName
 	 * @return type of item
 	 */
-	String getItemtype(String item);
+	String getItemtype(String itemName);
 
 	/**
 	 * This function adds an item to player's bag
 	 * 
-	 * @param item
+	 * @param itemName
 	 */
-	void addItem(String item);
+	void addItem(String itemName);
 
 	/**
 	 * This function asks model to use an item
 	 * 
-	 * @param item
+	 * @param itemName
 	 * @return true if item is used, false otherwise
 	 */
-	boolean canUseItem(String item);
+	boolean canUseItem(String itemName);
 
 	/**
 	 * This function returns max number of rows in a block
@@ -425,21 +425,21 @@ public interface PlayerController {
 	/**
 	 * This function tries to evolve a monster using an item
 	 * 
-	 * @param nameItem
+	 * @param itemName
 	 * @param monsterId
 	 * @return true if monster can evolve, false otherwise
 	 */
-	boolean canEvolveByItem(String nameItem, int monsterId);
+	boolean canEvolveByItem(String itemName, int monsterId);
 
 	/**
 	 * Evolve a monster by item
 	 * 
-	 * @param nameItem
+	 * @param itemName
 	 * @param monsterId
 	 * @return current name and evolution name
 	 * @author Luca Barattini
 	 */
-	Optional<Pair<String, String>> evolveByItem(String nameItem, int monsterId);
+	Optional<Pair<String, String>> evolveByItem(String itemName, int monsterId);
 
 	/**
 	 * This function returns PPs of a move
@@ -453,10 +453,10 @@ public interface PlayerController {
 	/**
 	 * This function returns if an item is present
 	 * 
-	 * @param name
+	 * @param itemName
 	 * @return true if item id is present, false otherwise
 	 */
-	boolean isItemPresent(String name);
+	boolean isItemPresent(String itemName);
 
 	/**
 	 * This function returns an optional of last npc name that player interacted

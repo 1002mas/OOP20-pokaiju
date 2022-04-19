@@ -17,13 +17,13 @@ public interface NpcTrainer extends NpcSimple {
 	 * 
 	 * @return true if is defeated, false otherwise
 	 */
-	public boolean isDefeated();
+	 boolean isDefeated();
 
 	/**
 	 * this function set if trainer is defeated
 	 * 
 	 * @param isDefeated
 	 */
-	public void setDefeated(boolean isDefeated);
+	 void setDefeated(boolean isDefeated);
 
 }
