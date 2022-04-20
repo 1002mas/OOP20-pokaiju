@@ -1,0 +1,131 @@
+\chapter{Sviluppo}
+\section{Testing automatizzato}
+
+Sfruttando JUnit sono stati realizzati i seguenti test:
+\begin{itemize}
+    \item TestMonster: testing della creazione di un mostro, il leveling e l'evoluzione
+    \item TestBattle: testing dello svolgimento di una battaglia contro un mostro selvaggio o un NPC avversario e i veri esiti della battaglia (vittoria, cattura, fuga)
+    \item GameEventsTest: testing eventi della battaglia con un mostro unico (esempio: mostro leggendario), eventi che cambiano lo stato di un npc, scelta dello starter (ovvero si sceglie un mostro fra i tre possibili Pokaiju e quelli non selezionati spariscono, mentre quello selezionato viene aggiunto al giocatore come primo Pokaiju)  
+    \item MonsterStorageTest: testing della creazione di un monster storage, dei relativi box, navigazioni fra box e funzioni di aggiunta, scambio e deposito mostro
+    \item NpcTest: testing della creazione di npc, l'interazione con il player, il corretto funzionamento di npcTrainer dopo una battaglia, la cura dei mostri per NpcHealer ed acquisti di item per npcMerchant 
+     \item PlayerTest: testing della creazione del player, il corretto funzionamento  dell'aggiunta ed uso di GameItem, il movimento nella mappa e la lista di Monster del giocatore.
+\end{itemize}
+
+\section{Metodologia di lavoro}
+
+Per l'esecuzione di questo progetto è stato creato un repository su github con il branch master (principale) ed un branch per ogni componente del gruppo in cui poter lavorare in totale autonomia; per condividere le proprie modifiche si procedeva ad un merge dal proprio branch verso master e per ottenerle invece ad un pull dal repository remoto.
+\newline
+La suddivisione dei lavori è stata gestita nel seguente modo:
+
+\subsection*{Luca Barattini}
+\begin{itemize}
+    \item Creazione di interfaccia Monster ed implementazione.
+    \item Creazione di builder per Monster e MonsterSpecies, più le relative implementazioni.
+    \item Creazione di MonsterSpeciesSimple, ByLevel e ByItem.
+    \item Creazione dell'interfaccia MonsterStats ed implementazione.
+    \item Creazione di enum EvolutionType.
+    \item Creazione dell'interfaccia per BattleController e relativa implementazione.
+    \item Creazione di alcune funzioni dentro a PlayerController.
+    \item Creazione di test JUnit TestMonster per controllo di funzionamento del Monster e le evoluzioni.
+\end{itemize}
+
+%------------------------------------------------------------%
+
+\subsection*{Samuele Carafassi}
+\begin{itemize}
+    \item Strutturazione mappa ed eventi di gioco a livello di model.
+    \item Gestione a livello di view il movimento del personaggio e l'interazione con gli NPC.
+    \item Gestione della view del mercante.
+    \item Implementazione di qualche funzione nel PlayerController.
+    \item Implementazione di qualche funzione in DataController e definito ordine di caricamento.
+    \item Creazione di ImagesLoader per la bufferizzazione delle immagini.
+    \item Creazione test JUnit per gli eventi di gioco.
+    \item Creazione della possibilità di attivare un evento tramite un NPC (In NpcSimpleImpl aggiunti visibilità e possibilità di non interazione).
+\end{itemize}
+%------------------------------------------------------------%
+
+\subsection*{Andrea Castorina}
+\begin{itemize}
+    \item Creazione dell'interfaccia NPC e implementazione.
+    \item Creazione dell'interfaccia dei tipi di NPC e implementazione.
+    \item Creazione dell'interfaccia MonsterBox e dell'implementazione.
+    \item Creazione dell'interfaccia MonsterStorage e dell'implementazione.
+    \item Creazione dell'interfaccia di PlayerController e implementazione di alcune funzioni.
+    \item Creazione test Junit per gli NPC.
+    \item Creazione test JUnit per monsterStorage e monsterBox.
+\end{itemize}
+
+%------------------------------------------------------------%
+
+\subsection*{Jia Hao Guo}
+\begin{itemize}
+    \item Creazione dell'interfaccia Player e della sua implementazione a livello di model.
+    \item Creazione di interfaccia GameItem ed implementazione
+    \item Creazione di enum GameItemTypes.
+    \item Gestione view del menu di gioco.
+    \item Realizzazione ed istanziazione dei dati in DataController.
+    \item Gestione in parte del GameFrame.
+    \item Creazione view di Login e di New Game.
+    \item Creazione test JUnit per il Player.
+\end{itemize}
+
+%------------------------------------------------------------%
+
+\subsection*{Michael Pierantoni}
+\begin{itemize}
+    \item Creazione di interfaccia MonsterBattle ed implementazione.
+    \item Creazione di interfaccia Moves ed implementazione.
+    \item Creazione test JUnit per la battaglia.
+    \item Creazione enum MonsterType.
+    \item Gestione lettura da file delle weakness.
+    \item Creazione view della battaglia.
+    \item implementazione funzione getMonster in ImageLoadersImpl.
+\end{itemize}
+
+\section{Note di sviluppo}
+
+\subsection*{Luca Barattini}
+\begin{itemize}
+    \item Utilizzo di Optional, ad esempio per MonsterSpecies in cui la funzione per ottenere l'evoluzione del mostro aveva come tipo di ritorno un Optional$<$MonsterSpecies$>$ poiché poteva anche non essere presente.
+    \item Utilizzo in BattleControllerImpl di Stream e Lambda Expressions per operazioni su liste, come per esempio delle filter. 
+\end{itemize}
+
+%------------------------------------------------------------%
+
+\subsection*{Samuele Carafassi}
+\begin{itemize}
+    \item Utilizzo di lambda expression in AbstractGameEvent (funzione \textbf{void activate()})
+    \item Utilizzo di Stream in DataControllerImpl (funzione \textbf{List$<$Move$>$ getMovesByType(MonsterType type)})
+    \item Utilizzo di Optional nelle mappe
+\end{itemize}
+\paragraph{}
+In ImagesLoaderImpl la funzione per il ridimensionamento dell'immagine (private resizeImage(BufferedImage, int, int)) è stata presa da StackOverflow. 
+%------------------------------------------------------------%
+
+\subsection*{Andrea Castorina}
+\begin{itemize}
+    \item Utilizzo di Optional per la gestione dei mostri nello storage.
+\end{itemize}
+
+%------------------------------------------------------------%
+
+\subsection*{Jia Hao Guo}
+\begin{itemize}
+     \item Utilizzo di Lambda Expression, soprattutto per ActionListener dei pulsanti
+     \item Utilizzo di Optional
+      \item Utilizzo di Stream in DataController
+\end{itemize}
+\paragraph{}
+In BoxPanel la funzione per attivare e disattivare tutti componenti contenuti 
+nel pannello è stata presa da StackOverflow. 
+\newline
+In GameFrameImpl l'impostazione del font è stato realizzato mediante UIManager preso da StackOverflow
+
+%------------------------------------------------------------%
+
+\subsection*{Michael Pierantoni}
+\begin{itemize}
+    \item Utilizzo di Lambda Expression e di Stream in MonsterBattleImpl per scorrere e filtrare delle liste
+    \item Utilizzo di lambda expression livello di view  per l'ActionListener dei pulsanti non statici
+\end{itemize}
+
