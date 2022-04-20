@@ -133,38 +133,72 @@ public class PlayerImpl implements Player {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public Gender getGender() {
         return gender;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void setGender(final Gender gender) {
         this.gender = gender;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public int getTrainerNumber() {
         return trainerNumber;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void setTrainerNumber(final int trainerNumber) {
         this.trainerNumber = trainerNumber;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public List<Monster> getMonster() {
         return team;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void setMonster(final List<Monster> monster) {
         this.team = monster;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public List<GameItem> getItems() {
         return new ArrayList<>(this.gameItems.keySet());
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void setName(final String name) {
         this.name = name;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void setPosition(final Pair<Integer, Integer> position) {
         this.position = position;
     }
@@ -184,14 +218,26 @@ public class PlayerImpl implements Player {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public int getMoney() {
         return money;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void setMoney(final int money) {
         this.money = money < 0 ? 0 : money;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public String getName() {
         return name;
     }
@@ -386,19 +432,35 @@ public class PlayerImpl implements Player {
     public boolean moveRight() {
         return move(STEP, 0);
     }
-    
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public GameMap getMap() {
         return map;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void setStorage(final MonsterStorage storage) {
         this.storage = storage;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public MonsterStorage getStorage() {
         return storage;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public boolean isTriggeredEvent() {
         return triggeredEvent;
     }

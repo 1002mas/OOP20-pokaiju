@@ -243,4 +243,46 @@ public interface Player {
      */
     boolean isTriggeredEvent();
 
+    /**
+     * This function sets player's gender.
+     * 
+     * @param gender
+     */
+    void setGender(Gender gender);
+
+    /**
+     * This function sets player's trainerNumber.
+     * 
+     * @param trainerNumber
+     */
+    void setTrainerNumber(int trainerNumber);
+
+    /**
+     * This function gets a list of Monsters.
+     * 
+     * @return list of Monster
+     */
+    List<Monster> getMonster();
+
+    /**
+     * This function sets a list of Monsters.
+     * 
+     * @param monster List of monster to set
+     */
+    void setMonster(List<Monster> monster);
+
+    /**
+     * This function sets a list of GameItems.
+     * 
+     * @return list of GameItems
+     */
+    List<GameItem> getItems();
+
+    /**
+     * This function sets Player's name.
+     * 
+     * @param name
+     */
+    void setName(String name);
+
 }
