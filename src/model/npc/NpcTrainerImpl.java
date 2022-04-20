@@ -18,16 +18,25 @@ public class NpcTrainerImpl extends NpcSimpleImpl implements NpcTrainer {
         this.isDefeated = isDefeated;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<Monster> getMonstersOwned() {
         return this.monstersOwned;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isDefeated() {
         return this.isDefeated;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setDefeated(final boolean isDefeated) {
         this.isDefeated = isDefeated;
@@ -39,6 +48,9 @@ public class NpcTrainerImpl extends NpcSimpleImpl implements NpcTrainer {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         return "NpcTrainerImpl [monstersOwned=" + monstersOwned + ", isDefeated=" + isDefeated + "]";

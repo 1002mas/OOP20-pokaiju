@@ -41,11 +41,17 @@ public class NpcSimpleImpl implements NpcSimple {
         this(name, TypeOfNpc.SIMPLE, sentences, position, isVisible, isEnabled);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getName() {
         return this.name;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Optional<String> interactWith() {
         if (isEnabled) {
@@ -62,11 +68,17 @@ public class NpcSimpleImpl implements NpcSimple {
         return Optional.empty();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Optional<GameEvent> getTriggeredEvent() {
         return this.triggeredEvent;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setDialogueText(final int textID) {
         if (textID >= 0 && textID < this.sentences.size()) {
@@ -74,61 +86,97 @@ public class NpcSimpleImpl implements NpcSimple {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public TypeOfNpc getTypeOfNpc() {
         return this.typeOfNpc;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Pair<Integer, Integer> getPosition() {
         return this.position;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void changeNpcPosition(final Pair<Integer, Integer> newPosition) {
         this.position = newPosition;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isVisible() {
         return this.isVisible;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setVisible(final boolean visible) {
         this.isVisible = visible;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isEnabled() {
         return this.isEnabled;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setEnabled(final boolean enabled) {
         this.isEnabled = enabled;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void addGameEvent(final GameEvent gameEvent) {
         this.events.add(gameEvent);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<GameEvent> getGameEvents() {
         return Collections.unmodifiableList(new ArrayList<>(this.events));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getCurrentSetence() {
         return this.currentSentence;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         return Objects.hash(name);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(final Object obj) {
         if (this == obj) {
@@ -146,6 +194,9 @@ public class NpcSimpleImpl implements NpcSimple {
         return Objects.equals(name, other.name);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         return "NpcSimpleImpl [name=" + name + ", typeOfNpc=" + typeOfNpc + ", sentences=" + sentences

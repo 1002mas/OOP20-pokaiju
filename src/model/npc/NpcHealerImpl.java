@@ -25,6 +25,9 @@ public class NpcHealerImpl extends NpcSimpleImpl {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Optional<String> interactWith() {
         final Optional<String> result = super.interactWith();

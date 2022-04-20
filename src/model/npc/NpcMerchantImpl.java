@@ -16,11 +16,17 @@ public class NpcMerchantImpl extends NpcSimpleImpl implements NpcMerchant {
         this.inventory = inventory;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Map<GameItem, Integer> getInventory() {
         return this.inventory;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getPrice(final GameItem item) {
         if (this.inventory.containsKey(item)) {
@@ -29,6 +35,9 @@ public class NpcMerchantImpl extends NpcSimpleImpl implements NpcMerchant {
         return 0;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getTotalPrice(final List<Pair<GameItem, Integer>> list) {
         int sum = 0;
@@ -47,6 +56,9 @@ public class NpcMerchantImpl extends NpcSimpleImpl implements NpcMerchant {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean buyItem(final List<Pair<GameItem, Integer>> itemList, final Player player) {
         if ((player.getMoney() - getTotalPrice(itemList)) >= 0) {
@@ -57,6 +69,9 @@ public class NpcMerchantImpl extends NpcSimpleImpl implements NpcMerchant {
         return false;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         return "NpcMerchantImpl [inventory=" + inventory + "]";

@@ -57,6 +57,9 @@ public class MonsterStorageImpl implements MonsterStorage {
         return null;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean addMonster(final Monster monster) {
         if (this.getCurrentBox().addMonster(monster)) {
@@ -70,6 +73,9 @@ public class MonsterStorageImpl implements MonsterStorage {
         return false;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean depositMonster(final Monster monster) {
         if (this.player.getAllMonsters().size() > 1 && this.player.getAllMonsters().contains(monster)
@@ -82,6 +88,9 @@ public class MonsterStorageImpl implements MonsterStorage {
         return false;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean withdrawMonster(final int monsterID) {
         if (isInBox(monsterID) && !this.player.isTeamFull()) {
@@ -107,6 +116,9 @@ public class MonsterStorageImpl implements MonsterStorage {
         return this.monsterBoxes.get(currentMonsterBoxIndex);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean exchange(final Monster monster, final int monsterID) {
         if (isInBox(monsterID)) {
@@ -121,43 +133,67 @@ public class MonsterStorageImpl implements MonsterStorage {
         return false;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void nextBox() {
         calculateNewIndex(1);
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void previousBox() {
         calculateNewIndex(-1);
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getCurrentBoxName() {
         return getCurrentBox().getName();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<Monster> getCurrentBoxMonsters() {
         return getCurrentBox().getAllMonsters();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getMaxSizeOfBox() {
         return MAX_SIZE_OF_BOX;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getMaxNumberOfBox() {
         return MAX_NUMBER_OF_BOX;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getCurrentBoxSize() {
         return this.getCurrentBoxMonsters().size();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         return "MonsterStorageImpl [monsterBoxes=" + monsterBoxes + ", currentMonsterBoxIndex=" + currentMonsterBoxIndex
