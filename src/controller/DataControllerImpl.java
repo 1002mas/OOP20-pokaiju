@@ -74,12 +74,14 @@ public class DataControllerImpl implements DataController {
         final GameItem ultraHealingPotion = new HealingItem("Ultra healing potion",
                 "This item heal a monster for 400 HP");
         final GameItem kracStone = new EvolutionItem("KracezStone", "This item evolves krados");
+        final GameItem yepicStone = new EvolutionItem("YepicStone", "This item evolves yepicon");
 
         this.gameItems.add(monsterBall);
         this.gameItems.add(healingPotion);
         this.gameItems.add(superHealingPotion);
         this.gameItems.add(ultraHealingPotion);
         this.gameItems.add(kracStone);
+        this.gameItems.add(yepicStone);
     }
 
     private void createMoves() {
@@ -103,27 +105,36 @@ public class DataControllerImpl implements DataController {
 
     private void createMonsterSpecies() {
         final int monsterStats = 50;
+        final int evolutionLevel = 10;
 
-        final MonsterSpecies species1 = new MonsterSpeciesBuilderImpl().name("bibol").info("His name is bibol")
+        final MonsterSpecies bibol = new MonsterSpeciesBuilderImpl().name("bibol").info("His name is bibol")
                 .monsterType(MonsterType.FIRE).health(monsterStats).attack(monsterStats).defense(monsterStats)
                 .speed(monsterStats).movesList(getMovesByType(MonsterType.FIRE)).build();
-        final MonsterSpecies species2 = new MonsterSpeciesBuilderImpl().name("greyfish").info("is a fish")
+        final MonsterSpecies greygon = new MonsterSpeciesBuilderImpl().name("greygon").info("is a fish")
                 .monsterType(MonsterType.WATER).health(monsterStats).attack(monsterStats).defense(monsterStats)
                 .speed(monsterStats).movesList(getMovesByType(MonsterType.WATER)).build();
-        final MonsterSpecies species6 = new MonsterSpeciesBuilderImpl().name("kratres").info("cute thing3")
+        final MonsterSpecies greyfish = new MonsterSpeciesBuilderImpl().name("greyfish").info("is a fish")
+                .monsterType(MonsterType.WATER).health(monsterStats).attack(monsterStats).defense(monsterStats)
+                .speed(monsterStats).movesList(getMovesByType(MonsterType.WATER)).evolution(greygon)
+                .evolutionLevel(evolutionLevel).build();
+        final MonsterSpecies kratres = new MonsterSpeciesBuilderImpl().name("kratres").info("cute thing3")
                 .monsterType(MonsterType.GRASS).health(monsterStats).attack(monsterStats).defense(monsterStats)
                 .speed(monsterStats).movesList(getMovesByType(MonsterType.GRASS)).build();
-        final MonsterSpecies species4 = new MonsterSpeciesBuilderImpl().name("krados").info("cute thing 2")
+        final MonsterSpecies krados = new MonsterSpeciesBuilderImpl().name("krados").info("cute thing 2")
                 .monsterType(MonsterType.GRASS).health(monsterStats).attack(monsterStats).defense(monsterStats)
-                .speed(monsterStats).movesList(getMovesByType(MonsterType.GRASS)).evolution(species6)
-                .gameItem(gameItems.get(4)).build();
-        final MonsterSpecies species3 = new MonsterSpeciesBuilderImpl().name("kracez").info("cute thing")
+                .speed(monsterStats).movesList(getMovesByType(MonsterType.GRASS)).evolution(kratres)
+                .gameItem(getItemByName("KracezStone")).build();
+        final MonsterSpecies kracez = new MonsterSpeciesBuilderImpl().name("kracez").info("cute thing")
                 .monsterType(MonsterType.GRASS).health(monsterStats).attack(monsterStats).defense(monsterStats)
-                .speed(monsterStats).movesList(getMovesByType(MonsterType.GRASS)).evolution(species4).evolutionLevel(10)
-                .build();
-        final MonsterSpecies species5 = new MonsterSpeciesBuilderImpl().name("yepicon").info("cute thing")
+                .speed(monsterStats).movesList(getMovesByType(MonsterType.GRASS)).evolution(krados)
+                .evolutionLevel(evolutionLevel).build();
+        final MonsterSpecies yepinder = new MonsterSpeciesBuilderImpl().name("yepinder").info("cute thing")
                 .monsterType(MonsterType.GRASS).health(monsterStats).attack(monsterStats).defense(monsterStats)
                 .speed(monsterStats).movesList(getMovesByType(MonsterType.GRASS)).build();
+        final MonsterSpecies yepicon = new MonsterSpeciesBuilderImpl().name("yepicon").info("cute thing")
+                .monsterType(MonsterType.GRASS).health(monsterStats).attack(monsterStats).defense(monsterStats)
+                .speed(monsterStats).movesList(getMovesByType(MonsterType.GRASS)).evolution(yepinder)
+                .gameItem(getItemByName("YepicStone")).build();
         final MonsterSpecies puppin = new MonsterSpeciesBuilderImpl().name("puppin").info("This is puppin")
                 .monsterType(MonsterType.FIRE).health(monsterStats).attack(monsterStats).defense(monsterStats)
                 .speed(monsterStats).movesList(getMovesByType(MonsterType.FIRE)).build();
@@ -131,10 +142,10 @@ public class DataControllerImpl implements DataController {
                 .monsterType(MonsterType.FIRE).health(monsterStats).attack(monsterStats).defense(monsterStats)
                 .speed(monsterStats).movesList(getMovesByType(MonsterType.GRASS)).build();
 
-        monsterSpecies.add(species1);
-        monsterSpecies.add(species2);
-        monsterSpecies.add(species3);
-        monsterSpecies.add(species5);
+        monsterSpecies.add(bibol);
+        monsterSpecies.add(greyfish);
+        monsterSpecies.add(kracez);
+        monsterSpecies.add(yepicon);
         monsterSpecies.add(puppin);
         monsterSpecies.add(ponix);
 
@@ -390,12 +401,11 @@ public class DataControllerImpl implements DataController {
         return MAXIMUM_BLOCK_IN_ROW;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public MonsterSpecies getSpeciesByName(final String name) {
+    private MonsterSpecies getSpeciesByName(final String name) {
         return this.monsterSpecies.stream().filter(i -> i.getName().equals(name)).findAny().get();
     }
 
+    private GameItem getItemByName(final String item) {
+        return this.gameItems.stream().filter(i -> i.getNameItem().equals(item)).findAny().get();
+    }
 }

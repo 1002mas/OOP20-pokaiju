@@ -20,7 +20,7 @@ public class MonsterBuilderImpl implements MonsterBuilder {
     private boolean isWild;
     private int level = MIN_LEVEL;
     private MonsterSpecies species;
-    private MonsterStats stats = new MonsterStatsImpl(-1, -1, -1, -1);
+    private final MonsterStats stats = new MonsterStatsImpl(-1, -1, -1, -1);
 
     static {
         final InputStream fileStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(LASTIDPATH);
