@@ -216,9 +216,6 @@ public class GameFrameImpl extends JFrame implements GameFrame {
             topPanel.showText(npcName + ": " + text.get());
 
         }
-        if (playerController.hasPlayerTriggeredEvent()) {
-            topPanel.setNpcs(this.playerController.getAllNpcs());
-        }
         return text.isEmpty();
     }
 
@@ -232,6 +229,9 @@ public class GameFrameImpl extends JFrame implements GameFrame {
         final PlayerPanel topPanel = p.getTopPanel();
         topPanel.hideText();
         changeToBattle();
+        if (playerController.hasPlayerTriggeredEvent()) {
+            topPanel.setNpcs(this.playerController.getAllNpcs());
+        }
         if (this.playerController.hasMerchantInteractionOccurred()) {
             updateView(MERCHANT_VIEW);
         }
