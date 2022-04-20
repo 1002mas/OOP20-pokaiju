@@ -50,13 +50,13 @@ public class DataControllerImpl implements DataController {
     private static final Pair<Integer, Integer> INITIAL_PLAYER_POSITION = new Pair<>(13, 13);
     private final List<Pair<Integer, Integer>> map1angles = List.of(new Pair<>(1, 2), new Pair<>(18, 2),
             new Pair<>(18, 17), new Pair<>(1, 17));
-    private List<Moves> moves = new ArrayList<>();
-    private List<GameItem> gameItems = new ArrayList<>();
-    private List<MonsterSpecies> monsterSpecies = new ArrayList<>();
+    private final List<Moves> moves = new ArrayList<>();
+    private final List<GameItem> gameItems = new ArrayList<>();
+    private final List<MonsterSpecies> monsterSpecies = new ArrayList<>();
+    private final List<GameMapData> gameMapData = new ArrayList<>();
     private List<Monster> monster = new ArrayList<>();
     private List<NpcSimple> npcs = new ArrayList<>();
     private Player player;
-    private List<GameMapData> gameMapData = new ArrayList<>();
 
     public DataControllerImpl() {
         createItems();

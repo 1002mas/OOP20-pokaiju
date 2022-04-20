@@ -1,19 +1,26 @@
 package model.player;
+
 /**
- * Gender of Player
+ * Gender of Player.
  * 
- * @author Guo jiahao
  */
 public enum Gender {
-    MAN("male"), WOMAN("female");
+    /**
+     * male gender.
+     */
+    MAN("male"),
+    /**
+     * female gender.
+     */
+    WOMAN("female");
 
-    final String name;
+    private final String name;
 
-    private Gender(final String name) {
-	this.name = name;
+    Gender(final String name) {
+        this.name = name;
     }
 
     public String toString() {
-	return this.name;
+        return this.name;
     }
 }

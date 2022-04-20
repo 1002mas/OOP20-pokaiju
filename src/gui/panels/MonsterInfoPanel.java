@@ -83,20 +83,29 @@ public class MonsterInfoPanel extends JPanel {
     }
 
     /**
+     * get text about monster detailed info.
+     * 
+     * @return monster detailed info
+     */
+    private String getMonsterInfo(final int monsterId) {
+        return "<html>" + "Name : " + this.playerController.getMonsterNameById(monsterId) + NEW_LINE_HTML + "Level : "
+                + playerController.getMonsterLevel(monsterId) + NEW_LINE_HTML + "Exp :"
+                + playerController.getMonsterExp(monsterId) + "/" + MonsterImpl.EXP_CAP + NEW_LINE_HTML + "Hp : "
+                + playerController.getMonsterHealth(monsterId) + "/" + playerController.getMonsterMaxHealth(monsterId)
+                + NEW_LINE_HTML + "Atk : " + playerController.getMonsterAttack(monsterId) + NEW_LINE_HTML + "Defence : "
+                + playerController.getMonsterDefense(monsterId) + NEW_LINE_HTML + "Speed : "
+                + playerController.getMonsterSpeed(monsterId) + NEW_LINE_HTML + "</html>";
+    }
+
+    /**
      * set content area.
      * 
      */
     private JPanel contentPanelArea() {
         final JPanel monsterInfoPanel = new JPanel(new GridLayout(1, 3));
         final JLabel infoLabel = new JLabel();
-        final String stats = "<html>" + "Name : " + this.playerController.getMonsterNameById(monsterId) + NEW_LINE_HTML
-                + "Level : " + playerController.getMonsterLevel(monsterId) + NEW_LINE_HTML + "Exp :"
-                + playerController.getMonsterExp(monsterId) + "/" + MonsterImpl.EXP_CAP + NEW_LINE_HTML + "Hp : "
-                + playerController.getMonsterHealth(monsterId) + "/" + playerController.getMonsterMaxHealth(monsterId)
-                + NEW_LINE_HTML + "Atk : " + playerController.getMonsterAttack(monsterId) + NEW_LINE_HTML + "Defence : "
-                + playerController.getMonsterDefense(monsterId) + NEW_LINE_HTML + "Speed : "
-                + playerController.getMonsterSpeed(monsterId) + NEW_LINE_HTML + "</html>";
-        infoLabel.setText(stats);
+
+        infoLabel.setText(getMonsterInfo(monsterId));
         setLabelProp(infoLabel);
 
         final JLabel monsterImgLabel = new JLabel();
