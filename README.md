@@ -50,3 +50,11 @@ _____________________________________________________
   
 ![Monster Battle](doc/latex/Screenshot/merchant.jpg)
 Buy items from the merchant, the business man.
+
+## Download
+
+### Demo
+[Here](https://github.com/1002mas/OOP20-pokaiju/releases/download/PokaijuDemo/pokaiju.jar) you can download the jar of the demo. 
+
+### Documentation
+[Here](https://github.com/1002mas/OOP20-pokaiju/files/8523497/report.pdf) you can download the software documentation (.pdf format). 
