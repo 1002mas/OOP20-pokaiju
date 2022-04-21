@@ -37,6 +37,14 @@ import model.player.PlayerImpl;
 
 public class NpcTest {
 
+    private static final int MONSTER1_HEALTH = 5;
+    private static final int MONSTER3_HEALTH = 75;
+    private static final int MONSTER2_HEALTH = 10;
+    private static final int MONSTER1_ATTACK = 50;
+    private static final int MONSTER2_ATTACK = 5;
+    private static final int MONSTER3_ATTACK = 70;
+    private static final int GENERIC_VALUE = 32;
+
     private NpcSimple npc1;
     private NpcSimple npc2;
     private NpcMerchant npc3;
@@ -53,18 +61,7 @@ public class NpcTest {
     @org.junit.Before
     public void initFactory() {
 
-        final int health20 = 20;
-        final int health5 = 5;
-        final int health35 = 35;
-        final int health10 = 10;
-        final int attack50 = 50;
-        final int attack30 = 30;
-        final int attack70 = 70;
-        final int attack5 = 5;
-        final int defense1 = 1;
-        final int defense25 = 25;
-        final int genericNumber = 32;
-        final List<Monster> monsterList2;
+        final List<Monster> monsterListNpc5;
         final GameItem item1;
         final GameItem item2;
         this.sentences = new ArrayList<>();
@@ -88,19 +85,21 @@ public class NpcTest {
         final List<Pair<Moves, Integer>> listOfMoves = List.of(new Pair<>(m1, 5), new Pair<>(m2, 6));
         final List<Moves> listMoves = List.of(m1, m2);
         final MonsterSpecies species = new MonsterSpeciesBuilderImpl().name("nome1").info("Info1")
-                .monsterType(MonsterType.FIRE).health(health20).attack(attack30).defense(health20).speed(genericNumber)
-                .movesList(listMoves).build();
-        this.monster1 = new MonsterBuilderImpl().health(health5).attack(attack50).defense(health10).speed(genericNumber)
-                .exp(genericNumber).level(genericNumber).wild(false).species(species).movesList(listOfMoves).build();
+                .monsterType(MonsterType.FIRE).movesList(listMoves).build();
+        this.monster1 = new MonsterBuilderImpl().health(MONSTER1_HEALTH).attack(MONSTER1_ATTACK).defense(GENERIC_VALUE)
+                .speed(GENERIC_VALUE).exp(GENERIC_VALUE).level(GENERIC_VALUE).wild(false).species(species)
+                .movesList(listOfMoves).build();
 
-        monster2 = new MonsterBuilderImpl().health(health10).attack(attack5).defense(defense1).speed(genericNumber)
-                .exp(genericNumber).level(genericNumber).wild(false).species(species).movesList(listOfMoves).build();
+        monster2 = new MonsterBuilderImpl().health(MONSTER2_HEALTH).attack(MONSTER2_ATTACK).defense(GENERIC_VALUE)
+                .speed(GENERIC_VALUE).exp(GENERIC_VALUE).level(GENERIC_VALUE).wild(false).species(species)
+                .movesList(listOfMoves).build();
 
-        monster3 = new MonsterBuilderImpl().health(health35).attack(attack70).defense(defense25).speed(genericNumber)
-                .exp(genericNumber).level(genericNumber).wild(false).species(species).movesList(listOfMoves).build();
+        monster3 = new MonsterBuilderImpl().health(MONSTER3_HEALTH).attack(MONSTER3_ATTACK).defense(GENERIC_VALUE)
+                .speed(GENERIC_VALUE).exp(GENERIC_VALUE).level(GENERIC_VALUE).wild(false).species(species)
+                .movesList(listOfMoves).build();
 
         monsterList = List.of(monster2);
-        monsterList2 = List.of(monster3);
+        monsterListNpc5 = List.of(monster3);
         this.player.addMonster(monster1);
         // npc
         this.npc1 = new NpcSimpleImpl("nome1", sentences, position, false, false);
@@ -108,7 +107,7 @@ public class NpcTest {
         this.npc3 = new NpcMerchantImpl("nome3", sentences, position, false, false, inventory);
         list = List.of(new Pair<GameItem, Integer>(item1, 2));
         this.npc4 = new NpcTrainerImpl("nome4", sentences, position, false, false, monsterList, false);
-        this.npc5 = new NpcTrainerImpl("nome5", sentences, position, false, false, monsterList2, false);
+        this.npc5 = new NpcTrainerImpl("nome5", sentences, position, false, false, monsterListNpc5, false);
         this.npcEvent = new MonsterGift(8, true, true, false, List.of(this.monster1), player);
         npc1.addGameEvent(this.npcEvent);
 
