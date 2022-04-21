@@ -1,4 +1,4 @@
-package test;
+package pokaiju.main;
 
 import controller.DataControllerImpl;
 import controller.PlayerControllerImpl;
