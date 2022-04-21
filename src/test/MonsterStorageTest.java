@@ -26,8 +26,11 @@ import model.player.PlayerImpl;
 
 public class MonsterStorageTest {
 
-    private MonsterStorage monsterStorage1;
+    private static final int GENERIC_VALUE = 3;
+    private static final int MAX_BOX_IN_STORAGE = 10;
+    private static final int MAX_BOX_SIZE = 10;
 
+    private MonsterStorage monsterStorage1;
     private MonsterBox monsterBox;
     private Monster monster1;
     private Monster monster2;
@@ -47,46 +50,40 @@ public class MonsterStorageTest {
     @org.junit.Before
     public void initFactory() {
         final int posCoord = 1;
-        final int genericNumber = 3;
         final Pair<Integer, Integer> position = new Pair<>(posCoord, posCoord);
         this.player = new PlayerImpl("player", Gender.WOMAN, 0, position, null);
         // monster
-        final Moves m1 = new MovesImpl("mossa1", genericNumber, MonsterType.GRASS, genericNumber);
-        final Moves m2 = new MovesImpl("mossa2", genericNumber, MonsterType.FIRE, genericNumber);
-        final List<Pair<Moves, Integer>> listOfMoves = List.of(new Pair<>(m1, genericNumber),
-                new Pair<>(m2, genericNumber));
+        final Moves m1 = new MovesImpl("mossa1", GENERIC_VALUE, MonsterType.GRASS, GENERIC_VALUE);
+        final Moves m2 = new MovesImpl("mossa2", GENERIC_VALUE, MonsterType.FIRE, GENERIC_VALUE);
+        final List<Pair<Moves, Integer>> listOfMoves = List.of(new Pair<>(m1, GENERIC_VALUE),
+                new Pair<>(m2, GENERIC_VALUE));
         final List<Moves> listMoves = List.of(m1, m2);
         final MonsterSpecies species = new MonsterSpeciesBuilderImpl().name("nome1").info("Info1")
-                .monsterType(MonsterType.FIRE).health(genericNumber).attack(genericNumber).defense(3).speed(1)
-                .movesList(listMoves).build();
+                .monsterType(MonsterType.FIRE).movesList(listMoves).build();
 
-        this.monster1 = new MonsterBuilderImpl().health(genericNumber).attack(genericNumber).defense(genericNumber)
-                .speed(genericNumber).exp(genericNumber).level(genericNumber).wild(false).species(species)
+        this.monster1 = new MonsterBuilderImpl().health(GENERIC_VALUE).attack(GENERIC_VALUE).defense(GENERIC_VALUE)
+                .speed(GENERIC_VALUE).exp(GENERIC_VALUE).level(GENERIC_VALUE).wild(false).species(species)
                 .movesList(listOfMoves).build();
-        // final MonsterSpecies species2 = new
-        // MonsterSpeciesBuilderImpl().name("nome2").info("Info2")
-        // .monsterType(MonsterType.FIRE).health(genericNumber).attack(genericNumber).defense(genericNumber)
-        // .speed(genericNumber).movesList(listMoves).build();
-        this.monster2 = new MonsterBuilderImpl().health(genericNumber).attack(genericNumber).defense(genericNumber)
-                .speed(genericNumber).exp(genericNumber).level(genericNumber).wild(false).species(species)
+        this.monster2 = new MonsterBuilderImpl().health(GENERIC_VALUE).attack(GENERIC_VALUE).defense(GENERIC_VALUE)
+                .speed(GENERIC_VALUE).exp(GENERIC_VALUE).level(GENERIC_VALUE).wild(false).species(species)
                 .movesList(listOfMoves).build();
-        this.monster3 = new MonsterBuilderImpl().health(genericNumber).attack(genericNumber).defense(genericNumber)
-                .speed(genericNumber).exp(genericNumber).level(genericNumber).wild(false).species(species)
+        this.monster3 = new MonsterBuilderImpl().health(GENERIC_VALUE).attack(GENERIC_VALUE).defense(GENERIC_VALUE)
+                .speed(GENERIC_VALUE).exp(GENERIC_VALUE).level(GENERIC_VALUE).wild(false).species(species)
                 .movesList(listOfMoves).build();
-        this.monster4 = new MonsterBuilderImpl().health(genericNumber).attack(genericNumber).defense(genericNumber)
-                .speed(genericNumber).exp(genericNumber).level(genericNumber).wild(false).species(species)
+        this.monster4 = new MonsterBuilderImpl().health(GENERIC_VALUE).attack(GENERIC_VALUE).defense(GENERIC_VALUE)
+                .speed(GENERIC_VALUE).exp(GENERIC_VALUE).level(GENERIC_VALUE).wild(false).species(species)
                 .movesList(listOfMoves).build();
-        this.monster5 = new MonsterBuilderImpl().health(genericNumber).attack(genericNumber).defense(genericNumber)
-                .speed(genericNumber).exp(genericNumber).level(genericNumber).wild(false).species(species)
+        this.monster5 = new MonsterBuilderImpl().health(GENERIC_VALUE).attack(GENERIC_VALUE).defense(GENERIC_VALUE)
+                .speed(GENERIC_VALUE).exp(GENERIC_VALUE).level(GENERIC_VALUE).wild(false).species(species)
                 .movesList(listOfMoves).build();
-        this.monster6 = new MonsterBuilderImpl().health(genericNumber).attack(genericNumber).defense(genericNumber)
-                .speed(genericNumber).exp(genericNumber).level(genericNumber).wild(false).species(species)
+        this.monster6 = new MonsterBuilderImpl().health(GENERIC_VALUE).attack(GENERIC_VALUE).defense(GENERIC_VALUE)
+                .speed(GENERIC_VALUE).exp(GENERIC_VALUE).level(GENERIC_VALUE).wild(false).species(species)
                 .movesList(listOfMoves).build();
-        this.monster7 = new MonsterBuilderImpl().health(genericNumber).attack(genericNumber).defense(genericNumber)
-                .speed(genericNumber).exp(genericNumber).level(genericNumber).wild(false).species(species)
+        this.monster7 = new MonsterBuilderImpl().health(GENERIC_VALUE).attack(GENERIC_VALUE).defense(GENERIC_VALUE)
+                .speed(GENERIC_VALUE).exp(GENERIC_VALUE).level(GENERIC_VALUE).wild(false).species(species)
                 .movesList(listOfMoves).build();
-        this.monster1 = new MonsterBuilderImpl().health(genericNumber).attack(genericNumber).defense(genericNumber)
-                .speed(genericNumber).exp(genericNumber).level(genericNumber).wild(false).species(species)
+        this.monster1 = new MonsterBuilderImpl().health(GENERIC_VALUE).attack(GENERIC_VALUE).defense(GENERIC_VALUE)
+                .speed(GENERIC_VALUE).exp(GENERIC_VALUE).level(GENERIC_VALUE).wild(false).species(species)
                 .movesList(listOfMoves).build();
 
         this.player.addMonster(this.monster2);
@@ -161,7 +158,7 @@ public class MonsterStorageTest {
     @org.junit.Test
     public void monsterStorageWithList() {
         MonsterStorage monsterStorage2;
-        final MonsterBox box2 = new MonsterBoxImpl("NEWBOX1", 10);
+        final MonsterBox box2 = new MonsterBoxImpl("NEWBOX1", MAX_BOX_SIZE);
         final List<MonsterBox> boxList = List.of(box2);
         monsterStorage2 = new MonsterStorageImpl(this.player, boxList);
         assertEquals("NEWBOX1", monsterStorage2.getCurrentBoxName());
@@ -170,10 +167,10 @@ public class MonsterStorageTest {
     @org.junit.Test
     public void monsterStorageWithList2() {
         MonsterStorage monsterStorage3;
-        final int index = 12;
+
         final List<MonsterBox> boxList = new ArrayList<>();
-        for (int i = 1; i < index; i++) {
-            boxList.add(new MonsterBoxImpl("BOX" + i, 10));
+        for (int i = 0; i < MAX_BOX_IN_STORAGE + 1; i++) {
+            boxList.add(new MonsterBoxImpl("BOX" + (i + 1), MAX_BOX_SIZE));
         }
         monsterStorage3 = new MonsterStorageImpl(player, boxList);
         monsterStorage3.previousBox();
@@ -184,7 +181,7 @@ public class MonsterStorageTest {
     public void fullMonsterStorage() {
         MonsterStorage monsterStorage4;
         monsterStorage4 = new MonsterStorageImpl(this.player);
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < MAX_BOX_SIZE; i++) {
             addMonsterList(monsterStorage4, 10, this.monster1);
             monsterStorage4.nextBox();
         }

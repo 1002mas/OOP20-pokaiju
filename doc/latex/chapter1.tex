@@ -1,0 +1,37 @@
+\chapter{Analisi}
+
+Lo scopo del gioco è quello di sconfiggere avversari sempre più ardui e per far sì che succeda, bisogna migliorare il proprio team attraverso la cattura di pokaiju più forti, la meccanica di levelling (per ogni incontro vinto, il proprio pokaiju guadagna punti esperienza) e una meccanica di evoluzione che permette ai propri mostri di cambiare forma e di migliorarsi; infatti per far evolvere il proprio pokaiju ci sono due modalità: evoluzione tramite il raggiungimento di un preciso livello o usando un' oggetto in possesso al giocatore. Il giocatore sarà libero di muoversi attraverso la mappa, entrare negli edifici e interagire con tutti gli NPC presenti.
+
+\section{Requisiti}
+    All'avvio del gioco, all'utente verrà presentato un menu' in cui sarà possibile creare il proprio personaggio ed iniziare una partita.
+    Il giocatore comparirà in una mappa dove potrà muoversi tramite input da tastiera, potrà aprire il menù di gestione del proprio equipaggiamento/team ed interagire con l'ambiente circostante.
+
+\subsection*{Requisiti funzionali}
+\begin{itemize}
+	\item Il giocatore deve essere in grado di muoversi liberamente in qualsiasi direzione nella mappa di gioco a meno che non sia presente un ostacolo o un' avversario da fronteggiare per avanzare nell'avventura.
+	\item Deve essere possibile combattere contro i pokaiju sia selvatici (in questo caso, dev'essere possibile anche catturarli) che di NPC allenatori.
+	\item La battaglia si può considerare vinta solo quando i pokaiju avversari sono stati tutti sconfitti (o catturati), in caso contrario il giocatore perderà un ingente somma di denaro ma i suoi pokaiju verranno curati totalmente.
+	\item I soldi devono poter essere guadagnati dopo una battaglia contro un allenatore solo in caso di vittoria.
+	\item Il giocatore deve poter catturare i pokaiju, a meno che non siano appartenenti ad un NPC. 
+	\item I pokaiju trasportabili dal giocatore sono al massimo sei, i restanti catturati verranno trasferiti in un box da cui il giocatore potrà scambiarli tra box e team.
+	\item In seguito ad una lotta i mostri devono essere in grado acquisire punti esperienza, salire di livello ed eventualmente evolversi.
+\end{itemize}
+
+\subsection*{Requisiti non funzionali}
+\begin{itemize}
+	\item Il gioco dovrà essere fluido e compatibile con tutte le piattaforme supportanti Java 11
+\end{itemize}
+
+\section{Analisi e modello del dominio}
+
+L'entità principale è il player, il quale contiene una squadra di sei mostri e ad esso è associata un deposito diviso in box (delle specie di magazzini) in cui può scambiare i mostri dalla squadra al box e viceversa. 
+I mostri cambiano in base alla specie e ne possono esistere di diversi tipi per una stessa specie. Ogni mostro ha una lista di mosse che può utilizzare in battaglia. Le battaglie saranno tra player e un allenatore o un mostro selvatico. Durante le battaglie il player può utilizzare degli item in suo possesso per curare i suoi mostri. Il player deve essere libero di muoversi lungo la mappa a meno che non siano presenti ostacoli oppure altre entità. Il giocatore dovrà essere in grado di interagire con gli Npc.
+\newline
+Gli elementi costitutivi del problema sono sintetizzati in \cref{img:uml}
+
+\begin{figure}[!ht]
+\centering
+\includesvg[scale=0.65]{UML/UML.svg}
+\caption{Schema UML dell'analisi del problema, con rappresentate le entità principali ed i rapporti fra loro}
+\label{img:uml}
+\end{figure}

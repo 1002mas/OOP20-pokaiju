@@ -1,0 +1,182 @@
+\chapter{Design}
+
+\section{Architettura}
+
+Per questo progetto è stato scelto il pattern architetturale MVC (model - view - controller) per far sì che la parte di logica (model) sia indipendente dalla parte di view e queste due parti possano comunicare attraverso gli appositi controller.
+La base del model è l'interfaccia Player attraverso la quale si può interagire con gli NPC oppure fare muovere il proprio sprite nella mappa.
+Il DataController si occupa della creazione dei dati, ovvero istanzia tutti gli elementi del dominio (incluso il player). Il PlayerController sfrutta i dati contenuti nel DataController e fornisce le informazioni necessarie alla view per poterle mostrare.
+Il GameFrame è la view che si occupa di mostrare i dati ottenuti dal controller e comandargli le azioni che il player deve intraprendere.
+Tramite le azioni del Player, il PlayerController ottiene tutti i dati riguardanti le lotte e gli avversari e fornisce un BattleController per la gestione della battaglia. A quel punto la view si aggiorna per rappresentare l'informazione della battaglia.
+
+\begin{figure}[H]
+\centering
+\includesvg[scale=0.65]{UML/MVC_UML.svg}
+\caption{Schema UML dell'analisi del problema, con rappresentate le entità principali ed i rapporti fra loro}
+\label{img:umlMvc}
+\end{figure}
+
+\section{Design dettagliato}
+
+%------------------------------------------------------------%
+
+\subsection*{Luca Barattini}
+
+\begin{figure}[H]
+\centering
+\includesvg[scale=0.65]{UML/MonsterModel.svg}
+\caption{Schema UML della parte di model del Monster, con rappresentate le entità principali ed i rapporti fra loro}
+\label{img:monsterModel}
+\end{figure}
+
+\paragraph{Problema}
+Creazione della parte di model riguardante un Monster, le sue statistiche, la sua evoluzione ed il tipo di evoluzione che può essere tramite livello oppure GameItem.
+
+\paragraph{Soluzione}
+Visto che ci possono essere più mostri di una stessa specie ho deciso di scorporare la specie dal Monster. Le MonsterSpecies definiscono il metodo di evoluzione del Monster. La MonsterSpeciesSimple crea una specie che non può in alcun modo evolversi, MonsterSpeciesByLevel crea una specie che può evolversi solamente tramite aumento di livello ed infine MonsterSpeciesByItem crea una specie che si evolve solo tramite oggetto. È possibile, attraverso questa struttura, creare un mostro che si evolve prima tramite livello e successivamente tramite un oggetto.
+Tutte le varie MonsterSpecies sono create dal builder illustrato in \cref{img:speciesBuilder}
+I mostri hanno un'interfaccia a parte che gestisce le loro statistiche, ovvero MonsterStats, che permette di settare la vita ed altri parametri come l'attacco, la difesa e la velocità che verranno utilizzati solamente a livello di battaglia.
+
+\begin{figure}[H]
+\centering
+\includesvg[scale=0.65]{UML/MonsterBuilderUML.svg}
+\caption{Schema UML del pattern builder per Monster, con rappresentate le entità principali ed i rapporti fra loro}
+\label{img:monsterBuilder}
+\end{figure}
+
+\paragraph{Problema}
+Creazione di un oggetto complesso con elevato numero di parametri.
+
+\paragraph{Soluzione}
+Per ovviare al problema della creazione di un oggetto complesso in modo semplice ho deciso di usare il pattern Builder che ci permette di creare un Monster facilmente step-by-step.
+L'utilizzo di questo pattern inoltre incrementa la leggibilità del codice, diminuisce i possibili errori tramite creazione con costruttore e separa la creazione del Monster e la sua implementazione.
+Il builder prende come parametri obbligatori la specie e la lista di mosse del mostro. È presente come parametro obbligatorio anche un identificativo del mostro che viene gestito tramite lettura da file ed in modo incrementale.
+Se durante la creazione di un mostro il livello e l'esperienza (ovvero i punti che ti permettono di salire di livello) non sono settati allora vengono messi ad un valore di default; invece se non vengono specificate le statistiche allora verranno utilizzate quelle di base della specie.
+
+\begin{figure}[H]
+\centering
+\includesvg[scale=0.65]{UML/MonsterSpeciesBuilderUML.svg}
+\caption{Schema UML del pattern builder per MonsterSpecies, con rappresentate le entità principali ed i rapporti fra loro}
+\label{img:speciesBuilder}
+\end{figure}
+
+\paragraph{Problema}
+Creazione di un oggetto di tipo MonsterSpecies che possa essere Simple, ByLevel o ByItem.
+
+\paragraph{Soluzione}
+Per risolvere il problema della creazione di una MonsterSpecies ho usato sempre il pattern Builder ma questa volta è strutturato in maniera lievemente più complessa. Visto che una MonsterSpecies poteva essere di più tipi, ovvero Simple, ByLevel e ByItem ho proceduto alla creazione di una builder che in base ai parametri passati (\textbf{evolutionLevel()}, \textbf{gameItem()}) controlla che tipo di MonsterSpecies deve creare.
+
+%------------------------------------------------------------%
+
+\subsection*{Samuele Carafassi}
+
+\begin{figure}[H]
+\centering
+\includesvg[scale=0.7]{UML/GameMap_UML.svg}
+\caption{Schema UML della parte di model della mappa, con rappresentate le entità principali ed i rapporti fra loro}
+\label{img:GameMap_UML}
+\end{figure}
+
+\paragraph{Problema}
+Il giocatore deve essere libero di andare in giro per la mappa senza uscire dai limiti o camminare sugli ostacoli. Inoltre in presenza di collegamenti ad altre mappe deve essere riposizionato e deve essere aggiornata la mappa.
+
+\paragraph{Soluzione}
+Si è utilizzata l'interfaccia GameMapData per contenere i dati riguardanti una mappa, tra i quali: gli NPC, le specie di mostri selvatici che possono apparire, gli eventi che possono attivarsi in una certa posizione e le mappe ad essa collegata.
+\newline
+GameMap si occupa di elaborare i dati contenuti in GameMapData per capire dove il player può andare o quando deve cambiare mappa. Al cambio di mappa, GameMap sostituisce la sua istanza di GameMapData con un'altra GameMapData e fornisce al giocatore la posizione nella nuova mappa. Si è preferito non inserire un player nella GameMap per non creare una dipendenza tra GameMap e Player, in modo da poter interrogare la GameMap senza avere un player che si muove a disposizione.
+
+\begin{figure}[H]
+\centering
+\includesvg[scale=0.7]{UML/GameEvents_UML.svg}
+\caption{Schema UML dell'applicazione del pattern Method Template agli eventi di gioco}
+\label{img:GameEvents_UML}
+\end{figure}
+
+\paragraph{Problema}
+Nel gioco sono presenti diversi tipi di eventi che possono essere attivi o inattivi e possono attivare o disattivare gli altri eventi.
+\newline
+Tutti gli eventi differiscono per la funzione che devono svolgere (ad esempio: cambiare la posizione di un Npc o regalare un Pokaiju al giocatore). In fase di progettazione ci si è accorti che creare classi separate avrebbe portato a ripetizione di codice.
+
+\paragraph{Soluzione}
+Visto che gli eventi cambiano solo per il tipo di azione che devono svolgere, si è utilizzato il \emph{pattern template method}.
+\newline
+Il metodo template è \textbf{activate()} che chiama il metodo abstract e protected \textbf{activateEvent()}. Questo pattern ha minimizzato la ripetizione di codice permettendo di creare tante classi, come da \cref{img:GameEvents_UML}, riusando molto del codice già prodotto.
+
+
+%------------------------------------------------------------%
+
+\subsection*{Andrea Castorina}
+\begin{figure}[H]
+\centering
+\includesvg[scale=0.65]{UML/Npc_UML.svg}
+\caption{Schema UML della parte di model degli npc, con rappresentate le entità principali ed i rapporti fra loro}
+\label{img:Npc_UML}
+\end{figure}
+
+\paragraph{Problema}
+Realizzazione della parte di model riguardante gli NPC, gestione delle interazioni con gli eventi di gioco e delle diverse funzionalità per ogni tipo di NPC.   
+
+\paragraph{Soluzione}
+Di base ogni tipo di NPC presenta simili caratteristiche ed a differire sono le funzionalità che ne definiscono il tipo, ad eccezione del SimpleNpc che non presenta alcuna peculiarità (versione base di ogni tipo di NPC).
+SimpleNpc delinea i dati e le funzioni di base di un npc. gestisce l'interazione con il player attraverso \textbf{interactWith()}.
+Questa funzione esegue gli eventi attivi che scaturiscono dall'interazione del player con npc, eventualmente restituendo la frase correlata all'evento.
+Tutti i tipi di npc estendono NpcSimpleImpl così da riutilizzarne il codice.
+NpcTrainerImpl e NpcMerchantImpl implementano le rispettive interfacce (NpcTrainer, NpcMerchant) assumendone le funzioni.  
+NpcHealer sovrascrivendo \textbf{interactWith()} si occupa di ristabilire al massimo la vita dei mostri del player ed i PP delle relative mosse. 
+
+\begin{figure}[H]
+\centering
+\includesvg[scale=0.7]{UML/MonsterStorage_UML.svg}
+\caption{Schema UML della parte di model del monster storage e delle monster box}
+\label{img:MonsterStorage_UML}
+\end{figure}
+
+\paragraph{Problema}
+Creazione di uno spazio dove poter depositare i mostri non
+contenibili in squadra e gestione delle funzionalità applicabili. 
+
+\paragraph{Soluzione}
+Il player ha a sua disposizione uno storage, contente al suo interno dei box con capacità di contenimento dei mostri limitata.
+Uno storage ha al suo interno un indice del box corrente e una lista di box, ognuno ha al suo interno un campo che ne indica il nome e la propria lista di mostri.
+In uno storage, il Player può depositare un mostro, effettuare uno scambio ed aggiungerne uno nel proprio team.Tali funzioni sono implementate in MonsterBox così rendendone MonsterStorage indipendente dalla struttura interna.
+
+%------------------------------------------------------------%
+
+\subsection*{Jia Hao Guo}
+\begin{figure}[H]
+\centering
+\includesvg[scale=0.7]{UML/svggameitem.svg}
+\caption{Schema UML dell'applicazione del pattern Method Template agli oggetti di gioco}
+\label{img:GameItem_UML}
+\end{figure}
+
+\paragraph{Problema}
+Gestire diversi tipi di oggetti di gioco che svolgono funzioni in base al loro tipo ed evitare la ridondanza di codice.
+
+\paragraph{Soluzione}
+Si è utilizzato il \emph{pattern template method} per ridurre la ripetizione di codice su funzioni comuni.
+La funzione \textbf{public abstract use()} è la funzione incaricata di svolgere il compito dell'oggetto di gioco, che in quanto diversa in base al tipo di oggetto deve essere implementata dalle classi che estendono la classe astratta.
+\newline
+Inoltre ciascuna classe è legata ad un GameItemTypes, che rappresenta la sua categoria. In questo modo è possibile agevolare la comprensione di quando è possibile usare un oggetto (in battaglia o fuori) e intuire qual è la sua funzione.
+
+
+%------------------------------------------------------------%
+
+\subsection*{Michael Pierantoni}
+
+\begin{figure}[H]
+\centering
+\includesvg[scale=0.7]{UML/Battle_UML.svg}
+\caption{Schema UML della parte di model della battaglia, con rappresentate le entità principali ed i rapporti fra loro}
+\label{img:Battle_UML}
+\end{figure}
+
+\paragraph{Problema}
+Realizzazione della parte di model riguardante la battaglia includendo nella progettazione la possibilità di un'input di un soggetto esterno (esempio: giocatore) che scatena determinate conseguenze nello scontro. Infine calcolare l'esito della battaglia
+
+\paragraph{Soluzione}
+
+Durante il proprio turno, il giocatore ha a disposizione varie possibilità d'azione tra cui: l'attacco, sostituire il Pokaiju in campo con un altro del proprio team, utilizzo di un Item e scappare; tutte queste azioni vengono realizzate attraverso delle funzioni che all'interno contengono altre funzioni (evitando ridondanza): l'attacco è gestito tramite la funzione \textbf{public boolean movesSelection(int moveIndex)} che controlla se è possibile effettuare la mossa e procede con il turno.
+Ogni Monster ha a disposizione fino a quattro Move e può utilizzare ogni mossa per un numero limitato di volte (PP), nel caso in cui un Monster abbia finito i PP di ogni sua Move, esso avrà sempre a disposizione una mossa extra che potrà usare in modo illimitato, questa scelta di progettazione deriva dal voler evitare una situazione di stallo dove sia il Monster del giocatore che l'avversario abbiano finito le Move utilizzabili e non possano più fare nulla.
+Indipendentemente dalla tipologia d'avversario, i due esiti principali di una battaglia sono: la vittoria del player (nel caso dell'allenatore quest'esito porterà all'impossibilità di combatterle quest'avversario un'altra volta), dove si guadagnerà una somma di denaro e il Monster in campo guadagnerà una quantità di punti esperienza variabile; nel caso della battaglia contro un Monster selvaggio, la battaglia potrà avere anche altri due esiti: cattura, dove usando un oggetto di cattura si potrà provare a catturare l'avversario (possibilità casuale) ed aggiungerlo alla propria squadra (se la propria squadra contiene già sei Pokaiju, il nuovo verrà aggiunto al proprio box)  e la fuga dove si potrà fermare la battaglia senza nessuna ripercussione.
+
+%------------------------------------------------------------%
