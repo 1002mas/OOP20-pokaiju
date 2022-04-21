@@ -78,20 +78,23 @@ public class TestPlayer {
         species = new MonsterSpeciesBuilderImpl().name("bibol").info("Info1").monsterType(MonsterType.FIRE)
                 .health(DEFAULT_STATS).attack(PP2).defense(PP2).speed(PP2).movesList(firstMonsterSpeciesMoves).build();
 
-        monsterA = new MonsterBuilderImpl().health(DEFAULT_STATS).attack(DEFAULT_STATS).defense(DEFAULT_STATS).speed(DEFAULT_STATS).exp(START_EXP).level(START_LEVEL)
-                .wild(false).species(species).movesList(firstListOfMoves).build();
+        monsterA = new MonsterBuilderImpl().health(DEFAULT_STATS).attack(DEFAULT_STATS).defense(DEFAULT_STATS)
+                .speed(DEFAULT_STATS).exp(START_EXP).level(START_LEVEL).wild(false).species(species)
+                .movesList(firstListOfMoves).build();
 
         species = new MonsterSpeciesBuilderImpl().name("greyfish").info("Info2").monsterType(MonsterType.WATER)
                 .health(DEFAULT_STATS).attack(10).defense(10).speed(10).movesList(secondMonsterSpeciesMoves).build();
 
-        monsterB = new MonsterBuilderImpl().health(DEFAULT_STATS).attack(DEFAULT_STATS).defense(DEFAULT_STATS).speed(DEFAULT_STATS).exp(START_EXP).level(START_LEVEL)
-                .wild(false).species(species).movesList(secondListOfMoves).build();
+        monsterB = new MonsterBuilderImpl().health(DEFAULT_STATS).attack(DEFAULT_STATS).defense(DEFAULT_STATS)
+                .speed(DEFAULT_STATS).exp(START_EXP).level(START_LEVEL).wild(false).species(species)
+                .movesList(secondListOfMoves).build();
 
         species = new MonsterSpeciesBuilderImpl().name("Pipochu").info("Info3").monsterType(MonsterType.GRASS)
                 .health(DEFAULT_STATS).attack(10).defense(10).speed(10).movesList(secondMonsterSpeciesMoves).build();
 
-        monsterC = new MonsterBuilderImpl().health(DEFAULT_STATS).attack(DEFAULT_STATS).defense(DEFAULT_STATS).speed(DEFAULT_STATS).exp(START_EXP).level(START_LEVEL)
-                .wild(false).species(species).movesList(secondListOfMoves).build();
+        monsterC = new MonsterBuilderImpl().health(DEFAULT_STATS).attack(DEFAULT_STATS).defense(DEFAULT_STATS)
+                .speed(DEFAULT_STATS).exp(START_EXP).level(START_LEVEL).wild(false).species(species)
+                .movesList(secondListOfMoves).build();
     }
 
     @Test
@@ -136,6 +139,7 @@ public class TestPlayer {
 
     @Test
     public void playerPositionCheck() {
+        final Pair<Integer, Integer> limitPosition = new Pair<>(20, 20);
         assertEquals(new Pair<>(1, 0), this.player.getPosition());
         this.player.moveUp();
         assertNotEquals(new Pair<>(1, -1), this.player.getPosition());
@@ -146,8 +150,8 @@ public class TestPlayer {
         this.player.moveLeft();
         assertEquals(new Pair<>(1, 1), this.player.getPosition());
         assertNotEquals(new Pair<>(10, 10), this.player.getPosition());
-        this.player.setPosition(new Pair<>(PP1, PP1));
-        assertEquals(new Pair<>(PP1, PP1), this.player.getPosition());
+        this.player.setPosition(limitPosition);
+        assertEquals(limitPosition, this.player.getPosition());
         assertFalse(this.player.moveDown());
         assertFalse(this.player.moveRight());
         assertTrue(this.player.moveUp());
