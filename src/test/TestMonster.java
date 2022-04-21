@@ -28,7 +28,7 @@ public class TestMonster {
     private static final int DFS = 10;
     private static final int SPD = 10;
     private static final int HIGH_EXP = 5_863_655;
-    private static final String PAPERINO = "Paperino";
+    private static final String MONSTER_NAME = "Paperino";
 
     private Monster monster;
     private Monster monsterByItem;
@@ -65,13 +65,13 @@ public class TestMonster {
                 .species(species).movesList(listOfMoves).build();
 
         // ITEM TEST INITIALIZATION
-        final GameItem neededItem = new EvolutionItem("Pietra" + PAPERINO, "desc1");
+        final GameItem neededItem = new EvolutionItem("Pietra" + MONSTER_NAME, "desc1");
 
-        final MonsterSpecies firstEvolutionByItem = new MonsterSpeciesBuilderImpl().name(PAPERINO + "2").info("Info2")
+        final MonsterSpecies firstEvolutionByItem = new MonsterSpeciesBuilderImpl().name(MONSTER_NAME + "2").info("Info2")
                 .monsterType(MonsterType.WATER).health(HLT).attack(10).defense(10).speed(10)
                 .movesList(monsterSpeciesMoves).build();
 
-        final MonsterSpecies speciesByItem = new MonsterSpeciesBuilderImpl().name(PAPERINO).info("Info")
+        final MonsterSpecies speciesByItem = new MonsterSpeciesBuilderImpl().name(MONSTER_NAME).info("Info")
                 .monsterType(MonsterType.WATER).health(HLT).attack(ATK).defense(DFS).speed(SPD)
                 .evolution(firstEvolutionByItem).gameItem(neededItem).movesList(monsterSpeciesMoves).build();
 
@@ -112,7 +112,7 @@ public class TestMonster {
             monster.evolve();
         }
         assertEquals("Pippo2", monster.getName());
-        monster.incExp(SECOND_EVOLUTION_LEVEL - monster.getLevel() - 1 * MonsterImpl.EXP_CAP);
+        monster.incExp((SECOND_EVOLUTION_LEVEL - monster.getLevel() - 1) * MonsterImpl.EXP_CAP);
         monster.incExp(MonsterImpl.EXP_CAP);
         if (monster.canEvolveByLevel()) {
             monster.evolve();
@@ -133,7 +133,7 @@ public class TestMonster {
         if (monsterByItem.canEvolveByItem(holdedItemRight)) {
             monsterByItem.evolve();
         }
-        assertEquals(PAPERINO + "2", monsterByItem.getName());
+        assertEquals(MONSTER_NAME + "2", monsterByItem.getName());
     }
 
     @org.junit.Test
@@ -144,13 +144,13 @@ public class TestMonster {
         if (monsterByItem.canEvolveByItem(holdedItemWrong)) {
             monsterByItem.evolve();
         }
-        assertNotEquals(PAPERINO + "2", monsterByItem.getName());
-        assertEquals(PAPERINO, monsterByItem.getName());
+        assertNotEquals(MONSTER_NAME + "2", monsterByItem.getName());
+        assertEquals(MONSTER_NAME, monsterByItem.getName());
     }
 
     @org.junit.Test
     public void evolveByLevelAndItem() {
-        final GameItem holdedItem = new EvolutionItem("Pietra" + PAPERINO, "desc4");
+        final GameItem holdedItem = new EvolutionItem("Pietra" + MONSTER_NAME, "desc4");
         monsterByLevelAndItem.incExp((FIRST_EVOLUTION_LEVEL - 2) * MonsterImpl.EXP_CAP);
         assertEquals("Topolino", monsterByLevelAndItem.getName());
         monsterByLevelAndItem.incExp(MonsterImpl.EXP_CAP);
@@ -159,7 +159,7 @@ public class TestMonster {
         }
         assertEquals("Topolino2", monsterByLevelAndItem.getName());
         monsterByLevelAndItem
-                .incExp(SECOND_EVOLUTION_LEVEL - monsterByLevelAndItem.getLevel() - 1 * MonsterImpl.EXP_CAP);
+                .incExp((SECOND_EVOLUTION_LEVEL - monsterByLevelAndItem.getLevel() - 1) * MonsterImpl.EXP_CAP);
         monsterByLevelAndItem.incExp(MonsterImpl.EXP_CAP);
         assertEquals("Topolino2", monsterByLevelAndItem.getName());
         assertEquals(SECOND_EVOLUTION_LEVEL, monsterByLevelAndItem.getLevel());
