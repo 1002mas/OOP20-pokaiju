@@ -39,11 +39,11 @@ public class TestPlayer {
     private Monster monsterC;
     private GameItem monsterBall;
     private GameItem healingPotion;
-    private static final int FIFTY = 50;
-    private static final int TWENTY = 20;
-    private static final int TEN = 10;
-    private static final int ZERO = 0;
-    private static final int ONE = 1;
+    private static final int DEFAULT_STATS = 50;
+    private static final int PP1 = 20;
+    private static final int PP2 = 10;
+    private static final int START_EXP = 0;
+    private static final int START_LEVEL = 1;
 
     @Before
     public void init() {
@@ -66,31 +66,31 @@ public class TestPlayer {
         final GameMapData firstMap = new GameMapDataImpl(1, 1, 10, "MAP1", map, new ArrayList<>());
         player = new PlayerImpl("Joker", Gender.MAN, trainerNumber, new Pair<>(1, 0), new GameMapImpl(firstMap));
 
-        final Moves m1 = new MovesImpl("Water tornado", FIFTY, MonsterType.WATER, TEN);
-        final Moves m2 = new MovesImpl("Flame punch", TEN, MonsterType.FIRE, TWENTY);
+        final Moves m1 = new MovesImpl("Water tornado", DEFAULT_STATS, MonsterType.WATER, PP2);
+        final Moves m2 = new MovesImpl("Flame punch", PP2, MonsterType.FIRE, PP1);
         firstMonsterSpeciesMoves = List.of(m1);
         secondMonsterSpeciesMoves = List.of(m2);
-        firstListOfMoves = List.of(new Pair<>(m1, TEN));
-        secondListOfMoves = List.of(new Pair<>(m2, TWENTY));
+        firstListOfMoves = List.of(new Pair<>(m1, PP2));
+        secondListOfMoves = List.of(new Pair<>(m2, PP1));
         monsterBall = new CaptureItem("Monster Ball", "Can capture a monster");
         healingPotion = new HealingItem("Healing potion", "Restore 50Hp");
 
         species = new MonsterSpeciesBuilderImpl().name("bibol").info("Info1").monsterType(MonsterType.FIRE)
-                .health(FIFTY).attack(TEN).defense(TEN).speed(TEN).movesList(firstMonsterSpeciesMoves).build();
+                .health(DEFAULT_STATS).attack(PP2).defense(PP2).speed(PP2).movesList(firstMonsterSpeciesMoves).build();
 
-        monsterA = new MonsterBuilderImpl().health(FIFTY).attack(FIFTY).defense(FIFTY).speed(FIFTY).exp(ZERO).level(ONE)
+        monsterA = new MonsterBuilderImpl().health(DEFAULT_STATS).attack(DEFAULT_STATS).defense(DEFAULT_STATS).speed(DEFAULT_STATS).exp(START_EXP).level(START_LEVEL)
                 .wild(false).species(species).movesList(firstListOfMoves).build();
 
         species = new MonsterSpeciesBuilderImpl().name("greyfish").info("Info2").monsterType(MonsterType.WATER)
-                .health(FIFTY).attack(10).defense(10).speed(10).movesList(secondMonsterSpeciesMoves).build();
+                .health(DEFAULT_STATS).attack(10).defense(10).speed(10).movesList(secondMonsterSpeciesMoves).build();
 
-        monsterB = new MonsterBuilderImpl().health(FIFTY).attack(FIFTY).defense(FIFTY).speed(FIFTY).exp(ZERO).level(ONE)
+        monsterB = new MonsterBuilderImpl().health(DEFAULT_STATS).attack(DEFAULT_STATS).defense(DEFAULT_STATS).speed(DEFAULT_STATS).exp(START_EXP).level(START_LEVEL)
                 .wild(false).species(species).movesList(secondListOfMoves).build();
 
         species = new MonsterSpeciesBuilderImpl().name("Pipochu").info("Info3").monsterType(MonsterType.GRASS)
-                .health(FIFTY).attack(10).defense(10).speed(10).movesList(secondMonsterSpeciesMoves).build();
+                .health(DEFAULT_STATS).attack(10).defense(10).speed(10).movesList(secondMonsterSpeciesMoves).build();
 
-        monsterC = new MonsterBuilderImpl().health(FIFTY).attack(FIFTY).defense(FIFTY).speed(FIFTY).exp(ZERO).level(ONE)
+        monsterC = new MonsterBuilderImpl().health(DEFAULT_STATS).attack(DEFAULT_STATS).defense(DEFAULT_STATS).speed(DEFAULT_STATS).exp(START_EXP).level(START_LEVEL)
                 .wild(false).species(species).movesList(secondListOfMoves).build();
     }
 
@@ -146,8 +146,8 @@ public class TestPlayer {
         this.player.moveLeft();
         assertEquals(new Pair<>(1, 1), this.player.getPosition());
         assertNotEquals(new Pair<>(10, 10), this.player.getPosition());
-        this.player.setPosition(new Pair<>(TWENTY, TWENTY));
-        assertEquals(new Pair<>(TWENTY, TWENTY), this.player.getPosition());
+        this.player.setPosition(new Pair<>(PP1, PP1));
+        assertEquals(new Pair<>(PP1, PP1), this.player.getPosition());
         assertFalse(this.player.moveDown());
         assertFalse(this.player.moveRight());
         assertTrue(this.player.moveUp());
